@@ -1,9 +1,10 @@
 {
   "name": "otwl-gmail-app",
   "version": "0.0.0",
+  "author": "Benito Alvares <benito.alvares@gmail.com> <it3@oceantransworld.com>",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --base-href /OtwlGmailApp/Home.aspx",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -19,7 +20,15 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^4.1.1",
+    "@ng-select/ng-select": "^2.18.0",
+    "@syncfusion/ej2-angular-richtexteditor": "^17.1.42",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.24.0",
+    "ngx-spinner": "^7.1.4",
+    "ngx-webstorage-service": "^4.0.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

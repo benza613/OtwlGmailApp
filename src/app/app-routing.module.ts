@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashViewComponent } from './dashboard/dash-view/dash-view.component';
 import { EmailUnreadComponent } from './emails/email-unread/email-unread.component';
 import { EmailMappedComponent } from './emails/email-mapped/email-mapped.component';
+import { EmailViewComponent } from './emails/email-view/email-view.component';
+import { EditorComponent } from './emails/editor/editor.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,16 @@ const routes: Routes = [
   {
     path: 'mapped',
     component: EmailMappedComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'draft',
+    component: EditorComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'view/:id',
+    component: EmailViewComponent,
     pathMatch: 'full'
   },
 ];

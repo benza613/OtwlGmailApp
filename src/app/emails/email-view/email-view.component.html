@@ -1,0 +1,13 @@
+<div class="card email-card" *ngFor="let eml of (emailList | async)" style="max-width:100%">
+  <div class="card-header no-gutters">
+    {{eml.from}}
+    <button type="button" class="btn btn-sm btn-outline-primary float-right" (click)="eml.isOpen = !eml.isOpen">
+      Expand
+    </button>
+  </div>
+  <div class="card-body no-gutters" style="max-width:100%" [ngbCollapse]="!eml.isOpen">
+    <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%">
+
+    </div>
+  </div>
+</div>

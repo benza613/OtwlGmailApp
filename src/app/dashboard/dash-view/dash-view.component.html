@@ -10,9 +10,10 @@
 </p>
 
 <ul>
-  <li>You have 100 unread mails</li>
+  <li routerLink="/unread">You have 100 unread mails</li>
   <li>You have 2 urgent mails</li>
   <li>Click to view tagged mails</li>
+  <li (click)="onClick_SendNewMail()">Click to send new mails</li>
   <li></li>
   <li>ng generate interface models/ticket</li>
   <li>ng g c ticket/ticketList --skipTests</li>

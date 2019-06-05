@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditorComponent } from 'src/app/emails/editor/editor.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dash-view',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalService: NgbModal,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  onClick_SendNewMail() {
+
+    this.router.navigate(['draft/']);
+
+
   }
 
 }

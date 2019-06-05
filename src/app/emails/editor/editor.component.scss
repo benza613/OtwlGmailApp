@@ -1,0 +1,24 @@
+.col-md-1 {
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  border-bottom: thin dotted silver;
+
+  b {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+  }
+}
+
+
+.form-row {
+  padding-bottom: 10px;
+
+  & b {
+    font-size: 12px;
+  }
+}

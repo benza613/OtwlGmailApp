@@ -107,17 +107,21 @@ export class EmailsStoreService {
   //   }
   // }
 
-  // async sendEmail(to, cc, bcc, subject, body, inlineAttachments) {
-  //   var res = await this.emailServ.sendNewMail(to, cc, bcc, subject, body, inlineAttachments).toPromise();
-  //   console.log(res);
+  async sendNewEmail(packet, body, inlineAttachments) {
+    var res = await this.emailServ.sendNewMail(
+      packet.to.map(key => key.emailId),
+      packet.cc.map(key => key.emailId),
+      packet.bcc.map(key => key.emailId),
+      packet.subject, body, inlineAttachments).toPromise();
+    console.log(res);
 
-  //   if (res.d.errId == "200") {
+    if (res.d.errId == "200") {
 
-  //   } else {
+    } else {
 
-  //   }
+    }
 
-  // }
+  }
 
   /**
    * UNREAD module methods 

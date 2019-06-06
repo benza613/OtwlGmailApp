@@ -16,9 +16,15 @@
 
 
 .form-row {
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 
   & b {
     font-size: 12px;
   }
+}
+
+.container-fluid{
+  margin-top: 5px;
+  text-align: right;
+  font-size: 12px;
 }

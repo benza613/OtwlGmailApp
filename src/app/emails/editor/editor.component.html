@@ -3,10 +3,13 @@
     <div class="col-md-1">
       <b>TO</b>
     </div>
-    <div class="col-md-11">
+    <div class="col-md-9">
       <ng-select id="iMsgTo" [items]="msgToList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
         placeholder="To" [(ngModel)]="msgPacket.to">
       </ng-select>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-warning btn-block" (click)="onClick_SendMail()">SEND MAIL</button>
     </div>
   </div>
   <div class="form-row">
@@ -32,12 +35,57 @@
       <b>SUBJECT</b>
     </div>
     <div class="col-md-11">
-      <input type="text" class="form-control" placeholder="">
+      <input type="text" class="form-control" placeholder="" [(ngModel)]="msgPacket.subject">
     </div>
   </div>
   <div class="ejsEditor">
     <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue' (actionComplete)="actionCompleted($event)"
       [toolbarSettings]='EditorTools'></ejs-richtexteditor>
   </div>
+  <div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
+    <div style="text-align: right;">
+      <span style="font-family: Arial, Helvetica, sans-serif;">
+        <span style="color: rgb(47, 84, 150); text-decoration: inherit;">
+          <strong><em>Shraddha Redkar&nbsp;</em></strong>
+        </span>
+      </span>
+    </div>
+    <div style="text-align: right;"><span style="font-family: Arial, Helvetica, sans-serif;"><span
+          style="color: rgb(47, 84, 150); text-decoration: inherit;"><strong><em>Executive-HR&nbsp;</em></strong></span></span>
+      <div style="text-align: right;"><br></div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">“Silver Astra” B-503/A, J. B. Nagar,&nbsp;</span></span>
+      </div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">Andheri (E) Mumbai- 400 099.&nbsp;</span></span></div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">Board : +91 22 62839000-99 (100
+            lines)&nbsp;</span></span>
+      </div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">Direct : +91 22 62839034&nbsp;</span></span></div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">Mobile : +91 7045951608&nbsp;</span></span></div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">Fax : +91 11 22 2830 4386&nbsp;</span></span></div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">E-Mail : hr@oceantransworld.com&nbsp;</span></span></div>
+      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+            style="font-family: Arial, Helvetica, sans-serif;">Web : www.oceantransworld.com</span></span></div>
 
+    </div>
+    <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
+      bgcolor="#fafafa" align="center">
+      <tbody>
+        <tr>
+          <td align="center">
+            <font size="1" face="Arial, Helvetica, sans-serif" color="#333333">
+              <span style="font-size:11px">
+                This email was generated & sent by OTWL MAILER. ref:_19950115 </span>
+            </font>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

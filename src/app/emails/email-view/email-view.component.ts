@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
+import { Message } from '../../models/message.model';
 
 @Component({
   selector: 'app-email-view',
@@ -9,9 +10,9 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 })
 export class EmailViewComponent implements OnInit {
 
-  ///DO NOT DELETE THIS COMMENT 
-  ///https://github.com/SyncfusionExamples/ej2-angular-7-rich-text-editor
-  ///https://www.syncfusion.com/kb/9864/how-to-get-started-easily-with-syncfusion-angular-7-rich-text-editor
+  /// DO NOT DELETE THIS COMMENT
+  /// https://github.com/SyncfusionExamples/ej2-angular-7-rich-text-editor
+  /// https://www.syncfusion.com/kb/9864/how-to-get-started-easily-with-syncfusion-angular-7-rich-text-editor
 
 
   reqThreadId;
@@ -20,7 +21,8 @@ export class EmailViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public emailStore: EmailsStoreService
+    public emailStore: EmailsStoreService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -34,17 +36,41 @@ export class EmailViewComponent implements OnInit {
         this.renderMessages();
       });
 
-    
+
   }
 
   renderMessages() {
-    if (this.storeSelector == "unread") {
+    if (this.storeSelector === 'unread') {
       this.emailList = this.emailStore.getUnreadMsgList$(this.reqThreadId);
 
-    } else if (this.storeSelector == "mapped") {
+    } else if (this.storeSelector === 'mapped') {
       this.emailList = this.emailStore.getMsgList$(this.reqThreadId);
     }
 
+  }
+
+  draftReply(msg: Message) {
+    this.router.navigate(['draft/'], {
+      queryParams:
+      {
+        q: this.storeSelector,
+        a: 'r',
+        mid: msg.msgid,
+        tid: this.reqThreadId
+      }
+    });
+  }
+
+  draftForward(msg: Message) {
+    this.router.navigate(['draft/'], {
+      queryParams:
+      {
+        q: this.storeSelector,
+        a: 'f',
+        mid: msg.msgid,
+        tid: this.reqThreadId
+      }
+    });
   }
 
 }

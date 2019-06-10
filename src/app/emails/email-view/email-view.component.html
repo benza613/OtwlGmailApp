@@ -4,6 +4,12 @@
     <button type="button" class="btn btn-sm btn-outline-primary float-right" (click)="eml.isOpen = !eml.isOpen">
       Expand
     </button>
+    <button type="button" class="btn btn-sm btn-outline-warning float-right" (click)="draftReply(eml)">
+      R
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-warning float-right" (click)="draftForward(eml)">
+      F
+    </button>
   </div>
   <div class="card-body no-gutters" style="max-width:100%" [ngbCollapse]="!eml.isOpen">
     <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%">

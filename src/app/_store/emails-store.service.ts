@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs'
-import { shareReplay, map } from 'rxjs/operators'
+import { BehaviorSubject } from 'rxjs';
+import { shareReplay, map } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
 import { Thread } from '../models/thread.model';
 import { Router } from '@angular/router';
@@ -16,14 +16,14 @@ export class EmailsStoreService {
 
 
   // - We set the initial state in BehaviorSubject's constructor
-  // - Nobody outside the Store should have access to the BehaviorSubject 
+  // - Nobody outside the Store should have access to the BehaviorSubject
   //   because it has the write rights
   // - Writing to state should be handled by specialized Store methods (ex: addTicket, removeTicket, etc)
   // - Create one BehaviorSubject per store entity, for example if you have TicketGroups
   //   create a new BehaviorSubject for it, as well as the observable$, and getters/setters
   private readonly _threads = new BehaviorSubject<Thread[]>([]);
   private readonly _unreadThreads = new BehaviorSubject<Thread[]>([]);
-  private readonly _pageTokenUnread = new BehaviorSubject<String>("");
+  private readonly _pageTokenUnread = new BehaviorSubject<String>('');
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly threads$ = this._threads.asObservable();
@@ -31,18 +31,18 @@ export class EmailsStoreService {
 
   readonly threadsCount$ = this.threads$.pipe(
     map(th => this.threads.length)
-  )
+  );
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
-  )
+  );
 
   readonly getMsgList$ = (ThreadId) => this.threads$.pipe(
-    map(tx => this.threads.find(t => t.ThreadId == ThreadId).Messages)
+    map(tx => this.threads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
   readonly getUnreadMsgList$ = (ThreadId) => this.unreadThreads$.pipe(
-    map(tx => this.unreadThreads.find(t => t.ThreadId == ThreadId).Messages)
+    map(tx => this.unreadThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
   /*
@@ -53,7 +53,7 @@ export class EmailsStoreService {
     return this._threads.getValue();
   }
 
-  // assigning a value to this.tickets will push it onto the observable 
+  // assigning a value to this.tickets will push it onto the observable
   // and down to all of its subsribers (ex: this.tickets = [])
   private set threads(val: Thread[]) {
     this._threads.next(val);
@@ -107,15 +107,16 @@ export class EmailsStoreService {
   //   }
   // }
 
-  async sendNewEmail(packet, body, inlineAttachments) {
-    var res = await this.emailServ.sendNewMail(
+  async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector) {
+    const res = await this.emailServ.sendNewMail(
       packet.to.map(key => key.emailId),
       packet.cc.map(key => key.emailId),
       packet.bcc.map(key => key.emailId),
-      packet.subject, body, inlineAttachments).toPromise();
+      packet.subject, body, inlineAttachments,
+      actionType).toPromise();
     console.log(res);
 
-    if (res.d.errId == "200") {
+    if (res.d.errId === '200') {
 
     } else {
 
@@ -124,7 +125,7 @@ export class EmailsStoreService {
   }
 
   /**
-   * UNREAD module methods 
+   * UNREAD module methods
    */
   async updateUnreadThreadList() {
 
@@ -134,27 +135,32 @@ export class EmailsStoreService {
     }
     for (let idx = 0; idx < 10; idx++) {
 
-      var res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? "" : this.pageTokenUnread).toPromise();
-      if (res.d.errId == "200") {
-        var arrx = this.unreadThreads;
-        arrx.push(...<Thread[]>res.d.threads)
+      const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread).toPromise();
+      if (res.d.errId === '200') {
+        const arrx = this.unreadThreads;
+        arrx.push(...<Thread[]>res.d.threads);
         this.unreadThreads = arrx;
-        if (res.d.pageToken == null)
+        if (res.d.pageToken == null) {
           break;
-        else {
+        } else {
           this.pageTokenUnread = res.d.pageToken;
         }
       }
 
+      console.log(this.unreadThreads);
 
 
     }
+
   }
 
   async update_UnreadThreadEmails(ThreadId, storeSelector) {
-    var res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
 
-    if (res.d.errId == "200") {
+    console.log(res);
+
+
+    if (res.d.errId === '200') {
 
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
 
@@ -164,7 +170,26 @@ export class EmailsStoreService {
 
       this.unreadThreads = [...this.unreadThreads];
 
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector == "EmailUnreadComponent" ? "unread" : "mapped" } });
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+    }
+  }
+
+  fetchMessage(StoreSelector, ThreadID, MessageID) {
+
+    if (StoreSelector === 'unread') {
+      const thr = this.unreadThreads.filter(x => x.ThreadId === ThreadID);
+      if (thr.length > 0) {
+        return {
+          msgs: thr[0].Messages.filter(x => x.msgid === MessageID),
+          subject: thr[0].Subject
+        };
+      } else {
+        return {};
+      }
+    } else if (StoreSelector === 'mapped') {
+      return {};
+    } else {
+      return {};
     }
   }
 

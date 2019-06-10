@@ -23,20 +23,21 @@ export class EmailsService {
     return this.http.post(`${this.apiBaseUrl}/getUnreadThreads`,
       { pageToken },
       this.httpOptions)
-      .pipe(map(r => r));;
+      .pipe(map(r => r));
   }
 
   fetchThreadEmails(ThreadId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getThreadEmails`,
       { ThreadId },
       this.httpOptions)
-      .pipe(map(r => r));;
+      .pipe(map(r => r));
   }
 
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[]): Observable<any> {
+  // tslint:disable-next-line:max-line-length
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      { To, Cc, Bcc, Subject, Body, inlineAttachments },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType },
       this.httpOptions)
-      .pipe(map(r => r));;
+      .pipe(map(r => r));
   }
 }

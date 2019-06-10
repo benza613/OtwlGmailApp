@@ -4,7 +4,7 @@
       <b>TO</b>
     </div>
     <div class="col-md-9">
-      <ng-select id="iMsgTo" [items]="msgToList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
+      <ng-select id="iMsgTo" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
         placeholder="To" [(ngModel)]="msgPacket.to">
       </ng-select>
     </div>
@@ -17,7 +17,7 @@
       <b>CC </b>
     </div>
     <div class="col-md-5">
-      <ng-select id="iEmpFrom" [items]="tallyJobList" [multiple]="true" [closeOnSelect]="false" bindLabel="jobNo"
+      <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
         placeholder="Specify CC" [(ngModel)]="msgPacket.cc">
       </ng-select>
     </div>
@@ -25,7 +25,7 @@
       <b>BCC</b>
     </div>
     <div class="col-md-5">
-      <ng-select id="iEmpFrom" [items]="tallyJobList" [multiple]="true" [closeOnSelect]="false" bindLabel="jobNo"
+      <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
         placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc">
       </ng-select>
     </div>

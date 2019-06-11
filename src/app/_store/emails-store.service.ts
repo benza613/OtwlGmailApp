@@ -107,13 +107,13 @@ export class EmailsStoreService {
   //   }
   // }
 
-  async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector) {
+  async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector, MessageID) {
     const res = await this.emailServ.sendNewMail(
       packet.to.map(key => key.emailId),
       packet.cc.map(key => key.emailId),
       packet.bcc.map(key => key.emailId),
       packet.subject, body, inlineAttachments,
-      actionType).toPromise();
+      actionType, MessageID).toPromise();
     console.log(res);
 
     if (res.d.errId === '200') {

@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { EditorComponent } from './emails/editor/editor.component';
     NgSelectModule,
     FormsModule,
     RichTextEditorAllModule,
+    FileUploadModule
   ],
   providers: [],
   entryComponents: [EditorComponent],

@@ -23,8 +23,38 @@
   }
 }
 
-.container-fluid{
-  margin-top: 5px;
+.container-fluid-cust {
   text-align: right;
   font-size: 12px;
+}
+
+.container-fluid div {
+  font-size: 12px;
+  // border: thin solid red;
+}
+
+.my-drop-zone {
+  border: dotted 3px lightgray;
+  min-height: 50px;
+}
+
+.nv-file-over {
+  border: dotted 3px red;
+}
+
+/* Default class applied to drop zones on over */
+
+.upl-block {
+
+  // border: thin solid #006699;
+
+  & .upl-headers {
+    font-size: 16px;
+    font-weight: bold;
+    color: #006699;
+  }
+
+  & .btn-group-cust button {
+    margin-right: 5px;
+  }
 }

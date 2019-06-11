@@ -1,13 +1,22 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
+import { FileUploader } from 'ng2-file-upload';
+import { environment } from 'src/environments/environment';
+
+// URL = environment.url.server + 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
+const URL = 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class EditorComponent implements OnInit {
+
+  public uploader: FileUploader = new FileUploader({ url: URL });
+  public hasBaseDropZoneOver: boolean = false;
 
   msgPacket = {
     to: [],
@@ -77,7 +86,7 @@ export class EditorComponent implements OnInit {
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleAddressFields(x.msgs);
 
-            this.msgPacket.subject = 'Re:' + x.subject;
+            this.msgPacket.subject = x.subject;
 
 
           }
@@ -86,7 +95,6 @@ export class EditorComponent implements OnInit {
           this.initMessagePacket_LocalStorage(emlData);
         }
       });
-
   }
 
   initMessagePacket_LocalStorage(emlData) {
@@ -122,22 +130,23 @@ export class EditorComponent implements OnInit {
 
   onClick_SendMail() {
     console.log(this.msgPacket);
-
+    console.log(this.uploader);
+    this.uploader.uploadAll();
     // process inline attachments
-    this.base64InlineAttachmentsToBody().then(
-      (data) => {
+    // this.base64InlineAttachmentsToBody().then(
+    //   (data) => {
 
-        // generate static signature
-        const signature = this.fillSignatureTemplate('Shraddha Redkar', 'Executive-HR', '+91 7045951608', 'hr@oceantransworld.com');
-        // then send mail
-        this.emailStore.sendNewEmail(this.msgPacket, data + signature, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector);
+    //     // generate static signature
+    //     const signature = this.fillSignatureTemplate('Shraddha Redkar', 'Executive-HR', '+91 7045951608', 'hr@oceantransworld.com');
+    //     // then send mail
+    //     this.emailStore.sendNewEmail(this.msgPacket, data + signature, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID);
 
-      },
-      (err) => {
-        console.log('Error Occured while streamlining inline images', err);
-        alert('Error OCCURRED: UI-SND-ML-01');
+    //   },
+    //   (err) => {
+    //     console.log('Error Occured while streamlining inline images', err);
+    //     alert('Error OCCURRED: UI-SND-ML-01');
 
-      });
+    //   });
 
   }
 
@@ -280,4 +289,10 @@ export class EditorComponent implements OnInit {
     });
 
   }
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+    //https://github.com/valor-software/ng2-file-upload/blob/development/src/file-upload/file-uploader.class.ts
+  }
+
 }

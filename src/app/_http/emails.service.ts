@@ -34,9 +34,9 @@ export class EmailsService {
   }
 
   // tslint:disable-next-line:max-line-length
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string): Observable<any> {
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession },
       this.httpOptions)
       .pipe(map(r => r));
   }

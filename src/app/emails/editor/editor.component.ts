@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
-import { FileUploader } from 'ng2-file-upload';
+import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 
 // URL = environment.url.server + 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
@@ -45,7 +45,7 @@ export class EditorComponent implements OnInit {
     { emailId: 'Sushant <it5@oceantransworld.com>' },
   ];
 
-
+  _TOKEN_POSSESION = "";
 
   _inlineAttachments = [];
   _inlineAttachB64 = [];
@@ -60,16 +60,23 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private emailStore: EmailsStoreService
+    private emailStore: EmailsStoreService,
+    private detector: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     const emlData = {};
+
+    this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
+
+
     // get query string if exists
     // if q->unread/mapped & i->exists
     //  initfromStore
     // TODO else initfromLocalStorage if present
 
+    //angular number pipe
+    //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
     this.route.queryParams
       .subscribe(params => {
@@ -95,6 +102,60 @@ export class EditorComponent implements OnInit {
           this.initMessagePacket_LocalStorage(emlData);
         }
       });
+
+    this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
+    //this.uploader.options.removeAfterUpload = true;
+
+    this.uploader.options.isHTML5 = true;
+    this.uploader.onBeforeUploadItem = (item) => {
+      item.withCredentials = false;
+    }
+
+    this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      item.remove();
+    }
+
+    this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      console.log('err', item.file.name);
+    }
+
+    this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
+      //Use this action to append a token of possesion that will be used AFTER all files 
+      //are uploaded inorder to send mail
+      form.append('tokenHolder', this._TOKEN_POSSESION);
+      console.log(fileItem);
+    }
+
+    this.uploader.onCompleteAll = () => {
+
+      this.uploader.progress = 0;
+      this.detector.detectChanges();
+
+      if (this.uploader.queue.length > 0) {
+        let x = confirm("Few Files Didnt Upload. Do you want to proceed?");
+        if (!x) {
+          alert('Mail Not sent');
+          return;
+        }
+      }
+
+      this.base64InlineAttachmentsToBody().then(
+        (data) => {
+
+          // generate static signature
+          const signature = this.fillSignatureTemplate('Shraddha Redkar', 'Executive-HR', '+91 7045951608', 'hr@oceantransworld.com');
+          // then send mail
+          this.emailStore.sendNewEmail(this.msgPacket, data + signature, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID, this._TOKEN_POSSESION);
+
+        },
+        (err) => {
+          console.log('Error Occured while streamlining inline images', err);
+          alert('Error OCCURRED: UI-SND-ML-01');
+
+        });
+
+
+    }
   }
 
   initMessagePacket_LocalStorage(emlData) {
@@ -133,20 +194,7 @@ export class EditorComponent implements OnInit {
     console.log(this.uploader);
     this.uploader.uploadAll();
     // process inline attachments
-    // this.base64InlineAttachmentsToBody().then(
-    //   (data) => {
 
-    //     // generate static signature
-    //     const signature = this.fillSignatureTemplate('Shraddha Redkar', 'Executive-HR', '+91 7045951608', 'hr@oceantransworld.com');
-    //     // then send mail
-    //     this.emailStore.sendNewEmail(this.msgPacket, data + signature, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID);
-
-    //   },
-    //   (err) => {
-    //     console.log('Error Occured while streamlining inline images', err);
-    //     alert('Error OCCURRED: UI-SND-ML-01');
-
-    //   });
 
   }
 
@@ -195,6 +243,17 @@ export class EditorComponent implements OnInit {
 
   randomCidGenerator(lengthx) {
     let text = 'otwl_-_-_';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < lengthx; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
+  }
+
+  randomTokenGenerator(lengthx) {
+    let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     for (let i = 0; i < lengthx; i++) {

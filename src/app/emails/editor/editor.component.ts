@@ -122,6 +122,7 @@ export class EditorComponent implements OnInit {
     this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
       //Use this action to append a token of possesion that will be used AFTER all files 
       //are uploaded inorder to send mail
+      
       form.append('tokenHolder', this._TOKEN_POSSESION);
       console.log(fileItem);
     }

@@ -20,7 +20,10 @@ export class EmailUnreadComponent implements OnInit {
 
   getMails() {
 
-    this.mailList = this.emailStore.getCheckedMsgList$;
+    this.emailStore.getCheckedMsgList$.subscribe(x => {
+      this.mailList = x;
+
+    });
     console.log(this.mailList);
     // const modalRef = this.modalService.open(EmailBenComponent, { size: "lg" });
     // modalRef.componentInstance.threadData = this.mailList; // should be the id

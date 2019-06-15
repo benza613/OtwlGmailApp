@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
-//EmailBenComponent import
+import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 @Component({
   selector: 'app-email-unread',
   templateUrl: './email-unread.component.html',
@@ -25,8 +25,8 @@ export class EmailUnreadComponent implements OnInit {
 
     });
     console.log(this.mailList);
-    // const modalRef = this.modalService.open(EmailBenComponent, { size: "lg" });
-    // modalRef.componentInstance.threadData = this.mailList; // should be the id
+    const modalRef = this.modalService.open(EmailUnreadDialogComponent, { size: "lg" });
+    modalRef.componentInstance.mailList = this.mailList; // should be the id
   }
 
 }

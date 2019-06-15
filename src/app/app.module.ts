@@ -19,6 +19,7 @@ import { EmailViewComponent } from './emails/email-view/email-view.component';
 import { SafeHtmlPipe } from './_pipe/safe-html.pipe';
 import { EmailMapComponent } from './emails/email-map/email-map.component';
 import { EditorComponent } from './emails/editor/editor.component';
+import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { EditorComponent } from './emails/editor/editor.component';
     EmailViewComponent,
     SafeHtmlPipe,
     EmailMapComponent,
-    EditorComponent
+    EditorComponent,
+    EmailUnreadDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,7 @@ import { EditorComponent } from './emails/editor/editor.component';
     FileUploadModule
   ],
   providers: [],
-  entryComponents: [EditorComponent],
+  entryComponents: [EditorComponent,EmailUnreadDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

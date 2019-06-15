@@ -46,7 +46,7 @@ export class EmailsStoreService {
   )
 
   readonly getCheckedMsgList$ = () => this.unreadThreads$.pipe(
-    map(tx => this.unreadThreads.find(t => t.isChecked === true))
+    map(tx => this.unreadThreads.filter(t => t.isChecked === true))
   )
 
   /*

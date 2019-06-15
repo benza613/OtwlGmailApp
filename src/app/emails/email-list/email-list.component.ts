@@ -51,12 +51,16 @@ export class EmailListComponent implements OnInit {
     this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector);
   }
 
-  checkList(id) {
-    this.threadList.array.forEach(x => {
-      if (x['ThreadId'] === id) {
-        x['isChecked'] = !x['isChecked'];
-      }
-    });
+  checkList(item) {
+    // this.threadList.forEach(x => {
+    //   console.log('tl sel',x);
+      
+    //   if (x['ThreadId'] === id) {
+    //     x['isChecked'] = !x['isChecked'];
+    //   }
+    // });
+
+    item.isChecked = !item.isChecked;
   }
 
   getModalList() {

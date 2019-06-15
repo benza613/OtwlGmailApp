@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 //EmailBenComponent import
 @Component({
   selector: 'app-email-unread',
@@ -8,29 +9,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EmailUnreadComponent implements OnInit {
   dynamicdata: string = 'EmailUnreadComponent';
-
-  constructor() { }
+  mailList;
+  constructor(
+    public emailStore: EmailsStoreService,
+    public modalService: NgbModal
+  ) { }
 
   ngOnInit() {
   }
 
-  // btnclick{
+  getMails() {
 
-  // resx = this.emailStore.to call filtered ischecked
-  /**
-   *    const modalRef = this.modalService.open(EmailBenComponent, { size: "lg" });
-      modalRef.componentInstance.threadData = resx; // should be the id
-  
-      modalRef.result.then((result) => {
-        console.log(result);
-  
-        if (result.action == "submit" && result.data.length > 0) {
-  
-        }
-      }).catch((error) => {
-        console.log('dismiss');
-  });
-   */
-  //}
-  
+    this.mailList = this.emailStore.getCheckedMsgList$;
+    console.log(this.mailList);
+    // const modalRef = this.modalService.open(EmailBenComponent, { size: "lg" });
+    // modalRef.componentInstance.threadData = this.mailList; // should be the id
+  }
+
 }

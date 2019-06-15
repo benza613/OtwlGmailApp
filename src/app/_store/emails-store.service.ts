@@ -45,6 +45,10 @@ export class EmailsStoreService {
     map(tx => this.unreadThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
+  readonly getCheckedMsgList$ = () => this.unreadThreads$.pipe(
+    map(tx => this.unreadThreads.find(t => t.isChecked === true))
+  )
+
   /*
     PROPERTY GETTERS AND SETTERS
   */

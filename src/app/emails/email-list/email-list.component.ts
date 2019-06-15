@@ -39,7 +39,7 @@ export class EmailListComponent implements OnInit {
         this.t_CollectionSize = x;
       })
       this.threadList = this.emailStore.unreadThreads$;
-      console.log(typeof this.threadList);
+      console.log(this.threadList);
     }
 
 
@@ -52,20 +52,6 @@ export class EmailListComponent implements OnInit {
   }
 
   checkList(item) {
-    // this.threadList.forEach(x => {
-    //   console.log('tl sel',x);
-      
-    //   if (x['ThreadId'] === id) {
-    //     x['isChecked'] = !x['isChecked'];
-    //   }
-    // });
-
     item.isChecked = !item.isChecked;
   }
-
-  getModalList() {
-    this.modalList = this.threadList.filter(x => x['isChecked'] === true);
-    console.log(this.modalList);
-  }
-
 }

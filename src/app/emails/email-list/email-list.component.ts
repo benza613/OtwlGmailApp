@@ -15,6 +15,7 @@ export class EmailListComponent implements OnInit {
   t_currentPage = 1;
   t_itemsPerPage = 10;
   threadList;
+  modalList = [];
   // optimization, rerenders only threads that change instead of the entire list of threads
   threadTrackFn = (i, thread) => thread.ThreadId;
 
@@ -38,6 +39,7 @@ export class EmailListComponent implements OnInit {
         this.t_CollectionSize = x;
       })
       this.threadList = this.emailStore.unreadThreads$;
+      console.log(typeof this.threadList);
     }
 
 
@@ -47,6 +49,19 @@ export class EmailListComponent implements OnInit {
 
   onClick_GetThreadMessages(threadData) {
     this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector);
+  }
+
+  checkList(id) {
+    this.threadList.array.forEach(x => {
+      if (x['ThreadId'] === id) {
+        x['isChecked'] = !x['isChecked'];
+      }
+    });
+  }
+
+  getModalList() {
+    this.modalList = this.threadList.filter(x => x['isChecked'] === true);
+    console.log(this.modalList);
   }
 
 }

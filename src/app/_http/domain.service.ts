@@ -29,8 +29,8 @@ export class DomainService {
     .pipe(map(r => r));
   }
 
-  // fetchPartyTypeData(): Observable<any> {
-  //   return this.http.post(`${this.apiBaseUrl}/`, {}, this.httpOptions)
-  //   .pipe(map(r => r));
-  // }
+  fetchThreadTypeData(): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getDomainMailTypes`, {}, this.httpOptions)
+    .pipe(map(r => r));
+  }
 }

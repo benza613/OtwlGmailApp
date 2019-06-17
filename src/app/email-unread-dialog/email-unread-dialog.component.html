@@ -1,3 +1,24 @@
-<div *ngFor="let mail of mailList">
-  {{mail.ThreadId}}
+<div class="modal-body">
+  <div class="row">
+    <div class="col">
+      <ng-select id="ref_type" [items]="typeData" bindLabel="i_id" placeholder="To" bindValue="type_desc">
+      </ng-select>
+    </div>
+    <div class="col">
+      <ng-select id="ref_type_id" [items]="idData" bindLabel="emailId" placeholder="To" bindValue="type_code">
+      </ng-select>
+    </div>
+  </div>
+  <div *ngFor="let mail of mailList" class="row">
+      <div class="col" style="margin-left: 20px">
+        <input class="form-check-input" type="checkbox">
+      </div>
+      <div class="col">
+        {{mail.ThreadId}}
+      </div>
+      <div class="col">
+        <ng-select id="acc_type" [items]="accountData" bindLabel="i_id" placeholder="To" bindValue="acc_desc">
+        </ng-select>
+      </div>
+  </div>
 </div>

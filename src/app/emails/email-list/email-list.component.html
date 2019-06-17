@@ -4,7 +4,7 @@
 <div class="card thread-card"
   *ngFor="let item of (threadList | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
   <div class="card-body no-gutters">
-    <div class="row ">
+    <div class="row">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)">
       </div>

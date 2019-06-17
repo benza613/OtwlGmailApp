@@ -24,9 +24,12 @@ export class EmailUnreadComponent implements OnInit {
       this.mailList = x;
 
     });
-    console.log(this.mailList);
-    const modalRef = this.modalService.open(EmailUnreadDialogComponent, { size: "lg" });
-    modalRef.componentInstance.mailList = this.mailList; // should be the id
+    if (this.mailList.length > 0) {
+      const modalRef = this.modalService.open(EmailUnreadDialogComponent, { size: "lg" });
+      modalRef.componentInstance.mailList = this.mailList; // should be the id
+    } else {
+      alert('Please select atleast one row.');
+    }
   }
 
 }

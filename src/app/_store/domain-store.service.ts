@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { RefType } from '../models/ref-type';
 import { RefTypeData } from '../models/ref-type-data';
+import { ThreadTypeData } from '../models/thread-type-data';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,11 @@ export class DomainStoreService {
 
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
   private readonly _refTypeData = new BehaviorSubject<RefTypeData[]>([]);
-  private readonly _partyTypeData = new BehaviorSubject<Thread[]>([]);
+  private readonly _threadTypeData = new BehaviorSubject<ThreadTypeData[]>([]);
 
   readonly refType$ = this._refType.asObservable();
   readonly refTypeData$ = this._refTypeData.asObservable();
-  readonly partyTypeData$ = this._partyTypeData.asObservable();
+  readonly threadTypeData$ = this._threadTypeData.asObservable();
 
   private get refType(): RefType[] {
     return this._refType.getValue();
@@ -38,12 +39,12 @@ export class DomainStoreService {
     this._refTypeData.next(val);
   }
 
-  private get partyTypeData(): Thread[] {
-    return this._partyTypeData.getValue();
+  private get threadTypeData(): ThreadTypeData[] {
+    return this._threadTypeData.getValue();
   }
 
-  private set partyTypeData(val: Thread[]) {
-    this._partyTypeData.next(val);
+  private set threadTypeData(val: ThreadTypeData[]) {
+    this._threadTypeData.next(val);
   }
 
 
@@ -72,15 +73,15 @@ export class DomainStoreService {
     }
   }
 
-  // async updatePartyTypeData() {
-  //   if (this.partyTypeData.length > 0) {
-  //     return;
-  //   }
-  //   const res = await this.domainService.fetchPartyTypeData().toPromise();
-  //   if (res.d.errId === '200') {
-  //     const arrx = this.partyTypeData;
-  //     arrx.push(...<Thread[]>res.d.threads);
-  //     this.partyTypeData = arrx;
-  //   }
-  // }
+  async updateThreadTypeData() {
+    if (this.threadTypeData.length > 0) {
+      return;
+    }
+    const res = await this.domainService.fetchThreadTypeData().toPromise();
+    if (res.d.errId === '200') {
+      const arrx = this.threadTypeData;
+      arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
+      this.threadTypeData = arrx;
+    }
+  }
 }

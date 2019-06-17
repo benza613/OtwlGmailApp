@@ -46,39 +46,39 @@ export class DomainStoreService {
 
 
 
-  async updateRefType() {
-    if (this.refTypes.length > 0) {
-      return;
-     }
-    const res = await this.domainService.fetchRefTypes().toPromise();
-    if (res.d.errId === '200') {
-      const arrx = this.refTypes;
-      arrx.push(...<Thread[]>res.d.threads);
-      this.refTypes = arrx;
-    }
-  }
+  // async updateRefType() {
+  //   if (this.refTypes.length > 0) {
+  //     return;
+  //    }
+  //   const res = await this.domainService.fetchRefTypes().toPromise();
+  //   if (res.d.errId === '200') {
+  //     const arrx = this.refTypes;
+  //     arrx.push(...<Thread[]>res.d.threads);
+  //     this.refTypes = arrx;
+  //   }
+  // }
 
-  async updateRefTypeData() {
-    if (this.refTypeData.length > 0) {
-      return;
-    }
-    const res = await this.domainService.fetchRefTypeData().toPromise();
-    if (res.d.errId === '200') {
-      const arrx = this.refTypeData;
-      arrx.push(...<Thread[]>res.d.threads);
-      this.refTypeData = arrx;
-    }
-  }
+  // async updateRefTypeData() {
+  //   if (this.refTypeData.length > 0) {
+  //     return;
+  //   }
+  //   const res = await this.domainService.fetchRefTypeData().toPromise();
+  //   if (res.d.errId === '200') {
+  //     const arrx = this.refTypeData;
+  //     arrx.push(...<Thread[]>res.d.threads);
+  //     this.refTypeData = arrx;
+  //   }
+  // }
 
-  async updatePartyTypeData() {
-    if (this.partyTypeData.length > 0) {
-      return;
-    }
-    const res = await this.domainService.fetchPartyTypeData().toPromise();
-    if (res.d.errId === '200') {
-      const arrx = this.partyTypeData;
-      arrx.push(...<Thread[]>res.d.threads);
-      this.partyTypeData = arrx;
-    }
-  }
+  // async updatePartyTypeData() {
+  //   if (this.partyTypeData.length > 0) {
+  //     return;
+  //   }
+  //   const res = await this.domainService.fetchPartyTypeData().toPromise();
+  //   if (res.d.errId === '200') {
+  //     const arrx = this.partyTypeData;
+  //     arrx.push(...<Thread[]>res.d.threads);
+  //     this.partyTypeData = arrx;
+  //   }
+  // }
 }

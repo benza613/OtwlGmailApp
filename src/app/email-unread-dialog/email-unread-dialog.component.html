@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">UNREAD THREADS</h5>
+  <h5 class="modal-title" id="modal-basic-title">UNREAD THREADS</h5>
 </div>
 <div class="modal-body">
   <div class="row" style="padding-bottom: 10px">
@@ -13,21 +13,21 @@
     </div>
   </div>
   <div *ngFor="let mail of mailList" class="col">
-    <div style="padding: 5px;" class="row">
-        <div style="margin-left: 15px;">
-            <input class="form-check-input" type="checkbox">
-          </div>
-          <div class="col-8">
-            {{mail.Subject}}
-          </div>
-          <div class="col-3">
-            <ng-select [items]="accountData" [multiple]="true" bindLabel="partyTypeId" placeholder="Party Type"
-             bindValue="partyVal">
-            </ng-select>
-          </div>
+    <div style="padding: 5px" class="row">
+      <div style="margin-left: 15px;">
+        <input class="form-check-input" type="checkbox">
+      </div>
+      <div class="col-8" style="align-content: center">
+        {{mail.Subject}}
+      </div>
+      <div class="col-3">
+        <ng-select [items]="accountData" [multiple]="true" bindLabel="partyTypeId" placeholder="Party Type"
+          bindValue="partyVal">
+        </ng-select>
+      </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="submit()">Submit</button>
+  <button type="button" class="btn btn-danger" (click)="submit()">Submit</button>
 </div>

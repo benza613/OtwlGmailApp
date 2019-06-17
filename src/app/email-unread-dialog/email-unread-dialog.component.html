@@ -1,5 +1,5 @@
 <div class="modal-body">
-  <div class="row">
+  <div class="row" style="padding-bottom: 10px">
     <div class="col">
       <ng-select id="ref_type" [items]="typeData" bindLabel="i_id" placeholder="To" bindValue="type_desc">
       </ng-select>
@@ -9,16 +9,21 @@
       </ng-select>
     </div>
   </div>
-  <div *ngFor="let mail of mailList" class="row">
-      <div class="col" style="margin-left: 20px">
-        <input class="form-check-input" type="checkbox">
-      </div>
-      <div class="col">
-        {{mail.ThreadId}}
-      </div>
-      <div class="col">
-        <ng-select id="acc_type" [items]="accountData" bindLabel="i_id" placeholder="To" bindValue="acc_desc">
-        </ng-select>
-      </div>
+  <div *ngFor="let mail of mailList" class="col">
+    <div style="padding: 5px;" class="row">
+        <div style="margin-left: 15px;">
+            <input class="form-check-input" type="checkbox">
+          </div>
+          <div class="col-8">
+            {{mail.Subject}}
+          </div>
+          <div class="col-3">
+            <ng-select id="acc_type" [items]="accountData" bindLabel="i_id" placeholder="To" bindValue="acc_desc">
+            </ng-select>
+          </div>
+    </div>
   </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="submit()">Submit</button>
 </div>

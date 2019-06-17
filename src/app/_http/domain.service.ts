@@ -20,8 +20,8 @@ export class DomainService {
   };
 
   fetchRefType(): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/getDomainRefTypes`, this.httpOptions)
-    .pipe(map(r => r));
+    return this.http.post(`${this.apiBaseUrl}/getDomainRefTypes`, {}, this.httpOptions)
+      .pipe(map(r => r));
   }
 
   // fetchRefTypeData(): Observable<any>  {

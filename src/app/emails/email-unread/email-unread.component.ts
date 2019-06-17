@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
+import { DomainStoreService } from 'src/app/_store/domain-store.service';
 @Component({
   selector: 'app-email-unread',
   templateUrl: './email-unread.component.html',
@@ -12,10 +13,12 @@ export class EmailUnreadComponent implements OnInit {
   mailList;
   constructor(
     public emailStore: EmailsStoreService,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    private domainStore: DomainStoreService
   ) { }
 
   ngOnInit() {
+    this.domainStore.updateRefType();
   }
 
   getMails() {

@@ -2,6 +2,7 @@ import { DomainService } from './../_http/domain.service';
 import { Thread } from './../models/thread.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { RefType } from '../models/ref-type';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class DomainStoreService {
     private domainService: DomainService
   ) { }
 
-  private readonly _refType = new BehaviorSubject<Thread[]>([]);
+  private readonly _refType = new BehaviorSubject<RefType[]>([]);
   private readonly _refTypeData = new BehaviorSubject<Thread[]>([]);
   private readonly _partyTypeData = new BehaviorSubject<Thread[]>([]);
 
@@ -20,11 +21,11 @@ export class DomainStoreService {
   readonly refTypeData$ = this._refTypeData.asObservable();
   readonly partyTypeData$ = this._partyTypeData.asObservable();
 
-  private get refType(): Thread[] {
+  private get refType(): RefType[] {
     return this._refType.getValue();
   }
 
-  private set refType(val: Thread[]) {
+  private set refType(val: RefType[]) {
     this._refType.next(val);
   }
 
@@ -37,7 +38,7 @@ export class DomainStoreService {
   }
 
   private get partyTypeData(): Thread[] {
-     return this._partyTypeData.getValue();
+    return this._partyTypeData.getValue();
   }
 
   private set partyTypeData(val: Thread[]) {
@@ -49,11 +50,12 @@ export class DomainStoreService {
   async updateRefType() {
     if (this.refType.length > 0) {
       return;
-     }
+    }
     const res = await this.domainService.fetchRefType().toPromise();
     if (res.d.errId === '200') {
       const arrx = this.refType;
-      arrx.push(...<Thread[]>res.d.threads);
+      
+      arrx.push(...<RefType[]>res.d.refTypes);
       this.refType = arrx;
       console.log(this.refType);
     }

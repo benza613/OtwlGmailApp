@@ -1,5 +1,5 @@
 export interface RefTypeData {
-    ref_id: String;
-    ref_no: Number;
+    refId: String;
+    refNo: Number;
     typeId: String;
 }

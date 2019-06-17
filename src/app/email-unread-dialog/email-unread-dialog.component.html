@@ -1,11 +1,14 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">UNREAD THREADS</h5>
+</div>
 <div class="modal-body">
   <div class="row" style="padding-bottom: 10px">
     <div class="col">
-      <ng-select id="ref_type" [items]="typeData" bindLabel="i_id" placeholder="To" bindValue="type_desc">
+      <ng-select [items]="typeData" bindLabel="typeId" placeholder="Reference Type" bindValue="typeVal">
       </ng-select>
     </div>
     <div class="col">
-      <ng-select id="ref_type_id" [items]="idData" bindLabel="emailId" placeholder="To" bindValue="type_code">
+      <ng-select [items]="idData" bindLabel="emailId" placeholder="Type ID" bindValue="ref_no">
       </ng-select>
     </div>
   </div>
@@ -18,12 +21,13 @@
             {{mail.Subject}}
           </div>
           <div class="col-3">
-            <ng-select id="acc_type" [items]="accountData" bindLabel="i_id" placeholder="To" bindValue="acc_desc">
+            <ng-select [items]="accountData" [multiple]="true" bindLabel="partyTypeId" placeholder="Party Type"
+             bindValue="partyVal">
             </ng-select>
           </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="submit()">Submit</button>
+    <button type="button" class="btn btn-danger" (click)="submit()">Submit</button>
 </div>

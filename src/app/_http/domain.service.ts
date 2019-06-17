@@ -22,12 +22,12 @@ export class DomainService {
     // .pipe(map(r => r));
   }
 
-  fetchRefData() {
+  fetchRefTypeData() {
     // return this.http.post(`${this.apiBaseUrl}/`, this.httpOptions)
     // .pipe(map(r => r));
   }
 
-  fetchPartyType() {
+  fetchPartyTypeData() {
     // return this.http.post(`${this.apiBaseUrl}/`, this.httpOptions)
     // .pipe(map(r => r));
   }

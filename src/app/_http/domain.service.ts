@@ -24,13 +24,13 @@ export class DomainService {
       .pipe(map(r => r));
   }
 
-  // fetchRefTypeData(): Observable<any>  {
-  //   return this.http.post(`${this.apiBaseUrl}/`, this.httpOptions)
-  //   .pipe(map(r => r));
-  // }
+  fetchRefTypeData(typeId): Observable<any>  {
+    return this.http.post(`${this.apiBaseUrl}/getDomainRefValues`, {typeId} , this.httpOptions)
+    .pipe(map(r => r));
+  }
 
   // fetchPartyTypeData(): Observable<any> {
-  //   return this.http.post(`${this.apiBaseUrl}/`, this.httpOptions)
+  //   return this.http.post(`${this.apiBaseUrl}/`, {}, this.httpOptions)
   //   .pipe(map(r => r));
   // }
 }

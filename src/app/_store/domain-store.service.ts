@@ -3,6 +3,7 @@ import { Thread } from './../models/thread.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { RefType } from '../models/ref-type';
+import { RefTypeData } from '../models/ref-type-data';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class DomainStoreService {
   ) { }
 
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
-  private readonly _refTypeData = new BehaviorSubject<Thread[]>([]);
+  private readonly _refTypeData = new BehaviorSubject<RefTypeData[]>([]);
   private readonly _partyTypeData = new BehaviorSubject<Thread[]>([]);
 
   readonly refType$ = this._refType.asObservable();
@@ -29,11 +30,11 @@ export class DomainStoreService {
     this._refType.next(val);
   }
 
-  private get refTypeData(): Thread[] {
+  private get refTypeData(): RefTypeData[] {
     return this._refTypeData.getValue();
   }
 
-  private set refTypeData(val: Thread[]) {
+  private set refTypeData(val: RefTypeData[]) {
     this._refTypeData.next(val);
   }
 
@@ -54,24 +55,22 @@ export class DomainStoreService {
     const res = await this.domainService.fetchRefType().toPromise();
     if (res.d.errId === '200') {
       const arrx = this.refType;
-      
       arrx.push(...<RefType[]>res.d.refTypes);
       this.refType = arrx;
       console.log(this.refType);
     }
   }
 
-  // async updateRefTypeData() {
-  //   if (this.refTypeData.length > 0) {
-  //     return;
-  //   }
-  //   const res = await this.domainService.fetchRefTypeData().toPromise();
-  //   if (res.d.errId === '200') {
-  //     const arrx = this.refTypeData;
-  //     arrx.push(...<Thread[]>res.d.threads);
-  //     this.refTypeData = arrx;
-  //   }
-  // }
+  async updateRefTypeData(typeId) {
+    const res = await this.domainService.fetchRefTypeData(typeId).toPromise();
+    if (res.d.errId === '200') {
+      const arrx = this.refTypeData;
+      arrx.push(...<RefTypeData[]>res.d.refTypeData);
+      this.refTypeData = arrx;
+    } else {
+      console.log(res.d.errId);
+    }
+  }
 
   // async updatePartyTypeData() {
   //   if (this.partyTypeData.length > 0) {

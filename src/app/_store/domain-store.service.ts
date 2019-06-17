@@ -20,11 +20,11 @@ export class DomainStoreService {
   readonly refTypeData$ = this._refTypeData.asObservable();
   readonly partyTypeData$ = this._partyTypeData.asObservable();
 
-  private get refTypes(): Thread[] {
+  private get refType(): Thread[] {
     return this._refType.getValue();
   }
 
-  private set refTypes(val: Thread[]) {
+  private set refType(val: Thread[]) {
     this._refType.next(val);
   }
 
@@ -46,17 +46,18 @@ export class DomainStoreService {
 
 
 
-  // async updateRefType() {
-  //   if (this.refTypes.length > 0) {
-  //     return;
-  //    }
-  //   const res = await this.domainService.fetchRefTypes().toPromise();
-  //   if (res.d.errId === '200') {
-  //     const arrx = this.refTypes;
-  //     arrx.push(...<Thread[]>res.d.threads);
-  //     this.refTypes = arrx;
-  //   }
-  // }
+  async updateRefType() {
+    if (this.refType.length > 0) {
+      return;
+     }
+    const res = await this.domainService.fetchRefType().toPromise();
+    if (res.d.errId === '200') {
+      const arrx = this.refType;
+      arrx.push(...<Thread[]>res.d.threads);
+      this.refType = arrx;
+      console.log(this.refType);
+    }
+  }
 
   // async updateRefTypeData() {
   //   if (this.refTypeData.length > 0) {

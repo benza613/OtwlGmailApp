@@ -1,3 +1,4 @@
+import { DomainStoreService } from './../_store/domain-store.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -7,10 +8,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class EmailUnreadDialogComponent implements OnInit {
   @Input() mailList: any;
-  constructor() { }
+  refType;
+  constructor(
+    private domainStore: DomainStoreService
+  ) { }
 
   ngOnInit() {
     console.log(this.mailList);
+    this.refType = this.domainStore.refType$;
   }
 
 }

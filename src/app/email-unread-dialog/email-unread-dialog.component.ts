@@ -48,14 +48,29 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    this.mailList.forEach(x => {
-      this.selectedThreads.ThreadId = x['ThreadId'];
-      if (x['ThreadTypeIds'] === undefined) {
-        this.selectedThreads.ThreadTypeIds = [];
-      } else {
-        this.selectedThreads.ThreadTypeIds = x['ThreadTypeIds'];
-      }
-    });
-    console.log(this.selectedThreads);
+    // this.mailList.forEach(x => {
+    //   this.selectedThreads.ThreadId = x['ThreadId'];
+    //   if (x['ThreadTypeIds'] === undefined) {
+    //     this.selectedThreads.ThreadTypeIds = [];
+    //   } else {
+    //     this.selectedThreads.ThreadTypeIds = x['ThreadTypeIds'];
+    //   }
+    // });
+
+    let mapTypes = {
+      typeId: "",
+      refId: "",
+      selectedThreads: []
+    };
+
+    for (let i = 0; i < this.mailList.length; i++) {
+      mapTypes.selectedThreads.push({
+        ThreadID: this.mailList[i].ThreadId,
+        ThreadTypeIds: this.mailList[i].ThreadTypeIds == undefined ? [] : this.mailList[i].ThreadTypeIds
+      });
+
+
+    }
+    console.log(mapTypes);
   }
 }

@@ -18,8 +18,8 @@
         {{mail.Subject}}
       </div>
       <div class="col-3">
-        <ng-select [items]="accountData" [multiple]="true" bindLabel="partyTypeId" placeholder="Mail Type"
-          bindValue="partyVal">
+        <ng-select [items]="threadTypeData | async" [multiple]="true" bindLabel="threadTypeId" bindValue="threadTypeVal" 
+          placeholder="Mail Type">
         </ng-select>
       </div>
     </div>

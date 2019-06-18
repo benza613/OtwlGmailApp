@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { RefType } from '../models/ref-type';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,10 @@ export class DomainStoreService {
     this._threadTypeData.next(val);
   }
 
+  readonly getThreadTypeList$ = () => this.threadTypeData$.pipe(
+    map(tx => this.threadTypeData)
+  )
+
 
 
   async updateRefType() {
@@ -58,7 +63,6 @@ export class DomainStoreService {
       const arrx = this.refType;
       arrx.push(...<RefType[]>res.d.refTypes);
       this.refType = arrx;
-      console.log(this.refType);
     }
   }
 

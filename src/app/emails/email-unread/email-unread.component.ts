@@ -19,6 +19,7 @@ export class EmailUnreadComponent implements OnInit {
 
   ngOnInit() {
     this.domainStore.updateRefType();
+    this.domainStore.updateThreadTypeData();
   }
 
   getMails() {
@@ -27,7 +28,7 @@ export class EmailUnreadComponent implements OnInit {
       this.mailList = x;
     });
     if (this.mailList.length > 0) {
-      const modalRef = this.modalService.open(EmailUnreadDialogComponent, { size: "lg" });
+      const modalRef = this.modalService.open(EmailUnreadDialogComponent, { size: 'lg' });
       modalRef.componentInstance.mailList = this.mailList; // should be the id
     } else {
       alert('Please select atleast one row.');

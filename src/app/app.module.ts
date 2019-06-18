@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { FileUploadModule } from 'ng2-file-upload';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,7 +43,8 @@ import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-d
     NgSelectModule,
     FormsModule,
     RichTextEditorAllModule,
-    FileUploadModule
+    FileUploadModule,
+    NgxSpinnerModule
   ],
   providers: [],
   entryComponents: [EditorComponent,EmailUnreadDialogComponent],

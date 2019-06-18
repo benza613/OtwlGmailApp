@@ -4,6 +4,7 @@ import { RefType } from '../models/ref-type';
 import { Observable } from 'rxjs';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-email-unread-dialog',
@@ -18,10 +19,9 @@ export class EmailUnreadDialogComponent implements OnInit {
   threadTypeData: Observable<ThreadTypeData[]>;
   typeId = 0;
   constructor(
-    private domainStore: DomainStoreService
-  ) {
-    // this.domainStore.updateRefType();
-  }
+    private domainStore: DomainStoreService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
     this.refType = this.domainStore.refType$;
@@ -29,17 +29,21 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onChange_GetRefTypeData() {
+    this.spinner.show();
     if (this.typeId) {
       this.domainStore.updateRefTypeData(this.typeId);
       this.domainStore.refTypeData$.subscribe(x => {
         this.refTypeData = [];
         for (let ix = 0; ix < x.length; ix++) {
           this.refTypeData = [...this.refTypeData, x[ix]];
-
         }
       });
-
+      this.spinner.hide();
     }
+  }
+
+  onSubmit() {
+    // 
   }
 
 }

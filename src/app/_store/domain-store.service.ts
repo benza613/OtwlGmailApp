@@ -48,10 +48,6 @@ export class DomainStoreService {
     this._threadTypeData.next(val);
   }
 
-  readonly getThreadTypeList$ = () => this.threadTypeData$.pipe(
-    map(tx => this.threadTypeData)
-  )
-
 
 
   async updateRefType() {
@@ -60,20 +56,18 @@ export class DomainStoreService {
     }
     const res = await this.domainService.fetchRefType().toPromise();
     if (res.d.errId === '200') {
-      const arrx = this.refType;
-      arrx.push(...<RefType[]>res.d.refTypes);
-      this.refType = arrx;
+      this.refType = <RefType[]>res.d.refTypes;
+    } else {
+      console.log(res.d.errMsg);
     }
   }
 
   async updateRefTypeData(typeId) {
     const res = await this.domainService.fetchRefTypeData(typeId).toPromise();
     if (res.d.errId === '200') {
-      console.log(res.d);
-      
-      this.refTypeData = <RefTypeData[]>res.d.refData;
+      this.refTypeData = <RefTypeData[]>res.d.refData; 
     } else {
-      console.log(res.d.errId);
+      console.log(res.d.errMsg);
     }
   }
 
@@ -86,6 +80,8 @@ export class DomainStoreService {
       const arrx = this.threadTypeData;
       arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
       this.threadTypeData = arrx;
+    } else {
+      console.log(res.d.errMsg);
     }
   }
 }

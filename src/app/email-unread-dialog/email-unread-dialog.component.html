@@ -16,14 +16,14 @@
       </ng-select>
     </div>
   </div>
-  <div *ngFor="let mail of mailList" class="col">
+  <div *ngFor="let mail of mailList let i='index'" class="col">
     <div style="padding-bottom: 5px" class="row">
       <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
         {{mail.Subject}}
       </div>
       <div class="col-4" style="padding-right: 0px;">
-        <ng-select [items]="threadTypeData | async" [multiple]="true" bindLabel="threadTypeId" bindValue="threadTypeVal"
-          placeholder="Mail Type">
+        <ng-select [id]="i" [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
+          bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" (change)="print($event,mail)">
         </ng-select>
       </div>
     </div>

@@ -12,7 +12,7 @@
       </ng-select>
     </div>
     <div class="col">
-      <ng-select [items]="refTypeData" bindLabel="refNo" placeholder="Reference ID" bindValue="refId">
+      <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID" bindValue="refId">
       </ng-select>
     </div>
   </div>

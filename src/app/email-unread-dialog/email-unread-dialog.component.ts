@@ -18,7 +18,8 @@ export class EmailUnreadDialogComponent implements OnInit {
   refType: Observable<RefType[]>;
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
-  typeId = 0;
+  typeId;
+  refId;
   selectedThreads;
   constructor(
     private domainStore: DomainStoreService,
@@ -48,28 +49,16 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.mailList.forEach(x => {
-    //   this.selectedThreads.ThreadId = x['ThreadId'];
-    //   if (x['ThreadTypeIds'] === undefined) {
-    //     this.selectedThreads.ThreadTypeIds = [];
-    //   } else {
-    //     this.selectedThreads.ThreadTypeIds = x['ThreadTypeIds'];
-    //   }
-    // });
-
     let mapTypes = {
-      typeId: "",
-      refId: "",
+      typeId: this.typeId,
+      refId: this.refId,
       selectedThreads: []
     };
-
     for (let i = 0; i < this.mailList.length; i++) {
       mapTypes.selectedThreads.push({
         ThreadID: this.mailList[i].ThreadId,
-        ThreadTypeIds: this.mailList[i].ThreadTypeIds == undefined ? [] : this.mailList[i].ThreadTypeIds
+        ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
       });
-
-
     }
     console.log(mapTypes);
   }

@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { DomainStoreService } from './../_store/domain-store.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { RefType } from '../models/ref-type';
@@ -18,7 +19,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
   typeId = 0;
-  selectedThreads = [];
+  selectedThreads;
   constructor(
     private domainStore: DomainStoreService,
     private spinner: NgxSpinnerService
@@ -47,11 +48,14 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    // 
+    this.mailList.forEach(x => {
+      this.selectedThreads.ThreadId = x['ThreadId'];
+      if (x['ThreadTypeIds'] === undefined) {
+        this.selectedThreads.ThreadTypeIds = [];
+      } else {
+        this.selectedThreads.ThreadTypeIds = x['ThreadTypeIds'];
+      }
+    });
+    console.log(this.selectedThreads);
   }
-
-  print(i, mail) {
-    console.log(i.value, mail);
-  }
-
 }

@@ -65,7 +65,7 @@ export class DomainStoreService {
   async updateRefTypeData(typeId) {
     const res = await this.domainService.fetchRefTypeData(typeId).toPromise();
     if (res.d.errId === '200') {
-      this.refTypeData = <RefTypeData[]>res.d.refData; 
+      this.refTypeData = <RefTypeData[]>res.d.refData;
     } else {
       console.log(res.d.errMsg);
     }

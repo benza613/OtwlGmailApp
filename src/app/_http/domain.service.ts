@@ -33,4 +33,8 @@ export class DomainService {
     return this.http.post(`${this.apiBaseUrl}/getDomainMailTypes`, {}, this.httpOptions)
     .pipe(map(r => r));
   }
+
+  submitUnreadThreadData(objects) {
+    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, objects, this.httpOptions);
+  }
 }

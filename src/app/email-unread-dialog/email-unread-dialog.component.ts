@@ -14,7 +14,7 @@ import { ThreadTypeData } from '../models/thread-type-data';
 export class EmailUnreadDialogComponent implements OnInit {
   @Input() mailList: any;
   refType: Observable<RefType[]>;
-  refTypeData: Observable<RefTypeData[]>;
+  refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
   typeId = 0;
   constructor(
@@ -25,13 +25,20 @@ export class EmailUnreadDialogComponent implements OnInit {
 
   ngOnInit() {
     this.refType = this.domainStore.refType$;
+    this.threadTypeData = this.domainStore.threadTypeData$;
   }
 
-  getRefTypeData() {
+  onChange_GetRefTypeData() {
     if (this.typeId) {
       this.domainStore.updateRefTypeData(this.typeId);
-      this.refTypeData = this.domainStore.refTypeData$;
-      this.threadTypeData = this.domainStore.threadTypeData$;
+      this.domainStore.refTypeData$.subscribe(x => {
+        this.refTypeData = [];
+        for (let ix = 0; ix < x.length; ix++) {
+          this.refTypeData = [...this.refTypeData, x[ix]];
+
+        }
+      });
+
     }
   }
 

@@ -18,6 +18,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
   typeId = 0;
+  selectedThreads = [];
   constructor(
     private domainStore: DomainStoreService,
     private spinner: NgxSpinnerService
@@ -47,6 +48,10 @@ export class EmailUnreadDialogComponent implements OnInit {
 
   onSubmit() {
     // 
+  }
+
+  print(i, mail) {
+    console.log(i.value, mail);
   }
 
 }

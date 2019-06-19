@@ -1,4 +1,14 @@
-<p>
-  email-mapped works!
-</p>
-<app-email-list [storeSelector]="dynamicdata"></app-email-list>
+<div class="col" style="height: 85vh;">
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col">
+      <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
+        [(ngModel)]="typeId" (change)="onChange_GetRefTypeData()">
+      </ng-select>
+    </div>
+    <div class="col">
+      <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID" bindValue="refId">
+      </ng-select>
+    </div>
+  </div>
+  <app-email-list [storeSelector]="dynamicdata"></app-email-list>
+</div>

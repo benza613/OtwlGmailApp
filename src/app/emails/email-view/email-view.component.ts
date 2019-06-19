@@ -44,7 +44,7 @@ export class EmailViewComponent implements OnInit {
       this.emailList = this.emailStore.getUnreadMsgList$(this.reqThreadId);
 
     } else if (this.storeSelector === 'mapped') {
-      this.emailList = this.emailStore.getMsgList$(this.reqThreadId);
+      this.emailList = this.emailStore.getMappedMsgList$(this.reqThreadId);
     }
 
   }

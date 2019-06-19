@@ -29,12 +29,7 @@ export class EmailListComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.storeSelector === "EmailMappedComponent") {
-      this.emailStore.threadsCount$.subscribe(x => {
-        this.t_CollectionSize = x;
-      })
-      this.threadList = this.emailStore.threads$;
-    } else if (this.storeSelector === "EmailUnreadComponent") {
+    if (this.storeSelector === "EmailUnreadComponent") {
       this.emailStore.unreadThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;
       })

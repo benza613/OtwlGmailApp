@@ -225,7 +225,6 @@ export class EmailsStoreService {
   }
 
   fetchMessage(StoreSelector, ThreadID, MessageID) {
-
     if (StoreSelector === 'unread') {
       const thr = this.unreadThreads.filter(x => x.ThreadId === ThreadID);
       if (thr.length > 0) {

@@ -21,6 +21,7 @@ import { SafeHtmlPipe } from './_pipe/safe-html.pipe';
 import { EmailMapComponent } from './emails/email-map/email-map.component';
 import { EditorComponent } from './emails/editor/editor.component';
 import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-dialog.component';
+import { EmailList2Component } from './email-list2/email-list2.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-d
     SafeHtmlPipe,
     EmailMapComponent,
     EditorComponent,
-    EmailUnreadDialogComponent
+    EmailUnreadDialogComponent,
+    EmailList2Component
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,15 @@
       <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID" bindValue="refId">
       </ng-select>
     </div>
+    <div class="col">
+      <input type="date" placeholder="From" class="form-control">
+    </div>
+    <div class="col">
+      <input type="date" placeholder="From" class="form-control">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success" (click)="getMails()">SUBMIT</button>
   </div>
-  <app-email-list [storeSelector]="dynamicdata"></app-email-list>
+  </div>
+  <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
 </div>

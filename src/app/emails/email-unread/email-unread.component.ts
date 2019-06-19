@@ -23,7 +23,7 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   getMails() {
-
+    
     this.emailStore.getCheckedMsgList$.subscribe(x => {
       this.mailList = x;
     });

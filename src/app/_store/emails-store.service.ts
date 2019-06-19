@@ -23,11 +23,14 @@ export class EmailsStoreService {
   //   create a new BehaviorSubject for it, as well as the observable$, and getters/setters
   private readonly _threads = new BehaviorSubject<Thread[]>([]);
   private readonly _unreadThreads = new BehaviorSubject<Thread[]>([]);
+  private readonly _mappedThreads = new BehaviorSubject<Thread[]>([]);
   private readonly _pageTokenUnread = new BehaviorSubject<String>('');
+  private readonly _pageTokenMapped = new BehaviorSubject<String>('');
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly threads$ = this._threads.asObservable();
   readonly unreadThreads$ = this._unreadThreads.asObservable();
+  readonly mappedThreads$ = this._mappedThreads.asObservable();
 
   readonly threadsCount$ = this.threads$.pipe(
     map(th => this.threads.length)
@@ -35,6 +38,10 @@ export class EmailsStoreService {
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
+  );
+
+  readonly mappedThreadsCount$ = this.mappedThreads$.pipe(
+    map(th => this.mappedThreads.length)
   );
 
   readonly getMsgList$ = (ThreadId) => this.threads$.pipe(
@@ -47,7 +54,7 @@ export class EmailsStoreService {
 
   readonly getCheckedMsgList$ = this.unreadThreads$.pipe(
     map(tx => this.unreadThreads.filter(t => t.isChecked === true))
-  )
+  );
 
   /*
     PROPERTY GETTERS AND SETTERS
@@ -71,6 +78,13 @@ export class EmailsStoreService {
     this._unreadThreads.next(val);
   }
 
+  private get mappedThreads(): Thread[] {
+    return this._mappedThreads.getValue();
+  }
+
+  private set mappedThreads(val: Thread[]) {
+    this._mappedThreads.next(val);
+  }
 
   private get pageTokenUnread(): String {
     return this._pageTokenUnread.getValue();
@@ -78,6 +92,14 @@ export class EmailsStoreService {
 
   private set pageTokenUnread(val: String) {
     this._pageTokenUnread.next(val);
+  }
+
+  private get pageTokenMapped(): String {
+    return this._pageTokenMapped.getValue();
+  }
+
+  private set pageTokenMapped(val: String) {
+    this._pageTokenMapped.next(val);
   }
 
 
@@ -133,13 +155,10 @@ export class EmailsStoreService {
    * UNREAD module methods
    */
   async updateUnreadThreadList() {
-
     if (this.unreadThreads.length > 0) {
-
       return;
     }
     for (let idx = 0; idx < 10; idx++) {
-
       const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread).toPromise();
       if (res.d.errId === '200') {
         const arrx = this.unreadThreads;
@@ -151,30 +170,56 @@ export class EmailsStoreService {
           this.pageTokenUnread = res.d.pageToken;
         }
       }
-
-      console.log(this.unreadThreads);
-
-
+      // console.log(this.unreadThreads);
     }
-
   }
 
   async update_UnreadThreadEmails(ThreadId, storeSelector) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-
-    console.log(res);
-
-
+    // console.log(res);
     if (res.d.errId === '200') {
-
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
-
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
         this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
       }
-
       this.unreadThreads = [...this.unreadThreads];
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+    }
+  }
 
+  /**
+   * MAPPED module methods
+   */
+
+  async updateMappedThreadList() {
+    if (this.mappedThreads.length > 0) {
+      return;
+    }
+    for (let idx = 0; idx < 10; idx++) {
+      const res = await this.emailServ.indexMapped(this.pageTokenMapped == null ? '' : this.pageTokenMapped).toPromise();
+      if (res.d.errId === '200') {
+        const arrx = this.mappedThreads;
+        arrx.push(...<Thread[]>res.d.threads);
+        this.mappedThreads = arrx;
+        if (res.d.pageToken == null) {
+          break;
+        } else {
+          this.pageTokenMapped = res.d.pageToken;
+        }
+      }
+      // console.log(this.mappedThreads);
+    }
+  }
+
+  async update_MappedThreadEmails(ThreadId, storeSelector) {
+    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    // console.log(res);
+    if (res.d.errId === '200') {
+      const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadId === ThreadId));
+      for (let ix = 0; ix < res.d.msgList.length; ix++) {
+        this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
+      }
+      this.mappedThreads = [...this.mappedThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
     }
   }

@@ -17,6 +17,7 @@ export class EmailMappedComponent implements OnInit {
   refTypeData: RefTypeData[] = [];
   threadTypeData: ThreadTypeData[] = [];
   typeId = 0;
+  refId = 0;
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService
@@ -51,6 +52,10 @@ export class EmailMappedComponent implements OnInit {
         }
       });
     }
+  }
+
+  getThread() {
+    
   }
 
 }

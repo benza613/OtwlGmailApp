@@ -27,8 +27,8 @@ export class EmailsService {
   }
 
   indexMapped(): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/getMappedThreads`, {}, this.httpOptions)
-      .pipe(map(r => r));
+    // return this.http.post(`${this.apiBaseUrl}/getMappedThreads`, {}, this.httpOptions)
+    //   .pipe(map(r => r));
   }
 
   fetchThreadEmails(ThreadId): Observable<any> {

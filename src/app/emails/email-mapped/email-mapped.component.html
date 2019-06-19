@@ -1,15 +1,21 @@
-<div class="row" style="height: 80vh;">
-  <div class="col-md-2">
+<div class="row" style="height: 85vh;">
+  <div class="col-md-2" style="border-right: 2px solid rgb(194, 191, 191);">
     <div class="row filters">
       <div class="col">
-        <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" placeholder="Ref Type" bindValue="typeId"
+          <div class="row">
+              <div class="col"><small class="text-muted">Reference Type</small></div>
+            </div>
+        <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" bindValue="typeId"
           (change)="onChange_GetRefTypeData()">
         </ng-select>
       </div>
     </div>
     <div class="row filters">
       <div class="col">
-        <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Ref ID" bindValue="refId">
+          <div class="row">
+              <div class="col"><small class="text-muted">Reference ID</small></div>
+            </div>
+        <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" bindValue="refId">
         </ng-select>
       </div>
     </div>
@@ -20,6 +26,15 @@
     </div>
     <hr />
     <div class="row">
+      <div class="col"><small class="text-muted">SORT BY SUBJECT</small></div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+    </div>
+    <br />
+    <div class="row">
       <div class="col"><small class="text-muted">SORT BY MAIL TYPE</small></div>
     </div>
     <div class="row filters">
@@ -29,17 +44,9 @@
         </ng-select>
       </div>
     </div>
-    <br />
-    <div class="row">
-      <div class="col"><small class="text-muted">SORT BY SUBJECT</small></div>
-    </div>
-    <div class="row filters">
-      <div class="col">
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-      </div>
-    </div>
+
   </div>
-  <div class="col-md-10" style="height: 90vh; padding: 5px;overflow: auto;">
+  <div class="col-md-10" style="height: 85vh; padding: 5px;overflow: auto;">
     <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
   </div>
 </div>

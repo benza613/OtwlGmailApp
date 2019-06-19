@@ -1,34 +1,36 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 
-<div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">UNREAD THREADS</h5>
-</div>
-<div class="modal-body">
-  <div class="row" style="padding-bottom: 10px">
-    <div class="col">
-      <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
-        [(ngModel)]="typeId" (change)="onChange_GetRefTypeData()">
-      </ng-select>
-    </div>
-    <div class="col">
-      <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID" bindValue="refId">
-      </ng-select>
-    </div>
+  <div class="modal-header" >
+    <h5 class="modal-title" id="modal-basic-title">UNREAD THREADS</h5>
+    <button type="button" class="close" (click)="activeModal.dismiss()"></button>
   </div>
-  <div *ngFor="let mail of mailList let i='index'" class="col">
-    <div style="padding-bottom: 5px" class="row">
-      <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
-        {{mail.Subject}}
+  <div class="modal-body">
+    <div class="row" style="padding-bottom: 10px">
+      <div class="col">
+        <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
+          [(ngModel)]="typeId" (change)="onChange_GetRefTypeData()">
+        </ng-select>
       </div>
-      <div class="col-4" style="padding-right: 0px;">
-        <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
-          bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type">
+      <div class="col">
+        <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID"
+          bindValue="refId">
         </ng-select>
       </div>
     </div>
+    <div *ngFor="let mail of mailList let i='index'" class="col">
+      <div style="padding-bottom: 5px" class="row">
+        <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
+          {{mail.Subject}}
+        </div>
+        <div class="col-4" style="padding-right: 0px;">
+          <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true"
+            [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type">
+          </ng-select>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="onSubmit()">Submit</button>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="onSubmit()">Submit</button>
+  </div>

@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { DomainStoreService } from './../_store/domain-store.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { RefType } from '../models/ref-type';
@@ -6,11 +5,13 @@ import { Observable } from 'rxjs';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbModalConfig, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-email-unread-dialog',
   templateUrl: './email-unread-dialog.component.html',
   styleUrls: ['./email-unread-dialog.component.scss'],
+  providers: [NgbModalConfig],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmailUnreadDialogComponent implements OnInit {
@@ -23,8 +24,10 @@ export class EmailUnreadDialogComponent implements OnInit {
   selectedThreads;
   constructor(
     private domainStore: DomainStoreService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private config: NgbModalConfig,
+    private activeModal: NgbActiveModal
+  ) {}
 
   ngOnInit() {
     this.refType = this.domainStore.refType$;

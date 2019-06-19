@@ -3,7 +3,7 @@
     <div class="row filters">
       <div class="col">
           <div class="row">
-              <div class="col"><small class="text-muted">Reference Type</small></div>
+              <div class="col"><small class="text-muted">REFERENCE TYPE</small></div>
             </div>
         <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" bindValue="typeId"
           (change)="onChange_GetRefTypeData()">
@@ -13,7 +13,7 @@
     <div class="row filters">
       <div class="col">
           <div class="row">
-              <div class="col"><small class="text-muted">Reference ID</small></div>
+              <div class="col"><small class="text-muted">REFERENCE ID</small></div>
             </div>
         <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" bindValue="refId">
         </ng-select>
@@ -40,7 +40,7 @@
     <div class="row filters">
       <div class="col">
         <ng-select [items]="threadTypeData" [multiple]="true" [closeOnSelect]="false" bindLabel="threadTypeVal"
-          bindValue="threadTypeId" placeholder="Mail Type">
+          bindValue="threadTypeId">
         </ng-select>
       </div>
     </div>

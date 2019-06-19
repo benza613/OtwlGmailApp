@@ -1,23 +1,32 @@
-<div class="col" style="height: 85vh;">
-  <div class="row" style="margin-bottom: 10px;">
-    <div class="col">
-      <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
-        [(ngModel)]="typeId" (change)="onChange_GetRefTypeData()">
-      </ng-select>
+<div class="row" style="height: 85vh; overflow: auto;">
+  <div class="col-md-2">
+    <div class="row filters">
+      <div class="col">
+        <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" placeholder="Ref Type" bindValue="typeId"
+          (change)="onChange_GetRefTypeData()">
+        </ng-select>
+      </div>
     </div>
-    <div class="col">
-      <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID" bindValue="refId">
-      </ng-select>
+    <div class="row filters">
+      <div class="col">
+        <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Ref ID" bindValue="refId">
+        </ng-select>
+      </div>
     </div>
-    <div class="col">
-      <input type="date" placeholder="From" class="form-control">
+    <div class="row filters" style="padding-bottom: 20px;">
+      <div class="col">
+        <button type="submit" class="btn btn-success" (click)="getMails()">SUBMIT</button>
+      </div>
     </div>
-    <div class="col">
-      <input type="date" placeholder="From" class="form-control">
+    <div class="row filters">
+      <div class="col">
+        <ng-select [items]="threadTypeData" [multiple]="true" [closeOnSelect]="false" bindLabel="threadTypeVal"
+          bindValue="threadTypeId" placeholder="Mail Type">
+        </ng-select>
+      </div>
     </div>
-    <div>
-      <button type="submit" class="btn btn-success" (click)="getMails()">SUBMIT</button>
   </div>
+  <div class="col-md-10" style="height: 90vh; padding: 5px;overflow: auto;">
+    <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
   </div>
-  <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
 </div>

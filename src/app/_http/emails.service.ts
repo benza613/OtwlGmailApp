@@ -26,12 +26,10 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  indexMapped(pageToken): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/getMappedThreads`,
-      { pageToken },
-      this.httpOptions)
-      .pipe(map(r => r));
-  }
+  // indexMapped(): Observable<any> {
+  //   return this.http.post(`${this.apiBaseUrl}/getMappedThreads`, {}, this.httpOptions)
+  //     .pipe(map(r => r));
+  // }
 
   fetchThreadEmails(ThreadId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getThreadEmails`,

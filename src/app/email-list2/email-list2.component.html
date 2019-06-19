@@ -1,30 +1,28 @@
-<!-- <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
-  [(page)]="t_currentPage" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
-  [boundaryLinks]="true"></ngb-pagination>
-<div class="card thread-card"
-  *ngFor="let item of (threadList | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
-  <div class="card-body no-gutters">
+<div class="card thread-card" *ngFor="let item of threadList  let i = index">
+  {{item.refTypeNo}}
+  <div class="card-body no-gutters" *ngFor="let thread of item.threadList  let i = index">
     <div class="row">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)">
+        <input class="form-check-input" type="checkbox" [checked]="thread.isChecked" (change)="checkList(thread)">
       </div>
-      <div class="col-md-4">
+      <!-- <div class="col-md-4">
         <div class="row align-items-center">
-          <div class="col-sm-12 MailHeaders"><i (click)="onClick_GetThreadMessages(item)">{{item.Msg_From}}</i></div>
+          <div class="col-sm-12 MailHeaders"><i (click)="onClick_GetThreadMessages(thread)">{{item.Msg_From}}</i></div>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-7">
         <div class="row align-items-center">
-          <div class="col-12 MailSubject"><i>{{item.Subject}}</i><i class="MailDate pull-right">{{item.Msg_Date}}</i>
+          <div class="col-12 MailSubject"><i>{{thread.Subject}}</i><i
+              class="MailDate pull-right">{{thread.MailDate}}</i>
           </div>
         </div>
       </div>
-      <div class="col-md-1">
+      <!-- <div class="col-md-1">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-outline-primary btn-sm" (click)="onClick_MapThread(item)">M</button>
         </div>
-      </div>
+      </div> -->
     </div>
 
   </div>
-</div> -->
+</div>

@@ -18,11 +18,10 @@ export class EmailList2Component implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.emailStore.threadsCount$.subscribe(x => {
+    this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
-    this.threadList = this.emailStore.threads$;
-    this.emailStore.updateMappedThreadList();
+    this.threadList = this.emailStore.mappedThreads$;
   }
 
 }

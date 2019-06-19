@@ -21,20 +21,13 @@ export class EmailsStoreService {
   // - Writing to state should be handled by specialized Store methods (ex: addTicket, removeTicket, etc)
   // - Create one BehaviorSubject per store entity, for example if you have TicketGroups
   //   create a new BehaviorSubject for it, as well as the observable$, and getters/setters
-  private readonly _threads = new BehaviorSubject<Thread[]>([]);
   private readonly _unreadThreads = new BehaviorSubject<Thread[]>([]);
   private readonly _mappedThreads = new BehaviorSubject<Thread[]>([]);
   private readonly _pageTokenUnread = new BehaviorSubject<String>('');
-  private readonly _pageTokenMapped = new BehaviorSubject<String>('');
 
   // Expose the observable$ part of the _tickets subject (read only stream)
-  readonly threads$ = this._threads.asObservable();
   readonly unreadThreads$ = this._unreadThreads.asObservable();
   readonly mappedThreads$ = this._mappedThreads.asObservable();
-
-  readonly threadsCount$ = this.threads$.pipe(
-    map(th => this.threads.length)
-  );
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
@@ -44,8 +37,8 @@ export class EmailsStoreService {
     map(th => this.mappedThreads.length)
   );
 
-  readonly getMsgList$ = (ThreadId) => this.threads$.pipe(
-    map(tx => this.threads.find(t => t.ThreadId === ThreadId).Messages)
+  readonly getMappedMsgList$ = (ThreadId) => this.mappedThreads$.pipe(
+    map(tx => this.mappedThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
   readonly getUnreadMsgList$ = (ThreadId) => this.unreadThreads$.pipe(
@@ -60,15 +53,8 @@ export class EmailsStoreService {
     PROPERTY GETTERS AND SETTERS
   */
   // the getter will return the last value emitted in _tickets subject
-  private get threads(): Thread[] {
-    return this._threads.getValue();
-  }
-
   // assigning a value to this.tickets will push it onto the observable
   // and down to all of its subsribers (ex: this.tickets = [])
-  private set threads(val: Thread[]) {
-    this._threads.next(val);
-  }
 
   private get unreadThreads(): Thread[] {
     return this._unreadThreads.getValue();
@@ -94,44 +80,6 @@ export class EmailsStoreService {
     this._pageTokenUnread.next(val);
   }
 
-  private get pageTokenMapped(): String {
-    return this._pageTokenMapped.getValue();
-  }
-
-  private set pageTokenMapped(val: String) {
-    this._pageTokenMapped.next(val);
-  }
-
-
-  /**
-   * STORE METHODS AVAILABLE
-   */
-  // async updateThreadList(searchParams) {
-  //   var res = await this.emailServ.index(searchParams).toPromise();
-  //   console.log('emailstore Fetchall', res);
-
-  //   if (res.d.errId == "200")
-  //     this.threads = <Thread[]>res.d.threads;
-  // }
-
-
-  // async updateThreadEmails(ThreadId) {
-  //   var res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-  //   console.log(res);
-
-  //   if (res.d.errId == "200") {
-
-  //     const index = this.threads.indexOf(this.threads.find(t => t.ThreadId === ThreadId));
-  //     console.log(index)
-  //     for (let ix = 0; ix < res.d.msgList.length; ix++) {
-  //       this.threads[index].Messages.push(res.d.msgList[ix]);
-  //     }
-
-  //     this.threads = [...this.threads];
-
-  //     this.router.navigate(['view/' + ThreadId]);
-  //   }
-  // }
 
   async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector, MessageID, TokenPossession) {
     const res = await this.emailServ.sendNewMail(
@@ -195,18 +143,11 @@ export class EmailsStoreService {
     if (this.mappedThreads.length > 0) {
       return;
     }
-    for (let idx = 0; idx < 10; idx++) {
-      const res = await this.emailServ.indexMapped(this.pageTokenMapped == null ? '' : this.pageTokenMapped).toPromise();
+      const res = await this.emailServ.indexMapped().toPromise();
       if (res.d.errId === '200') {
         const arrx = this.mappedThreads;
         arrx.push(...<Thread[]>res.d.threads);
         this.mappedThreads = arrx;
-        if (res.d.pageToken == null) {
-          break;
-        } else {
-          this.pageTokenMapped = res.d.pageToken;
-        }
-      }
       // console.log(this.mappedThreads);
     }
   }
@@ -236,7 +177,13 @@ export class EmailsStoreService {
         return {};
       }
     } else if (StoreSelector === 'mapped') {
-      return {};
+      const thr = this.unreadThreads.filter(x => x.ThreadId === ThreadID);
+      if (thr.length > 0) {
+        return {
+          msgs: thr[0].Messages.filter(x => x.msgid === MessageID),
+            subject: thr[0].Subject
+        };
+      }
     } else {
       return {};
     }

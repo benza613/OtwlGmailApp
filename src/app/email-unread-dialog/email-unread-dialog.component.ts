@@ -19,7 +19,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   refType: Observable<RefType[]>;
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
-  typeId;
+  refValId;
   refId;
   selectedThreads;
   constructor(
@@ -36,8 +36,8 @@ export class EmailUnreadDialogComponent implements OnInit {
 
   onChange_GetRefTypeData() {
     this.spinner.show();
-    if (this.typeId) {
-      this.domainStore.updateRefTypeData(this.typeId);
+    if (this.refId) {
+      this.domainStore.updateRefTypeData(this.refId);
       this.domainStore.refTypeData$.subscribe(x => {
         this.refTypeData = [];
         for (let ix = 0; ix < x.length; ix++) {
@@ -53,8 +53,8 @@ export class EmailUnreadDialogComponent implements OnInit {
 
   onSubmit() {
     let mapTypes = {
-      refId: this.typeId,
-      refValId: this.refId,
+      refId: this.refId,
+      refValId: this.refValId,
       selectedThreads: [],
       selectedThreadsFullData: []
     };

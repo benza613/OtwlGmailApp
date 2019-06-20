@@ -27,7 +27,7 @@ export class EmailUnreadDialogComponent implements OnInit {
     private config: NgbModalConfig,
     private activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.refType = this.domainStore.refType$;
@@ -65,7 +65,7 @@ export class EmailUnreadDialogComponent implements OnInit {
         ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
       });
     }
-    mapTypes.selectedThreadsFullData.push(this.mailList);
+    mapTypes.selectedThreadsFullData = this.mailList;
     this.domainStore.submitUnreadThreadData(mapTypes);
   }
 }

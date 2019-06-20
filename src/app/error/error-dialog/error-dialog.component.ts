@@ -16,6 +16,7 @@ export class ErrorDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.res.errMsg);
   }
 
 }

@@ -9,12 +9,12 @@
     <div class="row" style="padding-bottom: 10px">
       <div class="col">
         <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
-          [(ngModel)]="typeId" (change)="onChange_GetRefTypeData()">
+          [(ngModel)]="refId" (change)="onChange_GetRefTypeData()">
         </ng-select>
       </div>
       <div class="col">
         <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" placeholder="Reference ID"
-          bindValue="refId">
+          bindValue="refValId">
         </ng-select>
       </div>
     </div>

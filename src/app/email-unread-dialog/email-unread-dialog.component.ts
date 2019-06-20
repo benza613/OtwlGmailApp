@@ -4,8 +4,8 @@ import { RefType } from '../models/ref-type';
 import { Observable } from 'rxjs';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModalConfig, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-email-unread-dialog',
@@ -20,13 +20,13 @@ export class EmailUnreadDialogComponent implements OnInit {
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
   refValId;
-  refId;
+  refId = 0;
   selectedThreads;
   constructor(
     private domainStore: DomainStoreService,
-    private spinner: NgxSpinnerService,
     private config: NgbModalConfig,
-    private activeModal: NgbActiveModal
+    private activeModal: NgbActiveModal,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -43,15 +43,16 @@ export class EmailUnreadDialogComponent implements OnInit {
         for (let ix = 0; ix < x.length; ix++) {
           this.refTypeData = [...this.refTypeData, x[ix]];
         }
-
-        this.spinner.hide();
-
       });
-
     }
+    this.spinner.hide();
   }
 
   onSubmit() {
+    if (!this.refId) {
+      alert('Please select a Reference Type first');
+      return;
+    }
     let mapTypes = {
       refId: this.refId,
       refValId: this.refValId,

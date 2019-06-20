@@ -53,8 +53,8 @@ export class EmailUnreadDialogComponent implements OnInit {
 
   onSubmit() {
     let mapTypes = {
-      typeId: this.typeId,
-      refId: this.refId,
+      refId: this.typeId,
+      refValId: this.refId,
       selectedThreads: [],
       selectedThreadsFullData: []
     };

@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { RefType } from '../models/ref-type';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
-import { map } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,8 @@ import { map } from 'rxjs/operators';
 export class DomainStoreService {
 
   constructor(
-    private domainService: DomainService
+    private domainService: DomainService,
+    private modalService: NgbModal
   ) { }
 
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
@@ -80,6 +81,19 @@ export class DomainStoreService {
       const arrx = this.threadTypeData;
       arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
       this.threadTypeData = arrx;
+    } else {
+      console.log(res.d.errMsg);
+    }
+  }
+
+  async submitUnreadThreadData(mapTypes) {
+    const res = await this.domainService.submitUnreadThreadData(mapTypes).toPromise();
+    if (res.d.errId !== '200') {
+      const modalRef = this.modalService.open(
+        EmailUnreadDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.res = res;
     } else {
       console.log(res.d.errMsg);
     }

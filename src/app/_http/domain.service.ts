@@ -35,6 +35,7 @@ export class DomainService {
   }
 
   submitUnreadThreadData(mapTypes) {
-    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, {mapTypes}, this.httpOptions);
+    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, {mapTypes}, this.httpOptions)
+    .pipe(map(r => r));
   }
 }

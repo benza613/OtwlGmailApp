@@ -89,11 +89,11 @@ export class DomainStoreService {
   async submitUnreadThreadData(mapTypes) {
     const res = await this.domainService.submitUnreadThreadData(mapTypes).toPromise();
     if (res.d.errId !== '200') {
-      const modalRef = this.modalService.open(
-        EmailUnreadDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.componentInstance.res = res;
+      // const modalRef = this.modalService.open(
+      //   EmailUnreadDialogComponent,
+      //   { size: 'lg', backdrop: 'static', keyboard: false }
+      // );
+      //modalRef.componentInstance.res = res;
     } else {
       console.log(res.d.errMsg);
     }

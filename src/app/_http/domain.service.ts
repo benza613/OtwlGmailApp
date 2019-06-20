@@ -24,18 +24,18 @@ export class DomainService {
       .pipe(map(r => r));
   }
 
-  fetchRefTypeData(typeId): Observable<any>  {
-    return this.http.post(`${this.apiBaseUrl}/getDomainRefValues`, {typeId} , this.httpOptions)
-    .pipe(map(r => r));
+  fetchRefTypeData(typeId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getDomainRefValues`, { typeId }, this.httpOptions)
+      .pipe(map(r => r));
   }
 
   fetchThreadTypeData(): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getDomainMailTypes`, {}, this.httpOptions)
-    .pipe(map(r => r));
+      .pipe(map(r => r));
   }
 
-  submitUnreadThreadData(mapTypes) {
-    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, {mapTypes}, this.httpOptions)
-    .pipe(map(r => r));
+  submitUnreadThreadData(mapTypes): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, { mapTypes }, this.httpOptions)
+      .pipe(map(r => r));
   }
 }

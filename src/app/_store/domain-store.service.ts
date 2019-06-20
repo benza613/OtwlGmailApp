@@ -7,6 +7,7 @@ import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorDialogComponent } from '../error/error-dialog/error-dialog.component';
+import { EmailsService } from '../_http/emails.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class DomainStoreService {
 
   constructor(
     private domainService: DomainService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private emailService: EmailsService
   ) { }
 
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
@@ -97,4 +99,6 @@ export class DomainStoreService {
       modalRef.componentInstance.res = res;
     }
   }
+
+
 }

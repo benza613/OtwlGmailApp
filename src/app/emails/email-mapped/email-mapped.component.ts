@@ -17,17 +17,17 @@ export class EmailMappedComponent implements OnInit {
   refType: RefType[] = [];
   refTypeData: RefTypeData[] = [];
   threadTypeData: ThreadTypeData[] = [];
-  typeId = 0;
+  refValId = null;
   refId = 0;
   dateFrom = moment();
   dateTo = moment().subtract(31);
   constructor(
     private domainStore: DomainStoreService,
-    private emailStore: EmailsStoreService
+    private emailStore: EmailsStoreService,
   ) {
     this.domainStore.updateRefType();
-    this.domainStore.updateThreadTypeData();
-    this.emailStore.updateMappedThreadList();
+    // this.domainStore.updateThreadTypeData();
+    // this.emailStore.updateMappedThreadList();
   }
 
   ngOnInit() {
@@ -46,8 +46,8 @@ export class EmailMappedComponent implements OnInit {
     });
   }
   onChange_GetRefTypeData() {
-    if (this.typeId) {
-      this.domainStore.updateRefTypeData(this.typeId);
+    if (this.refId) {
+      this.domainStore.updateRefTypeData(this.refId);
       this.domainStore.refTypeData$.subscribe(x => {
         this.refTypeData = [];
         for (let ix = 0; ix < x.length; ix++) {
@@ -58,7 +58,9 @@ export class EmailMappedComponent implements OnInit {
   }
 
   getThreads() {
-    console.log(this.typeId, this.refId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
+    console.log(this.refId, this.refValId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
+
+    this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
   }
 
 }

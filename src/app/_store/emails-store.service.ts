@@ -139,18 +139,14 @@ export class EmailsStoreService {
    * MAPPED module methods
    */
 
-  async updateMappedThreadList() {
-    if (this.mappedThreads.length > 0) {
-      return;
-    }
-      const res = await this.emailServ.indexMapped().toPromise();
-      if (res.d.errId === '200') {
-        const arrx = this.mappedThreads;
-        arrx.push(...<Thread[]>res.d.threads);
-        this.mappedThreads = arrx;
-      // console.log(this.mappedThreads);
-    }
+
+
+  async updateMappedThreadList(a, b, c, d) {
+    const res = await this.emailServ.getMappedThreads(a, b, c, d).toPromise();
+    console.log(res);
+
   }
+
 
   async update_MappedThreadEmails(ThreadId, storeSelector) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
@@ -181,7 +177,7 @@ export class EmailsStoreService {
       if (thr.length > 0) {
         return {
           msgs: thr[0].Messages.filter(x => x.msgid === MessageID),
-            subject: thr[0].Subject
+          subject: thr[0].Subject
         };
       }
     } else {

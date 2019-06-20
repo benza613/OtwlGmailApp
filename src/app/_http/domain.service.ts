@@ -38,4 +38,8 @@ export class DomainService {
     return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, { mapTypes }, this.httpOptions)
       .pipe(map(r => r));
   }
+
+
+
+  
 }

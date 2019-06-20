@@ -55,7 +55,8 @@ export class EmailUnreadDialogComponent implements OnInit {
     let mapTypes = {
       typeId: this.typeId,
       refId: this.refId,
-      selectedThreads: []
+      selectedThreads: [],
+      selectedThreadsFullData: []
     };
     for (let i = 0; i < this.mailList.length; i++) {
       mapTypes.selectedThreads.push({
@@ -63,6 +64,7 @@ export class EmailUnreadDialogComponent implements OnInit {
         ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
       });
     }
+    mapTypes.selectedThreadsFullData.push(this.mailList);
     console.log(mapTypes);
   }
 }

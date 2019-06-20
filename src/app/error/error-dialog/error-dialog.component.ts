@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,7 +11,6 @@ export class ErrorDialogComponent implements OnInit {
 
   @Input() res: any;
   constructor(
-    private domainStore: DomainStoreService,
     private spinner: NgxSpinnerService,
     private activeModal: NgbActiveModal
   ) { }

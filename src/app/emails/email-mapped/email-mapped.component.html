@@ -1,5 +1,5 @@
 <div class="col" style="height: 85vh;">
-  <div class="row filters">
+  <div class="row filters" style="margin: 5px;">
     <div class="col">
       <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" bindValue="typeId"
         (change)="onChange_GetRefTypeData()">
@@ -10,16 +10,24 @@
       </ng-select>
     </div>
     <div class="row" style="margin-right: 2px;">
-      <div class="col">
-          <input type="text" [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker" />
-          <button (click)="f.toggle()">Toggle</button>
-      </div>
+        <div class="input-group">
+            <input class="form-control"
+                   [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
     </div>
     <div class="row">
-      <div class="col">
-          <input type="text" [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker" />
-          <button (click)="t.toggle()">Toggle</button>
-      </div>
+        <div class="input-group">
+            <input class="form-control"
+                   [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button"></button>
+            </div>
+          </div>
     </div>
     <div class="col">
       <button type="submit" class="btn btn-success btn-block" (click)="getThreads()">GET THREADS</button>

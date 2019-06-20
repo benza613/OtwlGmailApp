@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RefTypeData } from '../../models/ref-type-data';
 import { DomainStoreService } from '../../_store/domain-store.service';
 import { ThreadTypeData } from 'src/app/models/thread-type-data';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-email-mapped',
@@ -18,6 +19,8 @@ export class EmailMappedComponent implements OnInit {
   threadTypeData: ThreadTypeData[] = [];
   typeId = 0;
   refId = 0;
+  dateFrom = moment();
+  dateTo = moment().subtract(31);
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService
@@ -54,8 +57,8 @@ export class EmailMappedComponent implements OnInit {
     }
   }
 
-  getThread() {
-    
+  getThreads() {
+    console.log(this.typeId, this.refId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
   }
 
 }

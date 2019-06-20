@@ -1,34 +1,55 @@
-<div class="row" style="height: 85vh;">
-  <div class="col-md-2" style="border-right: 2px solid rgb(194, 191, 191);">
-    <div class="row filters">
-      <div class="col">
-          <div class="row">
-              <div class="col"><small class="text-muted">REFERENCE TYPE</small></div>
+<div class="col" style="height: 85vh;">
+  <div class="row filters" style="margin: 5px;">
+    <div class="col">
+      <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" bindValue="typeId"
+        (change)="onChange_GetRefTypeData()">
+      </ng-select>
+    </div>
+    <div class="col">
+      <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" bindValue="refId">
+      </ng-select>
+    </div>
+    <div class="row" style="margin-right: 2px;">
+        <div class="input-group">
+            <input class="form-control"
+                   [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
             </div>
-        <ng-select [items]="refType" [(ngModel)]="typeId" bindLabel="typeVal" bindValue="typeId"
-          (change)="onChange_GetRefTypeData()">
-        </ng-select>
-      </div>
+          </div>
     </div>
-    <div class="row filters">
-      <div class="col">
-          <div class="row">
-              <div class="col"><small class="text-muted">REFERENCE ID</small></div>
+    <div class="row">
+        <div class="input-group">
+            <input class="form-control"
+                   [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button"></button>
             </div>
-        <ng-select [items]="refTypeData" [(ngModel)]="refId" bindLabel="refNo" bindValue="refId">
-        </ng-select>
-      </div>
+          </div>
     </div>
-    <div class="row filters" style="padding-bottom: 20px;margin-top: 10px;">
-      <div class="col">
-        <button type="submit" class="btn btn-success btn-block" (click)="getThreads()">GET THREADS</button>
-      </div>
+    <div class="col">
+      <button type="submit" class="btn btn-success btn-block" (click)="getThreads()">GET THREADS</button>
     </div>
-    <hr />
+  </div>
+  <div class="col" style="height: 85vh; padding: 5px;overflow: auto;">
+    <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <hr />
     <div class="row">
       <div class="col"><small class="text-muted">SORT BY SUBJECT</small></div>
-    </div>
-    <div class="row filters">
       <div class="col">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
       </div>
@@ -43,10 +64,4 @@
           bindValue="threadTypeId">
         </ng-select>
       </div>
-    </div>
-
-  </div>
-  <div class="col-md-10" style="height: 85vh; padding: 5px;overflow: auto;">
-    <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
-  </div>
-</div>
+    </div> -->

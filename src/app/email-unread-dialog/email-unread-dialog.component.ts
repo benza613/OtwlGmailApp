@@ -65,6 +65,6 @@ export class EmailUnreadDialogComponent implements OnInit {
       });
     }
     mapTypes.selectedThreadsFullData.push(this.mailList);
-    console.log(mapTypes);
+    this.domainStore.submitUnreadThreadData(mapTypes);
   }
 }

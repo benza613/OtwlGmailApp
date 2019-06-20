@@ -22,6 +22,7 @@ import { EmailMapComponent } from './emails/email-map/email-map.component';
 import { EditorComponent } from './emails/editor/editor.component';
 import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-dialog.component';
 import { EmailList2Component } from './email-list2/email-list2.component';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { EmailList2Component } from './email-list2/email-list2.component';
     EmailMapComponent,
     EditorComponent,
     EmailUnreadDialogComponent,
-    EmailList2Component
+    EmailList2Component,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,

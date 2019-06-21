@@ -24,6 +24,8 @@ import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-d
 import { EmailList2Component } from './email-list2/email-list2.component';
 import { ErrorDialogComponent } from './error/error-dialog/error-dialog.component';
 import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.component';
+import { mapViewFilter } from './_pipe/map-view-filter.pipe';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.
     EmailUnreadDialogComponent,
     EmailList2Component,
     ErrorDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    mapViewFilter
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,7 @@ import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.
     NgxSpinnerModule
   ],
   providers: [],
-  entryComponents: [EditorComponent, EmailUnreadDialogComponent, ErrorDialogComponent,ConfirmDialogComponent],
+  entryComponents: [EditorComponent, EmailUnreadDialogComponent, ErrorDialogComponent, ConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -17,14 +17,18 @@ export class EmailList2Component implements OnInit, OnDestroy {
   t_CollectionSize: number;
   t_currentPage = 1;
   t_itemsPerPage = 10;
-  vdataFiltered;
+
+  mappedFilterargs = { a: '', b: [], c: '' };
   mappedThreads;
-  mappedThreadsFiltered;
+
   threadTypeData;
-  threadTypeVal;
-  subject;
+
+  threadTypeVal = [];
+  subject = '';
   reference = '';
+
   debounceSearch: Subject<string> = new Subject();
+
   constructor(
     public emailStore: EmailsStoreService,
     private domainStore: DomainStoreService,
@@ -33,18 +37,21 @@ export class EmailList2Component implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+
+
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
 
-    this.emailStore.mappedThreads$.subscribe(x => {
-      this.mappedThreads = [];
-      for (let ix = 0; ix < x.length; ix++) {
-        this.mappedThreads = [...this.mappedThreads, x[ix]];
-      }
-      this.mappedThreadsFiltered = this.mappedThreads;
-      console.log(this.mappedThreads);
-    });
+    // this.emailStore.mappedThreads$.subscribe(x => {
+    //   this.mappedThreads = [];
+    //   for (let ix = 0; ix < x.length; ix++) {
+    //     this.mappedThreads = [...this.mappedThreads, x[ix]];
+    //   }
+    //   console.log('maps',this.mappedThreads);
+    // });
+
+    this.mappedThreads = this.emailStore.mappedThreads$;
 
     this.domainStore.threadTypeData$.subscribe(x => {
       this.threadTypeData = [];
@@ -53,22 +60,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
       }
     });
 
-    this.debounceSearch.pipe(debounceTime(300)).subscribe((filterQuery) => {
-      this.mappedThreads = this.mappedThreadsFiltered;
-      console.log('filter', filterQuery);
-      if (filterQuery.toString().trim() === '' || filterQuery.toString().trim() === null || filterQuery.toString().trim() === undefined) {
-        this.vdataFiltered = this.mappedThreads;
-        return;
-      } else {
-        this.vdataFiltered = [];
-        this.mappedThreads.forEach(x => {
-          if (x['ThreadSubject'].toLowerCase().trim().includes(filterQuery.toString().toLowerCase().trim())) {
-            this.vdataFiltered.push(x);
-          }
-        });
-      }
-      this.mappedThreads = this.vdataFiltered;
-    });
+
   }
 
   showConfirmDialog(thread) {
@@ -83,8 +75,9 @@ export class EmailList2Component implements OnInit, OnDestroy {
   }
 
   applyFilter(filterValue: string) {
-    console.log('FilterValue: ', filterValue);
-    this.debounceSearch.next(filterValue);
+    this.mappedFilterargs = { a: this.reference, b: this.threadTypeVal, c: this.subject };
+    //this.debounceSearch.next(filterValue);
+    //
   }
 
   ngOnDestroy() {

@@ -159,8 +159,8 @@ export class EmailsStoreService {
     if (res.d.errId === '200') {
       this.mappedThreads = [];
       this.threadTypeList = [];
-      const arrx = this.mappedThreads;
-      const arrx2 = this.threadTypeList;
+      const arrx = [];
+      const arrx2 = [];
       arrx.push(...<MappedThread[]>res.d.mappedThreads);
       arrx2.push(...<ThreadTypeData[]>res.d.threadTypeList);
       for (let i = 0; i < arrx.length; i++) {
@@ -172,7 +172,6 @@ export class EmailsStoreService {
       }
       this.mappedThreads = arrx;
       this.threadTypeList = arrx2;
-      console.log(this.threadTypeList);
     }
   }
 

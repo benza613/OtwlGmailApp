@@ -2,11 +2,11 @@ import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
 import { Component, OnInit } from '@angular/core';
 import { RefType } from '../../models/ref-type';
-import { Observable } from 'rxjs';
 import { RefTypeData } from '../../models/ref-type-data';
 import { DomainStoreService } from '../../_store/domain-store.service';
 import { ThreadTypeData } from 'src/app/models/thread-type-data';
 import * as moment from 'moment';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-email-mapped',
@@ -20,16 +20,14 @@ export class EmailMappedComponent implements OnInit {
   threadTypeData: ThreadTypeData[] = [];
   refValId = null;
   refId = 0;
-  dateFrom = moment();
-  dateTo = moment().subtract(-31);
+  dateFrom: NgbDateStruct;
+  dateTo: NgbDateStruct;
   mappedThreadList: MappedThread[] = [];
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService,
   ) {
     this.domainStore.updateRefType();
-    // this.domainStore.updateThreadTypeData();
-    // this.emailStore.updateMappedThreadList();
   }
 
   ngOnInit() {
@@ -62,6 +60,7 @@ export class EmailMappedComponent implements OnInit {
   getThreads() {
     console.log(this.refId, this.refValId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
     this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
+    this.domainStore.updateThreadTypeData();
   }
 
 }

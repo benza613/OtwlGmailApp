@@ -43,7 +43,7 @@ export class EmailsStoreService {
   );
 
   readonly getMappedMsgList$ = (ThreadId) => this.mappedThreads$.pipe(
-    // map(tx => this.mappedThreads.find(t => t.ThreadId === ThreadId).Messages)
+    map(tx => this.mappedThreads.find(t => t.ThreadGID === ThreadId)/*.Messages*/)
   )
 
   readonly getUnreadMsgList$ = (ThreadId) => this.unreadThreads$.pipe(
@@ -170,6 +170,8 @@ export class EmailsStoreService {
         arrx[i]['SelectedTypeIdList'] = list2;
       }
       this.mappedThreads = arrx;
+      this.threadTypeList = arrx2;
+      console.log(this.threadTypeList);
     }
   }
 

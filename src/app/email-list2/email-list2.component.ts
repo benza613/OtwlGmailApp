@@ -2,6 +2,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from './../confirm/confirm-dialog/confirm-dialog.component';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
+import { DomainStoreService } from '../_store/domain-store.service';
 
 @Component({
   selector: 'app-email-list2',
@@ -15,9 +16,10 @@ export class EmailList2Component implements OnInit {
   t_currentPage = 1;
   t_itemsPerPage = 10;
   mappedThreads;
-  threadTypeList;
+  threadTypeData;
   constructor(
     public emailStore: EmailsStoreService,
+    private domainStore: DomainStoreService,
     private modalService: NgbModal
   ) { }
 
@@ -26,8 +28,13 @@ export class EmailList2Component implements OnInit {
       this.t_CollectionSize = x;
     });
     this.mappedThreads = this.emailStore.mappedThreads$;
-    this.threadTypeList = this.emailStore.threadTypeList$;
-    console.log(this.mappedThreads);
+    this.domainStore.threadTypeData$.subscribe(x => {
+      this.threadTypeData = [];
+      for (let ix = 0; ix < x.length; ix++) {
+        this.threadTypeData = [...this.threadTypeData, x[ix]];
+      }
+    });
+    console.log(this.threadTypeData);
   }
 
   showConfirmDialog(thread) {

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-3">
       <div class="col">
-        <small class="text-muted">FILTER ON REFERENCE TEXT</small>
+        <small class="text-muted">FILTER REFERENCE</small>
       </div>
       <div class="col">
           <textarea class="form-control" id="refernceText" rows="1"></textarea>
@@ -10,16 +10,16 @@
     </div>
     <div class="col-md-3">
       <div class="col">
-        <small class="text-muted">FILTER ON THREAD TYPE</small>
+        <small class="text-muted">FILTER LABEL</small>
       </div>
       <div class="col">
-        <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" bindValue="refId">
+        <ng-select [items]="threadTypeData" bindLabel="threadTypeVal" bindValue="threadTypeId">
         </ng-select>
       </div>
     </div>
     <div class="col-md-6">
       <div class="col">
-        <small class="text-muted">FILTER ON SUBJECT</small>
+        <small class="text-muted">FILTER SUBJECT</small>
       </div>
       <div class="col">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>

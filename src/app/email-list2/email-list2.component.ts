@@ -31,12 +31,14 @@ export class EmailList2Component implements OnInit {
   }
 
   showConfirmDialog(thread) {
-      console.log(thread);
       const modalRef = this.modalService.open(
         ConfirmDialogComponent,
         { size: 'lg', backdrop: 'static', keyboard: false }
       );
-      modalRef.componentInstance.thread = thread
+      modalRef.componentInstance.thread = thread;
+      modalRef.componentInstance.response.subscribe((threadGId) => {
+        console.log(threadGId);
+        });
   }
 
 }

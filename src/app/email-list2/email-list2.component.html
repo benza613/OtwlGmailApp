@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-3">
       <div class="col">
-        <small class="text-muted">SORT BY REFERENCE TEXT</small>
+        <small class="text-muted">FILTER ON REFERENCE TEXT</small>
       </div>
       <div class="col">
           <textarea class="form-control" id="refernceText" rows="1"></textarea>
@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-3">
       <div class="col">
-        <small class="text-muted">SORT BY THREAD TYPE</small>
+        <small class="text-muted">FILTER ON THREAD TYPE</small>
       </div>
       <div class="col">
         <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" bindValue="refId">
@@ -19,18 +19,18 @@
     </div>
     <div class="col-md-6">
       <div class="col">
-        <small class="text-muted">SORT BY SUBJECT</small>
+        <small class="text-muted">FILTER ON SUBJECT</small>
       </div>
       <div class="col">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
       </div>
     </div>
   </div>
-  <div class="card thread-card" *ngFor="let item of (mappedThreads | async)  let i = index" style="margin: 5px;">
+  <div class="card thread-card no-gutters" *ngFor="let item of (mappedThreads | async)  let i = index" style="margin: 5px;">
     <div class="row" style="margin: 0px;">
-      <!-- <div class="form-check">
-          <input class="form-check-input" type="checkbox" [checked]="thread.isChecked" (change)="checkList(thread)">
-        </div> -->
+      <div class="col-md-1">
+          <i class="fa fa-trash enlarge" style="cursor: pointer" (click)="showConfirmDialog(item)"></i>
+        </div>
       <div class="col-md-3">
         <div class="row align-items-center">
           <div class="col-sm-10 MailHeaders"><i
@@ -38,9 +38,8 @@
         </div>
       </div>
       <div class="col-md-3">
-          <div class="row align-items-center">
-            <div class="col-sm-10 MailHeaders"><i
-                (click)="onClick_GetThreadMessages(thread)">{{item.SelectedTypeIdList}}</i></div>
+          <div class="row align-items-center" *ngIf="item.SelectedTypeIdList.length !== 0">
+            <div class="col-sm-10 MailHeaders"><span (click)="onClick_GetThreadMessages(thread)" class="badge badge-warning enlarge"> {{item.SelectedTypeIdList}} </span></div>
           </div>
         </div>
       <div class="col-md-4">

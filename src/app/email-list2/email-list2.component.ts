@@ -1,3 +1,5 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDialogComponent } from './../confirm/confirm-dialog/confirm-dialog.component';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 
@@ -15,7 +17,8 @@ export class EmailList2Component implements OnInit {
   mappedThreads;
   threadTypeList;
   constructor(
-    public emailStore: EmailsStoreService
+    public emailStore: EmailsStoreService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -25,6 +28,15 @@ export class EmailList2Component implements OnInit {
     this.mappedThreads = this.emailStore.mappedThreads$;
     this.threadTypeList = this.emailStore.threadTypeList$;
     console.log(this.mappedThreads);
+  }
+
+  showConfirmDialog(thread) {
+      console.log(thread);
+      const modalRef = this.modalService.open(
+        ConfirmDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.thread = thread
   }
 
 }

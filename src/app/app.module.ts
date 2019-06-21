@@ -23,6 +23,7 @@ import { EditorComponent } from './emails/editor/editor.component';
 import { EmailUnreadDialogComponent } from './email-unread-dialog/email-unread-dialog.component';
 import { EmailList2Component } from './email-list2/email-list2.component';
 import { ErrorDialogComponent } from './error/error-dialog/error-dialog.component';
+import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ErrorDialogComponent } from './error/error-dialog/error-dialog.componen
     EditorComponent,
     EmailUnreadDialogComponent,
     EmailList2Component,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,7 @@ import { ErrorDialogComponent } from './error/error-dialog/error-dialog.componen
     NgxSpinnerModule
   ],
   providers: [],
-  entryComponents: [EditorComponent, EmailUnreadDialogComponent, ErrorDialogComponent],
+  entryComponents: [EditorComponent, EmailUnreadDialogComponent, ErrorDialogComponent,ConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

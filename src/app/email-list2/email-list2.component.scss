@@ -26,3 +26,13 @@
   
     }
   }
+
+  .no-gutters {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .enlarge {
+    transform: scale(1.25);
+    -webkit-transform: scale(1.25);
+  }

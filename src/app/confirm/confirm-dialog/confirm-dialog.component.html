@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">CONFIRMATION</h5>
+  <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
+</div>
+<div class="modal-body">
+  <h4>Are you sure you want to remove the thread from list?</h4> <button type="button" class="btn btn-warning enlarge" (click)="showDetails = 1">VIEW DETAILS</button>
+  <div class="row" *ngIf="showDetails === 1">
+    <div class="col-md-4">
+      <span>Subject of Thread: </span>
+    </div>
+    <div class="col-md-7">
+      {{thread.ThreadSubject}}
+    </div>
+  </div>
+  <div class="row" *ngIf="showDetails === 1">
+    <div class="col-md-4">
+      <span>Mapped To: </span>
+    </div>
+    <div class="col-md-7">
+      {{thread.SelectedTypeIdList}}
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger">DELETE</button>
+  <button type="button" class="btn btn-secondary">CANCEL</button>
+</div>

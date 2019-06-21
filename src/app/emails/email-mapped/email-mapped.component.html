@@ -20,38 +20,38 @@
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="dateEnable = refValId === null ? true:false" bindLabel="refNo" bindValue="refId">
+          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="dateEnable = refValId === null ? false:true" bindLabel="refNo" bindValue="refId">
             </ng-select>
       </div>
     </div>
-    <div class="row" *ngIf="dateEnable">
+    <div class="row">
         <div class="col">
             <small class="text-muted">FROM DATE</small>
         </div>
     </div>
-    <div class="row filters" *ngIf="dateEnable">
+    <div class="row filters" >
       <div class="col">
           <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker">
+              <input class="form-control" [(ngModel)]="dateFrom" [disabled]="dateEnable" ngbDatepicker #f="ngbDatepicker">
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
+                <button class="btn btn-outline-secondary calendar" [disabled]="dateEnable" (click)="f.toggle()" type="button">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
       </div>
     </div>
-    <div class="row" *ngIf="dateEnable">
+    <div class="row" >
         <div class="col">
             <small class="text-muted">TO DATE</small>
         </div>
     </div>
-    <div class="row filters" *ngIf="dateEnable">
+    <div class="row filters" >
       <div class="col">
           <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker">
+              <input class="form-control" [(ngModel)]="dateTo" [disabled]="dateEnable" ngbDatepicker #t="ngbDatepicker">
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button">
+                <button class="btn btn-outline-secondary calendar" [disabled]="dateEnable" (click)="t.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                 </button>
               </div>

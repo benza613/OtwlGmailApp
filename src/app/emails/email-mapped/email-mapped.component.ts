@@ -22,7 +22,7 @@ export class EmailMappedComponent implements OnInit {
   refId = 0;
   dateFrom: NgbDateStruct;
   dateTo: NgbDateStruct;
-  dateEnable;
+  dateEnable = true;
   mappedThreadList: MappedThread[] = [];
   constructor(
     private domainStore: DomainStoreService,

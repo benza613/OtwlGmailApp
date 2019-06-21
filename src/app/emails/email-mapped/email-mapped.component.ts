@@ -62,7 +62,6 @@ export class EmailMappedComponent implements OnInit {
   getThreads() {
     console.log(this.refId, this.refValId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
     this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
-
   }
 
 }

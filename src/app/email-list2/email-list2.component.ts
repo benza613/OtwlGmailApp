@@ -13,6 +13,7 @@ export class EmailList2Component implements OnInit {
   t_currentPage = 1;
   t_itemsPerPage = 10;
   mappedThreads;
+  threadTypeList;
   constructor(
     public emailStore: EmailsStoreService
   ) { }
@@ -22,6 +23,7 @@ export class EmailList2Component implements OnInit {
       this.t_CollectionSize = x;
     });
     this.mappedThreads = this.emailStore.mappedThreads$;
+    this.threadTypeList = this.emailStore.threadTypeList$;
     console.log(this.mappedThreads);
   }
 

@@ -22,6 +22,7 @@ export class EmailMappedComponent implements OnInit {
   refId = 0;
   dateFrom: NgbDateStruct;
   dateTo: NgbDateStruct;
+
   mappedThreadList: MappedThread[] = [];
   constructor(
     private domainStore: DomainStoreService,
@@ -44,6 +45,9 @@ export class EmailMappedComponent implements OnInit {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
       }
     });
+
+    this.dateTo = { year: 2019, month: 6, day: 21 };
+    this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };
   }
   onChange_GetRefTypeData() {
     if (this.refId) {
@@ -58,7 +62,13 @@ export class EmailMappedComponent implements OnInit {
   }
 
   getThreads() {
-    console.log(this.refId, this.refValId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
+
+    var mnt_from = moment(this.dateTo);
+    console.log('frm', mnt_from.subtract(1, 'month').format('YYYY/MM/DD'));
+
+    console.log(this.refId, this.refValId, moment(this.dateFrom).format('YYYY/MM/DD'), moment(this.dateTo).format('YYYY/MM/DD'));
+
+
     this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
     this.domainStore.updateThreadTypeData();
   }

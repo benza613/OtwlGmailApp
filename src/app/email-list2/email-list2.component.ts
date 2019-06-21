@@ -19,6 +19,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   t_itemsPerPage = 10;
   vdataFiltered;
   mappedThreads;
+  mappedThreadsFiltered;
   threadTypeData;
   threadTypeVal;
   subject;
@@ -41,6 +42,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
       for (let ix = 0; ix < x.length; ix++) {
         this.mappedThreads = [...this.mappedThreads, x[ix]];
       }
+      this.mappedThreadsFiltered = this.mappedThreads;
       console.log(this.mappedThreads);
     });
 
@@ -51,20 +53,22 @@ export class EmailList2Component implements OnInit, OnDestroy {
       }
     });
 
-    // this.debounceSearch.pipe(debounceTime(300)).subscribe((filterQuery) => {
-    //   if (filterQuery.trim() === '' || filterQuery.trim === null || filterQuery.trim === undefined) {
-    //     this.vdataFiltered = this.mappedThreads;
-    //     return;
-    //   } else {
-    //     this.vdataFiltered = [];
-    //     this.mappedThreads.forEach(x => {
-    //       if (x['ThreadSubject'].toLowerCase().trim().includes(filterQuery.toString().toLowerCase().trim())) {
-    //         this.vdataFiltered.push(x);
-    //       }
-    //     });
-    //   }
-    //   this.mappedThreads = this.vdataFiltered;
-    // });
+    this.debounceSearch.pipe(debounceTime(300)).subscribe((filterQuery) => {
+      this.mappedThreads = this.mappedThreadsFiltered;
+      console.log('filter', filterQuery);
+      if (filterQuery.toString().trim() === '' || filterQuery.toString().trim() === null || filterQuery.toString().trim() === undefined) {
+        this.vdataFiltered = this.mappedThreads;
+        return;
+      } else {
+        this.vdataFiltered = [];
+        this.mappedThreads.forEach(x => {
+          if (x['ThreadSubject'].toLowerCase().trim().includes(filterQuery.toString().toLowerCase().trim())) {
+            this.vdataFiltered.push(x);
+          }
+        });
+      }
+      this.mappedThreads = this.vdataFiltered;
+    });
   }
 
   showConfirmDialog(thread) {
@@ -80,7 +84,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string) {
     console.log('FilterValue: ', filterValue);
-    // this.debounceSearch.next(filterValue);
+    this.debounceSearch.next(filterValue);
   }
 
   ngOnDestroy() {

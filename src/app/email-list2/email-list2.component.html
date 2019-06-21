@@ -5,7 +5,7 @@
         <small class="text-muted">FILTER REFERENCE</small>
       </div>
       <div class="col" style="padding: 0px;">
-          <textarea class="form-control" id="refernceText" rows="1"></textarea>
+          <textarea class="form-control" [(ngModel)]="reference" id="refernceText" rows="1"></textarea>
         </div>
     </div>
     <div class="col-md-3">
@@ -13,7 +13,7 @@
         <small class="text-muted">FILTER LABEL</small>
       </div>
       <div class="col" style="padding: 0px;">
-        <ng-select [items]="threadTypeData" bindLabel="threadTypeVal" bindValue="threadTypeId">
+        <ng-select [items]="threadTypeData" bindLabel="threadTypeVal" [(ngModel)]="threadTypeVal" bindValue="threadTypeId">
         </ng-select>
       </div>
     </div>
@@ -22,11 +22,11 @@
         <small class="text-muted">FILTER SUBJECT</small>
       </div>
       <div class="col" style="padding: 0px;">
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" (keyup)="applyFilter($event.target.value)" [(ngModel)]="subject" rows="1"></textarea>
       </div>
     </div>
   </div>
-  <div class="card thread-card no-gutters" *ngFor="let item of (mappedThreads | async)  let i = index" style="margin: 5px 0px;">
+  <div class="card thread-card no-gutters" *ngFor="let item of mappedThreads" style="margin: 5px 0px;">
     <div class="row" style="margin: 0px;">
       <div class="col-md-1">
           <i class="fa fa-trash enlarge" style="cursor: pointer" (click)="showConfirmDialog(item)"></i>

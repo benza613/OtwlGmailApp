@@ -23,7 +23,6 @@ export class EmailMappedComponent implements OnInit {
   dateFrom: NgbDateStruct;
   dateTo: NgbDateStruct;
   disableDate = true;
-  disableSelect = false;
   mappedThreadList: MappedThread[] = [];
   constructor(
     private domainStore: DomainStoreService,
@@ -59,10 +58,16 @@ export class EmailMappedComponent implements OnInit {
           this.refTypeData = [...this.refTypeData, x[ix]];
         }
       });
+    } else {
+      alert('Please select a Reference Type');
     }
   }
 
   getThreads() {
+    if (!this.refId) {
+      alert('Please select a Reference Type');
+      return;
+    }
     const date_from = moment(this.dateFrom);
     const date_to = moment(this.dateTo);
     console.log(date_from.format('YYYY/MM/DD'));
@@ -75,15 +80,6 @@ export class EmailMappedComponent implements OnInit {
   toggleDateFilter() {
     if (this.refValId === null) {
       this.disableDate = false;
-      this.disableSelect = true;
     }
   }
-
-  toggleSelect() {
-    if (moment(this.dateFrom).format('YYYY/MM/DD') === 'Invalid date' && moment(this.dateTo).format('YYYY/MM/DD') === 'Invalid date') {
-      this.disableSelect = false;
-      this.disableDate = true;
-    }
-  }
-
 }

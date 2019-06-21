@@ -20,7 +20,7 @@
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refTypeData" [(ngModel)]="refValId" [disabled]="disableSelect" (change)="toggleDateFilter()" bindLabel="refNo" bindValue="refId">
+          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="toggleDateFilter()" bindLabel="refNo" bindValue="refId">
             </ng-select>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="row filters" >
       <div class="col">
           <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateFrom" (keydown)="toggleSelect()" [disabled]="disableDate" ngbDatepicker #f="ngbDatepicker">
+              <input class="form-control" [(ngModel)]="dateFrom" [disabled]="disableDate" ngbDatepicker #f="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="f.toggle()" type="button">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -49,7 +49,7 @@
     <div class="row filters" >
       <div class="col">
           <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateTo" [disabled]="disableDate" (keydown)="toggleSelect()" ngbDatepicker #t="ngbDatepicker">
+              <input class="form-control" [(ngModel)]="dateTo" [disabled]="disableDate" ngbDatepicker #t="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="t.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>

@@ -158,6 +158,7 @@ export class EmailsStoreService {
     const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
     if (res.d.errId === '200') {
       this.mappedThreads = [];
+      this.threadTypeList = [];
       const arrx = this.mappedThreads;
       const arrx2 = this.threadTypeList;
       arrx.push(...<MappedThread[]>res.d.mappedThreads);

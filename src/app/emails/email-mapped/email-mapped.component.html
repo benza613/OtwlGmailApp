@@ -20,19 +20,19 @@
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" bindValue="refId">
+          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="dateEnable = refValId === null ? true:false" bindLabel="refNo" bindValue="refId">
             </ng-select>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="dateEnable">
         <div class="col">
             <small class="text-muted">FROM DATE</small>
         </div>
     </div>
-    <div class="row filters">
+    <div class="row filters" *ngIf="dateEnable">
       <div class="col">
           <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker" pattern="[0-9]{2}[-][0-9]{2}[-][0-9]{4}">
+              <input class="form-control" [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -41,15 +41,15 @@
             </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="dateEnable">
         <div class="col">
             <small class="text-muted">TO DATE</small>
         </div>
     </div>
-    <div class="row filters">
+    <div class="row filters" *ngIf="dateEnable">
       <div class="col">
           <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker" pattern="[0-9]{2}[-][0-9]{2}[-][0-9]{4}">
+              <input class="form-control" [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button">
                     <i class="fa fa-calendar" aria-hidden="true"></i>

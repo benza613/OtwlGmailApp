@@ -1,32 +1,32 @@
 <div class="col">
-  <div class="row">
+  <div class="row" style="margin-bottom: 10px;">
     <div class="col-md-3">
-      <div class="col">
+      <div class="col" style="padding: 0px;">
         <small class="text-muted">FILTER REFERENCE</small>
       </div>
-      <div class="col">
+      <div class="col" style="padding: 0px;">
           <textarea class="form-control" id="refernceText" rows="1"></textarea>
         </div>
     </div>
     <div class="col-md-3">
-      <div class="col">
+      <div class="col" style="padding: 0px;">
         <small class="text-muted">FILTER LABEL</small>
       </div>
-      <div class="col">
+      <div class="col" style="padding: 0px;">
         <ng-select [items]="threadTypeData" bindLabel="threadTypeVal" bindValue="threadTypeId">
         </ng-select>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="col">
+      <div class="col" style="padding: 0px;">
         <small class="text-muted">FILTER SUBJECT</small>
       </div>
-      <div class="col">
+      <div class="col" style="padding: 0px;">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
       </div>
     </div>
   </div>
-  <div class="card thread-card no-gutters" *ngFor="let item of (mappedThreads | async)  let i = index" style="margin: 5px;">
+  <div class="card thread-card no-gutters" *ngFor="let item of (mappedThreads | async)  let i = index" style="margin: 5px 0px;">
     <div class="row" style="margin: 0px;">
       <div class="col-md-1">
           <i class="fa fa-trash enlarge" style="cursor: pointer" (click)="showConfirmDialog(item)"></i>

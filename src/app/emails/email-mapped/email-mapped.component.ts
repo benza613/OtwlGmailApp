@@ -22,7 +22,8 @@ export class EmailMappedComponent implements OnInit {
   refId = 0;
   dateFrom: NgbDateStruct;
   dateTo: NgbDateStruct;
-  dateEnable = true;
+  disableDate = true;
+  disableSelect = false;
   mappedThreadList: MappedThread[] = [];
   constructor(
     private domainStore: DomainStoreService,
@@ -64,10 +65,25 @@ export class EmailMappedComponent implements OnInit {
   getThreads() {
     const date_from = moment(this.dateFrom);
     const date_to = moment(this.dateTo);
-// tslint:disable-next-line: max-line-length
+    console.log(date_from.format('YYYY/MM/DD'));
+    // tslint:disable-next-line: max-line-length
     console.log(this.refId, this.refValId, date_from.subtract(1, 'month').format('YYYY/MM/DD'), date_to.subtract(1, 'month').format('YYYY/MM/DD'));
     this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
     this.domainStore.updateThreadTypeData();
+  }
+
+  toggleDateFilter() {
+    if (this.refValId === null) {
+      this.disableDate = false;
+      this.disableSelect = true;
+    }
+  }
+
+  toggleSelect() {
+    if (moment(this.dateFrom).format('YYYY/MM/DD') === 'Invalid date' && moment(this.dateTo).format('YYYY/MM/DD') === 'Invalid date') {
+      this.disableSelect = false;
+      this.disableDate = true;
+    }
   }
 
 }

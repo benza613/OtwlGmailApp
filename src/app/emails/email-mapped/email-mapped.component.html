@@ -1,37 +1,50 @@
-<div class="col" style="height: 85vh;">
-  <div class="row filters" style="margin: 5px;">
-    <div class="col">
-      <ng-select [items]="refType" [(ngModel)]="refId" bindLabel="typeVal" bindValue="typeId"
-        (change)="onChange_GetRefTypeData()">
-      </ng-select>
-    </div>
-    <div class="col">
-      <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" bindValue="refId">
-      </ng-select>
-    </div>
-    <div class="row" style="margin-right: 2px;">
-      <div class="input-group">
-        <input class="form-control" [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-          </button>
-        </div>
+<div class="row" style="height: 85vh;">
+  <div class="col-md-2 align-content-md-stretch">
+    <h5>FILTERS</h5>
+    <div class="row filters">
+      <div class="col">
+          <ng-select [items]="refType" [(ngModel)]="refId" bindLabel="typeVal" bindValue="typeId"
+          (change)="onChange_GetRefTypeData()">
+        </ng-select>
       </div>
     </div>
-    <div class="row">
-      <div class="input-group">
-        <input class="form-control" [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button"></button>
-        </div>
+    <div class="row filters">
+      <div class="col">
+          <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" bindValue="refId">
+            </ng-select>
       </div>
     </div>
-    <div class="col">
-      <button type="submit" class="btn btn-success btn-block" (click)="getThreads()">GET THREADS</button>
+    <div class="row filters">
+      <div class="col">
+          <div class="input-group">
+              <input class="form-control" [(ngModel)]="dateFrom" ngbDatepicker #f="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+      </div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+          <div class="input-group">
+              <input class="form-control" [(ngModel)]="dateTo" ngbDatepicker #t="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+      </div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+          <button type="submit" class="btn btn-success btn-block" (click)="getThreads()">GET THREADS</button>
+      </div>
     </div>
   </div>
-  <div class="col" style="height: 85vh; padding: 5px;overflow: auto;">
+  <div class="col-md-10" style="height: 85vh; padding: 5px;overflow: auto; border-left: 2px solid #C0C0C0">
     <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
   </div>
 </div>
@@ -45,7 +58,7 @@
 
 
 
-<hr />
+<!-- <hr />
 <div class="row">
   <div class="col"><small class="text-muted">SORT BY SUBJECT</small></div>
   <div class="col">
@@ -62,4 +75,4 @@
       bindValue="threadTypeId">
     </ng-select>
   </div>
-</div>
+</div> -->

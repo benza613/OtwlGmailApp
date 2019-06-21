@@ -1,3 +1,4 @@
+import { MappedThread } from './../models/mapped-thread';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { shareReplay, map } from 'rxjs/operators';
@@ -22,7 +23,7 @@ export class EmailsStoreService {
   // - Create one BehaviorSubject per store entity, for example if you have TicketGroups
   //   create a new BehaviorSubject for it, as well as the observable$, and getters/setters
   private readonly _unreadThreads = new BehaviorSubject<Thread[]>([]);
-  private readonly _mappedThreads = new BehaviorSubject<Thread[]>([]);
+  private readonly _mappedThreads = new BehaviorSubject<MappedThread[]>([]);
   private readonly _pageTokenUnread = new BehaviorSubject<String>('');
 
   // Expose the observable$ part of the _tickets subject (read only stream)
@@ -38,7 +39,7 @@ export class EmailsStoreService {
   );
 
   readonly getMappedMsgList$ = (ThreadId) => this.mappedThreads$.pipe(
-    map(tx => this.mappedThreads.find(t => t.ThreadId === ThreadId).Messages)
+    // map(tx => this.mappedThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
   readonly getUnreadMsgList$ = (ThreadId) => this.unreadThreads$.pipe(
@@ -64,11 +65,11 @@ export class EmailsStoreService {
     this._unreadThreads.next(val);
   }
 
-  private get mappedThreads(): Thread[] {
+  private get mappedThreads(): MappedThread[] {
     return this._mappedThreads.getValue();
   }
 
-  private set mappedThreads(val: Thread[]) {
+  private set mappedThreads(val: MappedThread[]) {
     this._mappedThreads.next(val);
   }
 
@@ -141,25 +142,34 @@ export class EmailsStoreService {
 
 
 
-  async updateMappedThreadList(a, b, c, d) {
-    const res = await this.emailServ.getMappedThreads(a, b, c, d).toPromise();
+  async updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
+    const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
     console.log(res);
-
-  }
-
-
-  async update_MappedThreadEmails(ThreadId, storeSelector) {
-    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    // console.log(res);
     if (res.d.errId === '200') {
-      const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadId === ThreadId));
-      for (let ix = 0; ix < res.d.msgList.length; ix++) {
-        this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
-      }
-      this.mappedThreads = [...this.mappedThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+      const arrx = this.mappedThreads;
+      arrx.push(...<MappedThread[]>res.d.mappedThreads);
+      this.mappedThreads = arrx;
+      // if (res.d.pageToken == null) {
+      //   break;
+      // } else {
+      //   this.pageTokenUnread = res.d.pageToken;
+      // }
     }
   }
+
+
+  // async update_MappedThreadEmails(ThreadId, storeSelector) {
+  //   const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+  //   // console.log(res);
+  //   if (res.d.errId === '200') {
+  //     const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadId === ThreadId));
+  //     for (let ix = 0; ix < res.d.msgList.length; ix++) {
+  //       this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
+  //     }
+  //     this.mappedThreads = [...this.mappedThreads];
+  //     this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+  //   }
+  // }
 
   fetchMessage(StoreSelector, ThreadID, MessageID) {
     if (StoreSelector === 'unread') {

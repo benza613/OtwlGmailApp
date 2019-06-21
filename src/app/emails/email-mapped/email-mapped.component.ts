@@ -1,3 +1,4 @@
+import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
 import { Component, OnInit } from '@angular/core';
 import { RefType } from '../../models/ref-type';
@@ -20,7 +21,8 @@ export class EmailMappedComponent implements OnInit {
   refValId = null;
   refId = 0;
   dateFrom = moment();
-  dateTo = moment().subtract(31);
+  dateTo = moment().subtract(-31);
+  mappedThreadList: MappedThread[] = [];
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService,
@@ -59,8 +61,8 @@ export class EmailMappedComponent implements OnInit {
 
   getThreads() {
     console.log(this.refId, this.refValId, moment(this.dateFrom).format('DD-MM-YYYY'), moment(this.dateTo).format('DD-MM-YYYY'));
-
     this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
+
   }
 
 }

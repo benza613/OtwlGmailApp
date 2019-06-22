@@ -201,11 +201,11 @@ export class EmailsStoreService {
         return {};
       }
     } else if (StoreSelector === 'mapped') {
-      const thr = this.unreadThreads.filter(x => x.ThreadId === ThreadID);
+      const thr = this.mappedThreads.filter(x => x.ThreadGID === ThreadID);
       if (thr.length > 0) {
         return {
           msgs: thr[0].Messages.filter(x => x.msgid === MessageID),
-          subject: thr[0].Subject
+          subject: thr[0].ThreadSubject
         };
       }
     } else {

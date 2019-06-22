@@ -1,22 +1,40 @@
-<p>
-  dash-view works!
+<div class="row" style="height: 85vh !important;">
+  <div class="col">
+    <div class="row" style="height: 10vh">
+        <div class="col card text-white bg-success mb-3 cardLayout" routerLink="/unread">
+          <div class="card-body">
+            <h4>UNREAD MAILS</h4>
+          </div>
+        </div>
+        <div class="col card text-white bg-secondary mb-3 cardLayout" routerLink="/mapped">
+          <div class="card-body">
+            <h4>MAPPED MAILS</h4>
+          </div>
+        </div>
+        <div class="col card text-white mb-3 cardLayout" style="background-color: rgb(230, 147, 53);" (click)="onClick_SendNewMail()">
+          <div class="card-body">
+            <h4>SEND NEW MAIL</h4>
+          </div>
+        </div>
+        <div class="col card text-white bg-danger mb-3 cardLayout">
+            <div class="card-body">
+              <h4>URGENT MAILS</h4>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
 
 
 
-
-
-
-
-</p>
-
-<ul>
+<!-- <ul>
   <li routerLink="/unread">You have 100 unread mails</li>
   <li routerLink="/mapped">MAPPED</li>
-  <li>You have 2 urgent mails</li>
-  <li>Click to view tagged mails</li>
   <li (click)="onClick_SendNewMail()">Click to send new mails</li>
-  <li></li>
-  <li>ng generate interface models/ticket</li>
+  <li></li> 
+   <li>You have 2 urgent mails</li>
+  <li>Click to view tagged mails</li>
+   <li>ng generate interface models/ticket</li>
   <li>ng g c ticket/ticketList --skipTests</li>
   <li>ng g s _helper/_http/emails --skipTests</li>
   <li>ng g s _helper/_store/emails-store --skipTests</li>
@@ -24,4 +42,4 @@
   <li>ng g pipe _helper/_pipe/safeHtml --skipTests</li>
   <li>Set unread store -> data+ synced variable (forced sync if variable older than 10 mins)</li>
   <li>https://stackoverflow.com/questions/24745006/gmail-api-parse-message-content-base64-decoding-with-javascript</li>
-</ul>
+</ul> -->

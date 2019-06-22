@@ -21,8 +21,6 @@ export class DashViewComponent implements OnInit {
   onClick_SendNewMail() {
 
     this.router.navigate(['draft/']);
-
-
   }
 
 }

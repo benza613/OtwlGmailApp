@@ -43,7 +43,7 @@ export class EmailsStoreService {
   );
 
   readonly getMappedMsgList$ = (ThreadId) => this.mappedThreads$.pipe(
-    map(tx => this.mappedThreads.find(t => t.ThreadGID === ThreadId)/*.Messages*/)
+    map(tx => this.mappedThreads.find(t => t.ThreadGID === ThreadId).Messages)
   )
 
   readonly getUnreadMsgList$ = (ThreadId) => this.unreadThreads$.pipe(
@@ -176,18 +176,18 @@ export class EmailsStoreService {
   }
 
 
-  // async update_MappedThreadEmails(ThreadId, storeSelector) {
-  //   const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-  //   // console.log(res);
-  //   if (res.d.errId === '200') {
-  //     const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadId === ThreadId));
-  //     for (let ix = 0; ix < res.d.msgList.length; ix++) {
-  //       this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
-  //     }
-  //     this.mappedThreads = [...this.mappedThreads];
-  //     this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
-  //   }
-  // }
+  async update_MappedThreadEmails(ThreadId, storeSelector) {
+    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    // console.log(res);
+    if (res.d.errId === '200') {
+      const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
+      for (let ix = 0; ix < res.d.msgList.length; ix++) {
+        this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
+      }
+      this.mappedThreads = [...this.mappedThreads];
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+    }
+  }
 
   fetchMessage(StoreSelector, ThreadID, MessageID) {
     if (StoreSelector === 'unread') {

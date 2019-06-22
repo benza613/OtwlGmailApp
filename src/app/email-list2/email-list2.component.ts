@@ -80,6 +80,11 @@ export class EmailList2Component implements OnInit, OnDestroy {
     //
   }
 
+  onClick_GetThreadMessages(threadData) {
+    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, this.storeSelector);
+  }
+
+
   ngOnDestroy() {
     if (this.debounceSearch) {
       this.debounceSearch.unsubscribe();

@@ -6,6 +6,9 @@
           {{eml.from}}
         </div>
         <div class="col pull-right">
+            <div class="col">
+                {{eml.date}}
+              </div>
           <button type="button" class="btn btn-sm btn-outline-primary float-right" style="margin: 2px;"
             (click)="eml.isOpen = !eml.isOpen">
             Expand
@@ -20,60 +23,36 @@
           </button>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-1" style="padding:0 0 0 15px; margin: 0px;">
-          to me <i class="fa fa-caret-down" style="cursor: pointer;" (click)="details = !details"></i>
-        </div>
-      </div>
-    </div>
-    <div class="card" *ngIf="details" style="font-size: 12px; width: 30rem;">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
-            From:
-          </div>
-          <div class="col-md-10 pull-left">
-              {{eml.from}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
-            To:
-          </div>
-          <div class="col-md-10 pull-left">
-              {{eml.msgTo}}
-          </div>  
-        </div>
-        <div class="row">
-          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
-            CC:
-          </div>
-          <div class="col-md-10 pull-left">
-              {{eml.msgCc}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
-            BCC:
-          </div>
-          <div class="col-md-10 pull-left">
-              {{eml.msgBcc}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
-            DATE:
-          </div>
-          <div class="col-md-10 pull-left">
-              {{eml.date}}
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="card-body no-gutters" style="max-width:100%" [ngbCollapse]="!eml.isOpen">
-    <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%">
-
+    <div class="col">
+        <div class="card" >
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-9 pull-left">
+                  <span style="color:rgb(102, 100, 100)">From:  </span>{{eml.from}}
+                </div>
+                <div class="col-md-3 pull-right">
+                    <span style="color:rgb(102, 100, 100)">DATE:  </span>{{eml.date}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5 pull-left">
+                    <span style="color:rgb(102, 100, 100)">To:  </span>{{eml.msgTo}}
+                </div>
+                <div class="col-md-4 pull-left">
+                    <span style="color:rgb(102, 100, 100)">CC:  </span>{{eml.msgCc}}
+                </div>
+                <div class="col-md-3 pull-left">
+                    <span style="color:rgb(102, 100, 100)">BCC: </span>{{eml.msgBcc}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
+      
+          </div>
     </div>
   </div>
 </div>

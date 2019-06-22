@@ -6,3 +6,9 @@
     cursor: pointer;
     align-content: center;
 }
+
+.card:hover {
+    box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.3);
+    transition: height 0.3s, box-shadow 0.3s;
+    transform: scale(1.1,1.1);
+}

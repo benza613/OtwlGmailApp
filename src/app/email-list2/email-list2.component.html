@@ -40,8 +40,9 @@
       </div>
       <div class="col-md-3">
         <div class="row align-items-center" *ngIf="item.SelectedTypeIdList.length !== 0">
-          <div class="col-sm-10 MailHeaders"><span (click)="onClick_GetThreadMessages(thread)"
-              class="badge badge-warning enlarge"> {{item.SelectedTypeIdList}} </span></div>
+          <div class="col-sm-10 MailHeaders">
+            <span *ngFor="let label of item.SelectedTypeIdList" class="badge badge-warning enlarge"> {{label}} </span>
+          </div>
         </div>
       </div>
       <div class="col-md-5">
@@ -52,8 +53,8 @@
         </div>
       </div>
       <div class="col-md-1">
-          <i class="fa fa-trash enlarge pull-right" style="cursor: pointer" (click)="showConfirmDialog(item)"></i>
-        </div>
+        <i class="fa fa-trash enlarge pull-right" style="cursor: pointer" (click)="showConfirmDialog(item)"></i>
+      </div>
     </div>
   </div>
 </div>

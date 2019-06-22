@@ -1,39 +1,41 @@
 .MailHeaders {
-    font-weight: bold;
-    color: #006699;
-  
-    &:hover {
-      cursor: pointer;
-    }
-  }
+  font-weight: bold;
+  color: #006699;
 
-  .MailSubject i {
-    color: #99001a;
-    font-style: normal;
-    font-size: 15px;
+  &:hover {
     cursor: pointer;
-  
-    font-family: 'Trebuchet MS',
-      'Lucida Sans Unicode',
-      'Lucida Grande',
-      'Lucida Sans',
-      Arial,
-      sans-serif;
-  
-    &.MailDate {
-      font-size: 12px;
-      font-style: normal;
-      color: #009980;
-  
-    }
   }
+}
 
-  .no-gutters {
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
+.MailSubject i {
+  color: #99001a;
+  font-style: normal;
+  font-size: 15px;
+  cursor: pointer;
 
-  .enlarge {
-    transform: scale(1.25);
-    -webkit-transform: scale(1.25);
+  font-family: 'Trebuchet MS',
+    'Lucida Sans Unicode',
+    'Lucida Grande',
+    'Lucida Sans',
+    Arial,
+    sans-serif;
+
+  &.MailDate {
+    font-size: 12px;
+    font-style: normal;
+    color: #009980;
+
   }
+}
+
+.no-gutters {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.enlarge {
+  transform: scale(1.15);
+  -webkit-transform: scale(1.15);
+  margin-left: 10px;
+  margin-right: 10px;
+}

@@ -355,4 +355,20 @@ export class EditorComponent implements OnInit {
     //https://github.com/valor-software/ng2-file-upload/blob/development/src/file-upload/file-uploader.class.ts
   }
 
+  addAddr(event) {
+
+    const idx = this.msgAddrList.findIndex(obj => obj.emailId === event.emailId);
+    // if (idx === -1) {
+    //   const h1 = [
+    //     { name: 'proc_name', value: this.globals.conn_str + 'iu_tloc_02' },
+    //     { name: 'login_id', value: this.globals.loginId },
+    //     { name: 'iud', value: '1' },
+    //     { name: 'tloc_desc', value: event.emailId === undefined ? event : event.emailId }
+    //   ];
+    //   this.httpService.getdata(h1, this.globals.url).subscribe((data) => {
+    //     this.msgAddrList = [...this.msgAddrList, data.Table1[0]];
+    // });
+
+  }
+
 }

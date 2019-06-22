@@ -1,8 +1,13 @@
 .cardLayout{
     margin: 20px;
-    height: 100px;
-    // background-color: rgb(230, 147, 53);
+    height: 50px;
     color: #fff;
     cursor: pointer;
     align-content: center;
+}
+
+.card:hover {
+    box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.3);
+    transition: height 0.3s, box-shadow 0.3s;
+    transform: scale(1.1,1.1);
 }

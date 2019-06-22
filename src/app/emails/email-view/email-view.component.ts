@@ -18,6 +18,7 @@ export class EmailViewComponent implements OnInit {
   reqThreadId;
   storeSelector;
   emailList;
+  details = false;
 
   constructor(
     private route: ActivatedRoute,

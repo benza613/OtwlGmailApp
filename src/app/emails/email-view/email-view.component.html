@@ -1,15 +1,75 @@
 <div class="card email-card" *ngFor="let eml of (emailList | async)" style="max-width:100%">
   <div class="card-header no-gutters">
-    {{eml.from}}
-    <button type="button" class="btn btn-sm btn-outline-primary float-right" (click)="eml.isOpen = !eml.isOpen">
-      Expand
-    </button>
-    <button type="button" class="btn btn-sm btn-outline-warning float-right" (click)="draftReply(eml)">
-      R
-    </button>
-    <button type="button" class="btn btn-sm btn-outline-warning float-right" (click)="draftForward(eml)">
-      F
-    </button>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          {{eml.from}}
+        </div>
+        <div class="col pull-right">
+          <button type="button" class="btn btn-sm btn-outline-primary float-right" style="margin: 2px;"
+            (click)="eml.isOpen = !eml.isOpen">
+            Expand
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin: 2px;"
+            (click)="draftReply(eml)">
+            R
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin: 2px;"
+            (click)="draftForward(eml)">
+            F
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-1" style="padding:0 0 0 15px; margin: 0px;">
+          to me <i class="fa fa-caret-down" style="cursor: pointer;" (click)="details = !details"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="details" style="font-size: 12px; width: 30rem;">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
+            From:
+          </div>
+          <div class="col-md-10 pull-left">
+              {{eml.from}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
+            To:
+          </div>
+          <div class="col-md-10 pull-left">
+              {{eml.msgTo}}
+          </div>  
+        </div>
+        <div class="row">
+          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
+            CC:
+          </div>
+          <div class="col-md-10 pull-left">
+              {{eml.msgCc}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
+            BCC:
+          </div>
+          <div class="col-md-10 pull-left">
+              {{eml.msgBcc}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 pull-right" style="color:rgb(102, 100, 100)">
+            DATE:
+          </div>
+          <div class="col-md-10 pull-left">
+              {{eml.date}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card-body no-gutters" style="max-width:100%" [ngbCollapse]="!eml.isOpen">
     <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%">

@@ -31,8 +31,7 @@ const routes: Routes = [
   {
     path: 'view/:id',
     component: EmailViewComponent,
-    pathMatch: 'full',
-    canActivate: [ActivateGuardService]
+    pathMatch: 'full'
   },
 ];
 

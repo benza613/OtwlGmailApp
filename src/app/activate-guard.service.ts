@@ -15,6 +15,7 @@ export class ActivateGuardService implements CanActivate, CanActivateChild {
   canActivate() {
     if (location.href.toLowerCase().trim().includes('q=')) {
       this.router.navigate(['']);
+      alert('Navigation Not Allowed');
       return false;
     }
   }

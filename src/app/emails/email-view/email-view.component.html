@@ -1,14 +1,14 @@
 <div class="card email-card" *ngFor="let eml of (emailList | async)" style="max-width:100%">
-  <div class="card-header no-gutters">
+  <div class="card-header no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
-        <div class="col">
+        <div class="col-md-7">
           {{eml.from}}
         </div>
-        <div class="col pull-right">
-            <div class="col">
-                {{eml.date}}
-              </div>
+        <div class="col-md-3 pull-right">
+          {{eml.date}}
+        </div>
+        <div class="col-md-2 pull-left">
           <button type="button" class="btn btn-sm btn-outline-primary float-right" style="margin: 2px;"
             (click)="eml.isOpen = !eml.isOpen">
             Expand
@@ -27,32 +27,32 @@
   </div>
   <div class="card-body no-gutters" style="max-width:100%" [ngbCollapse]="!eml.isOpen">
     <div class="col">
-        <div class="card" >
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-9 pull-left">
-                  <span style="color:rgb(102, 100, 100)">From:  </span>{{eml.from}}
-                </div>
-                <div class="col-md-3 pull-right">
-                    <span style="color:rgb(102, 100, 100)">DATE:  </span>{{eml.date}}
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-5 pull-left">
-                    <span style="color:rgb(102, 100, 100)">To:  </span>{{eml.msgTo}}
-                </div>
-                <div class="col-md-4 pull-left">
-                    <span style="color:rgb(102, 100, 100)">CC:  </span>{{eml.msgCc}}
-                </div>
-                <div class="col-md-3 pull-left">
-                    <span style="color:rgb(102, 100, 100)">BCC: </span>{{eml.msgBcc}}
-                </div>
-              </div>
+      <div class="card" style="margin-bottom: 5px;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-9 pull-left">
+              <span style="color:rgb(102, 100, 100)">From: </span>{{eml.from}}
+            </div>
+            <div class="col-md-3 pull-right">
+              <span style="color:rgb(102, 100, 100)">DATE: </span>{{eml.date}}
             </div>
           </div>
-          <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
-      
+          <div class="row">
+            <div class="col-md-5 pull-left">
+              <span style="color:rgb(102, 100, 100)">To: </span>{{eml.msgTo}}
+            </div>
+            <div class="col-md-4 pull-left">
+              <span style="color:rgb(102, 100, 100)">CC: </span>{{eml.msgCc}}
+            </div>
+            <div class="col-md-3 pull-left">
+              <span style="color:rgb(102, 100, 100)">BCC: </span>{{eml.msgBcc}}
+            </div>
           </div>
+        </div>
+      </div>
+      <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
+
+      </div>
     </div>
   </div>
 </div>

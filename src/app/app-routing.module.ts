@@ -1,3 +1,4 @@
+import { ActivateGuardService } from './activate-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashViewComponent } from './dashboard/dash-view/dash-view.component';
@@ -20,7 +21,7 @@ const routes: Routes = [
   {
     path: 'mapped',
     component: EmailMappedComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'draft',
@@ -30,7 +31,8 @@ const routes: Routes = [
   {
     path: 'view/:id',
     component: EmailViewComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [ActivateGuardService]
   },
 ];
 

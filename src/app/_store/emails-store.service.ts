@@ -140,6 +140,7 @@ export class EmailsStoreService {
     // console.log(res);
     if (res.d.errId === '200') {
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
+      this.unreadThreads[index].Messages = [];
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
         this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
       }
@@ -178,14 +179,17 @@ export class EmailsStoreService {
 
   async update_MappedThreadEmails(ThreadId, storeSelector) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    // console.log(res);
+    console.log('getmails', res);
     if (res.d.errId === '200') {
       const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
+      console.log('indexxxx', this.mappedThreads);
+      this.mappedThreads[index].Messages = [];
+
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
     }
   }
 

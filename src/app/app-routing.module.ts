@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'unread',
     component: EmailUnreadComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'mapped',
@@ -31,7 +31,8 @@ const routes: Routes = [
   {
     path: 'view/:id',
     component: EmailViewComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [ActivateGuardService]
   },
 ];
 

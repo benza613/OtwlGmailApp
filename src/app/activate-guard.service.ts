@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, Router } from '@angular/router';
-
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +9,22 @@ import { CanActivate, CanActivateChild, Router } from '@angular/router';
 export class ActivateGuardService implements CanActivate, CanActivateChild {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private _authService: AuthService
   ) { }
 
 
-  canActivate() {
-    if (location.href.toLowerCase().trim().includes('q=')) {
-      this.router.navigate(['']);
-      alert('Navigation Not Allowed');
-      return false;
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    if (this._authService.isAuthenticated()) {
+      return true;
     }
+    console.log('auth happend');
+
+    // navigate to login page
+    this.router.navigate(['']);
+    return false;
   }
 
   canActivateChild() {

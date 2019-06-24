@@ -15,7 +15,7 @@
       </div>
       <div class="col" style="padding: 0px;">
         <ng-select [items]="threadTypeData" bindLabel="threadTypeVal" [(ngModel)]="threadTypeVal"
-          bindValue="threadTypeId">
+          (change)="applyFilter()" bindValue="threadTypeVal">
         </ng-select>
       </div>
     </div>

@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-9">
       <ng-select id="iMsgTo" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addAddr($event)" [addTag]="true">
+        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addAddr($event)" [addTag]="true" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addAddr($event)" [addTag]="true">
+        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addAddr($event)" [addTag]="true" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col-md-1">
@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addAddr($event)" [addTag]="true">
+        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addAddr($event)" [addTag]="true" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>

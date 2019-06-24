@@ -356,7 +356,7 @@ export class EditorComponent implements OnInit {
     //https://github.com/valor-software/ng2-file-upload/blob/development/src/file-upload/file-uploader.class.ts
   }
 
-  addAddr(event, select) {
+  addAddr(event) {
     const idx = this.msgAddrList.findIndex(obj => obj.emailId === event.emailId);
     if (idx === -1) {
       this.msgAddrList = [...this.msgAddrList, event.emailId];

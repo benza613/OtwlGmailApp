@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Message } from '../../models/message.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-email-view',
@@ -43,7 +44,6 @@ export class EmailViewComponent implements OnInit {
   renderMessages() {
     if (this.storeSelector === 'unread') {
       this.emailList = this.emailStore.getUnreadMsgList$(this.reqThreadId);
-
     } else if (this.storeSelector === 'mapped') {
       this.emailList = this.emailStore.getMappedMsgList$(this.reqThreadId);
     }

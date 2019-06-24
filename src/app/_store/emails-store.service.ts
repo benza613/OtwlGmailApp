@@ -6,6 +6,7 @@ import { shareReplay, map } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
 import { Thread } from '../models/thread.model';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -131,7 +132,10 @@ export class EmailsStoreService {
           this.pageTokenUnread = res.d.pageToken;
         }
       }
-      // console.log(this.unreadThreads);
+      this.unreadThreads.forEach(x => {
+        console.log(x['Msg_Date']);
+        console.log(moment.utc(x['Msg_Date']).format('DD-MM-YYYY HH:mm'));
+      });
     }
   }
 

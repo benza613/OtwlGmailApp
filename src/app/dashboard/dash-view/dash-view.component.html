@@ -1,4 +1,4 @@
-<div class="row" style="height: 85vh !important;">
+<!-- <div class="row" style="height: 85vh !important;">
   <div class="col">
     <div class="row" style="height: 10vh">
         <div class="col card text-white bg-success mb-3 cardLayout" routerLink="/unread">
@@ -23,7 +23,43 @@
           </div>
     </div>
   </div>
+</div> -->
+
+
+<div class="row" style="height: 83vh !important;">
+  <div class="col">
+    <div class="row" style="height: 10vh">
+        <div class="col card text-white mb-3 cardLayout" style="background-color: #522e75;" routerLink="/unread">
+          <div class="card-body">
+            <h6>UNREAD MAILS</h6>
+          </div>
+        </div>
+        <div class="col card text-white bg-success mb-3 cardLayout" routerLink="/mapped">
+          <div class="card-body">
+            <h6>MAPPED MAILS</h6>
+          </div>
+        </div>
+        <div class="col card text-white mb-3 cardLayout" style="background-color: rgb(250, 148, 32);" (click)="onClick_SendNewMail()">
+          <div class="card-body">
+            <h6>SEND NEW MAIL</h6>
+          </div>
+        </div>
+        <div class="col card text-white mb-3 cardLayout" style="background-color: #f22f08">
+            <div class="card-body">
+              <h6>URGENT MAILS</h6>
+            </div>
+          </div>
+    </div>
+  </div>
 </div>
+
+
+
+
+
+
+
+
 
 
 

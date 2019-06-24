@@ -26,4 +26,8 @@ export class DashViewComponent implements OnInit {
     this.router.navigate(['draft/']);
   }
 
+  onClick_getUrgentEmails() {
+    alert('This section is not available at the moment.')
+  }
+
 }

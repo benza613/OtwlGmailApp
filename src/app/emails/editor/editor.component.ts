@@ -17,6 +17,7 @@ export class EditorComponent implements OnInit {
 
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver: boolean = false;
+  addEmail = '';
 
   msgPacket = {
     to: [],

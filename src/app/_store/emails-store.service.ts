@@ -1,10 +1,10 @@
+import { Thread } from './../models/thread.model';
 import { ThreadTypeData } from './../models/thread-type-data';
 import { MappedThread } from './../models/mapped-thread';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { shareReplay, map } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
-import { Thread } from '../models/thread.model';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
@@ -124,6 +124,9 @@ export class EmailsStoreService {
       const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread).toPromise();
       if (res.d.errId === '200') {
         const arrx = this.unreadThreads;
+        res.d.threads.forEach(x => {
+          x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        });
         arrx.push(...<Thread[]>res.d.threads);
         this.unreadThreads = arrx;
         if (res.d.pageToken == null) {
@@ -132,10 +135,6 @@ export class EmailsStoreService {
           this.pageTokenUnread = res.d.pageToken;
         }
       }
-      this.unreadThreads.forEach(x => {
-        console.log(x['Msg_Date']);
-        console.log(moment.utc(x['Msg_Date']).add(330,'m').format('DD-MM-YYYY HH:mm'));
-      });
     }
   }
 
@@ -146,6 +145,7 @@ export class EmailsStoreService {
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
       this.unreadThreads[index].Messages = [];
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
+        res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.unreadThreads = [...this.unreadThreads];
@@ -186,10 +186,10 @@ export class EmailsStoreService {
     console.log('getmails', res);
     if (res.d.errId === '200') {
       const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
-      console.log('indexxxx', this.mappedThreads);
       this.mappedThreads[index].Messages = [];
 
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
+        res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];

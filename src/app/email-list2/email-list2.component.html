@@ -29,7 +29,8 @@
       </div>
     </div>
   </div>
-  <div class="card thread-card no-gutters" *ngFor="let item of mappedThreads | async | mapViewFilter : mappedFilterargs"
+  <div class="col" style="height: 70vh; overflow: auto;">
+    <div class="card thread-card no-gutters" *ngFor="let item of mappedThreads | async | mapViewFilter : mappedFilterargs"
     style="margin: 5px 0px;">
     <div class="row" style="margin: 0px;">
       <div class="col-md-3">
@@ -56,5 +57,6 @@
         <i class="fa fa-trash enlarge pull-right" style="cursor: pointer" (click)="showConfirmDialog(item)"></i>
       </div>
     </div>
+  </div>
   </div>
 </div>

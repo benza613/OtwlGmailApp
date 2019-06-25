@@ -68,12 +68,9 @@ export class EmailMappedComponent implements OnInit {
       alert('Please select a Reference Type');
       return;
     }
-    const date_from = moment(this.dateFrom);
-    const date_to = moment(this.dateTo);
-    console.log(date_from.format('YYYY/MM/DD'));
-    // tslint:disable-next-line: max-line-length
-    console.log(this.refId, this.refValId, date_from.subtract(1, 'month').format('YYYY/MM/DD'), date_to.subtract(1, 'month').format('YYYY/MM/DD'));
-    this.emailStore.updateMappedThreadList(this.refId, this.refValId, '', '');
+    const date_from = moment(this.dateFrom).subtract(1, 'month').format('YYYY/MM/DD');
+    const date_to = moment(this.dateTo).subtract(1, 'month').format('YYYY/MM/DD');
+    this.emailStore.updateMappedThreadList(this.refId, this.refValId, date_from, date_to);
     this.domainStore.updateThreadTypeData();
   }
 

@@ -55,7 +55,7 @@
           <div class="col">
             <div class="row" *ngFor="let att of eml.attachments" >
               <div class="col-md-7 pull-left" style=" font-size: 14px;">
-                <span style="color:rgb(133, 130, 130); font-weight: 600;">{{att}}</span>
+                <span style="color:rgb(133, 130, 130); font-weight: 600;">{{att.fileName}}{{att.fileSize}}</span>
               </div>
               <div class="col-md-3 pull-left" style=" font-size: 14px;">
                 <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin: 2px;"

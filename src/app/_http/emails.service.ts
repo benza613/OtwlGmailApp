@@ -38,6 +38,20 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
+  downloadLocal(msgId, attachmentGId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/`, //PUT METHOD NAME
+      { msgId, attachmentGId },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  saveFS(msgId, attachmentGId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/`, //PUT METHOD NAME
+      { msgId, attachmentGId },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   // tslint:disable-next-line:max-line-length
   sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,

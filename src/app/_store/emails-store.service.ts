@@ -221,6 +221,14 @@ export class EmailsStoreService {
     }
   }
 
+  async MessageAttch_DownloadLocal(msgId, attachmentGId) {
+    const res = await this.emailServ.downloadLocal(msgId, attachmentGId).toPromise();
+    console.log('getmails', res);
+  }
 
+  async MessageAttch_SaveFS(msgId, attachmentGId) {
+    const res = await this.emailServ.saveFS(msgId, attachmentGId).toPromise();
+    console.log('getmails', res);
+  }
 
 }

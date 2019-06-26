@@ -74,4 +74,12 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
+  fileAction(id) {
+    if (id === 1) {
+      //call method to download
+    } else {
+      // call method to upload
+    }
+  }
+
 }

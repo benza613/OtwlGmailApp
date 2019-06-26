@@ -15,7 +15,7 @@
       </div>
       <div class="col-md-7">
         <div class="row align-items-center">
-          <div class="col-12 MailSubject"><i>{{item.Subject}}</i><i class="MailDate pull-right">{{item.Msg_Date}}</i>
+          <div class="col-12 MailSubject"><i [ngbTooltip]="item.Subject" container="body">{{item.Subject | slice:0:50}}<i *ngIf="item.Subject.length > 50">...</i></i><i class="MailDate pull-right">{{item.Msg_Date}}</i>
           </div>
         </div>
       </div>

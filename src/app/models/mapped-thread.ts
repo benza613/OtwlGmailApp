@@ -1,6 +1,6 @@
 import { Message } from './message.model';
 export interface MappedThread {
-    SelectedTypeIdList: [];
+    SelectedTypeIdList: string[];
     ThreadGID: string;
     ThreadReferenceText: string;
     ThreadSubject: string;

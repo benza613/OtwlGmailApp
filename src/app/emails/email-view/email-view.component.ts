@@ -74,9 +74,9 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
-  fileAction(id,msgId, attachmentGId) {
+  fileAction(id, msgId, attachmentGId) {
     if (id === 1) {
-      //call method to download
+      // call method to download
     } else {
       // call method to upload
     }

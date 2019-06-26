@@ -140,7 +140,7 @@ export class EmailsStoreService {
 
   async update_UnreadThreadEmails(ThreadId, storeSelector) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    // console.log(res);
+    console.log(res);
     if (res.d.errId === '200') {
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
       this.unreadThreads[index].Messages = [];

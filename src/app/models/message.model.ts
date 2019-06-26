@@ -1,3 +1,5 @@
+import { MessageUiAttach } from './message-ui-attach.model';
+
 export interface Message {
     body: string;
     msgid: string;
@@ -8,4 +10,5 @@ export interface Message {
     date: string;
     err: Number;
     isOpen: boolean;
+    attachments: MessageUiAttach[];
 }

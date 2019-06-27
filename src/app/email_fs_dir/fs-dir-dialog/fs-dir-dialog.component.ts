@@ -36,32 +36,19 @@ export class FSDirDialogComponent implements OnInit {
   incrementLevel(folder, idx) {
     this.disable = false;
     if (Number(folder['qlevel']) === 0) {
-<<<<<<< HEAD
-      if (this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-        x['isTemplateFolder_ID'] === folder['entityID']).length > 0) {
-        this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-          x['isTemplateFolder_ID'] === folder['entityID']);
-      } else {
-        (<HTMLButtonElement> document.getElementById(idx)).disabled = true;
-      }
-=======
       // tslint:disable-next-line: max-line-length
       this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
         x['isTemplateFolder_ID'] === folder['entityID']);
 
 
->>>>>>> 171b3b29bef5585719b55db7a9b4cacd766cbbc3
     } else {
       // tslint:disable-next-line: max-line-length
       if (this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
         x['isParentFolder_ID'] === folder['entityID']).length > 0) {
         this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
           x['isParentFolder_ID'] === folder['entityID']);
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 171b3b29bef5585719b55db7a9b4cacd766cbbc3
       } else {
         (<HTMLButtonElement> document.getElementById(idx)).disabled = true;
       }

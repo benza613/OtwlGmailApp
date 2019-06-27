@@ -79,16 +79,19 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
-  fileAction(id, msgId, attachmentGId) {
+  async fileAction(id, msgId, attachmentGId) {
     if (id === 1) {
       this.emailStore.MessageAttch_DownloadLocal(msgId, attachmentGId);
     } else {
-      this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId);
+      await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId);
       const modalRef = this.modalService.open(
         FSDirDialogComponent,
         { size: 'lg', backdrop: 'static', keyboard: false }
       );
-      modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+      this.emailStore.getFolderList$.subscribe(x => {
+        modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+        modalRef.componentInstance.folderHierarchy = x;
+      });
     }
   }
 

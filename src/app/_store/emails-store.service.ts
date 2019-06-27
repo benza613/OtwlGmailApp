@@ -1,4 +1,4 @@
-import { Folders } from './../models/folders';
+import { Folders } from '../models/folders.model';
 import { Thread } from './../models/thread.model';
 import { ThreadTypeData } from './../models/thread-type-data';
 import { MappedThread } from './../models/mapped-thread';

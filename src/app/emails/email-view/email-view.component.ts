@@ -80,7 +80,7 @@ export class EmailViewComponent implements OnInit {
     if (id === 1) {
       this.emailStore.MessageAttch_DownloadLocal(msgId, attachmentGId);
     } else {
-      this.emailStore.MessageAttch_RequestFSDir('11');
+      this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId);
     }
   }
 

@@ -18,12 +18,16 @@ export class FSDirDialogComponent implements OnInit {
   disable = false;
   browseDisable = false;
 
+
   constructor(
     private activeModal: NgbActiveModal,
     private emailStore: EmailsStoreService
   ) { }
 
   ngOnInit() {
+
+
+
     this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
     console.log(this.folderList[0]);
 
@@ -32,6 +36,7 @@ export class FSDirDialogComponent implements OnInit {
   incrementLevel(folder, idx) {
     this.disable = false;
     if (Number(folder['qlevel']) === 0) {
+<<<<<<< HEAD
       if (this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
         x['isTemplateFolder_ID'] === folder['entityID']).length > 0) {
         this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
@@ -39,16 +44,31 @@ export class FSDirDialogComponent implements OnInit {
       } else {
         (<HTMLButtonElement> document.getElementById(idx)).disabled = true;
       }
+=======
+      // tslint:disable-next-line: max-line-length
+      this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
+        x['isTemplateFolder_ID'] === folder['entityID']);
+
+
+>>>>>>> 171b3b29bef5585719b55db7a9b4cacd766cbbc3
     } else {
       // tslint:disable-next-line: max-line-length
       if (this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
         x['isParentFolder_ID'] === folder['entityID']).length > 0) {
         this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
           x['isParentFolder_ID'] === folder['entityID']);
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 171b3b29bef5585719b55db7a9b4cacd766cbbc3
       } else {
         (<HTMLButtonElement> document.getElementById(idx)).disabled = true;
       }
     }
+
+    console.log(this.folderList);
+
   }
 
   decrementLevel() {

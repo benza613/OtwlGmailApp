@@ -253,7 +253,7 @@ export class EmailsStoreService {
   }
 
   async MessageAttch_SaveToFS(entityID,  qlevel,  msgid,  attachmentGId,  fileName) {
-    const res = await this.emailServ.saveToFileServer(entityID,  qlevel,  msgid,  attachmentGId,  fileName).toPromise();
+    const res = await this.emailServ.saveAttachmentToFS(entityID,  qlevel,  msgid,  attachmentGId,  fileName).toPromise();
     console.log('FileServer', res);
   }
 

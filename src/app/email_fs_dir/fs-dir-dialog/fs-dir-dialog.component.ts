@@ -15,7 +15,8 @@ export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
   @Input() folderHierarchy: Folders[];
   @Input() msgId;
-  @Input() attachmentGID;
+  @Input() attachmentGId;
+  @Input() attachmentName;
   folderList: any;
   backDisable = true;
   browseDisable = false;
@@ -74,32 +75,10 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
-    // this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel,  this.msgid,  this.attachmentGId,  folder.fileName);
+     this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel,  this.msgId,  this.attachmentGId,  this.attachmentName);
   }
 
 
 
-
-
-
-
-  /*
-row = {}
-folderList = [];
-
-if(row.qlevel + 1 == 1)
-{
-
-folderlist.filter(x -> x.qlevel== row.qlevel + 1 AND x.isTemplateFolder_ID= row.entityID)
-
-}else{
-// qlevel 1 or greater
-
-folderlist.filter(x -> x.qlevel== row.qlevel + 1 AND x.isParentFolder_ID = row.entityID)
-
-} 
-
-
-  */
 
 }

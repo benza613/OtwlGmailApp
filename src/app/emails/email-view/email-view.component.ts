@@ -91,6 +91,8 @@ export class EmailViewComponent implements OnInit {
       this.emailStore.getFolderList$.subscribe(x => {
         modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
         modalRef.componentInstance.folderHierarchy = x;
+        modalRef.componentInstance.msgId = msgId;
+        modalRef.componentInstance.attachmentGId = attachmentGId;
       });
     }
   }

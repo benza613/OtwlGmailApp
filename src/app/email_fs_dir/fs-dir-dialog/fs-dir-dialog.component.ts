@@ -14,6 +14,8 @@ import { Folders } from 'src/app/models/folders.model';
 export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
   @Input() folderHierarchy: Folders[];
+  @Input() msgId;
+  @Input() attachmentGID;
   folderList: any;
   backDisable = true;
   browseDisable = false;
@@ -69,6 +71,16 @@ export class FSDirDialogComponent implements OnInit {
       this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === Number(this.folderList[0].qlevel) - 1);
     }
   }
+
+  saveToFS(folder) {
+    // this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel,  this.msgid,  this.attachmentGId,  folder.fileName);
+  }
+
+
+
+
+
+
 
   /*
 row = {}

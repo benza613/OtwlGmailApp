@@ -252,9 +252,9 @@ export class EmailsStoreService {
     }
   }
 
-  // async MessageAttch_SaveToFS(folderId, msgId, attachmentGId, queryLevel) {
-  //   const res = await this.emailServ.downloadLocal(folderId, msgId, attachmentGId, queryLevel).toPromise();
-  //   console.log('FileServer', res);
-  // }
+  async MessageAttch_SaveToFS(entityID,  qlevel,  msgid,  attachmentGId,  fileName) {
+    const res = await this.emailServ.saveToFileServer(entityID,  qlevel,  msgid,  attachmentGId,  fileName).toPromise();
+    console.log('FileServer', res);
+  }
 
 }

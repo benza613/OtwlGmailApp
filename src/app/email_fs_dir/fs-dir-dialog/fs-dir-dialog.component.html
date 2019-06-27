@@ -22,7 +22,7 @@
         <th scope="row">{{i+1}}</th>
         <td>{{folder.name}}</td>
         <td>
-          <button type="button" (click)="getSubFolders(folder)" [disabled]="browseDisable">BROWSE</button>
+          <button id = "i" type="button" (click)="incrementLevel(folder,i)" [disabled]="browseDisable">BROWSE</button>
         </td>
         <td>
           <button type="button">SAVE</button>

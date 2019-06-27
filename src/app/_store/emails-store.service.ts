@@ -181,7 +181,7 @@ export class EmailsStoreService {
   }
 
 
-  async update_MappedThreadEmails(refId, ThreadId) {
+  async update_MappedThreadEmails(ThreadId) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     console.log('getmails', res);
     if (res.d.errId === '200') {
@@ -194,7 +194,7 @@ export class EmailsStoreService {
       }
       this.mappedThreads = [...this.mappedThreads];
       console.log('JOB ID', refId);
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', j: refId } });
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
     }
   }
 
@@ -227,8 +227,8 @@ export class EmailsStoreService {
     console.log('Local', res);
   }
 
-  async MessageAttch_RequestFSDir(jobId) {
-    const res = await this.emailServ.requestFSDir(jobId).toPromise();
+  async MessageAttch_RequestFSDir(reqThreadId) {
+    const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
     console.log('Directory', res);
   }
 

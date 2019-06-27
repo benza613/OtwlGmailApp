@@ -1,3 +1,4 @@
+import { Folders } from './../models/folders';
 import { Thread } from './../models/thread.model';
 import { ThreadTypeData } from './../models/thread-type-data';
 import { MappedThread } from './../models/mapped-thread';
@@ -28,12 +29,14 @@ export class EmailsStoreService {
   private readonly _mappedThreads = new BehaviorSubject<MappedThread[]>([]);
   private readonly _pageTokenUnread = new BehaviorSubject<String>('');
   private readonly _threadTypeList = new BehaviorSubject<ThreadTypeData[]>([]);
+  private readonly _folderList = new BehaviorSubject<Folders[]>([]);
 
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly unreadThreads$ = this._unreadThreads.asObservable();
   readonly mappedThreads$ = this._mappedThreads.asObservable();
   readonly threadTypeList$ = this._threadTypeList.asObservable();
+  readonly folderList$ = this._folderList.asObservable();
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
@@ -43,6 +46,14 @@ export class EmailsStoreService {
     map(th => this.mappedThreads.length)
   );
 
+  readonly getCheckedMsgList$ = this.unreadThreads$.pipe(
+    map(tx => this.unreadThreads.filter(t => t.isChecked === true))
+  );
+
+  readonly getFolderList$ = this.folderList$.pipe(
+    map(r => r)
+  );
+
   readonly getMappedMsgList$ = (ThreadId) => this.mappedThreads$.pipe(
     map(tx => this.mappedThreads.find(t => t.ThreadGID === ThreadId).Messages)
   )
@@ -50,10 +61,6 @@ export class EmailsStoreService {
   readonly getUnreadMsgList$ = (ThreadId) => this.unreadThreads$.pipe(
     map(tx => this.unreadThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
-
-  readonly getCheckedMsgList$ = this.unreadThreads$.pipe(
-    map(tx => this.unreadThreads.filter(t => t.isChecked === true))
-  );
 
   /*
     PROPERTY GETTERS AND SETTERS
@@ -84,6 +91,14 @@ export class EmailsStoreService {
 
   private set threadTypeList(val: ThreadTypeData[]) {
     this._threadTypeList.next(val);
+  }
+
+  private get folderList(): Folders[] {
+    return this._folderList.getValue();
+  }
+
+  private set folderList(val: Folders[]) {
+    this._folderList.next(val);
   }
 
   private get pageTokenUnread(): String {
@@ -228,7 +243,13 @@ export class EmailsStoreService {
 
   async MessageAttch_RequestFSDir(reqThreadId) {
     const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
-    console.log('Directory', res);
+    this.folderList = [];
+    console.log('Store', res);
+    if (res.d.errId === '200') {
+      const arrx = this.folderList;
+      arrx.push(...<Folders[]>res.d.folders);
+      this.folderList = arrx;
+    }
   }
 
   // async MessageAttch_SaveToFS(folderId, msgId, attachmentGId, queryLevel) {

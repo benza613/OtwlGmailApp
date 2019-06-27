@@ -1,8 +1,10 @@
+import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Message } from '../../models/message.model';
-import * as moment from 'moment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-email-view',
@@ -25,7 +27,8 @@ export class EmailViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public emailStore: EmailsStoreService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -81,6 +84,11 @@ export class EmailViewComponent implements OnInit {
       this.emailStore.MessageAttch_DownloadLocal(msgId, attachmentGId);
     } else {
       this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId);
+      const modalRef = this.modalService.open(
+        FSDirDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
     }
   }
 

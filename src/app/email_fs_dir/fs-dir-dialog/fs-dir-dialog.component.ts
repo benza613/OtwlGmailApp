@@ -58,4 +58,23 @@ export class FSDirDialogComponent implements OnInit {
     }
   }
 
+  /*
+row = {}
+folderList = [];
+
+if(row.qlevel + 1 == 1)
+{
+
+folderlist.filter(x -> x.qlevel== row.qlevel + 1 AND x.isTemplateFolder_ID= row.entityID)
+
+}else{
+// qlevel 1 or greater
+
+folderlist.filter(x -> x.qlevel== row.qlevel + 1 AND x.isParentFolder_ID = row.entityID)
+
+} 
+
+
+  */
+
 }

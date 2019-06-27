@@ -8,6 +8,8 @@ import { shareReplay, map } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { ErrorDialogComponent } from '../error/error-dialog/error-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,8 @@ export class EmailsStoreService {
 
   constructor(
     private emailServ: EmailsService,
-    private router: Router) { }
+    private router: Router,
+    private modalService: NgbModal) { }
 
 
   // - We set the initial state in BehaviorSubject's constructor
@@ -149,9 +152,16 @@ export class EmailsStoreService {
         } else {
           this.pageTokenUnread = res.d.pageToken;
         }
+      } else {
+        const modalRef = this.modalService.open(
+          ErrorDialogComponent,
+          { size: 'lg', backdrop: 'static', keyboard: false }
+        );
+        modalRef.componentInstance.res = res;
       }
     }
   }
+
 
   async update_UnreadThreadEmails(ThreadId, storeSelector) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
@@ -165,6 +175,12 @@ export class EmailsStoreService {
       }
       this.unreadThreads = [...this.unreadThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+    } else {
+      const modalRef = this.modalService.open(
+        ErrorDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.res = res;
     }
   }
 
@@ -192,6 +208,12 @@ export class EmailsStoreService {
       }
       this.mappedThreads = arrx;
       this.threadTypeList = arrx2;
+    } else {
+      const modalRef = this.modalService.open(
+        ErrorDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.res = res;
     }
   }
 
@@ -209,6 +231,12 @@ export class EmailsStoreService {
       }
       this.mappedThreads = [...this.mappedThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
+    } else {
+      const modalRef = this.modalService.open(
+        ErrorDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.res = res;
     }
   }
 
@@ -249,11 +277,17 @@ export class EmailsStoreService {
       const arrx = this.folderList;
       arrx.push(...<Folders[]>res.d.folders);
       this.folderList = arrx;
+    } else {
+      const modalRef = this.modalService.open(
+        ErrorDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.res = res;
     }
   }
 
-  async MessageAttch_SaveToFS(entityID,  qlevel,  msgid,  attachmentGId,  fileName) {
-    const res = await this.emailServ.saveAttachmentToFS(entityID,  qlevel,  msgid,  attachmentGId,  fileName).toPromise();
+  async MessageAttch_SaveToFS(entityID, qlevel, msgid, attachmentGId, fileName) {
+    const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, msgid, attachmentGId, fileName).toPromise();
     console.log('FileServer', res);
   }
 

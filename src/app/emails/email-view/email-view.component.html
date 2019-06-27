@@ -50,15 +50,15 @@
           </div>
         </div>
       </div>
-      <div class="card" style="margin-bottom: 5px;" *ngIf="eml.attachments.length > 0">
+      <div class="card" style="margin-bottom: 5px; background-color: #3a3a3a; color: white;" *ngIf="eml.attachments.length > 0">
         <div class="card-body">
           <div class="col">
             <div class="row" *ngFor="let att of eml.attachments" >
               <div class="col-md-8 pull-left" style=" font-size: 14px;">
-                <span style="color:rgb(133, 130, 130); font-weight: 600;">{{att.fileName}}</span>
+                <span style="color:rgb(255, 255, 255); font-weight: 600;">{{att.fileName}}</span>
               </div>
               <div class="col-md-2 pull-left" style=" font-size: 14px;">
-                  <span style="color:rgb(133, 130, 130); font-weight: 600;">{{att.fileSize}}</span>
+                  <span style="color:rgb(255, 255, 255); font-weight: 600;">{{att.fileSize}}</span>
                 </div>
               <div class="col-md-1 pull-left" style=" font-size: 14px;">
                 <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin-bottom: 2px;"

@@ -15,7 +15,7 @@ export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
   @Input() folderHierarchy: Folders[];
   folderList: any;
-  disable = false;
+  backDisable = true;
   browseDisable = false;
 
 
@@ -34,26 +34,25 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   incrementLevel(folder, idx) {
-    this.disable = false;
-    if (Number(folder['qlevel']) === 0) {
-      if (this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-        x['isTemplateFolder_ID'] === folder['entityID']).length > 0) {
-        this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-          x['isTemplateFolder_ID'] === folder['entityID']);
+    this.backDisable = false;
+    if (Number(folder.qlevel) === 0) {
+      if (this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
+        x.isTemplateFolder_ID === folder.entityID).length > 0) {
+        this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
+          x.isTemplateFolder_ID === folder.entityID);
       } else {
-        (<HTMLButtonElement> document.getElementById(idx)).disabled = true;
+        this.backDisable = true;
+        (<HTMLInputElement>document.getElementById(idx)).disabled = true;
       }
-      // tslint:disable-next-line: max-line-length
-      this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-        x['isTemplateFolder_ID'] === folder['entityID']);
+      this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
+        x.isTemplateFolder_ID === folder.entityID);
     } else {
-      // tslint:disable-next-line: max-line-length
-      if (this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-        x['isParentFolder_ID'] === folder['entityID']).length > 0) {
-        this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === (Number(folder['qlevel']) + 1) &&
-          x['isParentFolder_ID'] === folder['entityID']);
+      if (this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
+        x.isParentFolder_ID === folder.entityID).length > 0) {
+        this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
+          x.isParentFolder_ID === folder.entityID);
       } else {
-        (<HTMLButtonElement> document.getElementById(idx)).disabled = true;
+        (<HTMLInputElement>document.getElementById(idx)).disabled = true;
       }
     }
 
@@ -62,12 +61,12 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   decrementLevel() {
-    this.disable = false;
-    if (Number(this.folderList[0]['qlevel']) === 0) {
-      this.disable = true;
+    this.backDisable = Number(this.folderList[0].qlevel) - 1 === 0 ? true : false;
+    if (Number(this.folderList[0].qlevel) === 0) {
+      this.backDisable = true;
       this.folderList = this.folderHierarchy.filter(x => x.qlevel === '0');
     } else {
-      this.folderList = this.folderHierarchy.filter(x => Number(x['qlevel']) === Number(this.folderList[0]['qlevel']) - 1);
+      this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === Number(this.folderList[0].qlevel) - 1);
     }
   }
 

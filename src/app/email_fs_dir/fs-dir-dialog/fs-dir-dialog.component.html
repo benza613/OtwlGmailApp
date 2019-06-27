@@ -3,8 +3,8 @@
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
 <div class="modal-body">
-  <div class="row" style="margin:10px;">
-    <button [disabled]="disable" (click)="decrementLevel()">
+  <div class="row" style="margin: 10px">
+    <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left" (click)="decrementLevel()">
         <i class="fa fa-arrow-left"  aria-hidden="true"></i>
     </button>
   </div>
@@ -13,19 +13,23 @@
       <tr>
         <th scope="col">Sr.</th>
         <th scope="col">FOLDER</th>
-        <th scope="col">BROWSE</th>
-        <th scope="col">SAVE TO</th>
+        <th scope="col" style="text-align: center;">BROWSE</th>
+        <th scope="col" style="text-align: center;">SAVE TO</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let folder of folderList; index as i">
         <th scope="row">{{i+1}}</th>
         <td>{{folder.name}}</td>
-        <td>
-          <button id = "i" type="button" (click)="incrementLevel(folder,i)" [disabled]="browseDisable">BROWSE</button>
+        <td style="text-align: center;">
+          <button id = "i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">
+            <i class="fa fa-folder-open" aria-hidden="true"></i>
+          </button>
         </td>
-        <td>
-          <button type="button">SAVE</button>
+        <td style="text-align: center;">
+          <button type="button" class="btn btn-sm btn-outline-success">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+          </button>
         </td>
         <td></td>
       </tr>

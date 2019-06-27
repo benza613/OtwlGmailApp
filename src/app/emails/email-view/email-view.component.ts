@@ -18,6 +18,7 @@ export class EmailViewComponent implements OnInit {
 
   reqThreadId;
   storeSelector;
+  refId;
   emailList;
   details = false;
 
@@ -35,6 +36,7 @@ export class EmailViewComponent implements OnInit {
         console.log(params);
 
         this.storeSelector = params.q;
+        this.refId = params.j;
         this.renderMessages();
       });
 
@@ -76,9 +78,9 @@ export class EmailViewComponent implements OnInit {
 
   fileAction(id, msgId, attachmentGId) {
     if (id === 1) {
-      // call method to download
+      this.emailStore.MessageAttch_DownloadLocal(msgId, attachmentGId);
     } else {
-      // call method to upload
+      this.emailStore.MessageAttch_RequestFSDir('11');
     }
   }
 

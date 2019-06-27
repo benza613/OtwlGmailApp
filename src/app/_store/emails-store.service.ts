@@ -181,7 +181,7 @@ export class EmailsStoreService {
   }
 
 
-  async update_MappedThreadEmails(ThreadId, storeSelector) {
+  async update_MappedThreadEmails(refId, ThreadId) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     console.log('getmails', res);
     if (res.d.errId === '200') {
@@ -193,7 +193,8 @@ export class EmailsStoreService {
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
+      console.log('JOB ID', refId);
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', j: refId } });
     }
   }
 
@@ -223,12 +224,17 @@ export class EmailsStoreService {
 
   async MessageAttch_DownloadLocal(msgId, attachmentGId) {
     const res = await this.emailServ.downloadLocal(msgId, attachmentGId).toPromise();
-    console.log('getmails', res);
+    console.log('Local', res);
   }
 
-  async MessageAttch_SaveFS(msgId, attachmentGId) {
-    const res = await this.emailServ.saveFS(msgId, attachmentGId).toPromise();
-    console.log('getmails', res);
+  async MessageAttch_RequestFSDir(jobId) {
+    const res = await this.emailServ.requestFSDir(jobId).toPromise();
+    console.log('Directory', res);
   }
+
+  // async MessageAttch_SaveToFS(folderId, msgId, attachmentGId, queryLevel) {
+  //   const res = await this.emailServ.downloadLocal(folderId, msgId, attachmentGId, queryLevel).toPromise();
+  //   console.log('FileServer', res);
+  // }
 
 }

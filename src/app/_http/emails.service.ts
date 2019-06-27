@@ -45,6 +45,13 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
+  requestFSDir(reqThreadId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`, //PUT METHOD NAME
+      { reqThreadId },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   saveFS(msgId, attachmentGId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/`, //PUT METHOD NAME
       { msgId, attachmentGId },

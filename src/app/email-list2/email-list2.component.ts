@@ -13,7 +13,9 @@ import { debounceTime } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmailList2Component implements OnInit, OnDestroy {
-  @Input() storeSelector: string;
+  @Input() passedData;
+  storeSelector: string;
+  refId;
   t_CollectionSize: number;
   t_currentPage = 1;
   t_itemsPerPage = 10;
@@ -37,7 +39,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
+    this.storeSelector = this.passedData[0];
+    this.refId = this.passedData[1];
 
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
@@ -81,7 +84,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   }
 
   onClick_GetThreadMessages(threadData) {
-    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, this.storeSelector);
+    this.emailStore.update_MappedThreadEmails(this.refId, threadData.ThreadGID);
   }
 
 

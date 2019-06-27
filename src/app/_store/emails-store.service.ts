@@ -193,7 +193,6 @@ export class EmailsStoreService {
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];
-      console.log('JOB ID', refId);
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
     }
   }

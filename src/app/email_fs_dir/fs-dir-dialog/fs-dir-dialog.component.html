@@ -1,3 +1,38 @@
-<div class="col" *ngFor="let folder of folderList">
-  <span>{{folder.name}}</span>
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">CHOOSE A FOLDER TO SAVE IN</h5>
+  <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin:10px;">
+    <button [disabled]="disable" (click)="decrementLevel()">
+        <i class="fa fa-arrow-left"  aria-hidden="true"></i>
+    </button>
+  </div>
+  <table class="table table-striped" style="width: 100%">
+    <thead>
+      <tr>
+        <th scope="col">Sr.</th>
+        <th scope="col">FOLDER</th>
+        <th scope="col">BROWSE</th>
+        <th scope="col">SAVE TO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let folder of folderList; index as i">
+        <th scope="row">{{i+1}}</th>
+        <td>{{folder.name}}</td>
+        <td>
+          <button type="button" (click)="getSubFolders(folder)" [disabled]="browseDisable">BROWSE</button>
+        </td>
+        <td>
+          <button type="button">SAVE</button>
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- <div class="col" *ngFor="let folder of folderList">
+    <span>{{folder.name}}</span>
+  </div> -->
 </div>

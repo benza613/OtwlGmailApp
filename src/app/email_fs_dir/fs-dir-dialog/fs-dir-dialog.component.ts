@@ -44,7 +44,7 @@ export class FSDirDialogComponent implements OnInit {
           x.isTemplateFolder_ID === folder.entityID);
       } else {
         this.backDisable = true;
-        (<HTMLInputElement>document.getElementById(idx)).disabled = true;
+        this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === 0);
       }
       this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
         x.isTemplateFolder_ID === folder.entityID);
@@ -54,7 +54,8 @@ export class FSDirDialogComponent implements OnInit {
         this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
           x.isParentFolder_ID === folder.entityID);
       } else {
-        (<HTMLInputElement>document.getElementById(idx)).disabled = true;
+        this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel)) &&
+          x.isParentFolder_ID === folder.entityID);
       }
     }
 

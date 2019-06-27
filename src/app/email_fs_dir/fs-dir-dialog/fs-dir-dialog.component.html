@@ -2,16 +2,20 @@
   <h5 class="modal-title" id="modal-basic-title">CHOOSE A FOLDER TO SAVE IN</h5>
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
-<div class="modal-body">
-  <div class="row" style="margin: 10px">
+<div class="modal-body" style="padding: 0px;">
+  <!-- <div class="row" style="margin: 10px">
     <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left" (click)="decrementLevel()">
         <i class="fa fa-arrow-left"  aria-hidden="true"></i>
     </button>
-  </div>
+  </div> -->
   <table class="table table-striped" style="width: 100%">
     <thead>
       <tr>
-        <th scope="col">Sr.</th>
+        <th scope="col">
+            <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left" (click)="decrementLevel()">
+                <i class="fa fa-arrow-left"  aria-hidden="true"></i>
+            </button>
+        </th>
         <th scope="col">FOLDER</th>
         <th scope="col" style="text-align: center;">BROWSE</th>
         <th scope="col" style="text-align: center;">SAVE TO</th>
@@ -19,7 +23,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let folder of folderList; index as i">
-        <th scope="row">{{i+1}}</th>
+        <th scope="row"></th>
         <td>{{folder.name}}</td>
         <td style="text-align: center;">
           <button id = "i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">

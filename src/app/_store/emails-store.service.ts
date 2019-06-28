@@ -133,12 +133,16 @@ export class EmailsStoreService {
    * UNREAD module methods
    */
   async updateUnreadThreadList(addrFrom, addrTo, subject) {
-    if (this.unreadThreads.length > 0) {
-      return;
-    }
+    //if (this.unreadThreads.length > 0) {
+    //return;
+    //}
     for (let idx = 0; idx < 10; idx++) {
-      const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread,
-                                                    addrFrom, addrTo, subject).toPromise();
+      const res = await this.emailServ.indexUnread(
+        this.pageTokenUnread == null ? '' : this.pageTokenUnread,
+        addrFrom == null ? '' : addrFrom,
+        addrTo == null ? '' : addrTo,
+        subject == null ? '' : subject
+      ).toPromise();
       console.log(res);
       if (res.d.errId === '200') {
         const arrx = this.unreadThreads;
@@ -148,6 +152,8 @@ export class EmailsStoreService {
         arrx.push(...<Thread[]>res.d.threads);
         this.unreadThreads = arrx;
         if (res.d.pageToken == null) {
+          this.pageTokenUnread = '';
+
           break;
         } else {
           this.pageTokenUnread = res.d.pageToken;

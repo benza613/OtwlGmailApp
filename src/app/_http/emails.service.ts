@@ -19,9 +19,9 @@ export class EmailsService {
     }
   };
 
-  indexUnread(pageToken,addrFrom, addrTo, subject): Observable<any> {
+  indexUnread(pageToken, addrFrom, addrTo, subject): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getUnreadThreads`,
-      { pageToken,addrFrom, addrTo, subject},
+      { pageToken, addrFrom, addrTo, subject },
       this.httpOptions)
       .pipe(map(r => r));
   }

@@ -60,7 +60,7 @@ export class DomainStoreService {
     if (res.d.errId === '200') {
       this.refType = <RefType[]>res.d.refTypes;
     } else {
-      this.erorService.displayError(res, 'updateRefType');
+      this.erorService.displayError(res, 'fetchRefType');
     }
   }
 
@@ -69,7 +69,7 @@ export class DomainStoreService {
     if (res.d.errId === '200') {
       this.refTypeData = <RefTypeData[]>res.d.refData;
     } else {
-      this.erorService.displayError(res, 'updateRefTypeData');
+      this.erorService.displayError(res, 'fetchRefTypeData');
     }
   }
 
@@ -83,7 +83,7 @@ export class DomainStoreService {
       arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
       this.threadTypeData = arrx;
     } else {
-      this.erorService.displayError(res, 'updateThreadTypeData');
+      this.erorService.displayError(res, 'fetchThreadTypeData');
     }
   }
 

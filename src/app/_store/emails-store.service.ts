@@ -151,7 +151,7 @@ export class EmailsStoreService {
           this.pageTokenUnread = res.d.pageToken;
         }
       } else {
-        this.errorService.displayError(res, 'updateUnreadThreadList');
+        this.errorService.displayError(res, 'indexUnread');
       }
     }
   }
@@ -169,7 +169,7 @@ export class EmailsStoreService {
       this.unreadThreads = [...this.unreadThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
     } else {
-      this.errorService.displayError(res, 'update_UnreadThreadEmails');
+      this.errorService.displayError(res, 'fetchThreadEmails');
     }
   }
 
@@ -198,13 +198,14 @@ export class EmailsStoreService {
       this.mappedThreads = arrx;
       this.threadTypeList = arrx2;
     } else {
-      this.errorService.displayError(res, 'updateMappedThreadList');
+      this.errorService.displayError(res, 'getMappedThreads');
     }
   }
 
 
   async update_MappedThreadEmails(ThreadId) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    console.log(res);
     if (res.d.errId === '200') {
       const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
       this.mappedThreads[index].Messages = [];
@@ -225,7 +226,7 @@ export class EmailsStoreService {
       this.mappedThreads = [...this.mappedThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
     } else {
-      this.errorService.displayError(res, 'update_MappedThreadEmails');
+      this.errorService.displayError(res, 'fetchThreadEmails');
     }
   }
 
@@ -256,7 +257,7 @@ export class EmailsStoreService {
   async MessageAttch_DownloadLocal(msgId, attachmentGId) {
     const res = await this.emailServ.downloadLocal(msgId, attachmentGId).toPromise();
     if (res.d.errId !== '200') {
-      this.errorService.displayError(res, 'MessageAttch_DownloadLocal');
+      this.errorService.displayError(res, 'downloadLocal');
     }
   }
 
@@ -270,7 +271,7 @@ export class EmailsStoreService {
         this.folderList = arrx;
         resolve("OK");
       } else {
-        this.errorService.displayError(res, 'MessageAttch_RequestFSDir');
+        this.errorService.displayError(res, 'requestFSDir');
         rej();
 
       }
@@ -281,7 +282,7 @@ export class EmailsStoreService {
   async MessageAttch_SaveToFS(entityID, qlevel, msgid, attachmentGId, fileName) {
     const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, msgid, attachmentGId, fileName).toPromise();
     if (res.d.errId !== '200') {
-      this.errorService.displayError(res, 'MessageAttch_SaveToFS');
+      this.errorService.displayError(res, 'saveAttachmentToFS');
     }
   }
 

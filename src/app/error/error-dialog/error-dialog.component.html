@@ -2,15 +2,12 @@
 </ngx-spinner>
 
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">ERROR</h5>
+  <h5 class="modal-title" id="modal-basic-title" style="text-align: center">ERROR ID: {{res.d.errId}}</h5>
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
 <div class="modal-body col">
-  <div class="col">
-    {{errId}}
-  </div>
   <div class="col" style="align-content: center; padding-left: 0px;">
-    {{errMsg}}
+    {{res.d.errMsg}}
   </div>
   <!-- <div *ngFor="let thread of res.failThreads let i='index'" class="col">
       <div style="padding-bottom: 5px" class="row">

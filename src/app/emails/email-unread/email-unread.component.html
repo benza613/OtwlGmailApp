@@ -1,26 +1,49 @@
-<div fxLayout="column" style="height: 85vh;">
-    <div class="row" style="padding: 0px;">
-        <div class="col" style="margin: 0px 5px 20px 20px;">
-            <textarea class="form-control" [(ngModel)]="addrFrom" placeholder="EMAIL FROM"
-                rows="1"></textarea>
+<div class="row" style="height: 85vh;">
+    <div class="col-md-2 align-content-md-stretch" >
+        <h5>SEARCH</h5>
+        <div class="row">
+            <div class="col">
+                <small class="text-muted">EMAIL FROM</small>
+            </div>
         </div>
-        <div class="col" style="margin: 0px 5px 20px 20px;">
-            <textarea class="form-control" [(ngModel)]="addrTo" placeholder="EMAIL TO"
-                rows="1"></textarea>
+        <div class="row filters">
+            <div class="col">
+                <textarea class="form-control" [(ngModel)]="addrFrom"  rows="1"></textarea>
+            </div>
         </div>
-        <div class="col" style="margin: 0px 5px 20px 20px;">
-            <textarea class="form-control" [(ngModel)]="subject" placeholder="SUBJECT"
-                rows="1"></textarea>
+        <div class="row">
+            <div class="col">
+                <small class="text-muted">EMAIL TO</small>
+            </div>
+        </div>
+        <div class="row filters">
+            <div class="col">
+                <textarea class="form-control" [(ngModel)]="addrTo"  rows="1"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <small class="text-muted">SUBJECT</small>
+            </div>
+        </div>
+        <div class="row filters">
+            <div class="col">
+                <textarea class="form-control" [(ngModel)]="subject"  rows="1"></textarea>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col">
+                <button type="button" class="btn btn-warning" (click)="fetchUnreadThreads()">FILTER</button>
+            </div>
+        </div>
+    </div>
+    <div class="col" style="border-left: 2px solid #C0C0C0">
+        <div class="row pull-right">
+            <button type="button" class="btn btn-warning" (click)="getMails()">MAP</button>
         </div>
         <div>
-            <button type="button" class="btn btn-primary" (click)="fetchUnreadThreads()">FILTER</button>
+            <app-email-list [storeSelector]="dynamicdata">
+            </app-email-list>
         </div>
-    </div>
-    <div>
-        <button type="button" class="btn btn-warning" (click)="getMails()">MAP</button>
-    </div>
-    <div>
-        <app-email-list [storeSelector]="dynamicdata">
-        </app-email-list>
     </div>
 </div>

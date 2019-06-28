@@ -138,6 +138,7 @@ export class EmailsStoreService {
     }
     for (let idx = 0; idx < 10; idx++) {
       const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread).toPromise();
+      // console.log(res);
       if (res.d.errId === '200') {
         const arrx = this.unreadThreads;
         res.d.threads.forEach(x => {
@@ -181,6 +182,7 @@ export class EmailsStoreService {
 
   async updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
     const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
+    console.log(res);
     if (res.d.errId === '200') {
       this.mappedThreads = [];
       this.threadTypeList = [];
@@ -256,6 +258,7 @@ export class EmailsStoreService {
 
   async MessageAttch_DownloadLocal(msgId, attachmentGId) {
     const res = await this.emailServ.downloadLocal(msgId, attachmentGId).toPromise();
+    console.log(res);
     if (res.d.errId !== '200') {
       this.errorService.displayError(res, 'downloadLocal');
     }
@@ -264,6 +267,7 @@ export class EmailsStoreService {
   MessageAttch_RequestFSDir(reqThreadId) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
+      console.log(res);
       this.folderList = [];
       if (res.d.errId === '200') {
         const arrx = this.folderList;
@@ -281,6 +285,7 @@ export class EmailsStoreService {
 
   async MessageAttch_SaveToFS(entityID, qlevel, msgid, attachmentGId, fileName) {
     const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, msgid, attachmentGId, fileName).toPromise();
+    console.log(res);
     if (res.d.errId !== '200') {
       this.errorService.displayError(res, 'saveAttachmentToFS');
     }

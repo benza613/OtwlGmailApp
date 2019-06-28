@@ -9,30 +9,35 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ErrorDialogComponent implements OnInit {
   @Input() res: any;
-  @Input() methodName: string;
+  @Input() methodName: any;
+  misc;
   constructor(
     private spinner: NgxSpinnerService,
     private activeModal: NgbActiveModal
   ) { }
 
   ngOnInit() {
-    console.log(this.res.d.errMsg);
+    console.log(this.methodName);
     this.getContent();
+    // this.misc = `<div>
+    // <span>HELLO</span><br/><span>world</span>
+    // </div>`;
   }
 
   getContent() {
-    switch (this.methodName) {
+    switch (this.methodName.trim()) {
       case 'indexUnread': {
-        console.log(typeof this.res.threads);
+        console.log('DATA TYPE', typeof this.res.threads);
         this.populateHtml(this.res.threads);
         break;
       }
       case 'getMappedThreads': {
-        console.log(typeof this.res.mappedThreads);
-        console.log(typeof this.res.threadTypeList);
+        this.populateHtml(this.res.mappedThreads);
+        this.populateHtml(this.res.threadTypeList);
         break;
       }
       case 'fetchThreadEmails': {
+        this.populateHtml(this.res.msgList);
         console.log(typeof this.res.msgList);
         break;
       }
@@ -40,12 +45,29 @@ export class ErrorDialogComponent implements OnInit {
         break;
       }
       case 'requestFSDir': {
+        this.populateHtml(this.res.folder);
         break;
       }
       case 'saveAttachmentToFS': {
         break;
       }
       case 'sendNewMail': {
+        break;
+      }
+      case 'fetchRefType': {
+        this.populateHtml(this.res.refTypes);
+        break;
+      }
+      case 'fetchRefTypeData': {
+        this.populateHtml(this.res.refData);
+        break;
+      }
+      case 'fetchThreadTypeData': {
+        this.populateHtml(this.res.refData);
+        break;
+      }
+      case 'submitUnreadThreadData': {
+        // List of strings this.res.failThreads;
         break;
       }
       default: {
@@ -56,10 +78,13 @@ export class ErrorDialogComponent implements OnInit {
   }
 
   populateHtml(content) {
-    if (typeof content === 'number') {
-      //saeHtml
-    } else if (typeof content === 'object') {
+    if (typeof content === 'string') {
       //safeHtml
+    } else if (typeof content === 'object') {
+      console.log(content);
+      this.misc = `<div *ngFor="let item of content">
+                        <span>item</span>
+                    </div>`;
     } else {
       //do something
     }

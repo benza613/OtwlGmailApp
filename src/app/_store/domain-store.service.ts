@@ -57,6 +57,7 @@ export class DomainStoreService {
       return;
     }
     const res = await this.domainService.fetchRefType().toPromise();
+    console.log(res);
     if (res.d.errId === '200') {
       this.refType = <RefType[]>res.d.refTypes;
     } else {
@@ -66,6 +67,7 @@ export class DomainStoreService {
 
   async updateRefTypeData(refId) {
     const res = await this.domainService.fetchRefTypeData(refId).toPromise();
+    console.log(res);
     if (res.d.errId === '200') {
       this.refTypeData = <RefTypeData[]>res.d.refData;
     } else {
@@ -78,6 +80,7 @@ export class DomainStoreService {
       return;
     }
     const res = await this.domainService.fetchThreadTypeData().toPromise();
+    console.log(res);
     if (res.d.errId === '200') {
       const arrx = this.threadTypeData;
       arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
@@ -89,6 +92,7 @@ export class DomainStoreService {
 
   async submitUnreadThreadData(mapTypes) {
     const res = await this.domainService.submitUnreadThreadData(mapTypes).toPromise();
+    console.log(res);
     if (res.d.errId !== '200') {
       this.erorService.displayError(res, 'submitUnreadThreadData');
     }

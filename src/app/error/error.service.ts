@@ -12,11 +12,12 @@ export class ErrorService {
   ) { }
 
   displayError(response, methodName) {
+    console.log(methodName);
     const modalRef = this.modalService.open(
       ErrorDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
     modalRef.componentInstance.res = response;
-    modalRef.componentInstance.method = methodName;
+    modalRef.componentInstance.methodName = methodName;
   }
 }

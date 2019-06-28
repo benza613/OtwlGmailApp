@@ -213,11 +213,11 @@ export class EmailsStoreService {
         res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
           if (res.d.msgList[ix].attachments[x] < 99999) {
-            res.d.msgList[ix].attachments[x] = String(res.d.msgList[ix].attachments[x] / 1000) +
-                                                 String(res.d.msgList[ix].attachments[x] % 1000) + 'KB';
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1000).toFixed(2))
+                                                           + 'KB';
           } else {
-            res.d.msgList[ix].attachments[x] = String(res.d.msgList[ix].attachments[x] / 1000000) +
-                                                String(res.d.msgList[ix].attachments[x] % 1000000) + 'MB';
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1000000).toFixed(2))
+                                                             + 'MB';
           }
         }
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);

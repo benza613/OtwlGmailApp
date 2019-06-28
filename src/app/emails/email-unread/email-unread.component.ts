@@ -43,4 +43,9 @@ export class EmailUnreadComponent implements OnInit {
     }
   }
 
+  fetchUnreadThreads() {
+    console.log(this.addrFrom, this.addrTo, this.subject);
+    this.emailStore.updateUnreadThreadList(this.addrFrom, this.addrTo, this.subject);
+  }
+
 }

@@ -1,8 +1,26 @@
 <div fxLayout="column" style="height: 85vh;">
+    <div class="row" style="padding: 0px;">
+        <div class="col" style="margin: 0px 5px 20px 20px;">
+            <textarea class="form-control" [(ngModel)]="addrFrom" placeholder="FROM"
+                (keyup)="applyFilter($event.target.value)" rows="1"></textarea>
+        </div>
+        <div class="col" style="margin: 0px 5px 20px 20px;">
+            <textarea class="form-control" [(ngModel)]="addrTo" placeholder="TO"
+                (keyup)="applyFilter($event.target.value)" rows="1"></textarea>
+        </div>
+        <div class="col" style="margin: 0px 5px 20px 20px;">
+            <textarea class="form-control" [(ngModel)]="subject" placeholder="SUBJECT"
+                (keyup)="applyFilter($event.target.value)" rows="1"></textarea>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary" (click)="fetch = 1">FILTER</button>
+        </div>
+    </div>
     <div>
         <button type="button" class="btn btn-warning" (click)="getMails()">MAP</button>
     </div>
     <div>
-        <app-email-list [storeSelector]="dynamicdata"></app-email-list>
+        <app-email-list [storeSelector]="dynamicdata" [addrFrom]="addrFrom" [addrTo]="addrTo" [subject]="fetch">
+        </app-email-list>
     </div>
 </div>

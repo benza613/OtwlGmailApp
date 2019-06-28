@@ -9,6 +9,10 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 })
 export class EmailListComponent implements OnInit {
   @Input() storeSelector: string;
+  @Input() addrFrom: string;
+  @Input() addrTo: string;
+  @Input() subject: string;
+  @Input() fetch: number;
 
 
   t_CollectionSize: number;
@@ -22,22 +26,21 @@ export class EmailListComponent implements OnInit {
   constructor(
     public emailStore: EmailsStoreService) {
 
-
-
-
   }
 
   ngOnInit() {
+    console.log(this.addrFrom, this.addrTo, this.subject, this.fetch);
 
     if (this.storeSelector === "EmailUnreadComponent") {
       this.emailStore.unreadThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;
-      })
+      });
       this.threadList = this.emailStore.unreadThreads$;
     }
 
-
-    this.emailStore.updateUnreadThreadList();
+    if (this.fetch === 1) {
+      this.emailStore.updateUnreadThreadList(this.addrFrom, this.addrTo, this.subject);
+    }
 
   }
 

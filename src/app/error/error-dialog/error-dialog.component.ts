@@ -27,8 +27,21 @@ export class ErrorDialogComponent implements OnInit {
   getContent() {
     switch (this.methodName.trim()) {
       case 'indexUnread': {
-        console.log('DATA TYPE', typeof this.res.threads);
-        this.populateHtml(this.res.threads);
+        console.log('DATA', this.res.threads);
+        this.misc = `<table class="table table-striped" style="width: 100%">
+                        <thead>
+                          <th scope="col" style="text-align: center;">ID</th>
+                          <th scope="col" style="text-align: center;">Subject</th>
+                          <th scope="col" style="text-align: center;">Date</th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of this.res.threads; index as i">
+                            <td style="text-align: center;">{{item.ThreadId}}</td>
+                            <td style="text-align: center;">{{item.Subject}}</td>
+                            <td style="text-align: center;">{{item.Msg_Date}}</td>
+                          </tr>
+                        </tbody>
+                     </table>`;
         break;
       }
       case 'getMappedThreads': {

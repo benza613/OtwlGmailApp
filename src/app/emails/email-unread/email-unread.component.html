@@ -2,15 +2,15 @@
     <div class="row" style="padding: 0px;">
         <div class="col" style="margin: 0px 5px 20px 20px;">
             <textarea class="form-control" [(ngModel)]="addrFrom" placeholder="FROM"
-                (keyup)="applyFilter($event.target.value)" rows="1"></textarea>
+                rows="1"></textarea>
         </div>
         <div class="col" style="margin: 0px 5px 20px 20px;">
             <textarea class="form-control" [(ngModel)]="addrTo" placeholder="TO"
-                (keyup)="applyFilter($event.target.value)" rows="1"></textarea>
+                rows="1"></textarea>
         </div>
         <div class="col" style="margin: 0px 5px 20px 20px;">
             <textarea class="form-control" [(ngModel)]="subject" placeholder="SUBJECT"
-                (keyup)="applyFilter($event.target.value)" rows="1"></textarea>
+                rows="1"></textarea>
         </div>
         <div>
             <button type="button" class="btn btn-primary" (click)="fetch = 1">FILTER</button>

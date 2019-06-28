@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 // edit this with your file names
 templfile = 'csharp/Home.aspx';
-distfile = 'dist/OtwlGmailApp/CD.aspx';
+distfile = 'dist/OtwlGmailApp/Home.aspx';
 distIndexfile = 'dist/OtwlGmailApp/index.html';
 
 srcdir = 'dist/OtwlGmailApp';

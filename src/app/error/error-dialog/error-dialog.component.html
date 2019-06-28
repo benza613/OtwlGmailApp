@@ -9,7 +9,7 @@
   <div class="col" style="align-content: center; padding-left: 0px;">
     {{res.d.errMsg}}
   </div>
-  <div class="row" [innerHTML]="misc | safeHtml" style="max-width:100%; margin: 0px;">
+  <div class="row" *ngIf="misc !== ''" [innerHTML]="misc | safeHtml" style="max-width:100%; margin: 0px;">
 
   </div>
 </div>

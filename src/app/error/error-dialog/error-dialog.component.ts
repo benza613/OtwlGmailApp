@@ -10,7 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ErrorDialogComponent implements OnInit {
   @Input() res: any;
   @Input() methodName: any;
-  misc;
+  misc = '';
   constructor(
     private spinner: NgxSpinnerService,
     public activeModal: NgbActiveModal

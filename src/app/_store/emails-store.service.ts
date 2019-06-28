@@ -282,8 +282,8 @@ export class EmailsStoreService {
 
   }
 
-  async MessageAttch_SaveToFS(entityID, qlevel, msgid, attachmentGId, fileName) {
-    const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, msgid, attachmentGId, fileName).toPromise();
+  async MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName) {
+    const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName).toPromise();
     console.log(res);
     if (res.d.errId !== '200') {
       this.errorService.displayError(res, 'saveAttachmentToFS');

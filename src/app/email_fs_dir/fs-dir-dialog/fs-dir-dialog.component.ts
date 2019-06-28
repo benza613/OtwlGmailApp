@@ -17,6 +17,7 @@ export class FSDirDialogComponent implements OnInit {
   @Input() msgId;
   @Input() attachmentGId;
   @Input() attachmentName;
+  @Input() reqThreadId;
   folderList: any;
   backDisable = true;
   browseDisable = false;
@@ -65,7 +66,7 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
-     this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel,  this.msgId,  this.attachmentGId,  this.attachmentName);
+     this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel, this.reqThreadId,  this.msgId,  this.attachmentGId,  this.attachmentName);
   }
 
 

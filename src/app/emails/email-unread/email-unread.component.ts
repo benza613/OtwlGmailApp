@@ -12,6 +12,10 @@ import { DomainStoreService } from 'src/app/_store/domain-store.service';
 export class EmailUnreadComponent implements OnInit {
   dynamicdata: string = 'EmailUnreadComponent';
   mailList;
+  addrFrom;
+  addrTo;
+  subject;
+  fetch;
   constructor(
     public emailStore: EmailsStoreService,
     public modalService: NgbModal,

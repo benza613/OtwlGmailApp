@@ -34,7 +34,6 @@ export class EmailListComponent implements OnInit {
         this.t_CollectionSize = x;
       })
       this.threadList = this.emailStore.unreadThreads$;
-      console.log(this.threadList);
     }
 
 

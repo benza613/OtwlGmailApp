@@ -82,7 +82,6 @@ export class DomainStoreService {
       const arrx = this.threadTypeData;
       arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
       this.threadTypeData = arrx;
-      console.log(this.threadTypeData);
     } else {
       this.erorService.displayError(res, 'updateThreadTypeData');
     }

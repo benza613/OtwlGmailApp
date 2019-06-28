@@ -53,8 +53,6 @@ export class EmailsService {
   }
 
   saveAttachmentToFS( entityID,  qlevel,  msgid,  attachmentGId,  fileName): Observable<any> {
-    console.log({ entityID,  qlevel,  msgid,  attachmentGId,  fileName });
-    
     return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`, //PUT METHOD NAME
       { entityID,  qlevel,  msgid,  attachmentGId,  fileName },
       this.httpOptions)

@@ -69,7 +69,6 @@ export class EmailList2Component implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.thread = thread;
     modalRef.componentInstance.response.subscribe((threadGId) => {
-      console.log(threadGId);
     });
   }
 

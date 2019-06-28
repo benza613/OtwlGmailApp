@@ -28,12 +28,7 @@ export class FSDirDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-
-
     this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
-    console.log(this.folderList[0]);
-
   }
 
   incrementLevel(folder, idx) {
@@ -57,9 +52,6 @@ export class FSDirDialogComponent implements OnInit {
           x.isParentFolder_ID === folder.entityID);
       }
     }
-
-    console.log(this.folderList);
-
   }
 
   decrementLevel() {

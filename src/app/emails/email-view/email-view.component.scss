@@ -11,3 +11,18 @@
   background-color: #3a3a3a;
   color: white;
 }
+
+.parent {
+  height: 160px;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.child {
+  width: 200px; 
+  height: 80%;
+  box-sizing: border-box;
+  background: #3b3b3b;
+  display:inline-block;
+}

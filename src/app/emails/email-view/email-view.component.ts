@@ -36,8 +36,7 @@ export class EmailViewComponent implements OnInit {
 
     this.route.queryParams
       .subscribe(params => {
-        console.log(params);
-
+        // console.log(params);
         this.storeSelector = params.q;
         this.refId = params.j;
         this.renderMessages();

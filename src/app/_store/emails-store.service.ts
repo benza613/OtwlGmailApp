@@ -121,8 +121,6 @@ export class EmailsStoreService {
       packet.subject, body, inlineAttachments,
       actionType, MessageID,
       TokenPossession).toPromise();
-    console.log(res);
-
     if (res.d.errId === '200') {
 
     } else {
@@ -161,7 +159,6 @@ export class EmailsStoreService {
 
   async update_UnreadThreadEmails(ThreadId, storeSelector) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    console.log(res);
     if (res.d.errId === '200') {
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
       this.unreadThreads[index].Messages = [];
@@ -208,7 +205,6 @@ export class EmailsStoreService {
 
   async update_MappedThreadEmails(ThreadId) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    console.log('getmails', res);
     if (res.d.errId === '200') {
       const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
       this.mappedThreads[index].Messages = [];
@@ -258,7 +254,6 @@ export class EmailsStoreService {
   async MessageAttch_RequestFSDir(reqThreadId) {
     const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
     this.folderList = [];
-    console.log('Store', res);
     if (res.d.errId === '200') {
       const arrx = this.folderList;
       arrx.push(...<Folders[]>res.d.folders);

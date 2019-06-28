@@ -82,23 +82,15 @@ export class EditorComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
         if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
-          console.log('found params', params);
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
           this._reqStoreSelector = params.q;
           this._reqActionType = params.a;
-
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
-          console.log('xx', x);
-
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleAddressFields(x.msgs);
-
             this.msgPacket.subject = x.subject;
-
-
           }
-          console.log(this.msgPacket);
         } else {
           this.initMessagePacket_LocalStorage(emlData);
         }

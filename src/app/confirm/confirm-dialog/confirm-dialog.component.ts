@@ -15,7 +15,6 @@ export class ConfirmDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.thread.ThreadGID);
   }
 
   onConfirmation(char) {

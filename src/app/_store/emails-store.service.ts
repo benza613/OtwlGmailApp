@@ -212,12 +212,12 @@ export class EmailsStoreService {
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
         res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
-          if (res.d.msgList[ix].attachments[x] < 99999) {
-            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1000).toFixed(2))
-                                                           + 'KB';
+          if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
+              + 'KB';
           } else {
-            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1000000).toFixed(2))
-                                                             + 'MB';
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
+              + 'MB';
           }
         }
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
@@ -260,16 +260,22 @@ export class EmailsStoreService {
     }
   }
 
-  async MessageAttch_RequestFSDir(reqThreadId) {
-    const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
-    this.folderList = [];
-    if (res.d.errId === '200') {
-      const arrx = this.folderList;
-      arrx.push(...<Folders[]>res.d.folders);
-      this.folderList = arrx;
-    } else {
-      this.errorService.displayError(res, 'MessageAttch_RequestFSDir');
-    }
+  MessageAttch_RequestFSDir(reqThreadId) {
+    return new Promise(async (resolve, rej) => {
+      const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
+      this.folderList = [];
+      if (res.d.errId === '200') {
+        const arrx = this.folderList;
+        arrx.push(...<Folders[]>res.d.folders);
+        this.folderList = arrx;
+        resolve("OK");
+      } else {
+        this.errorService.displayError(res, 'MessageAttch_RequestFSDir');
+        rej();
+
+      }
+    })
+
   }
 
   async MessageAttch_SaveToFS(entityID, qlevel, msgid, attachmentGId, fileName) {

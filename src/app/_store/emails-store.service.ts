@@ -211,6 +211,15 @@ export class EmailsStoreService {
 
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
         res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
+          if (res.d.msgList[ix].attachments[x] < 99999) {
+            res.d.msgList[ix].attachments[x] = String(res.d.msgList[ix].attachments[x] / 1000) +
+                                                 String(res.d.msgList[ix].attachments[x] % 1000) + 'KB';
+          } else {
+            res.d.msgList[ix].attachments[x] = String(res.d.msgList[ix].attachments[x] / 1000000) +
+                                                String(res.d.msgList[ix].attachments[x] % 1000000) + 'MB';
+          }
+        }
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];

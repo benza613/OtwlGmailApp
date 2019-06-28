@@ -1,13 +1,11 @@
 import { DomainService } from './../_http/domain.service';
-import { Thread } from './../models/thread.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { RefType } from '../models/ref-type';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ErrorDialogComponent } from '../error/error-dialog/error-dialog.component';
-import { EmailsService } from '../_http/emails.service';
+import { ErrorService } from '../error/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,7 @@ export class DomainStoreService {
   constructor(
     private domainService: DomainService,
     private modalService: NgbModal,
-    private emailService: EmailsService
+    private erorService: ErrorService
   ) { }
 
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
@@ -62,7 +60,7 @@ export class DomainStoreService {
     if (res.d.errId === '200') {
       this.refType = <RefType[]>res.d.refTypes;
     } else {
-      console.log(res.d.errMsg);
+      this.erorService.displayError(res, 'updateRefType');
     }
   }
 
@@ -71,7 +69,7 @@ export class DomainStoreService {
     if (res.d.errId === '200') {
       this.refTypeData = <RefTypeData[]>res.d.refData;
     } else {
-      console.log(res.d.errMsg);
+      this.erorService.displayError(res, 'updateRefTypeData');
     }
   }
 
@@ -86,18 +84,14 @@ export class DomainStoreService {
       this.threadTypeData = arrx;
       console.log(this.threadTypeData);
     } else {
-      console.log(res.d.errMsg);
+      this.erorService.displayError(res, 'updateThreadTypeData');
     }
   }
 
   async submitUnreadThreadData(mapTypes) {
     const res = await this.domainService.submitUnreadThreadData(mapTypes).toPromise();
     if (res.d.errId !== '200') {
-      const modalRef = this.modalService.open(
-        ErrorDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.componentInstance.res = res;
+      this.erorService.displayError(res, 'submitUnreadThreadData');
     }
   }
 

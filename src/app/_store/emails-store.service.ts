@@ -4,12 +4,11 @@ import { ThreadTypeData } from './../models/thread-type-data';
 import { MappedThread } from './../models/mapped-thread';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { shareReplay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { ErrorDialogComponent } from '../error/error-dialog/error-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorService } from './../error/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,8 @@ export class EmailsStoreService {
   constructor(
     private emailServ: EmailsService,
     private router: Router,
-    private modalService: NgbModal) { }
+
+    private errorService: ErrorService) { }
 
 
   // - We set the initial state in BehaviorSubject's constructor
@@ -153,11 +153,7 @@ export class EmailsStoreService {
           this.pageTokenUnread = res.d.pageToken;
         }
       } else {
-        const modalRef = this.modalService.open(
-          ErrorDialogComponent,
-          { size: 'lg', backdrop: 'static', keyboard: false }
-        );
-        modalRef.componentInstance.res = res;
+        this.errorService.displayError(res, 'updateUnreadThreadList');
       }
     }
   }
@@ -176,11 +172,7 @@ export class EmailsStoreService {
       this.unreadThreads = [...this.unreadThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
     } else {
-      const modalRef = this.modalService.open(
-        ErrorDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.componentInstance.res = res;
+      this.errorService.displayError(res, 'update_UnreadThreadEmails');
     }
   }
 
@@ -209,11 +201,7 @@ export class EmailsStoreService {
       this.mappedThreads = arrx;
       this.threadTypeList = arrx2;
     } else {
-      const modalRef = this.modalService.open(
-        ErrorDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.componentInstance.res = res;
+      this.errorService.displayError(res, 'updateMappedThreadList');
     }
   }
 
@@ -232,11 +220,7 @@ export class EmailsStoreService {
       this.mappedThreads = [...this.mappedThreads];
       this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
     } else {
-      const modalRef = this.modalService.open(
-        ErrorDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.componentInstance.res = res;
+      this.errorService.displayError(res, 'update_MappedThreadEmails');
     }
   }
 
@@ -266,7 +250,9 @@ export class EmailsStoreService {
 
   async MessageAttch_DownloadLocal(msgId, attachmentGId) {
     const res = await this.emailServ.downloadLocal(msgId, attachmentGId).toPromise();
-    console.log('Local', res);
+    if (res.d.errId !== '200') {
+      this.errorService.displayError(res, 'MessageAttch_DownloadLocal');
+    }
   }
 
   async MessageAttch_RequestFSDir(reqThreadId) {
@@ -278,17 +264,15 @@ export class EmailsStoreService {
       arrx.push(...<Folders[]>res.d.folders);
       this.folderList = arrx;
     } else {
-      const modalRef = this.modalService.open(
-        ErrorDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.componentInstance.res = res;
+      this.errorService.displayError(res, 'MessageAttch_RequestFSDir');
     }
   }
 
   async MessageAttch_SaveToFS(entityID, qlevel, msgid, attachmentGId, fileName) {
     const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, msgid, attachmentGId, fileName).toPromise();
-    console.log('FileServer', res);
+    if (res.d.errId !== '200') {
+      this.errorService.displayError(res, 'MessageAttch_SaveToFS');
+    }
   }
 
 }

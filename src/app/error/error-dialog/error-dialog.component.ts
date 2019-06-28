@@ -9,14 +9,16 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ErrorDialogComponent implements OnInit {
 
-  @Input() res: any;
+  @Input() errId: any;
+  @Input() errMsg: any;
+  // @Input() res: any;
   constructor(
     private spinner: NgxSpinnerService,
     private activeModal: NgbActiveModal
   ) { }
 
   ngOnInit() {
-    console.log(this.res.errMsg);
+    console.log(this.errMsg);
   }
 
 }

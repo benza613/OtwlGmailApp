@@ -52,9 +52,9 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  saveAttachmentToFS( entityID,  qlevel,  msgid,  attachmentGId,  fileName): Observable<any> {
+  saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`, //PUT METHOD NAME
-      { entityID,  qlevel,  msgid,  attachmentGId,  fileName },
+      { entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName },
       this.httpOptions)
       .pipe(map(r => r));
   }

@@ -13,7 +13,7 @@ export class ErrorDialogComponent implements OnInit {
   misc;
   constructor(
     private spinner: NgxSpinnerService,
-    private activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal
   ) { }
 
   ngOnInit() {

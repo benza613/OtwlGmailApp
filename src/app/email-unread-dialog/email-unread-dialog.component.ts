@@ -25,7 +25,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   constructor(
     private domainStore: DomainStoreService,
     private config: NgbModalConfig,
-    private activeModal: NgbActiveModal,
+    public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService
   ) { }
 

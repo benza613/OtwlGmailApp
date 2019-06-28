@@ -72,7 +72,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
     });
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter() {
     this.mappedFilterargs = { a: this.reference, b: this.threadTypeVal, c: this.subject };
     //this.debounceSearch.next(filterValue);
     //

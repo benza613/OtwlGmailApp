@@ -24,7 +24,7 @@ export class FSDirDialogComponent implements OnInit {
 
 
   constructor(
-    private activeModal: NgbActiveModal,
+    public activeModal: NgbActiveModal,
     private emailStore: EmailsStoreService
   ) { }
 

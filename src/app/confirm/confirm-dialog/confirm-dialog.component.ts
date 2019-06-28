@@ -11,7 +11,7 @@ export class ConfirmDialogComponent implements OnInit {
   showDetails = false;
   @Output() response: EventEmitter<any> = new EventEmitter();
   constructor(
-    private activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal
   ) { }
 
   ngOnInit() {

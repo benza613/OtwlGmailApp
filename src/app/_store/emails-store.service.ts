@@ -137,7 +137,8 @@ export class EmailsStoreService {
       return;
     }
     for (let idx = 0; idx < 10; idx++) {
-      const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread,addrFrom, addrTo, subject).toPromise();
+      const res = await this.emailServ.indexUnread(this.pageTokenUnread == null ? '' : this.pageTokenUnread,
+                                                    addrFrom, addrTo, subject).toPromise();
       console.log(res);
       if (res.d.errId === '200') {
         const arrx = this.unreadThreads;

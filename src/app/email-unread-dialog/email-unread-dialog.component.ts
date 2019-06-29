@@ -43,9 +43,11 @@ export class EmailUnreadDialogComponent implements OnInit {
         for (let ix = 0; ix < x.length; ix++) {
           this.refTypeData = [...this.refTypeData, x[ix]];
         }
+        setTimeout(() => {
+          this.spinner.hide();
+        });
       });
     }
-    this.spinner.hide();
   }
 
   onSubmit() {

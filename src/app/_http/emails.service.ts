@@ -38,9 +38,9 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  downloadLocal(msgId, attachmentGId): Observable<any> {
+  downloadLocal(msgId, attachmentGIds): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/`, //PUT METHOD NAME
-      { msgId, attachmentGId },
+      { msgId, attachmentGIds },
       this.httpOptions)
       .pipe(map(r => r));
   }
@@ -52,9 +52,9 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName): Observable<any> {
+  saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`, //PUT METHOD NAME
-      { entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName },
+      { entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames },
       this.httpOptions)
       .pipe(map(r => r));
   }

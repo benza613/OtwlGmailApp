@@ -1,3 +1,6 @@
+<ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
+</ngx-spinner>
+
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
@@ -6,7 +9,8 @@
   <div class="card-body no-gutters">
     <div class="row">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)" style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+        <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
+          style="transform: scale(1.5);-webkit-transform: scale(1.5);">
       </div>
       <div class="col-md-4">
         <div class="row align-items-center">
@@ -15,7 +19,9 @@
       </div>
       <div class="col-md-7">
         <div class="row align-items-center">
-          <div class="col-12 MailSubject"><i [ngbTooltip]="item.Subject" container="body">{{item.Subject | slice:0:50}}<i *ngIf="item.Subject.length > 50">...</i></i><i class="MailDate pull-right">{{item.Msg_Date}}</i>
+          <div class="col-12 MailSubject"><i [ngbTooltip]="item.Subject"
+              container="body">{{item.Subject | slice:0:50}}<i *ngIf="item.Subject.length > 50">...</i></i><i
+              class="MailDate pull-right">{{item.Msg_Date}}</i>
           </div>
         </div>
       </div>

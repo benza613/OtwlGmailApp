@@ -1,12 +1,13 @@
 import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { RefType } from '../../models/ref-type';
 import { RefTypeData } from '../../models/ref-type-data';
 import { DomainStoreService } from '../../_store/domain-store.service';
 import { ThreadTypeData } from 'src/app/models/thread-type-data';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-email-mapped',
@@ -27,16 +28,19 @@ export class EmailMappedComponent implements OnInit {
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService,
+    private spinner: NgxSpinnerService
   ) {
     this.domainStore.updateRefType();
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.domainStore.refType$.subscribe(x => {
       this.refType = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.refType = [...this.refType, x[ix]];
       }
+      this.spinner.hide();
     });
 
     this.domainStore.threadTypeData$.subscribe(x => {
@@ -50,6 +54,7 @@ export class EmailMappedComponent implements OnInit {
     this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };
   }
   onChange_GetRefTypeData() {
+    this.spinner.show();
     if (this.refId) {
       this.domainStore.updateRefTypeData(this.refId);
       this.domainStore.refTypeData$.subscribe(x => {
@@ -57,6 +62,9 @@ export class EmailMappedComponent implements OnInit {
         for (let ix = 0; ix < x.length; ix++) {
           this.refTypeData = [...this.refTypeData, x[ix]];
         }
+        setTimeout(()=>{
+          this.spinner.hide();
+        }, 1000);
       });
     } else {
       alert('Please select a Reference Type');

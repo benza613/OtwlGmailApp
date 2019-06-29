@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EmailsService } from 'src/app/_http/emails.service';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
-import { Observable } from 'rxjs';
 import { Folders } from 'src/app/models/folders.model';
 
 @Component({
@@ -15,8 +13,8 @@ export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
   @Input() folderHierarchy: Folders[];
   @Input() msgId;
-  @Input() attachmentGId;
-  @Input() attachmentName;
+  @Input() attachmentGIds;
+  @Input() attachmentNames;
   @Input() reqThreadId;
   folderList: any;
   backDisable = true;
@@ -25,7 +23,7 @@ export class FSDirDialogComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private emailStore: EmailsStoreService
+    private emailStore: EmailsStoreService,
   ) { }
 
   ngOnInit() {
@@ -63,7 +61,8 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
-     this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel, this.reqThreadId,  this.msgId,  this.attachmentGId,  this.attachmentName);
+     this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel, this.reqThreadId,
+                                            this.msgId,  this.attachmentGIds,  this.attachmentNames);
   }
 
 

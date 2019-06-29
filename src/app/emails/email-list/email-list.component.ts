@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-email-list',
@@ -20,18 +21,22 @@ export class EmailListComponent implements OnInit {
   threadTrackFn = (i, thread) => thread.ThreadId;
 
   constructor(
-    public emailStore: EmailsStoreService) {
+    public emailStore: EmailsStoreService,
+    private spinner: NgxSpinnerService) {
 
   }
 
   ngOnInit() {
+    this.spinner.show();
     if (this.storeSelector === "EmailUnreadComponent") {
       this.emailStore.unreadThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;
       });
       this.threadList = this.emailStore.unreadThreads$;
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 2000);
     }
-
   }
 
   onClick_GetThreadMessages(threadData) {

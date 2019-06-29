@@ -9,6 +9,7 @@ import { EmailsService } from '../_http/emails.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ErrorService } from './../error/error.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class EmailsStoreService {
   constructor(
     private emailServ: EmailsService,
     private router: Router,
-
+    private spinner: NgxSpinnerService,
     private errorService: ErrorService) { }
 
 
@@ -172,6 +173,15 @@ export class EmailsStoreService {
       this.unreadThreads[index].Messages = [];
       for (let ix = 0; ix < res.d.msgList.length; ix++) {
         res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
+          if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
+              + 'KB';
+          } else {
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
+              + 'MB';
+          }
+        }
         this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.unreadThreads = [...this.unreadThreads];
@@ -263,8 +273,8 @@ export class EmailsStoreService {
     }
   }
 
-  async MessageAttch_DownloadLocal(msgId, attachmentGId) {
-    const res = await this.emailServ.downloadLocal(msgId, attachmentGId).toPromise();
+  async MessageAttch_DownloadLocal(msgId, attachmentGIds) {
+    const res = await this.emailServ.downloadLocal(msgId, attachmentGIds).toPromise();
     console.log(res);
     if (res.d.errId !== '200') {
       this.errorService.displayError(res, 'downloadLocal');
@@ -289,8 +299,8 @@ export class EmailsStoreService {
 
   }
 
-  async MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName) {
-    const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGId, fileName).toPromise();
+  async MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames) {
+    const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames).toPromise();
     console.log(res);
     if (res.d.errId !== '200') {
       this.errorService.displayError(res, 'saveAttachmentToFS');

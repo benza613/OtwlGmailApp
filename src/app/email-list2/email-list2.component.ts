@@ -5,6 +5,7 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { DomainStoreService } from '../_store/domain-store.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-email-list2',
@@ -33,11 +34,12 @@ export class EmailList2Component implements OnInit, OnDestroy {
   constructor(
     public emailStore: EmailsStoreService,
     private domainStore: DomainStoreService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
-
+    this.spinner.show();
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
@@ -51,12 +53,12 @@ export class EmailList2Component implements OnInit, OnDestroy {
     // });
 
     this.mappedThreads = this.emailStore.mappedThreads$;
-
     this.domainStore.threadTypeData$.subscribe(x => {
       this.threadTypeData = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
       }
+      this.spinner.hide();
     });
 
 

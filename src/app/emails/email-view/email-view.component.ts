@@ -23,6 +23,8 @@ export class EmailViewComponent implements OnInit {
   refId;
   emailList;
   details = false;
+  attachmentGIDs = [];
+  attachmentNames = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -78,27 +80,44 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
-  async fileAction(id, msgId, attachment) {
-    if (id === 1) {
-      this.emailStore.MessageAttch_DownloadLocal(msgId, attachment.attachmentGId);
+  async fileAction(id, msgId, attachments, file?) {
+    this.attachmentGIDs = [];
+    this.attachmentNames = [];
+    if (file) {
+      this.attachmentGIDs.push(file.attachmentGId);
+      this.attachmentNames.push(file.fileName);
     } else {
-      await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
-        const modalRef = this.modalService.open(
-          FSDirDialogComponent,
-          { size: 'lg', backdrop: 'static', keyboard: false }
-        );
-        this.emailStore.getFolderList$.subscribe(x => {
-          modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
-          modalRef.componentInstance.folderHierarchy = x;
-          modalRef.componentInstance.msgId = msgId;
-          modalRef.componentInstance.attachmentGId = attachment.attachmentGId;
-          modalRef.componentInstance.attachmentName = attachment.fileName;
-          modalRef.componentInstance.reqThreadId = this.reqThreadId;
-        });
-
+      attachments = attachments.filter(x => x.isChecked !== undefined);
+      attachments.forEach(att => {
+        this.attachmentGIDs.push(att.attachmentGId);
       });
-
+      attachments.forEach(att => {
+        this.attachmentNames.push(att.fileName);
+      });
     }
+    console.log(this.attachmentGIDs);
+    console.log(this.attachmentNames);
+
+    // if (id === 1) {
+    //   this.emailStore.MessageAttch_DownloadLocal(msgId, this.attachmentGIDs);
+    // } else {
+    //   await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
+    //     const modalRef = this.modalService.open(
+    //       FSDirDialogComponent,
+    //       { size: 'lg', backdrop: 'static', keyboard: false }
+    //     );
+    //     this.emailStore.getFolderList$.subscribe(x => {
+    //       modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+    //       modalRef.componentInstance.folderHierarchy = x;
+    //       modalRef.componentInstance.msgId = msgId;
+    //       modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
+    //       modalRef.componentInstance.attachmentNames = this.attachmentNames;
+    //       modalRef.componentInstance.reqThreadId = this.reqThreadId;
+    //     });
+
+    //   });
+
+    // }
   }
 
 }

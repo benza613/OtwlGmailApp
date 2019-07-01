@@ -27,6 +27,7 @@ export class EmailMappedComponent implements OnInit {
   dateFrom: NgbDateStruct;
   dateTo: NgbDateStruct;
   disableDate = true;
+  disableDropdowns = false;
   mappedThreadList: MappedThread[] = [];
 
   _queryParams = { r: null, v: null };
@@ -53,22 +54,15 @@ export class EmailMappedComponent implements OnInit {
       this.route.queryParams.subscribe((params) => {
         if (params.r !== undefined && params.v !== undefined) {
           this.refId = params.r;
-
+          this.disableDropdowns = true;
           this._queryParams.r = params.r;
           this._queryParams.v = params.v;
           this.authServ.login();
-
           this.onChange_GetRefTypeData();
-
         } else {
           this.spinner.hide();
-
         }
       });
-      //1. if route params exists both
-      //2. set r .. trigger onchange to get threadTypeData list
-      //3. on fetch on threadTypeData list ... set v 
-      //4. trigger GET THREADS
     });
 
 

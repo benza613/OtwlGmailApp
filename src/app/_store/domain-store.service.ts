@@ -113,7 +113,7 @@ export class DomainStoreService {
       if (result.d.errId === '200') {
         res(result.d.errId);
       } else {
-        this.erorService.displayError(res, 'submitUnreadThreadData');
+        this.erorService.displayError(result, 'submitUnreadThreadData');
         rej();
       }
     });

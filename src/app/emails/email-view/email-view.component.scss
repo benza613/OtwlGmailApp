@@ -19,8 +19,76 @@
   flex-wrap: wrap;
 }
 
+.tags {
+  color:rgb(133, 130, 130) !important; 
+  font-weight: 600;
+}
+
+.attachments {
+  height: 100px !important;
+  width: 32% !important;
+  margin: 5px !important; 
+  background-color: #3a3a3a;
+  color:white;
+}
+
+.attSections {
+  color:rgb(255, 255, 255); 
+  font-weight: 600; 
+  margin-left: 10px !important;
+}
+
 .actions {
   transform: scale(0.75); 
   -webkit-transform: scale(0.75);
   margin-right: 10px;
 }
+
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) { 
+  .attachments {
+    width: 45% !important;
+  }
+  .actions {
+    transform: scale(0.3); 
+    -webkit-transform: scale(0.3);
+    margin-right: 0px;
+  }
+ }
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) { 
+  .attachments {
+    width: 42% !important;
+  }
+  .actions {
+    transform: scale(0.4); 
+    -webkit-transform: scale(0.4);
+    margin-right: 2px;
+  }
+ }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) { 
+  .attachments {
+    width: 45% !important;
+  }
+  .actions {
+    transform: scale(0.55); 
+    -webkit-transform: scale(0.55);
+    margin-right: 5px;
+  }
+ }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { 
+  .attachments {
+    width: 32% !important;
+  }
+  .actions {
+    transform: scale(0.75); 
+    -webkit-transform: scale(0.75);
+    margin-right: 5px;
+  }
+ }

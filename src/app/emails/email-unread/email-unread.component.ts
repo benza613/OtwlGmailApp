@@ -43,8 +43,14 @@ export class EmailUnreadComponent implements OnInit {
         { size: 'lg', backdrop: 'static', keyboard: false }
       );
       modalRef.componentInstance.mailList = this.mailList; // should be the id
+      modalRef.result.then((result) => {
+        if (result.action === '1') {
+          modalRef.close();
+        }
+      });
     } else {
       alert('Please select atleast one row.');
+      this.spinner.hide();
     }
   }
 

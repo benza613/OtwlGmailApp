@@ -1,5 +1,5 @@
 import { DomainStoreService } from './../_store/domain-store.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { RefType } from '../models/ref-type';
 import { Observable } from 'rxjs';
 import { RefTypeData } from '../models/ref-type-data';
@@ -25,7 +25,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   constructor(
     private domainStore: DomainStoreService,
     private config: NgbModalConfig,
-    private activeModal: NgbActiveModal,
+    public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService
   ) { }
 
@@ -73,8 +73,9 @@ export class EmailUnreadDialogComponent implements OnInit {
     mapTypes.selectedThreadsFullData = this.mailList;
     this.domainStore.submitUnreadThreadData(mapTypes).then(function (value) {
       if (value === '200') {
+        const res = '1';
         alert('Mapping successfully done.');
-        this.activeModal.dismiss();
+        this.activeModal.close({action: '1'});
       }
     });
   }

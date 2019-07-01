@@ -34,21 +34,21 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-9 pull-left" style=" font-size: 14px;">
-              <span style="color:rgb(133, 130, 130); font-weight: 600;">From: </span>{{eml.from}}
+              <span class="tags">From: </span>{{eml.from}}
             </div>
             <div class="col-md-3 pull-right" style=" font-size: 14px;">
-              <span style="color:rgb(133, 130, 130); font-weight: 600;">DATE: </span>{{eml.date}}
+              <span class="tags">DATE: </span>{{eml.date}}
             </div>
           </div>
           <div class="row">
             <div class="col-md-5 pull-left" style=" font-size: 14px;">
-              <span style="color:rgb(133, 130, 130); font-weight: 600;">To: </span>{{eml.msgTo}}
+              <span class="tags">To: </span>{{eml.msgTo}}
             </div>
             <div class="col-md-4 pull-left" style=" font-size: 14px;">
-              <span style="color:rgb(133, 130, 130); font-weight: 600;">CC: </span>{{eml.msgCc}}
+              <span class="tags">CC: </span>{{eml.msgCc}}
             </div>
             <div class="col-md-3 pull-left" style=" font-size: 14px;">
-              <span style="color:rgb(133, 130, 130); font-weight: 600;">BCC: </span>{{eml.msgBcc}}
+              <span class="tags">BCC: </span>{{eml.msgBcc}}
             </div>
           </div>
         </div>
@@ -60,12 +60,12 @@
         <div class="col pull-left" style="margin-left: 3px;">
           <button type="button" *ngIf="selectAll" class="btn btn-warning actions"
             (click)="fileAction(3, eml.msgid, eml.attachments)">SELECT ALL</button>
-            <button type="button" *ngIf="!selectAll" class="btn btn-warning actions"
+          <button type="button" *ngIf="!selectAll" class="btn btn-warning actions"
             (click)="fileAction(3, eml.msgid, eml.attachments)">DESELECT ALL</button>
         </div>
         <div class="col">
           <div class="row pull-right" style="margin-right: 2px;">
-              <button type="button" class="btn btn-warning actions"
+            <button type="button" class="btn btn-warning actions"
               (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
             <button type="button" class="btn btn-success actions"
               (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
@@ -74,9 +74,7 @@
       </div>
       <div class="card parent" *ngIf="eml.attachments.length > 0">
         <div class="card-body row" style="padding: 5px 20px;">
-          <div class="card p-2"
-            style="height: 100px; width: 32%; margin: 5px 5px; background-color: #3a3a3a;color:white;"
-            *ngFor="let att of eml.attachments">
+          <div class="card p-2" class="attachments" *ngFor="let att of eml.attachments">
             <div class="card-body" style="padding: 10px;">
               <div class="col">
                 <div class="row pull-right" style="margin:0px 5px 15px 5px;">
@@ -84,14 +82,13 @@
                     style="transform: scale(1.5);-webkit-transform: scale(1.5);">
                 </div>
                 <div class="row" style=" font-size: 14px;" [ngbTooltip]="att.fileName">
-                  <span
-                    style="color:rgb(255, 255, 255); font-weight: 600; margin-left: 10px; ">{{att.fileName | slice:0:20}}<i
+                  <span class="attSections">{{att.fileName | slice:0:20}}<i
                       *ngIf="att.fileName.length > 20">...</i></span>
                 </div>
                 <hr style="background-color: #3a3a3a;color: #3a3a3a; margin: 8px;" />
                 <div class="row" style=" font-size: 12px;">
                   <div class="col">
-                    <span style="color:rgb(255, 255, 255); font-weight: 600; margin-left: 10px;">{{att.fileSize}}</span>
+                    <span class="attSections">{{att.fileSize}}</span>
                   </div>
                   <div class="col">
                     <button type="button" class="btn btn-sm btn-outline-warning float-right"

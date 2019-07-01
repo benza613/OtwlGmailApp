@@ -11,7 +11,7 @@
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refType" [(ngModel)]="refId" bindLabel="typeVal" bindValue="typeId"
+          <ng-select [items]="refType" [(ngModel)]="refId" [disabled]="disableDropdowns" bindLabel="typeVal" bindValue="typeId"
           (change)="onChange_GetRefTypeData()">
         </ng-select>
       </div>
@@ -23,7 +23,8 @@
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="toggleDateFilter()" bindLabel="refNo" bindValue="refId">
+          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="toggleDateFilter()" 
+           [disabled]="disableDropdowns" bindLabel="refNo" bindValue="refId">
             </ng-select>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Message } from '../../models/message.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -44,17 +45,25 @@ export class EmailViewComponent implements OnInit {
         this.refId = params.j;
         this.renderMessages();
       });
-
-
   }
 
   renderMessages() {
     if (this.storeSelector === 'unread') {
-      this.emailList = this.emailStore.getUnreadMsgList$(this.reqThreadId);
+      this.emailStore.getUnreadMsgList$(this.reqThreadId)
+        .pipe(
+          map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        ).subscribe(x => {
+          this.emailList = x;
+        });
     } else if (this.storeSelector === 'mapped') {
-      this.emailList = this.emailStore.getMappedMsgList$(this.reqThreadId);
+      this.emailStore.getMappedMsgList$(this.reqThreadId)
+        .pipe(
+          map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        ).subscribe(x => {
+          this.emailList = x;
+        });
     }
-
+    console.log('Email List', this.emailList);
   }
 
   draftReply(msg: Message) {
@@ -113,7 +122,7 @@ export class EmailViewComponent implements OnInit {
 
     if (id === 1) {
       this.emailStore.MessageAttch_DownloadLocal(msgId, this.attachmentGIDs);
-    } else if (id === 2){
+    } else if (id === 2) {
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
         const modalRef = this.modalService.open(
           FSDirDialogComponent,

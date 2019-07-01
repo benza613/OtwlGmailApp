@@ -19,7 +19,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   refType: Observable<RefType[]>;
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
-  refValId;
+  refValId = 0;
   refId = 0;
   selectedThreads;
   constructor(
@@ -51,11 +51,14 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.refId) {
-      alert('Please select a Reference Type first');
+    if (this.refId === 0) {
+      alert('Please select a Reference Type ');
+      return;
+    } else if (this.refValId === 0) {
+      alert('Please select a Job ID');
       return;
     }
-    let mapTypes = {
+    const mapTypes = {
       refId: this.refId,
       refValId: this.refValId,
       selectedThreads: [],

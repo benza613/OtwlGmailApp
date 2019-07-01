@@ -35,12 +35,8 @@ export class EmailUnreadComponent implements OnInit {
       this.emailStore.getCheckedMsgList$.subscribe(x => {
         this.mailList = x;
         this.spinner.hide();
-        this.openDialog();
       });
     }, 2000);
-  }
-
-  openDialog() {
     if (this.mailList.length > 0) {
       const modalRef = this.modalService.open(
         EmailUnreadDialogComponent,

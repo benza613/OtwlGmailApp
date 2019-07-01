@@ -25,7 +25,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   constructor(
     private domainStore: DomainStoreService,
     private config: NgbModalConfig,
-    public activeModal: NgbActiveModal,
+    private activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService
   ) { }
 
@@ -71,6 +71,11 @@ export class EmailUnreadDialogComponent implements OnInit {
       });
     }
     mapTypes.selectedThreadsFullData = this.mailList;
-    this.domainStore.submitUnreadThreadData(mapTypes);
+    this.domainStore.submitUnreadThreadData(mapTypes).then(function (value) {
+      if (value === '200') {
+        alert('Mapping successfully done.');
+        this.activeModal.dismiss();
+      }
+    });
   }
 }

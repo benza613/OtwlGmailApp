@@ -22,7 +22,6 @@ export class ConfirmDialogComponent implements OnInit {
   onConfirmation(char) {
     if (char === 'd') {
       this.domainService.deleteMapping(this.thread.ThreadUId, this.thread.ThreadGID).then(result => {
-        console.log(result);
         if (result === '200') {
           this.activeModal.dismiss();
           this.response.emit(this.thread.ThreadGID);

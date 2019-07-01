@@ -83,6 +83,9 @@ export class ErrorDialogComponent implements OnInit {
         // List of strings this.res.failThreads;
         break;
       }
+      case 'deleteMapping': {
+        //deleting thread mapping
+      }
       default: {
         console.log('Invalid choice');
         break;

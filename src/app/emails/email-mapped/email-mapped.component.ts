@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
@@ -28,41 +29,36 @@ export class EmailMappedComponent implements OnInit {
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute
   ) {
     this.domainStore.updateRefType();
   }
 
   ngOnInit() {
     this.spinner.show();
-
-
-
-
     this.domainStore.refType$.subscribe(x => {
       this.refType = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.refType = [...this.refType, x[ix]];
       }
-
+      this.route.queryParams.subscribe((params) => {
+        if (params.r !== undefined && params.v !== undefined) {
+          params.r = this.refId;
+        }
+      });
       //1. if route params exists both
       //2. set r .. trigger onchange to get threadTypeData list
       //3. on fetch on threadTypeData list ... set v 
       //4. trigger GET THREADS
-
-
       this.spinner.hide();
     });
-
     this.domainStore.threadTypeData$.subscribe(x => {
       this.threadTypeData = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
       }
     });
-
-
-
     this.dateTo = { year: 2019, month: 6, day: 21 };
     this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };
   }
@@ -70,15 +66,16 @@ export class EmailMappedComponent implements OnInit {
   onChange_GetRefTypeData() {
     this.spinner.show();
     if (this.refId) {
-      this.domainStore.updateRefTypeData(this.refId);
-      this.domainStore.refTypeData$.subscribe(x => {
-        this.refTypeData = [];
-        for (let ix = 0; ix < x.length; ix++) {
-          this.refTypeData = [...this.refTypeData, x[ix]];
-        }
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+      this.domainStore.updateRefTypeData(this.refId).then(function (value) {
+        this.domainStore.refTypeData$.subscribe(x => {
+          this.refTypeData = [];
+          for (let ix = 0; ix < x.length; ix++) {
+            this.refTypeData = [...this.refTypeData, x[ix]];
+          }
+          setTimeout(() => {
+            this.spinner.hide();
+          }, 1000);
+        });
       });
     } else {
       alert('Please select a Reference Type');
@@ -86,6 +83,11 @@ export class EmailMappedComponent implements OnInit {
   }
 
   getThreads() {
+    this.route.queryParams.subscribe((params) => {
+      if (this.refValId !== null) {
+        params.v = this.refValId;
+      }
+    });
     if (!this.refId) {
       alert('Please select a Reference Type');
       return;

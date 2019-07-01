@@ -35,11 +35,22 @@ export class EmailMappedComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+
+
+
+
     this.domainStore.refType$.subscribe(x => {
       this.refType = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.refType = [...this.refType, x[ix]];
       }
+
+      //1. if route params exists both
+      //2. set r .. trigger onchange to get threadTypeData list
+      //3. on fetch on threadTypeData list ... set v 
+      //4. trigger GET THREADS
+
+
       this.spinner.hide();
     });
 
@@ -50,9 +61,12 @@ export class EmailMappedComponent implements OnInit {
       }
     });
 
+
+
     this.dateTo = { year: 2019, month: 6, day: 21 };
     this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };
   }
+
   onChange_GetRefTypeData() {
     this.spinner.show();
     if (this.refId) {

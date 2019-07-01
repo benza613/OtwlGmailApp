@@ -1,12 +1,18 @@
 .modal-main-error {
   font-size: 40px;
   font-family: 'Franklin Gothic Medium', "Segoe UI", "Roboto", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  color: maroon;
+  color: #ff3232;
 }
 
 .modal-main-error-desc {
-  font-size: 12px;
+  font-size: 11px;
   font-style: italic;
+}
+
+.modal-body-error-details {
+  font-size: 13px;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
 }
 
 .container {
@@ -21,5 +27,5 @@
 
 .row>.col-1 {
   text-align: center;
-  color: maroon;
+  color: #ff3232;
 }

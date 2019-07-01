@@ -1,5 +1,5 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
-  </ngx-spinner>
+</ngx-spinner>
 
 <div class="card email-card" *ngFor="let eml of (emailList | async)" style="max-width:100%;">
   <div class="card-header no-gutters" [ngClass]="{'card-color': eml.isOpen}">
@@ -56,10 +56,20 @@
       <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
 
       </div>
-      <div class="row pull-right">
+      <div class="row">
+        <div class="col pull-left" style="margin-left: 3px;">
+          <button type="button" *ngIf="selectAll" class="btn btn-warning actions"
+            (click)="fileAction(3, eml.msgid, eml.attachments)">SELECT ALL</button>
+            <button type="button" *ngIf="!selectAll" class="btn btn-warning actions"
+            (click)="fileAction(3, eml.msgid, eml.attachments)">DESELECT ALL</button>
+        </div>
         <div class="col">
-            <button type="button" class="btn btn-warning actions" (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
-            <button type="button" class="btn btn-success actions" >UPLOAD</button>
+          <div class="row pull-right" style="margin-right: 2px;">
+              <button type="button" class="btn btn-warning actions"
+              (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
+            <button type="button" class="btn btn-success actions"
+              (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
+          </div>
         </div>
       </div>
       <div class="card parent" *ngIf="eml.attachments.length > 0">
@@ -70,10 +80,12 @@
             <div class="card-body" style="padding: 10px;">
               <div class="col">
                 <div class="row pull-right" style="margin:0px 5px 15px 5px;">
-                    <input [(ngModel)]="att.isChecked" type="checkbox" style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+                  <input [(ngModel)]="att.isChecked" type="checkbox"
+                    style="transform: scale(1.5);-webkit-transform: scale(1.5);">
                 </div>
                 <div class="row" style=" font-size: 14px;" [ngbTooltip]="att.fileName">
-                  <span style="color:rgb(255, 255, 255); font-weight: 600; margin-left: 10px; ">{{att.fileName | slice:0:20}}<i
+                  <span
+                    style="color:rgb(255, 255, 255); font-weight: 600; margin-left: 10px; ">{{att.fileName | slice:0:20}}<i
                       *ngIf="att.fileName.length > 20">...</i></span>
                 </div>
                 <hr style="background-color: #3a3a3a;color: #3a3a3a; margin: 8px;" />
@@ -82,8 +94,8 @@
                     <span style="color:rgb(255, 255, 255); font-weight: 600; margin-left: 10px;">{{att.fileSize}}</span>
                   </div>
                   <div class="col">
-                    <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin-bottom: 10px;"
-                      (click)="fileAction(1,eml.msgid, eml.attachments, att)">
+                    <button type="button" class="btn btn-sm btn-outline-warning float-right"
+                      style="margin-bottom: 10px;" (click)="fileAction(1,eml.msgid, eml.attachments, att)">
                       <i class="fa fa-download" aria-hidden="true"></i>
                     </button>
                   </div>

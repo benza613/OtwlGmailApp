@@ -25,25 +25,25 @@ export class mapViewFilter implements PipeTransform {
         //case 3: only A is empty
 
         if (!isNullOrEmptyA && !isNullOrEmptyB && !isNullOrEmptyC) {
-            return items.filter(item => item.ThreadSubject.indexOf(filter.c) !== -1 && item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0 && item.ThreadReferenceText.indexOf(filter.a) !== -1);
+            return items.filter(item => item.ThreadSubject.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1 && item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0 && item.ThreadReferenceText.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
         }
         else if (!isNullOrEmptyA && !isNullOrEmptyB) {
-            return items.filter(item => item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0 && item.ThreadReferenceText.indexOf(filter.a) !== -1);
+            return items.filter(item => item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0 && item.ThreadReferenceText.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
         }
         else if (!isNullOrEmptyB && !isNullOrEmptyC) {
-            return items.filter(item => item.ThreadSubject.indexOf(filter.c) !== -1 && item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0);
+            return items.filter(item => item.ThreadSubject.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1 && item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0);
         }
         else if (!isNullOrEmptyA && !isNullOrEmptyC) {
-            return items.filter(item => item.ThreadSubject.indexOf(filter.c) !== -1 && item.ThreadReferenceText.indexOf(filter.a) !== -1);
+            return items.filter(item => item.ThreadSubject.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1 && item.ThreadReferenceText.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
         }
         else if (!isNullOrEmptyA) {
-            return items.filter(item => item.ThreadReferenceText.indexOf(filter.a) !== -1);
+            return items.filter(item => item.ThreadReferenceText.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
         }
         else if (!isNullOrEmptyB) {
             return items.filter(item => item.SelectedTypeIdList.filter(f => filter.b.includes(f)).length > 0);
         }
         else if (!isNullOrEmptyC) {
-            return items.filter(item => item.ThreadSubject.indexOf(filter.c) !== -1);
+            return items.filter(item => item.ThreadSubject.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1);
         }
 
         //if all are empty=> true

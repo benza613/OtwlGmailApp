@@ -2,13 +2,30 @@
 </ngx-spinner>
 
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title" style="text-align: center">ERROR ID: {{res.d.errId}}</h5>
-  <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
+  <!-- <div class="modal-title" id="modal-basic-title" style="text-align: center">ERROR OCCURED.</div>
+  <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i> -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-11">
+        <div class="col modal-main-error" style="text-align: center; padding-left: 0px;"> {{res.d.errId}} </div>
+        <div class="col modal-main-error-desc" style="text-align: center;">Kindly Report this error code to the
+          administrator
+        </div>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="modal-body col">
-  <div class="col" style="align-content: center; padding-left: 0px;">
+
+  <!-- <hr /> -->
+  <div class="col" style="padding-left: 0px;">
     {{res.d.errMsg}}
   </div>
+  <hr *ngIf="misc !== ''" />
   <div class="row" *ngIf="misc !== ''" [innerHTML]="misc | safeHtml" style="max-width:100%; margin: 0px;">
 
   </div>

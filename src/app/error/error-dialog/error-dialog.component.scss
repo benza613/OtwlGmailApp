@@ -1,0 +1,25 @@
+.modal-main-error {
+  font-size: 40px;
+  font-family: 'Franklin Gothic Medium', "Segoe UI", "Roboto", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  color: maroon;
+}
+
+.modal-main-error-desc {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.container {
+  padding: 0;
+}
+
+.row,
+.col-11,
+.col {
+  //border: thin solid red;
+}
+
+.row>.col-1 {
+  text-align: center;
+  color: maroon;
+}

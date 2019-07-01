@@ -1,3 +1,4 @@
+import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +12,8 @@ export class ConfirmDialogComponent implements OnInit {
   showDetails = false;
   @Output() response: EventEmitter<any> = new EventEmitter();
   constructor(
-    public activeModal: NgbActiveModal
+    private activeModal: NgbActiveModal,
+    private domainService: DomainStoreService
   ) { }
 
   ngOnInit() {
@@ -19,9 +21,13 @@ export class ConfirmDialogComponent implements OnInit {
 
   onConfirmation(char) {
     if (char === 'd') {
-      //HTTP call to delete...and pass id back to remove from main mapped list
-      this.activeModal.dismiss();
-      this.response.emit(this.thread.ThreadGID);
+      this.domainService.deleteMapping(this.thread.ThreadUId, this.thread.ThreadGID).then(result => {
+        console.log(result);
+        if (result === '200') {
+          this.activeModal.dismiss();
+          this.response.emit(this.thread.ThreadGID);
+        }
+      });
     } else {
       this.activeModal.dismiss();
     }

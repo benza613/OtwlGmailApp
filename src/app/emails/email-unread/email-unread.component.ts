@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-email-unread',
@@ -19,7 +20,8 @@ export class EmailUnreadComponent implements OnInit {
   constructor(
     public emailStore: EmailsStoreService,
     public modalService: NgbModal,
-    private domainStore: DomainStoreService
+    private domainStore: DomainStoreService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -28,15 +30,22 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   getMails() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.emailStore.getCheckedMsgList$.subscribe(x => {
+        this.mailList = x;
+        this.spinner.hide();
+        this.openDialog();
+      });
+    }, 2000);
+  }
 
-    this.emailStore.getCheckedMsgList$.subscribe(x => {
-      this.mailList = x;
-    });
+  openDialog() {
     if (this.mailList.length > 0) {
       const modalRef = this.modalService.open(
-                                        EmailUnreadDialogComponent,
-                                        { size: 'lg', backdrop: 'static', keyboard: false}
-                                          );
+        EmailUnreadDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
       modalRef.componentInstance.mailList = this.mailList; // should be the id
     } else {
       alert('Please select atleast one row.');
@@ -44,7 +53,7 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   fetchUnreadThreads() {
-    console.log(this.addrFrom, this.addrTo, this.subject);
+    // console.log(this.addrFrom, this.addrTo, this.subject);
     this.emailStore.updateUnreadThreadList(this.addrFrom, this.addrTo, this.subject);
   }
 

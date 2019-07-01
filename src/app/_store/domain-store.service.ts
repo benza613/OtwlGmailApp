@@ -1,3 +1,4 @@
+import { ErrorService } from './../error/error.service';
 import { DomainService } from './../_http/domain.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -87,6 +88,15 @@ export class DomainStoreService {
       this.threadTypeData = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
+
+  async deleteMapping(threadUID, threadGID) {
+    const res = await this.domainService.deleteThreadMapping(threadUID, threadGID).toPromise();
+    if (res.d.errId === '200') {
+      return res.d.errId;
+    } else {
+      this.erorService.displayError(res, 'deleteMapping');
     }
   }
 

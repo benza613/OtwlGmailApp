@@ -62,7 +62,7 @@ export class EmailMappedComponent implements OnInit {
         for (let ix = 0; ix < x.length; ix++) {
           this.refTypeData = [...this.refTypeData, x[ix]];
         }
-        setTimeout(()=>{
+        setTimeout(() => {
           this.spinner.hide();
         }, 1000);
       });

@@ -71,6 +71,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.thread = thread;
     modalRef.componentInstance.response.subscribe((threadGId) => {
+      const idx = this.mappedThreads.findIndex(x => x.ThreadGID === threadGId);
+      this.mappedThreads.splice(idx, 1);
     });
   }
 

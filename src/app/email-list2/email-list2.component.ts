@@ -4,7 +4,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@a
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { DomainStoreService } from '../_store/domain-store.service';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, map, filter } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -49,7 +49,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
     //   for (let ix = 0; ix < x.length; ix++) {
     //     this.mappedThreads = [...this.mappedThreads, x[ix]];
     //   }
-    //   console.log('maps',this.mappedThreads);
+    //   console.log('maps', this.mappedThreads);
     // });
 
     this.mappedThreads = this.emailStore.mappedThreads$;
@@ -71,8 +71,14 @@ export class EmailList2Component implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.thread = thread;
     modalRef.componentInstance.response.subscribe((threadGId) => {
-      const idx = this.mappedThreads.findIndex(x => x.ThreadGID === threadGId);
-      this.mappedThreads.splice(idx, 1);
+      console.log(threadGId);
+      this.mappedThreads = this.emailStore.mappedThreads$.pipe(
+                              map(
+                                y => y.filter(x => x.ThreadGID !== threadGId)
+                              )
+                            );
+      console.log(this.mappedThreads);
+      // this.mappedThreads = this.mappedThreads.filter(x => x.ThreadGID !== threadGId);
     });
   }
 

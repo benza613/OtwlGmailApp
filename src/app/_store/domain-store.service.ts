@@ -95,11 +95,12 @@ export class DomainStoreService {
     }
   }
 
-  deleteMapping(threadUID, threadGID) {
+  deleteMapping(ThreadUId, ThreadGID) {
     return new Promise(async (res, rej) => {
-      const result = await this.domainService.deleteThreadMapping(threadUID, threadGID).toPromise();
+      const result = await this.domainService.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();
       if (result.d.errId === '200') {
         res(result.d.errId);
+        alert(result.d.errMsg);
       } else {
         this.erorService.displayError(res, 'deleteMapping');
         rej();

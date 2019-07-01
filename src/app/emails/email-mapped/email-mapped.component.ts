@@ -9,6 +9,8 @@ import { ThreadTypeData } from 'src/app/models/thread-type-data';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Logs } from 'selenium-webdriver';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-email-mapped',
@@ -26,11 +28,15 @@ export class EmailMappedComponent implements OnInit {
   dateTo: NgbDateStruct;
   disableDate = true;
   mappedThreadList: MappedThread[] = [];
+
+  _queryParams = { r: null, v: null };
+
   constructor(
     private domainStore: DomainStoreService,
     private emailStore: EmailsStoreService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authServ: AuthService
   ) {
     this.domainStore.updateRefType();
   }
@@ -42,38 +48,64 @@ export class EmailMappedComponent implements OnInit {
       for (let ix = 0; ix < x.length; ix++) {
         this.refType = [...this.refType, x[ix]];
       }
+
+
       this.route.queryParams.subscribe((params) => {
         if (params.r !== undefined && params.v !== undefined) {
-          params.r = this.refId;
+          this.refId = params.r;
+
+          this._queryParams.r = params.r;
+          this._queryParams.v = params.v;
+          this.authServ.login();
+
+          this.onChange_GetRefTypeData();
+
+        } else {
+          this.spinner.hide();
+
         }
       });
       //1. if route params exists both
       //2. set r .. trigger onchange to get threadTypeData list
       //3. on fetch on threadTypeData list ... set v 
       //4. trigger GET THREADS
-      this.spinner.hide();
     });
+
+
     this.domainStore.threadTypeData$.subscribe(x => {
       this.threadTypeData = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
       }
+
+
     });
     this.dateTo = { year: 2019, month: 6, day: 21 };
     this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };
   }
 
+  //toggle parent reftype ddl
   onChange_GetRefTypeData() {
     this.spinner.show();
+
+    this.refValId = null;
     if (this.refId) {
+      var that = this;
       this.domainStore.updateRefTypeData(this.refId).then(function (value) {
-        this.domainStore.refTypeData$.subscribe(x => {
-          this.refTypeData = [];
+        that.domainStore.refTypeData$.subscribe(x => {
+          that.refTypeData = [];
           for (let ix = 0; ix < x.length; ix++) {
-            this.refTypeData = [...this.refTypeData, x[ix]];
+            that.refTypeData = [...that.refTypeData, x[ix]];
           }
+
+
+          if (that._queryParams.v != null) {
+            that.refValId = that._queryParams.v;
+            that.getThreads();
+          }
+
           setTimeout(() => {
-            this.spinner.hide();
+            that.spinner.hide();
           }, 1000);
         });
       });
@@ -83,11 +115,6 @@ export class EmailMappedComponent implements OnInit {
   }
 
   getThreads() {
-    this.route.queryParams.subscribe((params) => {
-      if (this.refValId !== null) {
-        params.v = this.refValId;
-      }
-    });
     if (!this.refId) {
       alert('Please select a Reference Type');
       return;

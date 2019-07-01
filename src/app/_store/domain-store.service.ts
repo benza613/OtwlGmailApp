@@ -6,7 +6,6 @@ import { RefType } from '../models/ref-type';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { resolve } from 'dns';
 
 @Injectable({
   providedIn: 'root'

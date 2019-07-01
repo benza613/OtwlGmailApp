@@ -72,7 +72,7 @@
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) { 
   .attachments {
-    width: 45% !important;
+    width: 30% !important;
   }
   .actions {
     transform: scale(0.55); 
@@ -84,7 +84,7 @@
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) { 
   .attachments {
-    width: 32% !important;
+    width: 23% !important;
   }
   .actions {
     transform: scale(0.75); 

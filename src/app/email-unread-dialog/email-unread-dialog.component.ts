@@ -71,11 +71,15 @@ export class EmailUnreadDialogComponent implements OnInit {
       });
     }
     mapTypes.selectedThreadsFullData = this.mailList;
+
+    var that = this;
     this.domainStore.submitUnreadThreadData(mapTypes).then(function (value) {
+      console.log(value);
+      
       if (value === '200') {
         const res = '1';
         alert('Mapping successfully done.');
-        this.activeModal.close({action: '1'});
+        that.activeModal.close({action: '1'});
       }
     });
   }

@@ -12,7 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EmailUnreadComponent implements OnInit {
   dynamicdata: string = 'EmailUnreadComponent';
-  mailList;
+  mailList = [];
   addrFrom;
   addrTo;
   subject;

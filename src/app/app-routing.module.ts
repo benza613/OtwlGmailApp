@@ -22,6 +22,8 @@ const routes: Routes = [
     path: 'mapped',
     component: EmailMappedComponent,
     pathMatch: 'full',
+    canActivate: [ActivateGuardService]
+
   },
   {
     path: 'draft',

@@ -51,14 +51,16 @@ export class EditorComponent implements OnInit {
   _inlineAttachments = [];
   _inlineAttachB64 = [];
   // tslint:disable-next-line:max-line-length
-  public EditorValue = `Hi Sir, <p> Let me know if this example behaviour as desired.</p> <p>Disabled buttons using the <code class="highlighter-rouge">&lt;a&gt;</code> element behave a bit different:</p><ul>  <li><code class="highlighter-rouge">&lt;a&gt;</code>s don’t support the <code class="highlighter-rouge">disabled</code> attribute, so you must add the <code class="highlighter-rouge">.disabled</code> class to make it visually appear disabled.</li>  <li>Some future-friendly styles are included to disable all <code class="highlighter-rouge">pointer-events</code> on anchor buttons. In browsers which support that property, you won’t see the disabled cursor at all.</li>  <li>Disabled buttons should include the <code class="highlighter-rouge">aria-disabled="true"</code> attribute to indicate the state of the element to assistive technologies.</li>
-</ul>`;
+  public EditorValue = `Dear Sir/ Madam, <br/> <br/>`;
 
   _reqThreadID = '';
   _reqMessageID = '';
   _reqStoreSelector = '';
   _reqActionType = '';
 
+  _reqOrderID = '';
+
+  _isOrdersComplete = false;
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -81,11 +83,24 @@ export class EditorComponent implements OnInit {
 
     this.route.queryParams
       .subscribe(params => {
-        if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
+
+        //first check if storeSelector is undefined
+        //then check if attachment order is requested 
+        if (params.q == undefined && params.order != undefined) {
+
+          this._reqOrderID = params.order;
+
+          var that = this;
+          this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then((ordersData) => {
+            that._isOrdersComplete = true;
+          });
+
+        } else if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
           this._reqStoreSelector = params.q;
           this._reqActionType = params.a;
+
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleAddressFields(x.msgs);
@@ -94,6 +109,10 @@ export class EditorComponent implements OnInit {
         } else {
           this.initMessagePacket_LocalStorage(emlData);
         }
+
+
+
+
       });
 
     this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();

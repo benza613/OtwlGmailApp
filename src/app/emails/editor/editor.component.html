@@ -5,7 +5,8 @@
     </div>
     <div class="col-md-9">
       <ng-select id="iMsgTo" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addAddr($event)" [addTag]="true" [clearSearchOnAdd]="true">
+        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addAddr($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col-md-2">
@@ -18,7 +19,8 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addAddr($event)" [addTag]="true" [clearSearchOnAdd]="true">
+        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addAddr($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col-md-1">
@@ -26,7 +28,8 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addAddr($event)" [addTag]="true" [clearSearchOnAdd]="true">
+        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addAddr($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>
@@ -42,26 +45,28 @@
     <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue' (actionComplete)="actionCompleted($event)"
       [toolbarSettings]='EditorTools'></ejs-richtexteditor>
   </div>
-  <div class="container-fluid" style="margin-top: 5px;">
+  <div class="container-fluid emailUiFooter" style="margin-top: 5px;">
     <div class="row">
-      <div class="col-9">
+      <div class="col-5 attachments-partition">
         <div class="row">
 
-          <div class="col-md-3 upl-block">
-
-            <p class="upl-headers">Select files</p>
-
-            <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
-              [uploader]="uploader" class="well my-drop-zone">
-              Base drop zone
+          <div class="col-md-12 upl-block" style="margin-bottom: 40px">
+            <div class="row">
+              <div class="col">
+                <p class="upl-headers">Select files</p>
+              </div>
             </div>
-
-            Multiple
-            <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br />
-          </div>
-
-          <div class="col-md-9 upl-block" style="margin-bottom: 40px">
-
+            <div class="row">
+              <div class="col">
+                <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+                  [uploader]="uploader" class="well my-drop-zone">
+                  Base drop zone
+                </div>
+              </div>
+              <div class="col">Multiple
+                <input type="file" ng2FileSelect [uploader]="uploader" multiple /></div>
+            </div>
+            <hr />
             <p class="upl-headers">Attachments Selected: </p>
             <p>Queue length: {{ uploader?.queue?.length }}</p>
 
@@ -117,6 +122,10 @@
 
         </div>
         <!-- ben -->
+      </div>
+      <div class="col-4 attachments-partition">
+        <div *ngIf="!_isOrdersComplete">Loading Attachments from FileServer...</div>
+        <div *ngIf="_isOrdersComplete">B</div>
       </div>
       <div class="col">
         <div class="container-fluid-cust" style="text-align: right;font-size: 12px;">

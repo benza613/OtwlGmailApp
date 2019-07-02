@@ -307,4 +307,18 @@ export class EmailsStoreService {
     }
   }
 
+  updateAttachmentOrderDetails(reqOrderID) {
+    return new Promise(async (resolve, rej) => {
+      const res = await this.emailServ.requestOrderDetails(reqOrderID).toPromise();
+      console.log(res);
+
+      if (res.d.errId === '200') {
+        resolve(res.d.filesList);
+      } else {
+        this.errorService.displayError(res, 'updateAttachmentOrderDetails');
+        rej();
+      }
+    });
+  }
+
 }

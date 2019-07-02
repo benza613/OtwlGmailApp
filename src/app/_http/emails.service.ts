@@ -66,4 +66,11 @@ export class EmailsService {
       this.httpOptions)
       .pipe(map(r => r));
   }
+
+  requestOrderDetails(reqOrderID): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/attachments_FsOrderDetails`, //PUT METHOD NAME
+      { reqOrderID },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
 }

@@ -60,7 +60,7 @@ export class EditorComponent implements OnInit {
   _reqOrderID = '';
 
   _isOrdersComplete = false;
-  orderDetails;
+  orderDetails = [];
   delOrderDetails = [];
   constructor(
     private route: ActivatedRoute,
@@ -82,6 +82,9 @@ export class EditorComponent implements OnInit {
     //angular number pipe
     //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
+    var that = this;
+
+
     this.route.queryParams
       .subscribe(params => {
 
@@ -91,18 +94,16 @@ export class EditorComponent implements OnInit {
 
           this._reqOrderID = params.order;
 
-          var that = this;
           this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then(function (value) {
-            that.orderDetails = value;
+            that.orderDetails = [...that.orderDetails, value];
             console.log('THAT', that.orderDetails);
             that._isOrdersComplete = true;
+
+            that.detector.detectChanges();
           });
           console.log('THIS', this.orderDetails);
 
 
-
-
-          
         } else if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;

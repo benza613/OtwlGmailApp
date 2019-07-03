@@ -126,7 +126,7 @@
       <div class="col-4 attachments-partition">
         <div *ngIf="!_isOrdersComplete">Loading Attachments from FileServer...</div>
         <div *ngIf="_isOrdersComplete">
-          <div class="card" *ngFor="let order of orderDetails | async">
+          <div class="card" *ngFor="let order of orderDetails">
             <div class="col card-body">
               <span>{{order.flMdDisplayName}}/{{order.flDisplayName}}</span>
               <div class="row">

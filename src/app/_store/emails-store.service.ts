@@ -321,4 +321,17 @@ export class EmailsStoreService {
     });
   }
 
+  getUserMailInfo() {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.getUserInfo().toPromise();
+      if (res.d.errId === '200') {
+        // console.log(res);
+        resolve(res);
+      } else {
+        this.errorService.displayError(res, 'getUserMailInfo');
+        reject();
+      }
+    });
+  }
+
 }

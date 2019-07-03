@@ -26,6 +26,20 @@
     {{res.d.errMsg}}
   </div>
   <hr *ngIf="misc !== ''" />
+  <!-- <table class="table table-striped" style="width: 100%">
+    <thead>
+      <th scope="col" style="text-align: center;">ID</th>
+      <th scope="col" style="text-align: center;">Subject</th>
+      <th scope="col" style="text-align: center;">Date</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of this.res.d.threads">
+        <td style="text-align: center;" >{{item.ThreadId}}</td>
+        <td style="text-align: center;">{{item.Subject}}</td>
+        <td style="text-align: center;">{{item.Msg_Date}}</td>
+      </tr>
+    </tbody>
+  </table> -->
   <div class="row" *ngIf="misc !== ''" [innerHTML]="misc | safeHtml" style="max-width:100%; margin: 0px;">
 
   </div>

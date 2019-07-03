@@ -27,38 +27,77 @@ export class ErrorDialogComponent implements OnInit {
   getContent() {
     switch (this.methodName.trim()) {
       case 'indexUnread': {
-        // console.log('DATA', this.res.threads);
+        this.misc = `<table class="table table-striped" style="width: 100%">
+                        <thead>
+                          <th scope="col" style="text-align: center;">ID</th>
+                          <th scope="col" style="text-align: center;">Subject</th>
+                          <th scope="col" style="text-align: center;">Date</th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of this.res.d.threads">
+                            <td style="text-align: center;">{{item.ThreadId}}</td>
+                            <td style="text-align: center;">{{item.Subject}}</td>
+                            <td style="text-align: center;">{{item.Msg_Date}}</td>
+                          </tr>
+                        </tbody>
+                     </table>`;
+        break;
+      }
+      case 'getMappedThreads': {
         // this.misc = `<table class="table table-striped" style="width: 100%">
         //                 <thead>
         //                   <th scope="col" style="text-align: center;">ID</th>
+        //                   <th scope="col" style="text-align: center;">Refrence Text</th>
         //                   <th scope="col" style="text-align: center;">Subject</th>
-        //                   <th scope="col" style="text-align: center;">Date</th>
         //                 </thead>
         //                 <tbody>
-        //                   <tr *ngFor="let item of this.res.threads; index as i">
-        //                     <td style="text-align: center;">{{item.ThreadId}}</td>
+        //                   <tr *ngFor="let item of this.res.d.mappedThreads">
+        //                     <td style="text-align: center;">{{item.ThreadGID}}</td>
+        //                     <td style="text-align: center;">{{item.ThreadReferenceText}}</td>
         //                     <td style="text-align: center;">{{item.Subject}}</td>
-        //                     <td style="text-align: center;">{{item.Msg_Date}}</td>
         //                   </tr>
         //                 </tbody>
         //              </table>`;
         break;
       }
-      case 'getMappedThreads': {
-        this.populateHtml(this.res.mappedThreads);
-        this.populateHtml(this.res.threadTypeList);
-        break;
-      }
       case 'fetchThreadEmails': {
-        this.populateHtml(this.res.msgList);
-        console.log(typeof this.res.msgList);
+         // this.misc = `<table class="table table-striped" style="width: 100%">
+        //                 <thead>
+        //                   <th scope="col" style="text-align: center;">ID</th>
+        //                   <th scope="col" style="text-align: center;">FROM</th>
+        //                   <th scope="col" style="text-align: center;">TO</th>
+        //                   <th scope="col" style="text-align: center;">DATE</th>
+        //                 </thead>
+        //                 <tbody>
+        //                   <tr *ngFor="let msg of this.res.d.msgList">
+        //                     <td style="text-align: center;">{{msg.msgid}}</td>
+        //                     <td style="text-align: center;">{{msg.from}}</td>
+        //                     <td style="text-align: center;">{{msg.msgTo}}</td>
+        //                     <td style="text-align: center;">{{msg.date}}</td>
+        //                   </tr>
+        //                 </tbody>
+        //              </table>`;
         break;
       }
       case 'downloadLocal': {
         break;
       }
       case 'requestFSDir': {
-        this.populateHtml(this.res.folder);
+         // this.misc = `<table class="table table-striped" style="width: 100%">
+        //                 <thead>
+        //                   <th scope="col" style="text-align: center;">ID</th>
+        //                   <th scope="col" style="text-align: center;">Subject</th>
+        //                   <th scope="col" style="text-align: center;">Date</th>
+        //                 </thead>
+        //                 <tbody>
+        //                   <tr *ngFor="let folder of this.res.d.folders">
+        //                     <td style="text-align: center;">{{folder.entityID}}</td>
+        //                     <td style="text-align: center;">{{folder.isTemplateFolder_ID}}</td>
+        //                     <td style="text-align: center;">{{folder.isParentFolder_ID}}</td>
+        //                     <td style="text-align: center;">{{folder.name}}</td>
+        //                   </tr>
+        //                 </tbody>
+        //              </table>`;
         break;
       }
       case 'saveAttachmentToFS': {
@@ -68,15 +107,54 @@ export class ErrorDialogComponent implements OnInit {
         break;
       }
       case 'fetchRefType': {
-        this.populateHtml(this.res.refTypes);
+         // this.misc = `<table class="table table-striped" style="width: 100%">
+        //                 <thead>
+        //                   <th scope="col" style="text-align: center;">ID</th>
+        //                   <th scope="col" style="text-align: center;">Subject</th>
+        //                   <th scope="col" style="text-align: center;">Date</th>
+        //                 </thead>
+        //                 <tbody>
+        //                   <tr *ngFor="let item of this.res.d.threads">
+        //                     <td style="text-align: center;">{{item.ThreadId}}</td>
+        //                     <td style="text-align: center;">{{item.Subject}}</td>
+        //                     <td style="text-align: center;">{{item.Msg_Date}}</td>
+        //                   </tr>
+        //                 </tbody>
+        //              </table>`;
         break;
       }
       case 'fetchRefTypeData': {
-        this.populateHtml(this.res.refData);
+         // this.misc = `<table class="table table-striped" style="width: 100%">
+        //                 <thead>
+        //                   <th scope="col" style="text-align: center;">ID</th>
+        //                   <th scope="col" style="text-align: center;">Subject</th>
+        //                   <th scope="col" style="text-align: center;">Date</th>
+        //                 </thead>
+        //                 <tbody>
+        //                   <tr *ngFor="let item of this.res.d.threads">
+        //                     <td style="text-align: center;">{{item.ThreadId}}</td>
+        //                     <td style="text-align: center;">{{item.Subject}}</td>
+        //                     <td style="text-align: center;">{{item.Msg_Date}}</td>
+        //                   </tr>
+        //                 </tbody>
+        //              </table>`;
         break;
       }
       case 'fetchThreadTypeData': {
-        this.populateHtml(this.res.refData);
+         // this.misc = `<table class="table table-striped" style="width: 100%">
+        //                 <thead>
+        //                   <th scope="col" style="text-align: center;">ID</th>
+        //                   <th scope="col" style="text-align: center;">Subject</th>
+        //                   <th scope="col" style="text-align: center;">Date</th>
+        //                 </thead>
+        //                 <tbody>
+        //                   <tr *ngFor="let item of this.res.d.threads">
+        //                     <td style="text-align: center;">{{item.ThreadId}}</td>
+        //                     <td style="text-align: center;">{{item.Subject}}</td>
+        //                     <td style="text-align: center;">{{item.Msg_Date}}</td>
+        //                   </tr>
+        //                 </tbody>
+        //              </table>`;
         break;
       }
       case 'submitUnreadThreadData': {
@@ -91,19 +169,6 @@ export class ErrorDialogComponent implements OnInit {
         break;
       }
     }
-  }
-
-  populateHtml(content) {
-    // if (typeof content === 'string') {
-    //   //safeHtml
-    // } else if (typeof content === 'object') {
-    //   // console.log(content);
-    //   this.misc = `<div *ngFor="let item of content">
-    //                     <span>item</span>
-    //                 </div>`;
-    // } else {
-    //   //do something
-    // }
   }
 
 }

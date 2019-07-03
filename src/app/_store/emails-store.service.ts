@@ -313,7 +313,7 @@ export class EmailsStoreService {
       console.log(res);
 
       if (res.d.errId === '200') {
-        resolve(res.d.filesList);
+        resolve(res.d.orderFiles);
       } else {
         this.errorService.displayError(res, 'updateAttachmentOrderDetails');
         rej();

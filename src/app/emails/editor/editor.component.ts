@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
-import { environment } from 'src/environments/environment';
 
 // URL = environment.url.server + 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
 const URL = 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
@@ -61,6 +60,8 @@ export class EditorComponent implements OnInit {
   _reqOrderID = '';
 
   _isOrdersComplete = false;
+  orderDetails;
+  delOrderDetails = [];
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -91,10 +92,17 @@ export class EditorComponent implements OnInit {
           this._reqOrderID = params.order;
 
           var that = this;
-          this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then((ordersData) => {
+          this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then(function (value) {
+            that.orderDetails = value;
+            console.log('THAT', that.orderDetails);
             that._isOrdersComplete = true;
           });
+          console.log('THIS', this.orderDetails);
 
+
+
+
+          
         } else if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;

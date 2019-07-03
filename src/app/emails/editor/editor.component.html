@@ -125,7 +125,22 @@
       </div>
       <div class="col-4 attachments-partition">
         <div *ngIf="!_isOrdersComplete">Loading Attachments from FileServer...</div>
-        <div *ngIf="_isOrdersComplete">B</div>
+        <div *ngIf="_isOrdersComplete">
+          <div class="card" *ngFor="let order of orderDetails | async">
+            <div class="col card-body">
+              <span>{{order.flMdDisplayName}}/{{order.flDisplayName}}</span>
+              <div class="row">
+                <div class="col">{{order.flTag}}</div>
+                <div class="col">{{order.flSize}}</div>
+                <div class="col">
+                  <button (click)="removeOrderDetails(order)">
+                      <i class="fa fa-minus-circle"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col">
         <div class="container-fluid-cust" style="text-align: right;font-size: 12px;">

@@ -87,7 +87,7 @@ export class EditorComponent implements OnInit {
 
     //angular number pipe
     //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
-    
+
 
     var that = this;
 
@@ -170,8 +170,8 @@ export class EditorComponent implements OnInit {
         (data) => {
           // then send mail
           this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
-                                        this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                                          this._reqMessageID, this._TOKEN_POSSESION);
+            this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
+            this._reqMessageID, this._TOKEN_POSSESION);
 
         },
         (err) => {
@@ -290,7 +290,7 @@ export class EditorComponent implements OnInit {
   }
 
   fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail) {
-    this.signatureHtml =  `<div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
+    this.signatureHtml = `<div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
     <div style="text-align: right;">
       <span style="font-family: Arial, Helvetica, sans-serif;">
         <span style="color: rgb(47, 84, 150); text-decoration: inherit;">
@@ -323,20 +323,23 @@ export class EditorComponent implements OnInit {
 
     </div>
   </div>`;
-  this.footerHtml = `
-  <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
-      bgcolor="#fafafa" align="center">
-      <tbody>
-        <tr>
-          <td align="center">
-            <font size="1" face="Arial, Helvetica, sans-serif" color="#333333">
-              <span style="font-size:11px">
-                This email was generated & sent by OTWL MAILER. ref:_19950115 </span>
-            </font>
-          </td>
-        </tr>
-      </tbody>
-    </table>`
+    this.footerHtml = `
+        <div style="text-align: right;">
+            <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
+              bgcolor="#fafafa" align="center">
+              <tbody>
+                <tr>
+                  <td align="center">
+                    <font size="1" face="Arial, Helvetica, sans-serif" color="#333333">
+                      <span style="font-size:11px">
+                        This email was generated & sent by OTWL MAILER. ref:_19950115 </span>
+                    </font>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          < /div>`;
+    console.log(this.signatureHtml + this.footerHtml);
   }
 
   private recycleAddressFields(msgs) {

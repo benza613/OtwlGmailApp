@@ -117,6 +117,7 @@ export class EditorComponent implements OnInit {
 
           this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then(function (value) {
             that.orderDetails = [...that.orderDetails, value][0];
+            console.log(that.orderDetails);
             that._isOrdersComplete = true;
             that.detector.detectChanges();
           });
@@ -133,7 +134,7 @@ export class EditorComponent implements OnInit {
           }
         }
 
-        if (params.locst_id != undefined) {
+        if (params.locst_id !== undefined) {
           console.log("params.locst_id", params.locst_id);
           var localToken = params.locst_id;
           if (localToken) {
@@ -208,7 +209,7 @@ export class EditorComponent implements OnInit {
       this.EditorValue = emlData.body;
     }
 
-    if (emlData.to != undefined) {
+    if (emlData.to !== undefined) {
       emlData.to.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
@@ -217,7 +218,7 @@ export class EditorComponent implements OnInit {
       });
     }
 
-    if (emlData.cc != undefined) {
+    if (emlData.cc !== undefined) {
       emlData.cc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
@@ -226,7 +227,7 @@ export class EditorComponent implements OnInit {
       });
     }
 
-    if (emlData.bcc != undefined) {
+    if (emlData.bcc !== undefined) {
       emlData.bcc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
@@ -262,8 +263,7 @@ export class EditorComponent implements OnInit {
     console.log(this.uploader);
     this.uploader.uploadAll();
     // process inline attachments
-
-
+    
   }
 
   private base64InlineAttachmentsToBody() {

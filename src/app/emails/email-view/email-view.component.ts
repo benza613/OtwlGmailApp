@@ -58,9 +58,7 @@ export class EmailViewComponent implements OnInit {
         ).subscribe(x => {
           this.emailList = x;
         });
-      setTimeout(() => {
         this.spinner.hide();
-      });
     } else if (this.storeSelector === 'mapped') {
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
@@ -68,9 +66,7 @@ export class EmailViewComponent implements OnInit {
         ).subscribe(x => {
           this.emailList = x;
         });
-        setTimeout(() => {
           this.spinner.hide();
-        });
     }
   }
 

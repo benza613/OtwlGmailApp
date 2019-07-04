@@ -114,14 +114,14 @@ export class EmailsStoreService {
   }
 
 
-  async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector, MessageID, TokenPossession) {
+  async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList) {
     const res = await this.emailServ.sendNewMail(
       packet.to.map(key => key.emailId),
       packet.cc.map(key => key.emailId),
       packet.bcc.map(key => key.emailId),
       packet.subject, body, inlineAttachments,
       actionType, MessageID,
-      TokenPossession).toPromise();
+      TokenPossession, orderFilesList).toPromise();
     if (res.d.errId === '200') {
 
     } else {

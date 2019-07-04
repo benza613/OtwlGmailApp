@@ -1,3 +1,4 @@
+import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -60,9 +61,9 @@ export class EmailsService {
   }
 
   // tslint:disable-next-line:max-line-length
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string): Observable<any> {
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[]): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, orderFilesList },
       this.httpOptions)
       .pipe(map(r => r));
   }

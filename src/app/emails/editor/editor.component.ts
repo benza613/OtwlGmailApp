@@ -1,3 +1,4 @@
+import { FsOrderFiles } from './../../models/fs-order-files';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -187,7 +188,7 @@ export class EditorComponent implements OnInit {
           // then send mail
           this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
             this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-            this._reqMessageID, this._TOKEN_POSSESION);
+            this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails);
 
         },
         (err) => {

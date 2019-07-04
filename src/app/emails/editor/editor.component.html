@@ -124,7 +124,12 @@
         <!-- ben -->
       </div>
       <div class="col-4 attachments-partition" style="padding: 5px;">
-        <div *ngIf="!_isOrdersComplete">Loading Attachments from FileServer...</div>
+        <div class="row">
+          <div class="col">
+            <p class="upl-headers">File Server Attachments :</p>
+          </div>
+        </div>
+        <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
         <ngb-tabset *ngIf="_isOrdersComplete">
           <ngb-tab title="SEND">
             <ng-template ngbTabContent>
@@ -133,15 +138,17 @@
                   <div class="card" style="height: 75px">
                     <div class="col card-body" style="padding: 15px;">
                       <div class="row">
-                        <div class="col-md-10"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
+                        <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b> {{order.flDisplayName}} </div>
                         <div class="col-md-2" style="cursor: pointer;">
-                            <span (click)="editOrderDetails(1,order)">
-                              <i class="fa fa-minus-circle" style="color: red; transform: scale(1.5); float: right;"></i>
-                            </span>
-                          </div>
+                          <span (click)="editOrderDetails(1,order)">
+                            <i class="fa fa-minus-circle" style="color: red; transform: scale(1.5); float: right;"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-9">{{order.flTag}}</div>
+                        <div class="col-md-9">
+                          <div class="badge badge-warning">{{order.flTag}}</div>
+                        </div>
                         <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
                       </div>
                     </div>
@@ -159,10 +166,10 @@
                       <div class="row">
                         <div class="col-md-10" style="text"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
                         <div class="col-md-2 pull-left" style="cursor: pointer;">
-                            <span (click)="editOrderDetails(2,order)">
-                                <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
-                            </span>
-                          </div>
+                          <span (click)="editOrderDetails(2,order)">
+                            <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="row">
                         <div class="col-md-9">{{order.flTag}}</div>
@@ -224,8 +231,9 @@
 
       </div>
       <div class="col">
-        <div class="container-fluid-cust" [innerHTML]= "signatureHtml | safeHtml" style="text-align: right;font-size: 12px;">
-          
+        <div class="container-fluid-cust" [innerHTML]="signatureHtml | safeHtml"
+          style="text-align: right;font-size: 12px;">
+
         </div>
       </div>
     </div>

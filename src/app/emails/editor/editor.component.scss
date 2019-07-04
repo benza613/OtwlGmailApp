@@ -44,20 +44,20 @@
 
 /* Default class applied to drop zones on over */
 
-.upl-block {
 
-  // border: thin solid #006699;
 
-  & .upl-headers {
-    font-size: 16px;
-    font-weight: bold;
-    color: #006699;
-  }
+// border: thin solid #006699;
 
-  & .btn-group-cust button {
-    margin-right: 5px;
-  }
+.upl-headers {
+  font-size: 16px;
+  font-weight: bold;
+  color: #006699;
 }
+
+.upl-block .btn-group-cust button {
+  margin-right: 5px;
+}
+
 
 .emailUiFooter {
 
@@ -66,7 +66,15 @@
     // border: thin solid red;
   }
 
-  .attachments-partition {
-    border-right: thin solid #006699;
-  }
+  .attachments-partition {}
+}
+
+.fs-orders-loading {
+  font-style: italic;
+  text-align: center;
+
+}
+
+.badge {
+  font-size: 10px !important;
 }

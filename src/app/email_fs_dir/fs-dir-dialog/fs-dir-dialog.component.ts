@@ -39,14 +39,14 @@ export class FSDirDialogComponent implements OnInit {
           x.isTemplateFolder_ID === folder.entityID);
       } else {
         this.backDisable = true;
-        this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
+        this.folderList = this.folderHierarchy.filter(x => x.qlevel === '0');
       }
     } else {
       if (this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
         x.isParentFolder_ID === folder.entityID).length > 0) {
         this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
                                                           x.isParentFolder_ID === folder.entityID);
-      } 
+      }
     }
   }
 
@@ -64,8 +64,4 @@ export class FSDirDialogComponent implements OnInit {
      this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel, this.reqThreadId,
                                             this.msgId,  this.attachmentGIds,  this.attachmentNames);
   }
-
-
-
-
 }

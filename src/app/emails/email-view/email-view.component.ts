@@ -129,7 +129,9 @@ export class EmailViewComponent implements OnInit {
     if (id === 1) {
       this.emailStore.MessageAttch_DownloadLocal(msgId, this.attachmentGIDs);
     } else if (id === 2) {
+      this.spinner.show();
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
+          this.spinner.hide();
         const modalRef = this.modalService.open(
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }

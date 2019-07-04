@@ -31,13 +31,11 @@ export class EmailUnreadComponent implements OnInit {
 
   getMails() {
     this.spinner.show();
-    setTimeout(() => {
       this.emailStore.getCheckedMsgList$.subscribe(x => {
         this.mailList = x;
-        this.spinner.hide();
-      });
-    }, 2000);
+    });
     if (this.mailList.length > 0) {
+      this.spinner.hide();
       const modalRef = this.modalService.open(
         EmailUnreadDialogComponent,
         { size: 'lg', backdrop: 'static', keyboard: false }

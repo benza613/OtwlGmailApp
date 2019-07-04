@@ -49,8 +49,6 @@ export class EmailMappedComponent implements OnInit {
       for (let ix = 0; ix < x.length; ix++) {
         this.refType = [...this.refType, x[ix]];
       }
-
-
       this.route.queryParams.subscribe((params) => {
         if (params.r !== undefined && params.v !== undefined) {
           this.refId = params.r;
@@ -80,7 +78,6 @@ export class EmailMappedComponent implements OnInit {
   //toggle parent reftype ddl
   onChange_GetRefTypeData() {
     this.spinner.show();
-
     this.refValId = null;
     if (this.refId) {
       var that = this;
@@ -90,16 +87,11 @@ export class EmailMappedComponent implements OnInit {
           for (let ix = 0; ix < x.length; ix++) {
             that.refTypeData = [...that.refTypeData, x[ix]];
           }
-
-
           if (that._queryParams.v != null) {
             that.refValId = that._queryParams.v;
             that.getThreads();
           }
-
-          setTimeout(() => {
             that.spinner.hide();
-          }, 1000);
         });
       });
     } else {

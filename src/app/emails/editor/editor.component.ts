@@ -167,11 +167,8 @@ export class EditorComponent implements OnInit {
 
       this.base64InlineAttachmentsToBody().then(
         (data) => {
-
-          // generate static signature
-          const signature = this.fillSignatureTemplate('Shraddha Redkar', 'Executive-HR', '+91 7045951608', 'hr@oceantransworld.com');
           // then send mail
-          this.emailStore.sendNewEmail(this.msgPacket, data + signature, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID, this._TOKEN_POSSESION);
+          this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID, this._TOKEN_POSSESION);
 
         },
         (err) => {

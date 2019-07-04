@@ -26,6 +26,7 @@ import { ErrorDialogComponent } from './error/error-dialog/error-dialog.componen
 import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.component';
 import { mapViewFilter } from './_pipe/map-view-filter.pipe';
 import { FSDirDialogComponent } from './email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
+import { LocalStorageService } from './_util/local-storage.service';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import { FSDirDialogComponent } from './email_fs_dir/fs-dir-dialog/fs-dir-dialog
     FileUploadModule,
     NgxSpinnerModule
   ],
-  providers: [],
+  providers: [LocalStorageService],
   entryComponents: [
     EditorComponent,
     EmailUnreadDialogComponent,

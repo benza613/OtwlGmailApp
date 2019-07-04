@@ -2,9 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
+import { LocalStorageService } from 'src/app/_util/local-storage.service';
+import { environment } from 'src/environments/environment.prod';
 
-// URL = environment.url.server + 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
-const URL = 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx';
+const URL = environment.url.uploadsGA;
+
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
@@ -71,7 +73,8 @@ export class EditorComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
-    private detector: ChangeDetectorRef
+    private detector: ChangeDetectorRef,
+    private locStgService: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -89,6 +92,8 @@ export class EditorComponent implements OnInit {
     //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
 
+
+
     var that = this;
 
     this.emailStore.getUserMailInfo().then(function (value) {
@@ -99,8 +104,10 @@ export class EditorComponent implements OnInit {
       that.senderDesgn = value['d'].userDesignation;
       that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail);
     });
+
     this.route.queryParams
       .subscribe(params => {
+
 
         //first check if storeSelector is undefined
         //then check if attachment order is requested 
@@ -121,11 +128,19 @@ export class EditorComponent implements OnInit {
 
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
-            this.recycleAddressFields(x.msgs);
+            this.recycleGmailAddressFields(x.msgs);
             this.msgPacket.subject = x.subject;
           }
-        } else {
-          this.initMessagePacket_LocalStorage(emlData);
+        }
+
+        if (params.locst_id != undefined) {
+          console.log("params.locst_id", params.locst_id);
+          var localToken = params.locst_id;
+          if (localToken) {
+            const emlData = that.locStgService.fetchMessagePacket(localToken);
+            console.log(emlData);
+            that.initMessagePacket_LocalStorage(emlData);
+          }
         }
       });
 
@@ -185,12 +200,39 @@ export class EditorComponent implements OnInit {
   }
 
   initMessagePacket_LocalStorage(emlData) {
-    if (emlData.to !== undefined) {
-      this.msgPacket.to = emlData.to;
-    }
-
     if (emlData.subject !== undefined) {
       this.msgPacket.subject = emlData.subject;
+    }
+
+    if (emlData.body !== undefined) {
+      this.EditorValue = emlData.body;
+    }
+
+    if (emlData.to != undefined) {
+      emlData.to.forEach(element => {
+        if (element !== undefined && element !== '') {
+          this.msgAddrList.push({ emailId: element });
+          this.msgPacket.to.push({ emailId: element });
+        }
+      });
+    }
+
+    if (emlData.cc != undefined) {
+      emlData.cc.forEach(element => {
+        if (element !== undefined && element !== '') {
+          this.msgAddrList.push({ emailId: element });
+          this.msgPacket.cc.push({ emailId: element });
+        }
+      });
+    }
+
+    if (emlData.bcc != undefined) {
+      emlData.bcc.forEach(element => {
+        if (element !== undefined && element !== '') {
+          this.msgAddrList.push({ emailId: element });
+          this.msgPacket.bcc.push({ emailId: element });
+        }
+      });
     }
 
   }
@@ -342,7 +384,7 @@ export class EditorComponent implements OnInit {
     console.log(this.signatureHtml + this.footerHtml);
   }
 
-  private recycleAddressFields(msgs) {
+  private recycleGmailAddressFields(msgs) {
 
     msgs[0].msgBcc.split(',').forEach(element => {
       if (element !== undefined && element !== '') {
@@ -378,6 +420,7 @@ export class EditorComponent implements OnInit {
     });
 
   }
+
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;

@@ -58,6 +58,7 @@ export class EmailUnreadDialogComponent implements OnInit {
       alert('Please select a Job ID');
       return;
     }
+    this.spinner.show();
     const mapTypes = {
       refId: this.refId,
       refValId: this.refValId,
@@ -74,8 +75,7 @@ export class EmailUnreadDialogComponent implements OnInit {
 
     var that = this;
     this.domainStore.submitUnreadThreadData(mapTypes).then(function (value) {
-      console.log(value);
-      
+      that.spinner.hide();
       if (value === '200') {
         const res = '1';
         alert('Mapping successfully done.');

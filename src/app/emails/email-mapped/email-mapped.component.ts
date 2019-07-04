@@ -71,8 +71,7 @@ export class EmailMappedComponent implements OnInit {
       for (let ix = 0; ix < x.length; ix++) {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
       }
-
-
+      this.spinner.hide();
     });
     this.dateTo = { year: 2019, month: 6, day: 21 };
     this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };

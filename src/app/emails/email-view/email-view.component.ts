@@ -5,6 +5,7 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Message } from '../../models/message.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class EmailViewComponent implements OnInit {
     private route: ActivatedRoute,
     public emailStore: EmailsStoreService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   renderMessages() {
+    this.spinner.show();
     if (this.storeSelector === 'unread') {
       this.emailStore.getUnreadMsgList$(this.reqThreadId)
         .pipe(
@@ -55,6 +58,9 @@ export class EmailViewComponent implements OnInit {
         ).subscribe(x => {
           this.emailList = x;
         });
+      setTimeout(() => {
+        this.spinner.hide();
+      });
     } else if (this.storeSelector === 'mapped') {
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
@@ -62,8 +68,10 @@ export class EmailViewComponent implements OnInit {
         ).subscribe(x => {
           this.emailList = x;
         });
+        setTimeout(() => {
+          this.spinner.hide();
+        });
     }
-    console.log('Email List', this.emailList);
   }
 
   draftReply(msg: Message) {
@@ -117,8 +125,6 @@ export class EmailViewComponent implements OnInit {
         });
       }
     }
-    console.log(this.attachmentGIDs);
-    console.log(this.attachmentNames);
 
     if (id === 1) {
       this.emailStore.MessageAttch_DownloadLocal(msgId, this.attachmentGIDs);

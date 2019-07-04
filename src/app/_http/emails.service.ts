@@ -39,21 +39,21 @@ export class EmailsService {
   }
 
   downloadLocal(msgId, attachmentGIds): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/`, //PUT METHOD NAME
+    return this.http.post(`${this.apiBaseUrl}/`, 
       { msgId, attachmentGIds },
       this.httpOptions)
       .pipe(map(r => r));
   }
 
   requestFSDir(reqThreadId): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`, //PUT METHOD NAME
+    return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`, 
       { reqThreadId },
       this.httpOptions)
       .pipe(map(r => r));
   }
 
   saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`, //PUT METHOD NAME
+    return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`, 
       { entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames },
       this.httpOptions)
       .pipe(map(r => r));
@@ -68,8 +68,15 @@ export class EmailsService {
   }
 
   requestOrderDetails(reqOrderID): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/attachments_FsOrderDetails`, //PUT METHOD NAME
+    return this.http.post(`${this.apiBaseUrl}/attachments_FsOrderDetails`, 
       { reqOrderID },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  getUserInfo(): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getUserMailInfo`,
+      { },
       this.httpOptions)
       .pipe(map(r => r));
   }

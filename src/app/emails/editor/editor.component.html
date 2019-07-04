@@ -123,62 +123,109 @@
         </div>
         <!-- ben -->
       </div>
-      <div class="col-4 attachments-partition">
+      <div class="col-4 attachments-partition" style="padding: 5px;">
         <div *ngIf="!_isOrdersComplete">Loading Attachments from FileServer...</div>
-        <div *ngIf="_isOrdersComplete">
-          <div class="card" *ngFor="let order of orderDetails">
-            <div class="col card-body">
-              <span>{{order.flMdDisplayName}}/{{order.flDisplayName}}</span>
-              <div class="row">
-                <div class="col">{{order.flTag}}</div>
-                <div class="col">{{order.flSize}}</div>
-                <div class="col">
-                  <button (click)="removeOrderDetails(order)">
-                      <i class="fa fa-minus-circle"></i>
-                  </button>
+        <ngb-tabset *ngIf="_isOrdersComplete">
+          <ngb-tab title="SEND">
+            <ng-template ngbTabContent>
+              <div style="height: 300px; overflow: auto">
+                <div *ngFor="let order of orderDetails" style="margin: 2px;">
+                  <div class="card" style="height: 75px">
+                    <div class="col card-body" style="padding: 15px;">
+                      <div class="row">
+                        <div class="col-md-10"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
+                        <div class="col-md-2" style="cursor: pointer;">
+                            <span (click)="editOrderDetails(1,order)">
+                              <i class="fa fa-minus-circle" style="color: red; transform: scale(1.5); float: right;"></i>
+                            </span>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-9">{{order.flTag}}</div>
+                        <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="DISCARD">
+            <ng-template ngbTabContent>
+              <div style="height: 300px; overflow: auto">
+                <div *ngFor="let order of delOrderDetails">
+                  <div class="card" style="height: 75px">
+                    <div class="col card-body" style="padding: 15px;">
+                      <div class="row">
+                        <div class="col-md-10" style="text"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
+                        <div class="col-md-2 pull-left" style="cursor: pointer;">
+                            <span (click)="editOrderDetails(2,order)">
+                                <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
+                            </span>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-9">{{order.flTag}}</div>
+                        <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+
+
+        <!-- <div *ngIf="_isOrdersComplete">
+          <div style="height: 166px;overflow: auto">
+            <div *ngFor="let order of orderDetails">
+              <div class="card" style="height: 75px">
+                <div class="col card-body" style="padding: 15px;">
+                  <div class="row">
+                    <div class="col-md-9"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
+                    <div class="col-sm-3 pull-right"> {{order.flSize}} </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-10">{{order.flTag}}</div>
+                    <div class="col-md-2 pull-right" style="cursor: pointer;">
+                      <span (click)="editOrderDetails(1,order)">
+                        <i class="fa fa-minus-circle"></i>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+          <hr />
+          <div style="height: 166px; overflow: auto;">
+            <div *ngFor="let order of delOrderDetails">
+              <div class="card" style="height: 75px">
+                <div class="col card-body" style="padding: 15px;">
+                  <div class="row">
+                    <div class="col-md-9"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
+                    <div class="col-sm-3 pull-right"> {{order.flSize}} </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-10">{{order.flTag}}</div>
+                    <div class="col-md-2 pull-right" style="cursor: pointer;">
+                      <span (click)="editOrderDetails(2,order)">
+                        <i class="fa fa-minus-circle"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+
       </div>
       <div class="col">
-        <div class="container-fluid-cust" style="text-align: right;font-size: 12px;">
-          <div style="text-align: right;">
-            <span style="font-family: Arial, Helvetica, sans-serif;">
-              <span style="color: rgb(47, 84, 150); text-decoration: inherit;">
-                <strong><em>Shraddha Redkar&nbsp;</em></strong>
-              </span>
-            </span>
-          </div>
-          <div style="text-align: right;"><span style="font-family: Arial, Helvetica, sans-serif;"><span
-                style="color: rgb(47, 84, 150); text-decoration: inherit;"><strong><em>Executive-HR&nbsp;</em></strong></span></span>
-            <div style="text-align: right;"><br></div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">“Silver Astra” B-503/A, J. B.
-                  Nagar,&nbsp;</span></span>
-            </div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">Andheri (E) Mumbai- 400 099.&nbsp;</span></span>
-            </div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">Board : +91 22 62839000-99 (100
-                  lines)&nbsp;</span></span>
-            </div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">Direct : +91 22 62839034&nbsp;</span></span></div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">Mobile : +91 7045951608&nbsp;</span></span></div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">Fax : +91 11 22 2830 4386&nbsp;</span></span></div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">E-Mail : hr@oceantransworld.com&nbsp;</span></span>
-            </div>
-            <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
-                  style="font-family: Arial, Helvetica, sans-serif;">Web : www.oceantransworld.com</span></span></div>
-
-          </div>
-
+        <div class="container-fluid-cust" [innerHTML]= "signatureHtml | safeHtml" style="text-align: right;font-size: 12px;">
+          
         </div>
       </div>
     </div>

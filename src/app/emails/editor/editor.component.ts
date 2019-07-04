@@ -62,6 +62,11 @@ export class EditorComponent implements OnInit {
   _isOrdersComplete = false;
   orderDetails = [];
   delOrderDetails = [];
+  senderName;
+  senderDesgn;
+  senderMobile;
+  senderEmail;
+  signatureHtml = '<div></div>';
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -81,10 +86,18 @@ export class EditorComponent implements OnInit {
 
     //angular number pipe
     //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
+    
 
     var that = this;
 
-
+    this.emailStore.getUserMailInfo().then(function (value) {
+      console.log(value);
+      that.senderName = value['d'].userFullName;
+      that.senderEmail = value['d'].userEmailID;
+      that.senderMobile = value['d'].userUserContactNumber;
+      that.senderDesgn = value['d'].userDesignation;
+      that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail);
+    });
     this.route.queryParams
       .subscribe(params => {
 
@@ -95,15 +108,10 @@ export class EditorComponent implements OnInit {
           this._reqOrderID = params.order;
 
           this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then(function (value) {
-            that.orderDetails = [...that.orderDetails, value];
-            console.log('THAT', that.orderDetails);
+            that.orderDetails = [...that.orderDetails, value][0];
             that._isOrdersComplete = true;
-
             that.detector.detectChanges();
           });
-          console.log('THIS', this.orderDetails);
-
-
         } else if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
@@ -118,10 +126,6 @@ export class EditorComponent implements OnInit {
         } else {
           this.initMessagePacket_LocalStorage(emlData);
         }
-
-
-
-
       });
 
     this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
@@ -163,11 +167,8 @@ export class EditorComponent implements OnInit {
 
       this.base64InlineAttachmentsToBody().then(
         (data) => {
-
-          // generate static signature
-          const signature = this.fillSignatureTemplate('Shraddha Redkar', 'Executive-HR', '+91 7045951608', 'hr@oceantransworld.com');
           // then send mail
-          this.emailStore.sendNewEmail(this.msgPacket, data + signature, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID, this._TOKEN_POSSESION);
+          this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID, this._TOKEN_POSSESION);
 
         },
         (err) => {
@@ -286,7 +287,7 @@ export class EditorComponent implements OnInit {
   }
 
   fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail) {
-    return `<div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
+    this.signatureHtml =  `<div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
     <div style="text-align: right;">
       <span style="font-family: Arial, Helvetica, sans-serif;">
         <span style="color: rgb(47, 84, 150); text-decoration: inherit;">
@@ -380,6 +381,20 @@ export class EditorComponent implements OnInit {
     const idx = this.msgAddrList.findIndex(obj => obj.emailId === event.emailId);
     if (idx === -1) {
       this.msgAddrList = [...this.msgAddrList, event.emailId];
+    }
+  }
+
+  editOrderDetails(id, order) {
+    if (id === 1) {
+      const idx = this.orderDetails.indexOf(order);
+      this.orderDetails.splice(idx, 1);
+      this.delOrderDetails.push(order);
+      this.detector.detectChanges();
+    } else {
+      const idx = this.delOrderDetails.indexOf(order);
+      this.delOrderDetails.splice(idx, 1);
+      this.orderDetails.push(order);
+      this.detector.detectChanges();
     }
   }
 }

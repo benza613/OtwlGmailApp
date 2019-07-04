@@ -67,6 +67,7 @@ export class EditorComponent implements OnInit {
   senderMobile;
   senderEmail;
   signatureHtml = '<div></div>';
+  footerHtml;
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -168,7 +169,9 @@ export class EditorComponent implements OnInit {
       this.base64InlineAttachmentsToBody().then(
         (data) => {
           // then send mail
-          this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml, this._inlineAttachB64, this._reqActionType, this._reqStoreSelector, this._reqMessageID, this._TOKEN_POSSESION);
+          this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
+                                        this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
+                                          this._reqMessageID, this._TOKEN_POSSESION);
 
         },
         (err) => {
@@ -319,7 +322,9 @@ export class EditorComponent implements OnInit {
             style="font-family: Arial, Helvetica, sans-serif;">Web : www.oceantransworld.com</span></span></div>
 
     </div>
-    <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
+  </div>`;
+  this.footerHtml = `
+  <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
       bgcolor="#fafafa" align="center">
       <tbody>
         <tr>
@@ -331,8 +336,7 @@ export class EditorComponent implements OnInit {
           </td>
         </tr>
       </tbody>
-    </table>
-  </div>`;
+    </table>`
   }
 
   private recycleAddressFields(msgs) {

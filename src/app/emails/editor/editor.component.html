@@ -49,7 +49,6 @@
     <div class="row">
       <div class="col-5 attachments-partition">
         <div class="row">
-
           <div class="col-md-12 upl-block" style="margin-bottom: 40px">
             <div class="row">
               <div class="col">
@@ -69,7 +68,14 @@
             <hr />
             <p class="upl-headers">Attachments Selected: </p>
             <p>Queue length: {{ uploader?.queue?.length }}</p>
-
+            <div>
+              <div>
+                Queue progress: {{uploader.progress}}
+                <div class="progress" style="margin-bottom: 5px;">
+                  <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                </div>
+              </div>
+            </div>
             <table class="table">
               <thead>
                 <tr>
@@ -108,16 +114,6 @@
                 </tr>
               </tbody>
             </table>
-
-            <div>
-              <div>
-                Queue progress: {{uploader.progress}}
-                <div class="progress" style="">
-                  <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                </div>
-              </div>
-            </div>
-
           </div>
 
         </div>
@@ -133,7 +129,7 @@
         <ngb-tabset *ngIf="_isOrdersComplete">
           <ngb-tab title="SEND">
             <ng-template ngbTabContent>
-              <div style="height: 300px; overflow: auto">
+              <div style="height: 310px; overflow: auto">
                 <div *ngFor="let order of orderDetails" style="margin: 2px;">
                   <div class="card" style="height: 75px">
                     <div class="col card-body" style="padding: 15px;">
@@ -159,12 +155,12 @@
           </ngb-tab>
           <ngb-tab title="DISCARD">
             <ng-template ngbTabContent>
-              <div style="height: 300px; overflow: auto">
+              <div style="height: 310px; overflow: auto">
                 <div *ngFor="let order of delOrderDetails">
                   <div class="card" style="height: 75px">
                     <div class="col card-body" style="padding: 15px;">
                       <div class="row">
-                        <div class="col-md-10" style="text"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
+                        <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b>{{order.flDisplayName}} </div>
                         <div class="col-md-2 pull-left" style="cursor: pointer;">
                           <span (click)="editOrderDetails(2,order)">
                             <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
@@ -172,7 +168,9 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-9">{{order.flTag}}</div>
+                        <div class="col-md-9">
+                          <div class="badge badge-warning">{{order.flTag}}</div>
+                        </div>
                         <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
                       </div>
                     </div>
@@ -182,55 +180,13 @@
             </ng-template>
           </ngb-tab>
         </ngb-tabset>
-
-
-        <!-- <div *ngIf="_isOrdersComplete">
-          <div style="height: 166px;overflow: auto">
-            <div *ngFor="let order of orderDetails">
-              <div class="card" style="height: 75px">
-                <div class="col card-body" style="padding: 15px;">
-                  <div class="row">
-                    <div class="col-md-9"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
-                    <div class="col-sm-3 pull-right"> {{order.flSize}} </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-10">{{order.flTag}}</div>
-                    <div class="col-md-2 pull-right" style="cursor: pointer;">
-                      <span (click)="editOrderDetails(1,order)">
-                        <i class="fa fa-minus-circle"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div style="height: 166px; overflow: auto;">
-            <div *ngFor="let order of delOrderDetails">
-              <div class="card" style="height: 75px">
-                <div class="col card-body" style="padding: 15px;">
-                  <div class="row">
-                    <div class="col-md-9"> {{order.flMdDisplayName}}/{{order.flDisplayName}} </div>
-                    <div class="col-sm-3 pull-right"> {{order.flSize}} </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-10">{{order.flTag}}</div>
-                    <div class="col-md-2 pull-right" style="cursor: pointer;">
-                      <span (click)="editOrderDetails(2,order)">
-                        <i class="fa fa-minus-circle"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
-
       </div>
       <div class="col">
+        <div class="row">
+          <div class="col">
+            <p class="upl-headers">Signature :</p>
+          </div>
+        </div>
         <div class="container-fluid-cust" [innerHTML]="signatureHtml | safeHtml"
           style="text-align: right;font-size: 12px;">
 

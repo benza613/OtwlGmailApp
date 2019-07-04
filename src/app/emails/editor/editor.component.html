@@ -100,7 +100,7 @@
                     <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
                     <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                   </td>
-                  <td nowrap>
+                  <td nowrap style="padding: 6px;">
                     <div class="btn-group-cust">
                       <button type="button" class="btn btn-warning btn-sm" (click)="item.cancel()"
                         [disabled]="!item.isUploading">

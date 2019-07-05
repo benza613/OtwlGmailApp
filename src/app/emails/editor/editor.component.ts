@@ -171,9 +171,13 @@ export class EditorComponent implements OnInit {
       item.withCredentials = false;
     }
 
+    this.uploader.queue.forEach(x => {
+      this.uploadFilesSize += x.file.size;
+      this.detector.detectChanges();
+    });
+
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       item.remove();
-      this.uploadFilesSize += item.file.size;
     }
 
     this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {

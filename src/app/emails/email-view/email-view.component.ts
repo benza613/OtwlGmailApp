@@ -28,6 +28,7 @@ export class EmailViewComponent implements OnInit {
   attachmentGIDs = [];
   attachmentNames = [];
   selectAll = true;
+  downloadFileObject = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -58,7 +59,7 @@ export class EmailViewComponent implements OnInit {
         ).subscribe(x => {
           this.emailList = x;
         });
-        this.spinner.hide();
+      this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
@@ -66,7 +67,7 @@ export class EmailViewComponent implements OnInit {
         ).subscribe(x => {
           this.emailList = x;
         });
-          this.spinner.hide();
+      this.spinner.hide();
     }
   }
 
@@ -97,9 +98,11 @@ export class EmailViewComponent implements OnInit {
   async fileAction(id, msgId, attachments, file?) {
     this.attachmentGIDs = [];
     this.attachmentNames = [];
+    this.downloadFileObject = [];
     if (file) {
       this.attachmentGIDs.push(file.attachmentGId);
       this.attachmentNames.push(file.fileName);
+      this.downloadFileObject.push([file.attachmentGId, file.fileName]);
     } else {
       if (id === 3) {
         this.selectAll = !this.selectAll;
@@ -118,16 +121,18 @@ export class EmailViewComponent implements OnInit {
         attachments_filtered.forEach(att => {
           this.attachmentGIDs.push(att.attachmentGId);
           this.attachmentNames.push(att.fileName);
+          this.downloadFileObject.push([att.attachmentGId, att.fileName]);
         });
       }
     }
 
     if (id === 1) {
-      this.emailStore.MessageAttch_DownloadLocal(msgId, this.attachmentGIDs);
+      console.log(this.downloadFileObject);
+      // this.emailStore.MessageAttch_DownloadLocal(msgId, this.downloadFileObject);
     } else if (id === 2) {
       this.spinner.show();
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
-          this.spinner.hide();
+        this.spinner.hide();
         const modalRef = this.modalService.open(
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }

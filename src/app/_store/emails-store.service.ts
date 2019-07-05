@@ -274,11 +274,7 @@ export class EmailsStoreService {
   }
 
   async MessageAttch_DownloadLocal(msgId, attachmentGIds) {
-    const res = await this.emailServ.downloadLocal(msgId, attachmentGIds).toPromise();
-    console.log(res);
-    if (res.d.errId !== '200') {
-      this.errorService.displayError(res, 'downloadLocal');
-    }
+    await this.emailServ.downloadLocal(msgId, attachmentGIds);
   }
 
   MessageAttch_RequestFSDir(reqThreadId) {

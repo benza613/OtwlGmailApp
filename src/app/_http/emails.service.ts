@@ -52,23 +52,22 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  // downloadLocal(msgId, downloadFileObject) {
-  //   this.http.get(`${this.apiBaseUrl_Download}/`,
-  //     { msgId, downloadFileObject },
-  //     this.httpOptions_download).subscribe(response => {
-  //       if (response.reportType === 'text-plain') {
-  //         this.errorServ.displayError(response, '');
-  //       } else {
-  //         const blob = new Blob([response as Blob], { type: response.reportType });
-  //         const iurl = window.URL.createObjectURL(blob)
-  //         const anchor = document.createElement('a');
-  //         anchor.download = response.filName;
-  //         anchor.href = iurl;
-  //         anchor.dispatchEvent(new MouseEvent(`click`, { bubbles: true, cancelable: true, view: window }));
-  //         anchor.remove();
-  //       }
-  //     });
-  // }
+  downloadLocal(msgId, downloadFileObject) {
+    this.http.get(`${this.apiBaseUrl_Download}/`, { params: { msgId, downloadFileObject } }).subscribe(response => {
+      
+      if (response['content-type'] === 'text/plain') {
+        this.errorServ.displayError(response, '');
+      } else {
+        const blob = new Blob([response as Blob], { type: response['content-type'] });
+        const iurl = window.URL.createObjectURL(blob)
+        const anchor = document.createElement('a');
+        anchor.download = response['x-filename'];
+        anchor.href = iurl;
+        anchor.dispatchEvent(new MouseEvent(`click`, { bubbles: true, cancelable: true, view: window }));
+        anchor.remove();
+      }
+    });
+  }
 
   requestFSDir(reqThreadId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`,

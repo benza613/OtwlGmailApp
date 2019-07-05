@@ -6,6 +6,7 @@ import { Message } from '../../models/message.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EmailsService } from 'src/app/_http/emails.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class EmailViewComponent implements OnInit {
     public emailStore: EmailsStoreService,
     private router: Router,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private emailServ: EmailsService
   ) { }
 
   ngOnInit() {
@@ -128,7 +130,7 @@ export class EmailViewComponent implements OnInit {
 
     if (id === 1) {
       console.log(this.downloadFileObject);
-      // this.emailStore.MessageAttch_DownloadLocal(msgId, this.downloadFileObject);
+      // this.emailServ.downloadLocal(msgId, this.downloadFileObject);
     } else if (id === 2) {
       this.spinner.show();
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {

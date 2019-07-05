@@ -94,9 +94,15 @@ export class EditorComponent implements OnInit {
     //angular number pipe
     //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
+  this.uploader.onAfterAddingFile = (fileItem) => {
+    this.uploadFilesSize += fileItem.file.size;
+    this.detector.detectChanges();
+  };
 
-
-
+    // this.uploader.queue.forEach(x => {
+    //   console.log('FileSize', x.file.size);
+    //   this.uploadFilesSize += x.file.size;
+    // });
     var that = this;
 
     this.emailStore.getUserMailInfo().then(function (value) {
@@ -169,12 +175,8 @@ export class EditorComponent implements OnInit {
     this.uploader.options.isHTML5 = true;
     this.uploader.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
+      
     }
-
-    this.uploader.queue.forEach(x => {
-      this.uploadFilesSize += x.file.size;
-      this.detector.detectChanges();
-    });
 
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       item.remove();

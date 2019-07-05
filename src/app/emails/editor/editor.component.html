@@ -54,8 +54,9 @@
               <div class="col">
                 <p class="upl-headers">Select files</p>
               </div>
-              <div class="col" >
-                <b>{{uploadFilesSize}}</b>
+              <div class="col" style="padding: 0px; font-size: 16px; color: brown;">
+                <b *ngIf="uploadFilesSize <= 999999">{{uploadFilesSize / 1024 | number:'1.1-2'}} KB</b>
+                <b *ngIf="uploadFilesSize > 999999">{{uploadFilesSize / 1048576 | number:'1.1-2'}} MB</b>
               </div>
             </div>
             <div class="row">

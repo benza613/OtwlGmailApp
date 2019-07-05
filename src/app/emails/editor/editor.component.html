@@ -123,8 +123,11 @@
       </div>
       <div class="col-4 attachments-partition" style="padding: 5px;">
         <div class="row">
-          <div class="col">
+          <div class="col-md-7">
             <p class="upl-headers">File Server Attachments :</p>
+          </div>
+          <div class="col-md-4 pull-right"> 
+            <b>{{orderFilesSize}}</b>
           </div>
         </div>
         <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>

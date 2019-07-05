@@ -71,6 +71,7 @@ export class EditorComponent implements OnInit {
   senderEmail;
   signatureHtml = '<div></div>';
   footerHtml;
+  orderFilesSize;
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -117,7 +118,22 @@ export class EditorComponent implements OnInit {
           this._reqOrderID = params.order;
 
           this.emailStore.updateAttachmentOrderDetails(this._reqOrderID).then(function (value) {
+            that.orderFilesSize = 0;
+            let size = 0;
             that.orderDetails = [...that.orderDetails, value][0];
+            that.orderDetails.forEach(x => {
+              if (x.flSize.split(' ')[1] === 'kB') {
+                size += (Number(x.flSize.split(' ')[0]) * 1024);
+              } else {
+                size += (Number(x.flSize.split(' ')[0]) * 1048576);
+              }
+            });
+            if (size <= 999999) {
+              that.orderFilesSize = String((size / 1024).toFixed(2)) + ' KB';
+            } else {
+              that.orderFilesSize = String((size / 1048576).toFixed(2)) + ' MB';
+            }
+
             console.log(that.orderDetails);
             that._isOrdersComplete = true;
             that.detector.detectChanges();
@@ -264,7 +280,7 @@ export class EditorComponent implements OnInit {
     console.log(this.uploader);
     this.uploader.uploadAll();
     // process inline attachments
-    
+
   }
 
   private base64InlineAttachmentsToBody() {

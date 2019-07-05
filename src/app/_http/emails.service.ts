@@ -1,6 +1,6 @@
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment as env } from '../../environments/environment';
@@ -13,7 +13,7 @@ import { ErrorService } from '../error/error.service';
 })
 export class EmailsService {
   private readonly apiBaseUrl = env.url.server;
-  private readonly apiBaseUrl_Download = env.url.uploadsGA;
+  private readonly apiBaseUrl_Download = env.url.downloadsGA;
 
   constructor(
     private http: HttpClient,
@@ -53,16 +53,28 @@ export class EmailsService {
   }
 
   downloadLocal(msgId, downloadFileObject) {
-    return new Promise(async (resolve) => {
-      this.http.get(`${this.apiBaseUrl_Download}/`, { params: { msgId, downloadFileObject } }).subscribe(response => {
+    return new Promise((resolve) => {
+
+      const optionsN = {
+        headers: new HttpHeaders()
+      };
+
+      optionsN.headers.append("Access-Control-Expose-Headers","x-filename");
+      optionsN['responseType'] = 'blob';
+      optionsN['params'] = { msgId, lstAttch: JSON.stringify(downloadFileObject) };
+      optionsN['observe'] = 'response';
+
+      this.http.get(`${this.apiBaseUrl_Download}`, optionsN).subscribe(response => {
         resolve(response);
-        if (response['content-type'] === 'text/plain') {
+        console.log('eeee', <any>response);
+
+        if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
         } else {
-          const blob = new Blob([response as Blob], { type: response['content-type'] });
+          const blob = new Blob([response['body'] as Blob], { type: response['headers'].get('content-type') || 'application/x-zip-compressed' });
           const iurl = window.URL.createObjectURL(blob);
           const anchor = document.createElement('a');
-          anchor.download = response['x-filename'];
+          anchor.download = response['headers'].get('x-filename') || 'abc.zip';
           anchor.href = iurl;
           anchor.dispatchEvent(new MouseEvent(`click`, { bubbles: true, cancelable: true, view: window }));
           anchor.remove();

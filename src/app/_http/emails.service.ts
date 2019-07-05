@@ -28,6 +28,9 @@ export class EmailsService {
 
   httpOptions_download = {
     responseType: 'blob',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    }
   };
 
   indexUnread(pageToken, addrFrom, addrTo, subject): Observable<any> {

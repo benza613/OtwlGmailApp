@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'mapped',
     component: EmailMappedComponent,
     pathMatch: 'full',
-    canActivate: [ActivateGuardService]
+    // canActivate: [ActivateGuardService]
 
   },
   {

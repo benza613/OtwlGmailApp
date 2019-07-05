@@ -129,8 +129,11 @@ export class EmailViewComponent implements OnInit {
     }
 
     if (id === 1) {
-      console.log(this.downloadFileObject);
-      // this.emailServ.downloadLocal(msgId, this.downloadFileObject);
+      this.spinner.show();
+      const that = this;
+      this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
+        that.spinner.hide();
+      });
     } else if (id === 2) {
       this.spinner.show();
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {

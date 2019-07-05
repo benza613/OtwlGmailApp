@@ -53,19 +53,21 @@ export class EmailsService {
   }
 
   downloadLocal(msgId, downloadFileObject) {
-    this.http.get(`${this.apiBaseUrl_Download}/`, { params: { msgId, downloadFileObject } }).subscribe(response => {
-      
-      if (response['content-type'] === 'text/plain') {
-        this.errorServ.displayError(response, '');
-      } else {
-        const blob = new Blob([response as Blob], { type: response['content-type'] });
-        const iurl = window.URL.createObjectURL(blob)
-        const anchor = document.createElement('a');
-        anchor.download = response['x-filename'];
-        anchor.href = iurl;
-        anchor.dispatchEvent(new MouseEvent(`click`, { bubbles: true, cancelable: true, view: window }));
-        anchor.remove();
-      }
+    return new Promise(async (resolve) => {
+      this.http.get(`${this.apiBaseUrl_Download}/`, { params: { msgId, downloadFileObject } }).subscribe(response => {
+        resolve(response);
+        if (response['content-type'] === 'text/plain') {
+          this.errorServ.displayError(response, '');
+        } else {
+          const blob = new Blob([response as Blob], { type: response['content-type'] });
+          const iurl = window.URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.download = response['x-filename'];
+          anchor.href = iurl;
+          anchor.dispatchEvent(new MouseEvent(`click`, { bubbles: true, cancelable: true, view: window }));
+          anchor.remove();
+        }
+      });
     });
   }
 

@@ -273,9 +273,9 @@ export class EmailsStoreService {
     }
   }
 
-  async MessageAttch_DownloadLocal(msgId, attachmentGIds) {
-    await this.emailServ.downloadLocal(msgId, attachmentGIds);
-  }
+  // async MessageAttch_DownloadLocal(msgId, attachmentGIds) {
+  //   await this.emailServ.downloadLocal(msgId, attachmentGIds);
+  // }
 
   MessageAttch_RequestFSDir(reqThreadId) {
     return new Promise(async (resolve, rej) => {

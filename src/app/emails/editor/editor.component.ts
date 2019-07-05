@@ -72,6 +72,7 @@ export class EditorComponent implements OnInit {
   signatureHtml = '<div></div>';
   footerHtml;
   orderFilesSize;
+  uploadFilesSize = 0;
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -172,6 +173,7 @@ export class EditorComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       item.remove();
+      this.uploadFilesSize += item.file.size;
     }
 
     this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {

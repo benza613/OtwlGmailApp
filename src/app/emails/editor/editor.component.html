@@ -54,6 +54,9 @@
               <div class="col">
                 <p class="upl-headers">Select files</p>
               </div>
+              <div class="col" >
+                <b>{{uploadFilesSize <= 999999 ? uploadFilesSize/1024 : uploadFilesSize/1048576}}</b>
+              </div>
             </div>
             <div class="row">
               <div class="col">
@@ -126,7 +129,7 @@
           <div class="col-md-7">
             <p class="upl-headers">File Server Attachments :</p>
           </div>
-          <div class="col-md-4 pull-right"> 
+          <div class="col-md-4 pull-right" style="padding: 0px; font-size: 16px; color: brown;"> 
             <b>{{orderFilesSize}}</b>
           </div>
         </div>

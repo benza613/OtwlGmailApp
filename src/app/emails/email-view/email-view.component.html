@@ -65,7 +65,7 @@
         </div>
         <div class="col" *ngIf="eml.attachments.length > 0">
           <div class="row pull-right" style="margin-right: 2px;">
-            <button type="button" class="btn btn-warning actions"
+            <button type="button" class="btn btn-primary actions"
               (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
             <button type="button" class="btn btn-success actions"
               (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
@@ -87,17 +87,17 @@
                 </div>
                 <hr style="background-color: #3a3a3a;color: #3a3a3a; margin: 8px;" />
                 <div class="row" style=" font-size: 12px;">
-                  <div class="col">
+                  <div class="col-md-7">
                     <span class="attSections">{{att.fileSize}}</span>
                   </div>
-                  <div class="col">
-                    <button type="button" class="btn btn-sm btn-outline-warning float-right"
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-sm btn-outline-warning float-right" ngbTooltip="DOWNLOAD"
                       style="margin-bottom: 10px;" (click)="fileAction(1,eml.msgid, eml.attachments, att)">
                       <i class="fa fa-download" aria-hidden="true"></i>
                     </button>
                   </div>
-                  <div class="col">
-                    <button type="button" [disabled]="storeSelector === 'unread'"
+                  <div class="col-md-2" style="padding-right: 0px;">
+                    <button type="button" [disabled]="storeSelector === 'unread'" ngbTooltip="UPLOAD"
                       class="btn btn-sm btn-outline-success float-right" style="margin:0px 10px 0px 10px;;"
                       (click)="fileAction(2,eml.msgid, eml.attachments, att)">
                       <i class="fa fa-upload" aria-hidden="true"></i>

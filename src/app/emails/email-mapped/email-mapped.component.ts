@@ -1,7 +1,7 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RefType } from '../../models/ref-type';
 import { RefTypeData } from '../../models/ref-type-data';
 import { DomainStoreService } from '../../_store/domain-store.service';
@@ -9,7 +9,6 @@ import { ThreadTypeData } from 'src/app/models/thread-type-data';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Logs } from 'selenium-webdriver';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({

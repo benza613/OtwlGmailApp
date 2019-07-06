@@ -70,7 +70,8 @@ export class EmailsService {
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
         } else {
-          const blob = new Blob([response['body'] as Blob], { type: response['headers'].get('content-type') || 'application/x-zip-compressed' });
+          const blob = new Blob([response['body'] as Blob], { type: response['headers'].get('content-type')
+                                     || 'application/x-zip-compressed' });
           const iurl = window.URL.createObjectURL(blob);
           const anchor = document.createElement('a');
           anchor.download = response['headers'].get('x-filename') || 'abc.zip';

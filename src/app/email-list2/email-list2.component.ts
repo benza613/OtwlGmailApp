@@ -5,6 +5,7 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { DomainStoreService } from '../_store/domain-store.service';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-email-list2',
@@ -34,7 +35,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
     public emailStore: EmailsStoreService,
     private domainStore: DomainStoreService,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private authServ: AuthService
   ) { }
 
   ngOnInit() {
@@ -71,6 +73,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   }
 
   onClick_GetThreadMessages(threadData) {
+    this.authServ.login();
     this.emailStore.update_MappedThreadEmails(threadData.ThreadGID);
   }
 

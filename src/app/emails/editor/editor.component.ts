@@ -109,10 +109,10 @@ export class EditorComponent implements OnInit {
     var that = this;
 
     this.emailStore.getUserMailInfo().then(function (value) {
-      console.log(value);
+      console.log('SIGNATURE', value);
       that.senderName = value['d'].userFullName;
       that.senderEmail = value['d'].userEmailID;
-      that.senderMobile = value['d'].userUserContactNumber;
+      that.senderMobile = value['d'].userContactNumber;
       that.senderDesgn = value['d'].userDesignation;
       that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail);
     });
@@ -410,7 +410,6 @@ export class EditorComponent implements OnInit {
               </tbody>
             </table>
           < /div>`;
-    console.log(this.signatureHtml + this.footerHtml);
   }
 
   private recycleGmailAddressFields(msgs) {

@@ -73,6 +73,8 @@ export class EditorComponent implements OnInit {
   footerHtml;
   orderFilesSize;
   uploadFilesSize = 0;
+  sendFileSize;
+  showUploadSize;
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -94,10 +96,10 @@ export class EditorComponent implements OnInit {
     //angular number pipe
     //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
-  this.uploader.onAfterAddingFile = (fileItem) => {
-    this.uploadFilesSize += fileItem.file.size;
-    this.detector.detectChanges();
-  };
+    this.uploader.onAfterAddingFile = (fileItem) => {
+      this.uploadFilesSize += fileItem.file.size;
+      this.detector.detectChanges();
+    };
 
     // this.uploader.queue.forEach(x => {
     //   console.log('FileSize', x.file.size);
@@ -135,10 +137,13 @@ export class EditorComponent implements OnInit {
                 size += (Number(x.flSize.split(' ')[0]) * 1048576);
               }
             });
+            that.sendFileSize = size;
             if (size <= 999999) {
-              that.orderFilesSize = String((size / 1024).toFixed(2)) + ' KB';
+              that.orderFilesSize = String((size / 1024).toFixed(2)) + 'KB';
+              that.showUploadSize = String((size / 1024).toFixed(2)) + 'KB';
             } else {
-              that.orderFilesSize = String((size / 1048576).toFixed(2)) + ' MB';
+              that.orderFilesSize = String((size / 1048576).toFixed(2)) + 'MB';
+              that.showUploadSize = String((size / 1048576).toFixed(2)) + 'MB';
             }
             that._isOrdersComplete = true;
             that.detector.detectChanges();
@@ -173,7 +178,7 @@ export class EditorComponent implements OnInit {
     this.uploader.options.isHTML5 = true;
     this.uploader.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
-      
+
     }
 
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
@@ -460,11 +465,33 @@ export class EditorComponent implements OnInit {
   editOrderDetails(id, order) {
     if (id === 1) {
       const idx = this.orderDetails.indexOf(order);
+      if (this.orderDetails[idx].flSize.split(' ')[1] === 'kB') {
+        this.sendFileSize -= (Number(this.orderDetails[idx].flSize.split(' ')[0]) * 1024);
+      } else {
+        this.sendFileSize -= (Number(this.orderDetails[idx].flSize.split(' ')[0]) * 1048576);
+      }
+
+      if (this.sendFileSize <= 999999) {
+        this.showUploadSize = String((this.sendFileSize / 1024).toFixed(2)) + 'KB';
+      } else {
+        this.showUploadSize = String((this.sendFileSize / 1048576).toFixed(2)) + 'MB';
+      }
       this.orderDetails.splice(idx, 1);
       this.delOrderDetails.push(order);
       this.detector.detectChanges();
     } else {
       const idx = this.delOrderDetails.indexOf(order);
+      if (this.orderDetails[idx].flSize.split(' ')[1] === 'kB') {
+        this.sendFileSize += (Number(this.orderDetails[idx].flSize.split(' ')[0]) * 1024);
+      } else {
+        this.sendFileSize += (Number(this.orderDetails[idx].flSize.split(' ')[0]) * 1048576);
+      }
+
+      if (this.sendFileSize <= 999999) {
+        this.showUploadSize = String((this.sendFileSize / 1024).toFixed(2)) + 'KB';
+      } else {
+        this.showUploadSize = String((this.sendFileSize / 1048576).toFixed(2)) + 'MB';
+      }
       this.delOrderDetails.splice(idx, 1);
       this.orderDetails.push(order);
       this.detector.detectChanges();

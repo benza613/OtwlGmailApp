@@ -55,7 +55,7 @@
                 <p class="upl-headers">Select files</p>
               </div>
               <div class="col" style="padding: 0px; font-size: 16px; color: brown;">
-                <b *ngIf="uploadFilesSize <= 999999">{{uploadFilesSize / 1024 | number:'1.1-2'}} KB</b>
+                <b *ngIf="uploadFilesSize <= 999999">{{uploadFilesSize / 1024 | number:'1.1-2'}} KB </b>
                 <b *ngIf="uploadFilesSize > 999999">{{uploadFilesSize / 1048576 | number:'1.1-2'}} MB</b>
               </div>
             </div>
@@ -72,53 +72,53 @@
             <hr />
             <p class="upl-headers">Attachments Selected: </p>
             <div style="height: 250px; overflow: auto;">
-                <p>Queue length: {{ uploader?.queue?.length }}</p>
+              <p>Queue length: {{ uploader?.queue?.length }}</p>
+              <div>
                 <div>
-                  <div>
-                    Queue progress: {{uploader.progress}}
-                    <div class="progress" style="margin-bottom: 5px;">
-                      <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                    </div>
+                  Queue progress: {{uploader.progress}}
+                  <div class="progress" style="margin-bottom: 5px;">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
                   </div>
                 </div>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th width="50%">Name</th>
-                      <th>Size</th>
-                      <th>Progress</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of uploader.queue">
-                      <td><strong>{{ item?.file?.name }}</strong></td>
-                      <td *ngIf="!uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'1.1-2' }} MB</td>
-                      <td *ngIf="!uploader.isHTML5">
-                        <div class="progress" style="margin-bottom: 0;">
-                          <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                      </td>
-                      <td nowrap style="padding: 6px;">
-                        <div class="btn-group-cust">
-                          <button type="button" class="btn btn-warning btn-sm" (click)="item.cancel()"
-                            [disabled]="!item.isUploading">
-                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                          </button>
-                          <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span> Remove
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="50%">Name</th>
+                    <th>Size</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploader.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="!uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'1.1-2' }} MB</td>
+                    <td *ngIf="!uploader.isHTML5">
+                      <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td nowrap style="padding: 6px;">
+                      <div class="btn-group-cust">
+                        <button type="button" class="btn btn-warning btn-sm" (click)="item.cancel()"
+                          [disabled]="!item.isUploading">
+                          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
+                          <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -130,8 +130,9 @@
           <div class="col-md-7">
             <p class="upl-headers">File Server Attachments :</p>
           </div>
-          <div class="col-md-4 pull-right" style="padding: 0px; font-size: 16px; color: brown;"> 
-            <b>{{orderFilesSize}}</b>
+          <div class="col-md-4 pull-right">
+            <b style="padding: 0px; font-size: 14px; color: brown;">{{orderFilesSize}}/</b> 
+            <b style="padding: 0px; font-size: 14px; color: green;">{{showUploadSize}}</b>
           </div>
         </div>
         <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>

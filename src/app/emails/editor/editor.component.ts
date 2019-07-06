@@ -140,8 +140,6 @@ export class EditorComponent implements OnInit {
             } else {
               that.orderFilesSize = String((size / 1048576).toFixed(2)) + ' MB';
             }
-
-            console.log(that.orderDetails);
             that._isOrdersComplete = true;
             that.detector.detectChanges();
           });

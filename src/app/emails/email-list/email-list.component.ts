@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,7 +23,9 @@ export class EmailListComponent implements OnInit {
 
   constructor(
     public emailStore: EmailsStoreService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private authServ: AuthService
+    ) {
 
   }
 
@@ -40,6 +43,7 @@ export class EmailListComponent implements OnInit {
   }
 
   onClick_GetThreadMessages(threadData) {
+    this.authServ.login();
     this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector);
   }
 

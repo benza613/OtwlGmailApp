@@ -40,7 +40,6 @@ export class DomainService {
   }
 
   deleteThreadMapping(ThreadUId, ThreadGId): Observable<any> {
-    console.log('HTTP CALL', ThreadUId, ThreadGId);
     return this.http.post(`${this.apiBaseUrl}/deleteThreadRefMapping`, {ThreadUId, ThreadGId},
     this.httpOptions).pipe(map(r => r));
   }

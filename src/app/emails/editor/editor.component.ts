@@ -481,10 +481,10 @@ export class EditorComponent implements OnInit {
       this.detector.detectChanges();
     } else {
       const idx = this.delOrderDetails.indexOf(order);
-      if (this.orderDetails[idx].flSize.split(' ')[1] === 'kB') {
-        this.sendFileSize += (Number(this.orderDetails[idx].flSize.split(' ')[0]) * 1024);
+      if (this.delOrderDetails[idx].flSize.split(' ')[1] === 'kB') {
+        this.sendFileSize += (Number(this.delOrderDetails[idx].flSize.split(' ')[0]) * 1024);
       } else {
-        this.sendFileSize += (Number(this.orderDetails[idx].flSize.split(' ')[0]) * 1048576);
+        this.sendFileSize += (Number(this.delOrderDetails[idx].flSize.split(' ')[0]) * 1048576);
       }
 
       if (this.sendFileSize <= 999999) {

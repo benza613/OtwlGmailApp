@@ -59,7 +59,6 @@ export class EmailsService {
         headers: new HttpHeaders()
       };
 
-      optionsN.headers.append("Access-Control-Expose-Headers","x-filename");
       optionsN['responseType'] = 'blob';
       optionsN['params'] = { msgId, lstAttch: JSON.stringify(downloadFileObject) };
       optionsN['observe'] = 'response';

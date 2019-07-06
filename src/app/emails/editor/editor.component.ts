@@ -101,6 +101,12 @@ export class EditorComponent implements OnInit {
       this.detector.detectChanges();
     };
 
+    this.uploader.removeFromQueue = (fileItem) => {
+      this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
+      this.uploadFilesSize -= fileItem.file.size;
+      this.detector.detectChanges();
+    }
+
     // this.uploader.queue.forEach(x => {
     //   console.log('FileSize', x.file.size);
     //   this.uploadFilesSize += x.file.size;

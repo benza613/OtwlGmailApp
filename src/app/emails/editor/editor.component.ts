@@ -105,12 +105,7 @@ export class EditorComponent implements OnInit {
       this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
       this.uploadFilesSize -= fileItem.file.size;
       this.detector.detectChanges();
-    }
-
-    // this.uploader.queue.forEach(x => {
-    //   console.log('FileSize', x.file.size);
-    //   this.uploadFilesSize += x.file.size;
-    // });
+    };
     var that = this;
 
     this.emailStore.getUserMailInfo().then(function (value) {

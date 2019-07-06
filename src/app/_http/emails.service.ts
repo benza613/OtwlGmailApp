@@ -118,4 +118,9 @@ export class EmailsService {
       this.httpOptions)
       .pipe(map(r => r));
   }
+
+  deleteThreadMapping(ThreadUId, ThreadGId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/deleteThreadRefMapping`, {ThreadUId, ThreadGId},
+    this.httpOptions).pipe(map(r => r));
+  }
 }

@@ -1,11 +1,12 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from './../confirm/confirm-dialog/confirm-dialog.component';
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { DomainStoreService } from '../_store/domain-store.service';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../auth/auth.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-list2',
@@ -36,7 +37,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
     private domainStore: DomainStoreService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
-    private authServ: AuthService
+    private authServ: AuthService,
+    private detector: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -50,7 +52,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
       for (let ix = 0; ix < x.length; ix++) {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
       }
-        this.spinner.hide();
+      this.spinner.hide();
     });
   }
 
@@ -61,8 +63,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.thread = thread;
     modalRef.componentInstance.response.subscribe((threadGId) => {
-      console.log(threadGId);
-      this.mappedThreads = this.mappedThreads.filter(x => x.ThreadGID !== threadGId);
+      this.mappedThreads = this.emailStore.mappedThreads$;
     });
   }
 

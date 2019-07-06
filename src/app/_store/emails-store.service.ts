@@ -330,4 +330,19 @@ export class EmailsStoreService {
     });
   }
 
+  deleteMapping(ThreadUId, ThreadGID) {
+    return new Promise(async (res, rej) => {
+      const result = await this.emailServ.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();
+      if (result.d.errId === '200') {
+       this.mappedThreads = [...this.mappedThreads.filter(x => x.ThreadGID !== ThreadGID)];
+        console.log('DELETE', this.mappedThreads);
+        res(result.d.errId);
+        alert(result.d.errMsg);
+      } else {
+        this.errorService.displayError(res, 'deleteMapping');
+        rej();
+      }
+    });
+  }
+
 }

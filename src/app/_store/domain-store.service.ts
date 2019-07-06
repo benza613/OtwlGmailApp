@@ -95,19 +95,6 @@ export class DomainStoreService {
     }
   }
 
-  deleteMapping(ThreadUId, ThreadGID) {
-    return new Promise(async (res, rej) => {
-      const result = await this.domainService.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();
-      if (result.d.errId === '200') {
-        res(result.d.errId);
-        alert(result.d.errMsg);
-      } else {
-        this.erorService.displayError(res, 'deleteMapping');
-        rej();
-      }
-    });
-  }
-
   submitUnreadThreadData(mapTypes) {
     return new Promise(async (res, rej) => {
       const result = await this.domainService.submitUnreadThreadData(mapTypes).toPromise();

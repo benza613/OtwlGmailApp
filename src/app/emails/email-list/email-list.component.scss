@@ -12,8 +12,6 @@
   }
 }
 
-
-
 .MailSubject i {
   color: #99001a;
   font-style: normal;
@@ -53,4 +51,29 @@
 {
   border-radius: 10px;
   background-color:  #b1afaf;
+}
+
+
+// LIST CSS
+.rolldown-list {
+  visibility: hidden;
+  animation: rolldown .7s 1;
+  transform-origin: 50% 0;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes rolldown {
+  0% {
+    visibility: visible;
+    transform: rotateX(180deg) perspective(500px);
+  }
+  70% {
+    visibility: visible;
+    transform: rotateX(-40deg);
+  }
+  100% {
+    visibility: visible;
+    transform: rotateX(0deg);
+  }
 }

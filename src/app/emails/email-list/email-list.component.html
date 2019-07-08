@@ -4,18 +4,18 @@
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
-  <div style="height: 75vh; overflow: auto">
-      <div class="card thread-card"
-      *ngFor="let item of (threadList | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
+  <div style="height: 75vh; overflow: auto; opacity: 1.0;">
+      <div class="card thread-card rolldown-list"
+      *ngFor="let item of (threadList | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index" style="margin: 5px; border-radius: 30px;">
       <div class="card-body no-gutters">
-        <div class="row">
+        <div class="row" style="margin-left: 5px;">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
               style="transform: scale(1.5);-webkit-transform: scale(1.5);">
           </div>
           <div class="col-md-4">
             <div class="row align-items-center">
-              <div class="col-sm-12 MailHeaders"><i (click)="onClick_GetThreadMessages(item)">{{item.Msg_From}}</i></div>
+              <div class="col MailHeaders"><i class="row" (click)="onClick_GetThreadMessages(item)">{{item.Msg_From.split('<')[0]}}</i><i class="row" style="font-size: 10px;">{{item.Msg_From.split('<')[1]}}</i></div>
             </div>
           </div>
           <div class="col-md-7">

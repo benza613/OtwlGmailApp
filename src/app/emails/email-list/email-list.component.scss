@@ -3,6 +3,7 @@
   padding-bottom: 5px;
 }
 
+
 .MailHeaders {
   font-weight: bold;
   color: #006699;
@@ -12,7 +13,7 @@
   }
 }
 
-.MailSubject i {
+.MailSubject span {
   color: #99001a;
   font-style: normal;
   font-size: 15px;
@@ -60,7 +61,14 @@
   animation: rolldown .7s 1;
   transform-origin: 50% 0;
   animation-fill-mode: forwards;
+  margin: 5px;
+  border-radius: 30px; 
+
+  &:hover {
+    background-color: rgb(221, 221, 221);
+  }
 }
+
 
 
 @keyframes rolldown {
@@ -70,7 +78,7 @@
   }
   70% {
     visibility: visible;
-    transform: rotateX(-40deg);
+    transform: rotateX(-20deg);
   }
   100% {
     visibility: visible;

@@ -4,35 +4,38 @@
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
-  <div style="height: 75vh; overflow: auto">
-      <div class="card thread-card"
-      *ngFor="let item of (threadList | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
-      <div class="card-body no-gutters">
-        <div class="row">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
-              style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+<div style="height: 75vh; overflow: auto; opacity: 1.0;">
+  <div class="card thread-card rolldown-list"
+    *ngFor="let item of (threadList | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
+    <div class="card-body no-gutters">
+      <div class="row" style="margin-left: 5px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
+            style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+        </div>
+        <div class="col-md-4">
+          <div class="row align-items-center">
+            <div class="col MailHeaders"><span class="row"
+                (click)="onClick_GetThreadMessages(item)">{{item.Msg_From.split('<')[0]}}</span><span class="row"
+                style="font-size: 10px;">{{item.Msg_From.split('<')[1]}}</span></div>
           </div>
-          <div class="col-md-4">
-            <div class="row align-items-center">
-              <div class="col-sm-12 MailHeaders"><i (click)="onClick_GetThreadMessages(item)">{{item.Msg_From}}</i></div>
+        </div>
+        <div class="col-md-7">
+          <div class="row align-items-center">
+            <div class="col-12 MailSubject"><span [ngbTooltip]="item.Subject"
+                container="body">{{item.Subject | slice:0:50}}<span
+                  *ngIf="item.Subject.length > 50">...</span></span><span
+                class="MailDate pull-right">{{item.Msg_Date}}</span>
             </div>
           </div>
-          <div class="col-md-7">
-            <div class="row align-items-center">
-              <div class="col-12 MailSubject"><i [ngbTooltip]="item.Subject"
-                  container="body">{{item.Subject | slice:0:50}}<i *ngIf="item.Subject.length > 50">...</i></i><i
-                  class="MailDate pull-right">{{item.Msg_Date}}</i>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="col-md-1">
+        </div>
+        <!-- <div class="col-md-1">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-outline-primary btn-sm" (click)="onClick_MapThread(item)">M</button>
             </div>
           </div> -->
-        </div>
-    
       </div>
+
     </div>
   </div>
+</div>

@@ -76,9 +76,9 @@ export class EmailMappedComponent implements OnInit {
 
   //toggle parent reftype ddl
   onChange_GetRefTypeData() {
-    this.spinner.show();
-    this.refValId = null;
     if (this.refId) {
+      this.spinner.show();
+      this.refValId = null;
       var that = this;
       this.domainStore.updateRefTypeData(this.refId).then(function (value) {
         that.domainStore.refTypeData$.subscribe(x => {
@@ -90,7 +90,7 @@ export class EmailMappedComponent implements OnInit {
             that.refValId = that._queryParams.v;
             that.getThreads();
           }
-            that.spinner.hide();
+          that.spinner.hide();
         });
       });
     } else {

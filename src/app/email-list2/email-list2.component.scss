@@ -3,11 +3,11 @@
   color: #006699;
 
   &:hover {
-    //cursor: pointer;
+    cursor: pointer;
   }
 }
 
-.MailSubject i {
+.MailSubject span {
   color: #99001a;
   font-style: normal;
   font-size: 15px;
@@ -59,4 +59,35 @@
 {
   border-radius: 10px;
   background-color:  #b1afaf;
+}
+
+// LIST CSS
+.rolldown-list {
+  visibility: hidden;
+  animation: rolldown .7s 1;
+  transform-origin: 50% 0;
+  animation-fill-mode: forwards;
+  margin: 5px;
+  border-radius: 30px; 
+
+  &:hover {
+    background-color: rgb(230, 230, 230);
+  }
+}
+
+
+
+@keyframes rolldown {
+  0% {
+    visibility: visible;
+    transform: rotateX(180deg) perspective(500px);
+  }
+  70% {
+    visibility: visible;
+    transform: rotateX(-20deg);
+  }
+  100% {
+    visibility: visible;
+    transform: rotateX(0deg);
+  }
 }

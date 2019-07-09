@@ -35,7 +35,6 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onChange_GetRefTypeData() {
-    this.spinner.show();
     if (this.refId) {
       this.domainStore.updateRefTypeData(this.refId);
       this.domainStore.refTypeData$.subscribe(x => {
@@ -43,9 +42,6 @@ export class EmailUnreadDialogComponent implements OnInit {
         for (let ix = 0; ix < x.length; ix++) {
           this.refTypeData = [...this.refTypeData, x[ix]];
         }
-        setTimeout(() => {
-          this.spinner.hide();
-        });
       });
     }
   }

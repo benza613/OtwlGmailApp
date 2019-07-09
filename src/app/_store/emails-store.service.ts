@@ -114,22 +114,25 @@ export class EmailsStoreService {
   }
 
 
-  async sendNewEmail(packet, body, inlineAttachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList) {
-    const res = await this.emailServ.sendNewMail(
-      packet.to.map(key => key.emailId),
-      packet.cc.map(key => key.emailId),
-      packet.bcc.map(key => key.emailId),
-      packet.subject, body, inlineAttachments,
-      actionType, MessageID,
-      TokenPossession, orderFilesList).toPromise();
-    if (res.d.errId === '200') {
-      alert(res.d.errMsg);
-    } else {
-      alert(res.d.errMsg);
-      this.errorService.displayError(res, '');
-      console.log(res);
-    }
-
+  sendNewEmail(packet, body, inlineAtachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList) {
+    return new Promise(async (resolve, rej) => {
+      const res = await this.emailServ.sendNewMail(
+        packet.to.map(key => key.emailId),
+        packet.cc.map(key => key.emailId),
+        packet.bcc.map(key => key.emailId),
+        packet.subject, body, inlineAtachments,
+        actionType, MessageID,
+        TokenPossession, orderFilesList).toPromise();
+      if (res.d.errId === '200') {
+        alert(res.d.errMsg);
+        resolve(res.d.errId);
+      } else {
+        alert(res.d.errMsg);
+        this.errorService.displayError(res, '');
+        console.log(res);
+        rej(res.d.errId);
+      }
+    });
   }
 
   /**

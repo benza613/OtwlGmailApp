@@ -5,6 +5,7 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { LocalStorageService } from 'src/app/_util/local-storage.service';
 import { environment } from 'src/environments/environment.prod';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.url.uploadsGA;
 
@@ -79,7 +80,8 @@ export class EditorComponent implements OnInit {
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
     private detector: ChangeDetectorRef,
-    private locStgService: LocalStorageService
+    private locStgService: LocalStorageService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -199,7 +201,7 @@ export class EditorComponent implements OnInit {
     }
 
     this.uploader.onCompleteAll = () => {
-
+      var that = this;
       this.uploader.progress = 0;
       this.detector.detectChanges();
 
@@ -216,7 +218,9 @@ export class EditorComponent implements OnInit {
           // then send mail
           this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
             this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-            this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails);
+            this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
+              that.spinner.hide();
+            });
 
         },
         (err) => {
@@ -290,7 +294,10 @@ export class EditorComponent implements OnInit {
   onClick_SendMail() {
     console.log(this.msgPacket);
     console.log(this.uploader);
-
+    setTimeout(() => {
+      this.spinner.show();
+    }, 2000);
+    var that = this;
     if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
       if (this.uploader.queue.length == 0) {
 
@@ -299,15 +306,16 @@ export class EditorComponent implements OnInit {
             // then send mail
             this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
               this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-              this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails);
+              this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
+                that.spinner.hide();
+              });
 
           },
           (err) => {
             console.log('Error Occured while streamlining inline images', err);
             alert('Error OCCURRED: UI-SND-ML-01');
-
+            that.spinner.hide();
           });
-          
       } else {
         // process external then inline attachments
         this.uploader.uploadAll();
@@ -316,7 +324,7 @@ export class EditorComponent implements OnInit {
 
     else {
       alert('Please Select atleast 1 recipient');
-
+      this.spinner.hide();
     }
 
   }
@@ -418,8 +426,7 @@ export class EditorComponent implements OnInit {
       <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Web : www.oceantransworld.com</span></span></div>
 
-    </div>
-  </div>`;
+    </div>`;
     this.footerHtml = `
         <div style="text-align: right;">
             <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
@@ -435,7 +442,7 @@ export class EditorComponent implements OnInit {
                 </tr>
               </tbody>
             </table>
-          < /div>`;
+        < /div>`;
   }
 
   private recycleGmailAddressFields(msgs) {

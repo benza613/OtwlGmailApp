@@ -117,6 +117,8 @@ export class EditorComponent implements OnInit {
       that.senderMobile = value['d'].userContactNumber;
       that.senderDesgn = value['d'].userDesignation;
       that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail);
+      that.detector.detectChanges();
+
     });
 
     this.route.queryParams
@@ -220,6 +222,7 @@ export class EditorComponent implements OnInit {
             this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
             this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
               that.spinner.hide();
+              that.detector.detectChanges();
               console.log('res.d.errId:', value);
             });
 
@@ -294,6 +297,7 @@ export class EditorComponent implements OnInit {
 
   onClick_SendMail() {
     this.spinner.show();
+    this.detector.detectChanges();
     var that = this;
     if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
       if (this.uploader.queue.length == 0) {
@@ -305,6 +309,8 @@ export class EditorComponent implements OnInit {
               this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
               this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
                 that.spinner.hide();
+                that.detector.detectChanges();
+
                 console.log('res.d.errId:', value);
               });
 

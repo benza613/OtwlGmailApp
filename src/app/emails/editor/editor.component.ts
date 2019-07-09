@@ -219,8 +219,8 @@ export class EditorComponent implements OnInit {
           this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
             this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
             this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
-              console.log('res.d.errId:', value);
               that.spinner.hide();
+              console.log('res.d.errId:', value);
             });
 
         },
@@ -293,9 +293,7 @@ export class EditorComponent implements OnInit {
   }
 
   onClick_SendMail() {
-    setTimeout(() => {
-      this.spinner.show();
-    }, 2000);
+    this.spinner.show();
     var that = this;
     if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
       if (this.uploader.queue.length == 0) {
@@ -306,8 +304,8 @@ export class EditorComponent implements OnInit {
             this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
               this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
               this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
-                console.log('res.d.errId:', value);
                 that.spinner.hide();
+                console.log('res.d.errId:', value);
               });
 
           },

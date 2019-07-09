@@ -123,9 +123,11 @@ export class EmailsStoreService {
       actionType, MessageID,
       TokenPossession, orderFilesList).toPromise();
     if (res.d.errId === '200') {
-
+      alert(res.d.errMsg);
     } else {
-
+      alert(res.d.errMsg);
+      this.errorService.displayError(res, '');
+      console.log(res);
     }
 
   }
@@ -334,7 +336,7 @@ export class EmailsStoreService {
     return new Promise(async (res, rej) => {
       const result = await this.emailServ.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();
       if (result.d.errId === '200') {
-       this.mappedThreads = [...this.mappedThreads.filter(x => x.ThreadGID !== ThreadGID)];
+        this.mappedThreads = [...this.mappedThreads.filter(x => x.ThreadGID !== ThreadGID)];
         console.log('DELETE', this.mappedThreads);
         res(result.d.errId);
         alert(result.d.errMsg);

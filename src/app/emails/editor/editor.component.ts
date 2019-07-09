@@ -290,8 +290,34 @@ export class EditorComponent implements OnInit {
   onClick_SendMail() {
     console.log(this.msgPacket);
     console.log(this.uploader);
-    this.uploader.uploadAll();
-    // process inline attachments
+
+    if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
+      if (this.uploader.queue.length == 0) {
+
+        this.base64InlineAttachmentsToBody().then(
+          (data) => {
+            // then send mail
+            this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
+              this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
+              this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails);
+
+          },
+          (err) => {
+            console.log('Error Occured while streamlining inline images', err);
+            alert('Error OCCURRED: UI-SND-ML-01');
+
+          });
+          
+      } else {
+        // process external then inline attachments
+        this.uploader.uploadAll();
+      }
+    }
+
+    else {
+      alert('Please Select atleast 1 recipient');
+
+    }
 
   }
 

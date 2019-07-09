@@ -70,8 +70,10 @@ export class EmailsService {
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
         } else {
-          const blob = new Blob([response['body'] as Blob], { type: response['headers'].get('content-type')
-                                     || 'application/x-zip-compressed' });
+          const blob = new Blob([response['body'] as Blob], {
+            type: response['headers'].get('content-type')
+              || 'application/x-zip-compressed'
+          });
           const iurl = window.URL.createObjectURL(blob);
           const anchor = document.createElement('a');
           anchor.download = response['headers'].get('x-filename') || 'abc.zip';
@@ -100,7 +102,7 @@ export class EmailsService {
   // tslint:disable-next-line:max-line-length
   sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[]): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, orderFilesList },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList },
       this.httpOptions)
       .pipe(map(r => r));
   }
@@ -120,7 +122,7 @@ export class EmailsService {
   }
 
   deleteThreadMapping(ThreadUId, ThreadGId): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/deleteThreadRefMapping`, {ThreadUId, ThreadGId},
-    this.httpOptions).pipe(map(r => r));
+    return this.http.post(`${this.apiBaseUrl}/deleteThreadRefMapping`, { ThreadUId, ThreadGId },
+      this.httpOptions).pipe(map(r => r));
   }
 }

@@ -219,6 +219,7 @@ export class EditorComponent implements OnInit {
           this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
             this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
             this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
+              console.log('res.d.errId:', value);
               that.spinner.hide();
             });
 
@@ -292,8 +293,6 @@ export class EditorComponent implements OnInit {
   }
 
   onClick_SendMail() {
-    console.log(this.msgPacket);
-    console.log(this.uploader);
     setTimeout(() => {
       this.spinner.show();
     }, 2000);
@@ -307,6 +306,7 @@ export class EditorComponent implements OnInit {
             this.emailStore.sendNewEmail(this.msgPacket, data + this.signatureHtml + this.footerHtml,
               this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
               this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
+                console.log('res.d.errId:', value);
                 that.spinner.hide();
               });
 

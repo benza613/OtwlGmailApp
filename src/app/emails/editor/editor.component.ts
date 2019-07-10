@@ -359,6 +359,7 @@ export class EditorComponent implements OnInit {
               filename: img.alt,
               dataUrl: (reader.result as string).split(',')[1]
             });
+            console.log(reader.result);
 
             if (imgCounter === self._inlineAttachments.length - 1) {
               reslv(msgBodyCopy);

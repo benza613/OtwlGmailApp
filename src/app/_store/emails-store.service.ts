@@ -305,6 +305,8 @@ export class EmailsStoreService {
     console.log(res);
     if (res.d.errId !== '200') {
       this.errorService.displayError(res, 'saveAttachmentToFS');
+    } else {
+      alert(res.d.errMsg);
     }
   }
 

@@ -85,6 +85,19 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
+  draftReplyToAll(msg: Message) {
+    this.router.navigate(['draft/'], {
+      queryParams:
+      {
+        q: this.storeSelector,
+        a: 'ra',
+        mid: msg.msgid,
+        tid: this.reqThreadId
+      }
+    });
+  }
+  
+
   draftForward(msg: Message) {
     this.router.navigate(['draft/'], {
       queryParams:

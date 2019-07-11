@@ -27,6 +27,7 @@ import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.
 import { mapViewFilter } from './_pipe/map-view-filter.pipe';
 import { FSDirDialogComponent } from './email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
 import { LocalStorageService } from './_util/local-storage.service';
+import { UnreadViewFilterPipe } from './_pipe/unread-view-filter.pipe';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { LocalStorageService } from './_util/local-storage.service';
     ErrorDialogComponent,
     ConfirmDialogComponent,
     mapViewFilter,
-    FSDirDialogComponent
+    FSDirDialogComponent,
+    UnreadViewFilterPipe
   ],
   imports: [
     BrowserModule,

@@ -228,7 +228,7 @@ export class EmailsStoreService {
   }
 
 
-  async update_MappedThreadEmails(ThreadId) {
+  async update_MappedThreadEmails(ThreadId, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     console.log(res);
     if (res.d.errId === '200') {
@@ -249,7 +249,7 @@ export class EmailsStoreService {
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped' } });
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', subject: Subject } });
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }

@@ -75,7 +75,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
 
   onClick_GetThreadMessages(threadData) {
     this.authServ.login();
-    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID);
+    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject);
   }
 
 

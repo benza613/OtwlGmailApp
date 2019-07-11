@@ -19,7 +19,7 @@
       <div class="row">
         <div class="col-md-7">
           {{eml.from}}
-            <i class="fa fa-sort-desc" (click)=" showInfo = !showInfo"></i>
+            <i class="fa fa-sort-desc" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i>
         </div>
         <div class="col-md-3 pull-right">
           {{eml.date}}
@@ -73,9 +73,9 @@
       <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
 
       </div>
-      <div class="row">
-        <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin-left: 20px;"
-          (click)="showAttachments = !showAttachments">SHOW ATTACHMENTS</button>
+      <div class="row float-right">
+        <button type="button" class="btn btn-sm btn-outline-warning " style="margin-left: 20px;"
+          (click)="showAttachments = !showAttachments" *ngIf="eml.attachments.length > 0">{{ showAttachments ? 'HIDE ATTACHMENTS' : 'SHOW ATTACHMENTS'}}</button>
       </div>
       <div class="row" *ngIf="showAttachments">
         <div class="col pull-left" style="margin-left: 3px;" *ngIf="eml.attachments.length > 0">

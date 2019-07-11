@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
@@ -14,8 +14,6 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EmailListComponent implements OnInit {
   @Input() storeSelector: string;
-
-
   t_CollectionSize: number;
   t_currentPage = 1;
   t_itemsPerPage = 10;

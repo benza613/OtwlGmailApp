@@ -26,7 +26,7 @@
             <small class="text-muted">FILTER DATE</small>
           </div>
       <div class="input-group" >
-          <input class="form-control" style="height: 25px;" [(ngModel)]="filterDate" (change)="applyFilter()" ngbDatepicker #t="ngbDatepicker">
+          <input class="form-control" style="height: 25px;" [(ngModel)]="filterDate" (dateSelect)="applyFilter($event)" ngbDatepicker #t="ngbDatepicker">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar" style="height: 25px;" (click)="t.toggle()" type="button">
                 <i class="fa fa-calendar" aria-hidden="true"></i>

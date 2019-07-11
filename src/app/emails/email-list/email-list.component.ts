@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
@@ -14,6 +14,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EmailListComponent implements OnInit {
   @Input() storeSelector: string;
+  @Output() dateSelect = new EventEmitter<NgbDateStruct>();
   t_CollectionSize: number;
   t_currentPage = 1;
   t_itemsPerPage = 10;
@@ -56,10 +57,9 @@ export class EmailListComponent implements OnInit {
     item.isChecked = !item.isChecked;
   }
 
-  applyFilter() {
+  applyFilter(event?) {
+    console.log(event);
     const date = moment(this.filterDate).subtract(1, 'month').format('YYYY-MM-DD');
-    console.log('subject', this.filterSubject);
-    console.log('date', moment(this.filterDate).subtract(1, 'month').format('YYYY-MM-DD'));
     this.unreadFilterArgs = {
       a: this.filterFrom, b: this.filterSubject,
       c: date === 'Invalid date' ? '' : date

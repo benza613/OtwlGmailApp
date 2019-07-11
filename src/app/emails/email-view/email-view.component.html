@@ -1,12 +1,25 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 
+<div class="row">
+  <div class="col-md-8">
+    {{subject}}
+  </div>
+  <div class="col">
+    <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
+      style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
+    <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"
+      style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(2)"> COLLAPSE ALL</button>
+  </div>
+</div>
+
 <div class="card email-card" *ngFor="let eml of emailList" style="max-width:100%">
   <div class="card-header no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
         <div class="col-md-7">
           {{eml.from}}
+            <i class="fa fa-sort-desc" (click)=" showInfo = !showInfo"></i>
         </div>
         <div class="col-md-3 pull-right">
           {{eml.date}}
@@ -34,7 +47,7 @@
   </div>
   <div class="card-body no-gutters" style="max-width:100%" [ngbCollapse]="!eml.isOpen">
     <div class="col">
-      <div class="card" style="margin-bottom: 5px;">
+      <div class="card" style="margin-bottom: 5px;" *ngIf="showInfo">
         <div class="card-body">
           <div class="row">
             <div class="col-md-9 pull-left" style=" font-size: 14px;">
@@ -61,6 +74,10 @@
 
       </div>
       <div class="row">
+        <button type="button" class="btn btn-sm btn-outline-warning float-right" style="margin-left: 20px;"
+          (click)="showAttachments = !showAttachments">SHOW ATTACHMENTS</button>
+      </div>
+      <div class="row" *ngIf="showAttachments">
         <div class="col pull-left" style="margin-left: 3px;" *ngIf="eml.attachments.length > 0">
           <button type="button" *ngIf="selectAll" class="btn btn-warning actions"
             (click)="fileAction(3, eml.msgid, eml.attachments)">SELECT ALL</button>
@@ -76,8 +93,8 @@
           </div>
         </div>
       </div>
-      <div class="card parent" *ngIf="eml.attachments.length > 0">
-        <div class="card-body row" style="padding: 5px 20px;">
+      <div class="card parent" *ngIf="showAttachments">
+        <div class="card-body row" style="padding: 5px 20px;" *ngIf="eml.attachments.length > 0">
           <div class="card p-2" class="attachments" *ngFor="let att of eml.attachments">
             <div class="card-body" style="padding: 10px;">
               <div class="col">

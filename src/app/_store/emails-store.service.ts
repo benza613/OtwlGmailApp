@@ -171,7 +171,7 @@ export class EmailsStoreService {
   }
 
 
-  async update_UnreadThreadEmails(ThreadId, storeSelector) {
+  async update_UnreadThreadEmails(ThreadId, storeSelector, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     if (res.d.errId === '200') {
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
@@ -190,7 +190,8 @@ export class EmailsStoreService {
         this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.unreadThreads = [...this.unreadThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' } });
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' 
+                                                    , subject: Subject} });
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }

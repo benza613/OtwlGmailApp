@@ -44,7 +44,7 @@ export class EmailListComponent implements OnInit {
 
   onClick_GetThreadMessages(threadData) {
     this.authServ.login();
-    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector);
+    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject);
   }
 
   checkList(item) {

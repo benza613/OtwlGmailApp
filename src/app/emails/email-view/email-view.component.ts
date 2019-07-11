@@ -30,6 +30,10 @@ export class EmailViewComponent implements OnInit {
   attachmentNames = [];
   selectAll = true;
   downloadFileObject = [];
+  action = true;
+  subject;
+  showInfo = false;
+  showAttachments = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +52,7 @@ export class EmailViewComponent implements OnInit {
         // console.log(params);
         this.storeSelector = params.q;
         this.refId = params.j;
+        this.subject = params.subject;
         this.renderMessages();
       });
   }
@@ -96,7 +101,7 @@ export class EmailViewComponent implements OnInit {
       }
     });
   }
-  
+
 
   draftForward(msg: Message) {
     this.router.navigate(['draft/'], {
@@ -146,7 +151,7 @@ export class EmailViewComponent implements OnInit {
       const that = this;
       this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
         console.log(value);
-        
+
         that.spinner.hide();
       });
     } else if (id === 2) {
@@ -168,6 +173,19 @@ export class EmailViewComponent implements OnInit {
 
       });
 
+    }
+  }
+
+  expandAll(flag) {
+    this.action = !this.action;
+    if (flag === 1) {
+      this.emailList.forEach(x => {
+        x.isOpen = true;
+    });
+    } else {
+      this.emailList.forEach(x => {
+        x.isOpen = false;
+    });
     }
   }
 

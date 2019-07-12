@@ -1,5 +1,5 @@
 <div class="row" style="height: 84.5vh;">
-    <div class="col-md-2 align-content-md-stretch">
+    <div class="col-md-2 align-content-md-stretch" [ngbCollapse]="isCollapsed">
         <h5>SEARCH</h5>
         <div class="row">
             <div class="col">
@@ -8,7 +8,7 @@
         </div>
         <div class="row filters">
             <div class="col">
-                <textarea class="form-control" [(ngModel)]="addrFrom"  rows="1"></textarea>
+                <textarea class="form-control" [(ngModel)]="addrFrom" rows="1"></textarea>
             </div>
         </div>
         <div class="row">
@@ -18,7 +18,7 @@
         </div>
         <div class="row filters">
             <div class="col">
-                <textarea class="form-control" [(ngModel)]="addrTo"  rows="1"></textarea>
+                <textarea class="form-control" [(ngModel)]="addrTo" rows="1"></textarea>
             </div>
         </div>
         <div class="row">
@@ -28,18 +28,24 @@
         </div>
         <div class="row filters">
             <div class="col">
-                <textarea class="form-control" [(ngModel)]="subject"  rows="1"></textarea>
+                <textarea class="form-control" [(ngModel)]="subject" rows="1"></textarea>
             </div>
         </div>
         <div class="row" style="margin-top: 20px;">
             <div class="col">
-                <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads()" style="color: white">FILTER</button>
+                <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads()"
+                    style="color: white">FILTER</button>
             </div>
         </div>
     </div>
-    <div class="col" style="border-left: 2px solid #C0C0C0">
+    <div class="col" [ngClass]="{'filterBorder': !isCollapsed}">
+        <div class="row pull-left">
+            <button type="button" class="btn btn-success" (click)="isCollapsed = !isCollapsed"
+                style="transform: scale(0.80)"><i class="fa fa-search"></i> SEARCH</button>
+        </div>
         <div class="row pull-right">
-            <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)" ngbTooltip="Map checked threads">MAP</button>
+            <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)"
+                ngbTooltip="Map checked threads">MAP</button>
         </div>
         <div>
             <app-email-list [storeSelector]="dynamicdata">

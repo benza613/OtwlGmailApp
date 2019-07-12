@@ -18,6 +18,7 @@ export class EmailUnreadComponent implements OnInit {
   addrTo;
   subject;
   fetch;
+  isCollapsed = true;
   constructor(
     public emailStore: EmailsStoreService,
     public modalService: NgbModal,

@@ -39,13 +39,13 @@
 <div style="height: 65vh; overflow: auto; opacity: 1.0;">
   <div class="card thread-card rolldown-list"
     *ngFor="let item of (threadList | async | unreadViewFilter: unreadFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
-    <div class="card-body no-gutters" (click)="onClick_GetThreadMessages(item)">
+    <div class="card-body no-gutters">
       <div class="row" style="margin-left: 5px;">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
             style="transform: scale(1.5);-webkit-transform: scale(1.5);">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
             <div class="col MailHeaders"><span class="row" *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
               <span class="row MailHeaders_Sub" *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
@@ -53,7 +53,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
             <div class="col-12 MailSubject"><span [ngbTooltip]="item.Subject"
                 container="body">{{item.Subject | slice:0:50}}<span

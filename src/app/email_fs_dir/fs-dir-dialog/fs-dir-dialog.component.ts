@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -24,6 +25,7 @@ export class FSDirDialogComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private emailStore: EmailsStoreService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class FSDirDialogComponent implements OnInit {
       if (this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
         x.isParentFolder_ID === folder.entityID).length > 0) {
         this.folderList = this.folderHierarchy.filter(x => Number(x.qlevel) === (Number(folder.qlevel) + 1) &&
-                                                          x.isParentFolder_ID === folder.entityID);
+          x.isParentFolder_ID === folder.entityID);
       }
     }
   }
@@ -61,7 +63,13 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
-     this.emailStore.MessageAttch_SaveToFS(folder.entityID,  folder.qlevel, this.reqThreadId,
-                                            this.msgId,  this.attachmentGIds,  this.attachmentNames);
+    this.spinner.show();
+    var that = this;
+      this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
+        this.msgId, this.attachmentGIds, this.attachmentNames).then(function (value) {
+          if (value === '1') {
+            that.spinner.hide();
+          }
+        });
   }
 }

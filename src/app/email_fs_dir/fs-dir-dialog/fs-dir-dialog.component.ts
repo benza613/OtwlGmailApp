@@ -1,5 +1,5 @@
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Folders } from 'src/app/models/folders.model';
@@ -25,7 +25,8 @@ export class FSDirDialogComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private emailStore: EmailsStoreService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private changeDetRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -65,11 +66,19 @@ export class FSDirDialogComponent implements OnInit {
   saveToFS(folder) {
     this.spinner.show();
     var that = this;
-      this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
-        this.msgId, this.attachmentGIds, this.attachmentNames).then(function (value) {
-          if (value === '1') {
-            that.spinner.hide();
-          }
-        });
+
+    setTimeout(() => {
+      console.log('that', that);
+
+      that.spinner.hide();
+      that.changeDetRef.detectChanges();
+    }, 5000);
+
+    // this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
+    //   this.msgId, this.attachmentGIds, this.attachmentNames).then(function (value) {
+    //     if (value === '1') {
+    //       that.spinner.hide();
+    //     }
+    //   });
   }
 }

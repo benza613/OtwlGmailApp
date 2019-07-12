@@ -19,12 +19,12 @@
   </div>
   <div class="col">
     <div class="input-group">
-      <input placeholder="FILTER DATE" class="form-control" style="height: 25px;" [(ngModel)]="filterDate"
-        (dateSelect)="applyFilter($event)" ngbDatepicker #t="ngbDatepicker">
+      <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important" [(ngModel)]="filterDate"
+        (dateSelect)="applyFilter($event)" ngbDatepicker #t="ngbDatepicker" readonly>
         <div class="input-group-append">
             <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()"
               type="button">
-              <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.85)"></i>
+              <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
             </button>
           </div>
         <div class="input-group-append">

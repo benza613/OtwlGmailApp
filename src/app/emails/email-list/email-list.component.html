@@ -4,38 +4,37 @@
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
-  <div class="row" style="margin-bottom: 10px;">
-    <div class="col">
-      <div class="col" style="padding: 0px;">
-        <small class="text-muted">FILTER FROM</small>
-      </div>
-      <div class="col" style="padding: 0px;">
-        <input class="form-control" style="height: 25px;" [(ngModel)]="filterFrom" (keyup)="applyFilter()"/>
-      </div>
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col">
+    <div class="col" style="padding: 0px;">
+      <input placeholder="FILTER FROM" class="form-control" style="height: 25px;" [(ngModel)]="filterFrom"
+        (keyup)="applyFilter()" />
     </div>
-    <div class="col">
-      <div class="col" style="padding: 0px;">
-        <small class="text-muted">FILTER SUBJECT</small>
-      </div>
-      <div class="col" style="padding: 0px;">
-        <input class="form-control" style="height: 25px;" [(ngModel)]="filterSubject" (keyup)="applyFilter()"/>
-      </div>
+  </div>
+  <div class="col">
+    <div class="col" style="padding: 0px;">
+      <input placeholder="FILTER SUBJECT" class="form-control" style="height: 25px;" [(ngModel)]="filterSubject"
+        (keyup)="applyFilter()" />
     </div>
-    <div class="col">
-        <div class="col" style="padding: 0px;">
-            <small class="text-muted">FILTER DATE</small>
-          </div>
-      <div class="input-group" >
-          <input class="form-control" style="height: 25px;" [(ngModel)]="filterDate" (dateSelect)="applyFilter($event)" ngbDatepicker #t="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()" type="button">
-                <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.85)"></i>
+  </div>
+  <div class="col">
+    <div class="input-group">
+      <input placeholder="FILTER DATE" class="form-control" style="height: 25px;" [(ngModel)]="filterDate"
+        (dateSelect)="applyFilter($event)" ngbDatepicker #t="ngbDatepicker">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()"
+              type="button">
+              <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.85)"></i>
             </button>
           </div>
+        <div class="input-group-append">
+            <i class="fa fa-times" style="border: 1px solid gray;padding:2px 2px 0px 2px; border-radius: 2px" ngbTooltip="Clear"
+            (click)="clearDateField()"></i>
         </div>
+    </div>
   </div>
-      
-  </div>
+
+</div>
 <div style="height: 65vh; overflow: auto; opacity: 1.0;">
   <div class="card thread-card rolldown-list"
     *ngFor="let item of (threadList | async | unreadViewFilter: unreadFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
@@ -47,9 +46,12 @@
         </div>
         <div class="col-md-4" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
-            <div class="col MailHeaders"><span class="row" *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
-              <span class="row MailHeaders_Sub" *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
-              <span class="row" *ngIf="item.Msg_From.split('<')[0] === ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
+            <div class="col MailHeaders"><span class="row"
+                *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
+              <span class="row MailHeaders_Sub"
+                *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
+              <span class="row"
+                *ngIf="item.Msg_From.split('<')[0] === ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
             </div>
           </div>
         </div>

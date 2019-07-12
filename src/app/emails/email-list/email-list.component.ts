@@ -1,10 +1,11 @@
 import { filter, map, take } from 'rxjs/operators';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { showSpinner } from '@syncfusion/ej2-popups';
 
 @Component({
   selector: 'app-email-list',
@@ -32,23 +33,18 @@ export class EmailListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
-    this.spinner.show();
     if (this.storeSelector === "EmailUnreadComponent") {
+      this.showSpinner();
       this.emailStore.unreadThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;
+        this.hideSpinner();
       });
       this.threadList = this.emailStore.unreadThreads$.pipe(
         map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
       );
-      this.detector.detectChanges();
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 2000);
     }
   }
 
@@ -61,12 +57,20 @@ export class EmailListComponent implements OnInit {
     item.isChecked = !item.isChecked;
   }
 
-  applyFilter(event?) {
-    console.log(event);
+  applyFilter() {
+    this.detector.detectChanges();
     const date = moment(this.filterDate).subtract(1, 'month').format('YYYY-MM-DD');
     this.unreadFilterArgs = {
       a: this.filterFrom, b: this.filterSubject,
       c: date === 'Invalid date' ? '' : date
     };
   }
+
+  clearDateField() {
+    this.filterDate = null;
+    this.applyFilter();
+  }
+
+  showSpinner() { this.spinner.show(); }
+  hideSpinner() { this.spinner.hide(); }
 }

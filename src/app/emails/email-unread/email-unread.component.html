@@ -39,7 +39,7 @@
     </div>
     <div class="col" style="border-left: 2px solid #C0C0C0">
         <div class="row pull-right">
-            <button type="button" class="btn btn-warning" (click)="getMails()">MAP</button>
+            <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)" ngbTooltip="Map checked threads">MAP</button>
         </div>
         <div>
             <app-email-list [storeSelector]="dynamicdata">

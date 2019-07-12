@@ -6,12 +6,12 @@
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col">
-    <button type="button" class="btn btn-sm btn-outline-success float-right" (click)="showQuotes = !showQuotes"
+    <!-- <button type="button" class="btn btn-sm btn-outline-success float-right" (click)="showQuotes = !showQuotes"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" *ngIf="showQuotes">DISABLE
       QUOTES</button>
     <button type="button" class="btn btn-sm btn-outline-success float-right" (click)="showQuotes = !showQuotes"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" *ngIf="!showQuotes">ENABLE
-      QUOTES</button>
+      QUOTES</button> -->
     <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
     <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"
@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      <div class="row disableQuote" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
+      <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
 
       </div>
       <div class="row float-right">

@@ -323,14 +323,18 @@ export class EmailsStoreService {
 
   }
 
-  async MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames) {
-    const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames).toPromise();
-    console.log(res);
-    if (res.d.errId !== '200') {
-      this.errorService.displayError(res, 'saveAttachmentToFS');
-    } else {
-      alert(res.d.errMsg);
-    }
+  MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames).toPromise();
+      console.log(res);
+      if (res.d.errId !== '200') {
+        this.errorService.displayError(res, 'saveAttachmentToFS');
+        reject();
+      } else {
+        alert('File Upload Successfull');
+        resolve('1');
+      }
+    });
   }
 
   updateAttachmentOrderDetails(reqOrderID) {

@@ -1,5 +1,5 @@
 <div class="row" style="height: 84.5vh;">
-    <div class="col-md-2 align-content-md-stretch" [ngbCollapse]="isCollapsed">
+    <div class="col-md-2 align-content-md-stretch" style=" transition: 1s;" [ngbCollapse]="isCollapsed">
         <h5>SEARCH</h5>
         <div class="row">
             <div class="col">
@@ -34,18 +34,18 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col">
                 <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads()"
-                    style="color: white">FILTER</button>
+                 style="color: white">FILTER</button>
             </div>
         </div>
     </div>
     <div class="col" [ngClass]="{'filterBorder': !isCollapsed}">
         <div class="row pull-left">
             <button type="button" class="btn btn-success" (click)="isCollapsed = !isCollapsed"
-                style="transform: scale(0.80)"><i class="fa fa-search"></i> SEARCH</button>
+            ngbTooltip="Filtered mails from server" placement="right" style="transform: scale(0.80)"><i class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
         </div>
         <div class="row pull-right">
             <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)"
-                ngbTooltip="Map checked threads"><i class="fa fa-external-link-square"></i> MAP</button>
+                ngbTooltip="Map checked threads"><i class="fa fa-external-link-square"></i>  MAP</button>
         </div>
         <div>
             <app-email-list [storeSelector]="dynamicdata">

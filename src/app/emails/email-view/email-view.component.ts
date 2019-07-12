@@ -151,8 +151,6 @@ export class EmailViewComponent implements OnInit {
       this.spinner.show();
       const that = this;
       this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
-        console.log(value);
-
         that.spinner.hide();
       });
     } else if (id === 2) {

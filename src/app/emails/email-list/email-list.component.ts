@@ -1,4 +1,4 @@
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -41,7 +41,9 @@ export class EmailListComponent implements OnInit {
       this.emailStore.unreadThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;
       });
-      this.threadList = this.emailStore.unreadThreads$;
+      this.threadList = this.emailStore.unreadThreads$.pipe(
+        map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+      );
       setTimeout(() => {
         this.spinner.hide();
       }, 2000);

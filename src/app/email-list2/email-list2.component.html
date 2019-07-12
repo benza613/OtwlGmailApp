@@ -52,7 +52,7 @@
       <div class="col-md-5">
         <div class="row align-items-center">
           <div class="col-12 MailSubject">
-            <span class="pull-left" [ngbTooltip]="item.ThreadSubject" container="body">{{item.ThreadSubject | slice:0:50}}</span><span *ngIf="item.ThreadSubject.length > 50">...</span>
+            <span class="pull-left" [ngbTooltip]="item.ThreadSubject" container="body">{{item.ThreadSubject | slice:0:40}}</span><span *ngIf="item.ThreadSubject.length > 50">...</span>
           </div>
         </div>
       </div>

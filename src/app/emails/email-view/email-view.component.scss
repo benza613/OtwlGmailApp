@@ -54,6 +54,13 @@
   color: #006699;
 }
 
+.disableQuote blockquote {
+    display: none;
+    border-left: none;
+    background-color: black;
+}
+
+
 
 // Extra small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) { 

@@ -34,6 +34,7 @@ export class EmailViewComponent implements OnInit {
   subject;
   showInfo = false;
   showAttachments = false;
+  showQuotes = true;
 
   constructor(
     private route: ActivatedRoute,

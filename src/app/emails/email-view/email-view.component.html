@@ -6,6 +6,12 @@
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col">
+    <button type="button" class="btn btn-sm btn-outline-success float-right" (click)="showQuotes = !showQuotes"
+      style="margin: 2px 10px 2px 2px; transform: scale(0.8)" *ngIf="showQuotes">DISABLE
+      QUOTES</button>
+    <button type="button" class="btn btn-sm btn-outline-success float-right" (click)="showQuotes = !showQuotes"
+      style="margin: 2px 10px 2px 2px; transform: scale(0.8)" *ngIf="!showQuotes">ENABLE
+      QUOTES</button>
     <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
     <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"
@@ -19,7 +25,7 @@
       <div class="row">
         <div class="col-md-7">
           {{eml.from}}
-            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i>
+          <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i>
         </div>
         <div class="col-md-3 pull-right">
           {{eml.date}}
@@ -70,12 +76,13 @@
           </div>
         </div>
       </div>
-      <div class="row" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
+      <div class="row disableQuote" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
 
       </div>
       <div class="row float-right">
         <button type="button" class="btn btn-sm btn-outline-warning " style="margin-left: 20px;"
-          (click)="showAttachments = !showAttachments" *ngIf="eml.attachments.length > 0">{{ showAttachments ? 'HIDE ATTACHMENTS' : 'SHOW ATTACHMENTS'}}</button>
+          (click)="showAttachments = !showAttachments"
+          *ngIf="eml.attachments.length > 0">{{ showAttachments ? 'HIDE ATTACHMENTS' : 'SHOW ATTACHMENTS'}}</button>
       </div>
       <div class="row" *ngIf="showAttachments">
         <div class="col pull-left" style="margin-left: 3px;" *ngIf="eml.attachments.length > 0">

@@ -1,11 +1,10 @@
-import { filter, map, take } from 'rxjs/operators';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { showSpinner } from '@syncfusion/ej2-popups';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-list',
@@ -13,7 +12,7 @@ import { showSpinner } from '@syncfusion/ej2-popups';
   styleUrls: ['./email-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmailListComponent implements OnInit {
+export class EmailListComponent implements OnInit, OnChanges {
   @Input() storeSelector: string;
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
   t_CollectionSize: number;
@@ -35,16 +34,21 @@ export class EmailListComponent implements OnInit {
     private detector: ChangeDetectorRef,
   ) { }
 
+  ngOnChanges() {
+    console.log('On CHanges');
+    this.spinner.show();
+  }
+
   ngOnInit() {
-    if (this.storeSelector === "EmailUnreadComponent") {
-      this.showSpinner();
-      this.emailStore.unreadThreadsCount$.subscribe(x => {
-        this.t_CollectionSize = x;
-        this.hideSpinner();
-      });
-      this.threadList = this.emailStore.unreadThreads$.pipe(
-        map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
-      );
+    console.log('On Init');
+    if (this.storeSelector === 'EmailUnreadComponent') {
+        this.emailStore.unreadThreadsCount$.subscribe(x => {
+          this.t_CollectionSize = x;
+          this.spinner.hide();
+        });
+        this.threadList = this.emailStore.unreadThreads$.pipe(
+          map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+        );
     }
   }
 

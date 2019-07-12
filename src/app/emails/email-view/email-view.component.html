@@ -1,7 +1,7 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 
-<div class="row">
+<div class="row" style="margin-bottom: 5px;">
   <div class="col">
     <span class="subjectHeader">{{subject}}</span>
   </div>
@@ -19,7 +19,7 @@
       <div class="row">
         <div class="col-md-7">
           {{eml.from}}
-            <i class="fa fa-sort-desc" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i>
+            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i>
         </div>
         <div class="col-md-3 pull-right">
           {{eml.date}}

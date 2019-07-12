@@ -28,8 +28,8 @@
       <div class="input-group" >
           <input class="form-control" style="height: 25px;" [(ngModel)]="filterDate" (dateSelect)="applyFilter($event)" ngbDatepicker #t="ngbDatepicker">
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" style="height: 25px;" (click)="t.toggle()" type="button">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
+            <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()" type="button">
+                <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.85)"></i>
             </button>
           </div>
         </div>

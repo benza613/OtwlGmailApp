@@ -1,6 +1,6 @@
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
@@ -30,7 +30,8 @@ export class EmailListComponent implements OnInit {
   constructor(
     public emailStore: EmailsStoreService,
     private spinner: NgxSpinnerService,
-    private authServ: AuthService
+    private authServ: AuthService,
+    private detector: ChangeDetectorRef,
   ) {
 
   }
@@ -44,6 +45,7 @@ export class EmailListComponent implements OnInit {
       this.threadList = this.emailStore.unreadThreads$.pipe(
         map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
       );
+      this.detector.detectChanges();
       setTimeout(() => {
         this.spinner.hide();
       }, 2000);

@@ -4,6 +4,7 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-unread',
@@ -27,13 +28,13 @@ export class EmailUnreadComponent implements OnInit {
   ngOnInit() {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
-    this.emailStore.updateUnreadThreadList(this.addrFrom, this.addrTo, this.subject);
+    this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject);
   }
 
   getMails() {
     this.spinner.show();
-      this.emailStore.getCheckedMsgList$.subscribe(x => {
-        this.mailList = x;
+    this.emailStore.getCheckedMsgList$.subscribe(x => {
+      this.mailList = x;
     });
     if (this.mailList.length > 0) {
       this.spinner.hide();
@@ -55,7 +56,7 @@ export class EmailUnreadComponent implements OnInit {
 
   fetchUnreadThreads() {
     // console.log(this.addrFrom, this.addrTo, this.subject);
-    this.emailStore.updateUnreadThreadList(this.addrFrom, this.addrTo, this.subject);
+    this.emailStore.updateUnreadThreadList(1, this.addrFrom, this.addrTo, this.subject);
   }
 
 }

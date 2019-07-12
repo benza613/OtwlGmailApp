@@ -4,7 +4,7 @@ import { ThreadTypeData } from './../models/thread-type-data';
 import { MappedThread } from './../models/mapped-thread';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -138,11 +138,12 @@ export class EmailsStoreService {
   /**
    * UNREAD module methods
    */
-  async updateUnreadThreadList(addrFrom, addrTo, subject) {
+  async updateUnreadThreadList(flag, addrFrom, addrTo, subject) {
     if (this.unreadThreads.length > 0) {
       return;
     }
-    for (let idx = 0; idx < 10; idx++) {
+    if (flag === 0) {
+      this.unreadThreads = [];
       const res = await this.emailServ.indexUnread(
         this.pageTokenUnread == null ? '' : this.pageTokenUnread,
         addrFrom == null ? '' : addrFrom,
@@ -151,21 +152,42 @@ export class EmailsStoreService {
       ).toPromise();
       console.log(res);
       if (res.d.errId === '200') {
-        const arrx = this.unreadThreads;
+        const arrx = [];
         res.d.threads.forEach(x => {
           x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         });
         arrx.push(...<Thread[]>res.d.threads);
         this.unreadThreads = arrx;
-        if (res.d.pageToken == null) {
-          this.pageTokenUnread = '';
-
-          break;
-        } else {
-          this.pageTokenUnread = res.d.pageToken;
-        }
+        this.pageTokenUnread = '';
       } else {
         this.errorService.displayError(res, 'indexUnread');
+      }
+    } else {
+      this.unreadThreads = [];
+      for (let idx = 0; idx < 10; idx++) {
+        const res = await this.emailServ.indexUnread(
+          this.pageTokenUnread == null ? '' : this.pageTokenUnread,
+          addrFrom == null ? '' : addrFrom,
+          addrTo == null ? '' : addrTo,
+          subject == null ? '' : subject
+        ).toPromise();
+        console.log(res);
+        if (res.d.errId === '200') {
+          const arrx = this.unreadThreads;
+          res.d.threads.forEach(x => {
+            x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+          });
+          arrx.push(...<Thread[]>res.d.threads);
+          this.unreadThreads = arrx;
+          if (res.d.pageToken == null) {
+            this.pageTokenUnread = '';
+            break;
+          } else {
+            this.pageTokenUnread = res.d.pageToken;
+          }
+        } else {
+          this.errorService.displayError(res, 'indexUnread');
+        }
       }
     }
   }
@@ -190,8 +212,12 @@ export class EmailsStoreService {
         this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.unreadThreads = [...this.unreadThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped' 
-                                                    , subject: Subject} });
+      this.router.navigate(['view/' + ThreadId], {
+        queryParams: {
+          q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped'
+          , subject: Subject
+        }
+      });
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }

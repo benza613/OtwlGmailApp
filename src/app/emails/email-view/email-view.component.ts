@@ -190,7 +190,6 @@ export class EmailViewComponent implements OnInit {
           modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
           modalRef.componentInstance.attachmentNames = this.attachmentNames;
           modalRef.componentInstance.reqThreadId = this.reqThreadId;
-        // });
 
       });
 

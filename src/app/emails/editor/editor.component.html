@@ -7,8 +7,7 @@
     </div>
     <div class="col-md-9">
       <ng-select id="iMsgTo" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="To" [(ngModel)]="msgPacket.to"  [addTag]="true"
-        [clearSearchOnAdd]="true">
+        placeholder="To" [(ngModel)]="msgPacket.to" [addTag]="true" [clearSearchOnAdd]="true">
       </ng-select>
       <!-- (change)="addAddr($event)" -->
     </div>
@@ -22,8 +21,7 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" [addTag]="true"
-        [clearSearchOnAdd]="true">
+        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" [addTag]="true" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col-md-1">
@@ -31,8 +29,7 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" [addTag]="true"
-        [clearSearchOnAdd]="true">
+        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" [addTag]="true" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>
@@ -50,19 +47,19 @@
   </div>
   <div class="container-fluid emailUiFooter" style="margin-top: 5px;">
     <div class="row">
-      <div class="col-5 attachments-partition">
+      <div class="col-5 attachments-partition card">
         <div class="row">
-          <div class="col-md-12 upl-block" style="margin-bottom: 40px">
-            <div class="row">
+          <div class="col-md-12 upl-block" style="margin-bottom: 40px;">
+            <div class="row card-header" style="background-color: #5271C2; color: white;">
               <div class="col">
                 <p class="upl-headers">Select files</p>
               </div>
-              <div class="col" style="padding: 0px; font-size: 16px; color: brown;">
+              <div class="col" style="padding: 0px; font-size: 16px; color: white;">
                 <b *ngIf="uploadFilesSize <= 999999">{{uploadFilesSize / 1024 | number:'1.1-2'}} KB </b>
                 <b *ngIf="uploadFilesSize > 999999">{{uploadFilesSize / 1048576 | number:'1.1-2'}} MB</b>
               </div>
             </div>
-            <div class="row">
+            <div class="row card-header">
               <div class="col">
                 <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
                   [uploader]="uploader" class="well my-drop-zone">
@@ -128,81 +125,91 @@
         </div>
         <!-- ben -->
       </div>
-      <div class="col-4 attachments-partition" style="padding: 5px;">
-        <div class="row">
-          <div class="col-md-7">
-            <p class="upl-headers">File Server Attachments :</p>
-          </div>
-          <div class="col-md-4 pull-right">
-              <b style="padding: 0px; font-size: 14px; color: green;">{{showUploadSize}}</b> <b>/</b>
-              <b style="padding: 0px; font-size: 14px; color: brown;">{{orderFilesSize}}</b> 
-          </div>
-        </div>
-        <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
-        <ngb-tabset *ngIf="_isOrdersComplete">
-          <ngb-tab title="SEND">
-            <ng-template ngbTabContent>
-              <div style="height: 325px; overflow: auto">
-                <div *ngFor="let order of orderDetails" style="margin: 2px;">
-                  <div class="card" style="height: 75px">
-                    <div class="col card-body" style="padding: 15px;">
-                      <div class="row">
-                        <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b> {{order.flDisplayName}} </div>
-                        <div class="col-md-2" style="cursor: pointer;">
-                          <span (click)="editOrderDetails(1,order)">
-                            <i class="fa fa-minus-circle" style="color: red; transform: scale(1.5); float: right;"></i>
-                          </span>
-                        </div>
+      <div class="col-4 attachments-partition">
+          <div class="card">
+              <div class="card-header" style="background-color: #35a541; color: white;">
+                  <div class="row">
+                      <div class="col-md-7">
+                        <p class="upl-headers ">File Server Attachments :</p>
                       </div>
-                      <div class="row">
-                        <div class="col-md-9">
-                          <div class="badge badge-warning">{{order.flTag}}</div>
-                        </div>
-                        <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                      <div class="col-md-4 pull-right">
+                        <b style="padding: 0px; font-size: 14px; color: white;">{{showUploadSize}}</b> <b>/</b>
+                        <b style="padding: 0px; font-size: 14px; color: white;">{{orderFilesSize}}</b>
                       </div>
                     </div>
-                  </div>
-                </div>
               </div>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab title="DISCARD">
-            <ng-template ngbTabContent>
-              <div style="height: 325px; overflow: auto">
-                <div *ngFor="let order of delOrderDetails">
-                  <div class="card" style="height: 75px">
-                    <div class="col card-body" style="padding: 15px;">
-                      <div class="row">
-                        <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b>{{order.flDisplayName}} </div>
-                        <div class="col-md-2 pull-left" style="cursor: pointer;">
-                          <span (click)="editOrderDetails(2,order)">
-                            <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
-                          </span>
+              <div class="card-body">
+                  <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
+                  <ngb-tabset *ngIf="_isOrdersComplete">
+                    <ngb-tab title="SEND">
+                      <ng-template ngbTabContent>
+                        <div style="height: 325px; overflow: auto">
+                          <div *ngFor="let order of orderDetails" style="margin: 2px;">
+                            <div class="card" style="height: 75px">
+                              <div class="col card-body" style="padding: 15px;">
+                                <div class="row">
+                                  <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b> {{order.flDisplayName}} </div>
+                                  <div class="col-md-2" style="cursor: pointer;">
+                                    <span (click)="editOrderDetails(1,order)">
+                                      <i class="fa fa-minus-circle" style="color: red; transform: scale(1.5); float: right;"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-9">
+                                    <div class="badge badge-warning">{{order.flTag}}</div>
+                                  </div>
+                                  <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-9">
-                          <div class="badge badge-warning">{{order.flTag}}</div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="DISCARD">
+                      <ng-template ngbTabContent>
+                        <div style="height: 325px; overflow: auto">
+                          <div *ngFor="let order of delOrderDetails">
+                            <div class="card" style="height: 75px">
+                              <div class="col card-body" style="padding: 15px;">
+                                <div class="row">
+                                  <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b>{{order.flDisplayName}} </div>
+                                  <div class="col-md-2 pull-left" style="cursor: pointer;">
+                                    <span (click)="editOrderDetails(2,order)">
+                                      <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-9">
+                                    <div class="badge badge-warning">{{order.flTag}}</div>
+                                  </div>
+                                  <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
               </div>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+            </div>
       </div>
-      <div class="col">
-        <div class="row">
-          <div class="col">
-            <p class="upl-headers">Signature :</p>
+      <div class="col card" style="margin: 5px 0px; padding: 0px;">
+        <div class="card-header" style="background-color: #db6623; color: white;">
+          <div class="row">
+            <div class="col">
+              <p class="upl-headers">Signature :</p>
+            </div>
           </div>
         </div>
-        <div class="container-fluid-cust" [innerHTML]="signatureHtml | safeHtml"
-          style="text-align: right;font-size: 12px;">
+        <div class="card-body">
+          <div class="container-fluid-cust" [innerHTML]="signatureHtml | safeHtml"
+            style="text-align: right;font-size: 12px;">
 
+          </div>
         </div>
       </div>
     </div>

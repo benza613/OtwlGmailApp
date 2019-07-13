@@ -16,6 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EmailUnreadDialogComponent implements OnInit {
   @Input() mailList: any;
+  // @Input() thread: any;
   refType: Observable<RefType[]>;
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
@@ -32,6 +33,9 @@ export class EmailUnreadDialogComponent implements OnInit {
   ngOnInit() {
     this.refType = this.domainStore.refType$;
     this.threadTypeData = this.domainStore.threadTypeData$;
+    // if (this.thread) {
+    //   this.refValId = this.thread.ThreadReferenceText;
+    // }
   }
 
   onChange_GetRefTypeData() {

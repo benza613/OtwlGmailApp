@@ -42,10 +42,10 @@ export class EmailList2Component implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.spinner.show('list2');
+      this.detector.detectChanges();
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
-      this.spinner.show('list2');
-      this.detector.detectChanges();
     });
 
     setTimeout(() => {
@@ -55,9 +55,9 @@ export class EmailList2Component implements OnInit, OnDestroy {
         for (let ix = 0; ix < x.length; ix++) {
           this.threadTypeData = [...this.threadTypeData, x[ix]];
         }
+        this.spinner.hide('list2');
+        this.detector.detectChanges();
       });
-      this.spinner.hide('list2');
-      this.detector.detectChanges();
     }, 3000);
   }
 

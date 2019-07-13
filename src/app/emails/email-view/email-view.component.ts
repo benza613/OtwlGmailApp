@@ -35,6 +35,7 @@ export class EmailViewComponent implements OnInit {
   showInfo = false;
   showAttachments = false;
   showQuotes = true;
+  showRegards = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -73,11 +74,31 @@ export class EmailViewComponent implements OnInit {
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
+          // for (let i = 0; i < x.length; i++) {
+          //     console.log('BEFORE ');
+
+          // }
+          if (x[0].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+            console.log('SLICE', (x[0].body.toLowerCase().trim().split('with regards')[1]).slice(11));
+            x[0].body = x[0].body.toLowerCase().trim().split('<div class="gmail_quote">')[0] +
+              `<div class="row pull left">
+                <button type="button" class="btn btn-sm btn-outline-warning " style="margin-left: 20px;"
+                (click)="toggle()">
+                  XYZ
+                </button>
+              </div>` +
+              `<div *ngIf="showRegards">` +
+                '<div class="gmail_quote">' +
+                  (x[0].body.toLowerCase().trim().split('<div class="gmail_quote">')[1]).slice(11) +
+              `</div>`;
+          }
+
           this.emailList = x;
         });
       this.spinner.hide();
     }
   }
+
 
   draftReply(msg: Message) {
     this.router.navigate(['draft/'], {
@@ -180,12 +201,17 @@ export class EmailViewComponent implements OnInit {
     if (flag === 1) {
       this.emailList.forEach(x => {
         x.isOpen = true;
-    });
+      });
     } else {
       this.emailList.forEach(x => {
         x.isOpen = false;
-    });
+      });
     }
   }
-
+  
+  toggle() {
+    this.showRegards = !this.showRegards;
+    console.log(this.showRegards);
+    
+  }
 }

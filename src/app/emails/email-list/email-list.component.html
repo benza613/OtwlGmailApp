@@ -8,13 +8,13 @@
   <div class="col">
     <div class="col" style="padding: 0px;">
       <input placeholder="FILTER FROM" class="form-control" style="height: 25px;" [(ngModel)]="filterFrom"
-        (keyup)="applyFilter()" />
+        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()"/>
     </div>
   </div>
   <div class="col">
     <div class="col" style="padding: 0px;">
       <input placeholder="FILTER SUBJECT" class="form-control" style="height: 25px;" [(ngModel)]="filterSubject"
-        (keyup)="applyFilter()" />
+        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()"/>
     </div>
   </div>
   <div class="col">

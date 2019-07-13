@@ -66,19 +66,14 @@ export class FSDirDialogComponent implements OnInit {
   saveToFS(folder) {
     this.spinner.show();
     var that = this;
-
     setTimeout(() => {
-      console.log('that', that);
-
-      that.spinner.hide();
-      that.changeDetRef.detectChanges();
-    }, 5000);
-
-    // this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
-    //   this.msgId, this.attachmentGIds, this.attachmentNames).then(function (value) {
-    //     if (value === '1') {
-    //       that.spinner.hide();
-    //     }
-    //   });
+      this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
+        this.msgId, this.attachmentGIds, this.attachmentNames).then(function (value) {
+          if (value === '1') {
+            that.spinner.hide();
+            that.changeDetRef.detectChanges();
+          }
+        });
+    }, 2000);
   }
 }

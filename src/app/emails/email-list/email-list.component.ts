@@ -40,16 +40,19 @@ export class EmailListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log('On Init');
-    if (this.storeSelector === 'EmailUnreadComponent') {
+    this.spinner.show();
+    setTimeout(() => {
+      if (this.storeSelector === 'EmailUnreadComponent') {
         this.emailStore.unreadThreadsCount$.subscribe(x => {
           this.t_CollectionSize = x;
-          this.spinner.hide();
         });
         this.threadList = this.emailStore.unreadThreads$.pipe(
           map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
         );
-    }
+      }
+      this.spinner.hide();
+      this.detector.detectChanges();
+    }, 5000);
   }
 
   onClick_GetThreadMessages(threadData) {
@@ -74,7 +77,4 @@ export class EmailListComponent implements OnInit, OnChanges {
     this.filterDate = null;
     this.applyFilter();
   }
-
-  showSpinner() { this.spinner.show(); }
-  hideSpinner() { this.spinner.hide(); }
 }

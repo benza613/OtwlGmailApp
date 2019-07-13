@@ -160,6 +160,7 @@ export class EmailsStoreService {
         this.errorService.displayError(res, 'indexUnread');
       }
     } else {
+      this.unreadThreads = [];
       for (let idx = 0; idx < 10; idx++) {
         const res = await this.emailServ.indexUnread(
           this.pageTokenUnread == null ? '' : this.pageTokenUnread,

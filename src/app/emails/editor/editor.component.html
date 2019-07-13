@@ -52,7 +52,7 @@
           <div class="col-md-12 upl-block" style="margin-bottom: 40px;">
             <div class="row card-header" style="background-color: #5271C2; color: white;">
               <div class="col">
-                <p class="upl-headers">Select files</p>
+                <p class="upl-headers">Upload Files</p>
               </div>
               <div class="col" style="padding: 0px; font-size: 16px; color: white;">
                 <b *ngIf="uploadFilesSize <= 999999">{{uploadFilesSize / 1024 | number:'1.1-2'}} KB </b>
@@ -132,18 +132,18 @@
                       <div class="col-md-7">
                         <p class="upl-headers ">File Server Attachments :</p>
                       </div>
-                      <div class="col-md-4 pull-right">
-                        <b style="padding: 0px; font-size: 14px; color: white;">{{showUploadSize}}</b> <b>/</b>
-                        <b style="padding: 0px; font-size: 14px; color: white;">{{orderFilesSize}}</b>
+                      <div class="col-md-4 pull-right" style="margin-top: 3px;">
+                        <b style="padding: 0px; font-size: 12px; color: white;">{{showUploadSize}}</b> <b>/</b>
+                        <b style="padding: 0px; font-size: 12px; color: white;">{{orderFilesSize}}</b>
                       </div>
                     </div>
               </div>
-              <div class="card-body">
+              <div class="card-body" style="padding: 0px;">
                   <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
                   <ngb-tabset *ngIf="_isOrdersComplete">
                     <ngb-tab title="SEND">
                       <ng-template ngbTabContent>
-                        <div style="height: 325px; overflow: auto">
+                        <div style="height: 298px; overflow: auto">
                           <div *ngFor="let order of orderDetails" style="margin: 2px;">
                             <div class="card" style="height: 75px">
                               <div class="col card-body" style="padding: 15px;">
@@ -201,7 +201,7 @@
         <div class="card-header" style="background-color: #db6623; color: white;">
           <div class="row">
             <div class="col">
-              <p class="upl-headers">Signature :</p>
+              <p class="upl-headers">Signature </p>
             </div>
           </div>
         </div>

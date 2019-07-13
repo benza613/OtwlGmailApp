@@ -180,14 +180,17 @@ export class EmailViewComponent implements OnInit {
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }
         );
+        let folderHeirarchy;
         this.emailStore.getFolderList$.subscribe(x => {
+          folderHeirarchy = x;
+        });
           modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
-          modalRef.componentInstance.folderHierarchy = x;
+          modalRef.componentInstance.folderHierarchy = folderHeirarchy;
           modalRef.componentInstance.msgId = msgId;
           modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
           modalRef.componentInstance.attachmentNames = this.attachmentNames;
           modalRef.componentInstance.reqThreadId = this.reqThreadId;
-        });
+        // });
 
       });
 

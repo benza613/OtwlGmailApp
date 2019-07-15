@@ -118,8 +118,10 @@ export class EmailList2Component implements OnInit, OnDestroy {
         this.editList.push(x);
       }
     });
-    console.log('MAPPED LIST', this.mappedThreads);
-    console.log('EDIT LIST', this.editList);
+    if (this.editList.length === 0) {
+      alert('Please select threads to edit.')
+      return;
+    }
     this.openUnreadDialog(2, this.editList);
   }
 

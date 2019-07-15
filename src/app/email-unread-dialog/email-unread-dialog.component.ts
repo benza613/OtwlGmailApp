@@ -36,10 +36,6 @@ export class EmailUnreadDialogComponent implements OnInit {
     this.refType = this.domainStore.refType$;
     this.threadTypeData = this.domainStore.threadTypeData$;
     console.log('MAPPED', this.mailList);
-
-    // if (this.thread) {
-    //   this.refValId = this.thread.ThreadReferenceText;
-    // }
   }
 
   onChange_GetRefTypeData() {

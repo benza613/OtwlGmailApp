@@ -16,7 +16,6 @@
       <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
         bindValue="refId">
       </ng-select>
-      <span *ngIf="storeSelector === 'mapped'" style="font-size: 14px; color: green; float: right; font-weight: 600;">{{mailList[0].ThreadReferenceText}}</span>
     </div>
   </div>
   <div *ngIf="storeSelector === 'unread'">
@@ -35,23 +34,28 @@
   </div>
   <div *ngIf="storeSelector === 'mapped'">
     <div *ngFor="let mail of mailList let i='index'" class="col">
-    <div style="padding-bottom: 5px" class="row">
-      <div class="col">
-        <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
-          {{mail.ThreadSubject}}
+      <div style="padding-bottom: 5px" class="row">
+        <div class="col">
+          <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
+            {{mail.ThreadSubject}}
+          </div>
+          <div class="row">
+            <span style="font-size: 12px;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
+                Mapped To: {{mail.ThreadReferenceText}}
+            </span>
+          </div>
+          <div class="row" *ngIf="mail.SelectedTypeIdList.length > 0">
+            <span *ngFor="let label of mail.SelectedTypeIdList" class="badge badge-warning enlarge"
+              style="align-content: center; margin-left: 10px; justify-content: center;">
+              <i class="fa fa-tag"></i> {{label}} </span>
+          </div>
         </div>
-        <div class="row" *ngIf="mail.SelectedTypeIdList.length > 0">
-          <span *ngFor="let label of mail.SelectedTypeIdList" class="badge badge-warning enlarge"
-            style="align-content: center; margin-left: 10px; justify-content: center;">
-            <i class="fa fa-tag"></i> {{label}} </span>
+        <div class="col-4" style="padding-right: 0px; margin-right: 10px;">
+          <ng-select [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
+            bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type">
+          </ng-select>
         </div>
       </div>
-      <div class="col-4" style="padding-right: 0px; margin-right: 10px;">
-        <ng-select [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false" bindLabel="threadTypeVal"
-          bindValue="threadTypeId" placeholder="Mail Type">
-        </ng-select>
-      </div>
-    </div>
     </div>
   </div>
 </div>

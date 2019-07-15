@@ -6,6 +6,7 @@ import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModalConfig, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EmailsStoreService } from '../_store/emails-store.service';
 
 @Component({
   selector: 'app-email-unread-dialog',
@@ -16,7 +17,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EmailUnreadDialogComponent implements OnInit {
   @Input() mailList: any;
-  // @Input() thread: any;
+  @Input() storeSelector: any;
   refType: Observable<RefType[]>;
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
@@ -27,12 +28,15 @@ export class EmailUnreadDialogComponent implements OnInit {
     private domainStore: DomainStoreService,
     private config: NgbModalConfig,
     public activeModal: NgbActiveModal,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private emailServ: EmailsStoreService
   ) { }
 
   ngOnInit() {
     this.refType = this.domainStore.refType$;
     this.threadTypeData = this.domainStore.threadTypeData$;
+    console.log('MAPPED', this.mailList);
+
     // if (this.thread) {
     //   this.refValId = this.thread.ThreadReferenceText;
     // }
@@ -76,13 +80,13 @@ export class EmailUnreadDialogComponent implements OnInit {
     mapTypes.selectedThreadsFullData = this.mailList;
 
     var that = this;
-    this.domainStore.submitUnreadThreadData(mapTypes).then(function (value) {
-      that.spinner.hide();
-      if (value === '200') {
-        const res = '1';
-        alert('Mapping successfully done.');
-        that.activeModal.close({ action: '1' });
-      }
-    });
+    // this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
+    //   that.spinner.hide();
+    //   if (value === '200') {
+    //     const res = '1';
+    //     alert('Mapping successfully done.');
+    //     that.activeModal.close({ action: '1' });
+    //   }
+    // });
   }
 }

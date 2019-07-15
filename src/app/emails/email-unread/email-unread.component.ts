@@ -43,7 +43,8 @@ export class EmailUnreadComponent implements OnInit {
         EmailUnreadDialogComponent,
         { size: 'lg', backdrop: 'static', keyboard: false }
       );
-      modalRef.componentInstance.mailList = this.mailList; // should be the id
+      modalRef.componentInstance.mailList = this.mailList;
+      modalRef.componentInstance.storeSelector = 'unread'; // should be the id
       modalRef.result.then((result) => {
         if (result.action === '1') {
           modalRef.close();

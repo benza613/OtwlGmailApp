@@ -121,6 +121,11 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
+  submitUnreadThreadData(mapTypes): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, { mapTypes }, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   deleteThreadMapping(ThreadUId, ThreadGId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/deleteThreadRefMapping`, { ThreadUId, ThreadGId },
       this.httpOptions).pipe(map(r => r));

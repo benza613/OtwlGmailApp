@@ -365,6 +365,24 @@ export class EmailsStoreService {
     });
   }
 
+  submitUnreadThreadData(mapTypes) {
+    return new Promise(async (res, rej) => {
+      const result = await this.emailServ.submitUnreadThreadData(mapTypes).toPromise();
+      if (result.d.errId === '200') {
+        // mapTypes.selectedThreads.forEach(x => {
+        //   this.unreadThreads = [...this.unreadThreads.filter(thread => thread.ThreadId !== x)];
+        // });
+        // for (let i = 0; i < mapTypes.selectedThreads.length; i++) {
+        //   this.unreadThreads = [...this.unreadThreads.filter(x => x.ThreadId !== mapTypes.selectedThreads[i])];
+        // }
+        res(result.d.errId);
+      } else {
+        this.errorService.displayError(result, 'submitUnreadThreadData');
+        rej();
+      }
+    });
+  }
+
   deleteMapping(ThreadUId, ThreadGID) {
     return new Promise(async (res, rej) => {
       const result = await this.emailServ.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();

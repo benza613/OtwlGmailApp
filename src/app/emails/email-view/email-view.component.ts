@@ -33,9 +33,8 @@ export class EmailViewComponent implements OnInit {
   action = true;
   subject;
   showInfo = false;
-  showAttachments = false;
-  showQuotes = true;
-  showRegards = true;
+  body;
+  quotes;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,8 +57,8 @@ export class EmailViewComponent implements OnInit {
         this.renderMessages();
       });
 
-      // let button = document.getElementById('reg_button');
-      // button.
+    // let button = document.getElementById('reg_button');
+    // button.
   }
 
   renderMessages() {
@@ -77,20 +76,11 @@ export class EmailViewComponent implements OnInit {
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          // if (x[0].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
-          //   console.log('SLICE', (x[0].body.toLowerCase().trim().split('with regards')[1]).slice(11));
-          //   x[0].body = x[0].body.toLowerCase().trim().split('<div class="gmail_quote">')[0] +
-          //     `<div class="row pull left">
-          //       <button id="reg_button" type="button" class="btn btn-sm btn-outline-warning " style="margin-left: 20px;"
-          //       (click)="toggle()">
-          //         XYZ
-          //       </button>
-          //     </div>` +
-          //     `<div *ngIf="showRegards">` +
-          //       '<div class="gmail_quote">' +
-          //         (x[0].body.toLowerCase().trim().split('<div class="gmail_quote">')[1]).slice(11) +
-          //     `</div>`;
-          // }
+          if (x[0].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+            this.body = x[0].body.toLowerCase().trim().split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+            this.quotes = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' + (x[0].body.toLowerCase().trim().split(
+              '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+          }
           this.emailList = x;
         });
       this.spinner.hide();
@@ -184,12 +174,12 @@ export class EmailViewComponent implements OnInit {
         this.emailStore.getFolderList$.subscribe(x => {
           folderHeirarchy = x;
         });
-          modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
-          modalRef.componentInstance.folderHierarchy = folderHeirarchy;
-          modalRef.componentInstance.msgId = msgId;
-          modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
-          modalRef.componentInstance.attachmentNames = this.attachmentNames;
-          modalRef.componentInstance.reqThreadId = this.reqThreadId;
+        modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+        modalRef.componentInstance.folderHierarchy = folderHeirarchy;
+        modalRef.componentInstance.msgId = msgId;
+        modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
+        modalRef.componentInstance.attachmentNames = this.attachmentNames;
+        modalRef.componentInstance.reqThreadId = this.reqThreadId;
 
       });
 
@@ -207,11 +197,5 @@ export class EmailViewComponent implements OnInit {
         x.isOpen = false;
       });
     }
-  }
-  
-  toggle() {
-    this.showRegards = !this.showRegards;
-    console.log(this.showRegards);
-    
   }
 }

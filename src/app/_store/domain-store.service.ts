@@ -94,18 +94,4 @@ export class DomainStoreService {
       this.erorService.displayError(res, 'fetchThreadTypeData');
     }
   }
-
-  submitUnreadThreadData(mapTypes) {
-    return new Promise(async (res, rej) => {
-      const result = await this.domainService.submitUnreadThreadData(mapTypes).toPromise();
-      if (result.d.errId === '200') {
-        res(result.d.errId);
-      } else {
-        this.erorService.displayError(result, 'submitUnreadThreadData');
-        rej();
-      }
-    });
-  }
-
-
 }

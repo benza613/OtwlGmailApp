@@ -33,9 +33,4 @@ export class DomainService {
     return this.http.post(`${this.apiBaseUrl}/getDomainMailTypes`, {}, this.httpOptions)
       .pipe(map(r => r));
   }
-
-  submitUnreadThreadData(mapTypes): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/insertThreadDomainMapping`, { mapTypes }, this.httpOptions)
-      .pipe(map(r => r));
-  }
 }

@@ -6,7 +6,8 @@ import { DomainStoreService } from '../_store/domain-store.service';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../auth/auth.service';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { EmailUnreadDialogComponent } from '../email-unread-dialog/email-unread-dialog.component';
 
 @Component({
   selector: 'app-email-list2',
@@ -29,6 +30,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   threadTypeVal = [];
   subject = '';
   reference = '';
+  editList = [];
 
   debounceSearch: Subject<string> = new Subject();
 
@@ -43,7 +45,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.spinner.show('list2');
-      this.detector.detectChanges();
+    this.detector.detectChanges();
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
@@ -83,6 +85,43 @@ export class EmailList2Component implements OnInit, OnDestroy {
     this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject);
   }
 
+  openUnreadDialog(flag, item) {
+    const modalRef = this.modalService.open(
+      EmailUnreadDialogComponent,
+      { size: 'lg', backdrop: 'static', keyboard: false }
+    );
+    if (flag === 1) {
+      modalRef.componentInstance.mailList = [item];
+    } else {
+      modalRef.componentInstance.mailList = item;
+    }
+    modalRef.componentInstance.storeSelector = 'mapped';
+    modalRef.result.then((result) => {
+      if (result.action === '1') {
+        modalRef.close();
+      }
+    });
+  }
+
+  checkList(item) {
+    item.isChecked = !item.isChecked;
+  }
+
+  editThreadList() {
+    this.editList = [];
+    let list;
+    this.mappedThreads.subscribe(x => {
+      list = x;
+    });
+    list.forEach(x => {
+      if (x.isChecked !== undefined && x.isChecked === true) {
+        this.editList.push(x);
+      }
+    });
+    console.log('MAPPED LIST', this.mappedThreads);
+    console.log('EDIT LIST', this.editList);
+    this.openUnreadDialog(2, this.editList);
+  }
 
   ngOnDestroy() {
     if (this.debounceSearch) {

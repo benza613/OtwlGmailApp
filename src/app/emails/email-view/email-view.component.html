@@ -85,7 +85,7 @@
 
             </div>
             <div class="row pull left">
-              <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " style="margin-left: 20px;"
+              <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes !== ''" style="margin-left: 20px;"
                 (click)="eml.showFooter = !eml.showFooter">
                 {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
               </button>

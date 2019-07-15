@@ -65,22 +65,41 @@ export class EmailViewComponent implements OnInit {
   renderMessages() {
     this.spinner.show();
     if (this.storeSelector === 'unread') {
+      this.body='';
+      this.quotes='';
       this.emailStore.getUnreadMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
+          for (let i=0; i<x.length;i++) {
+            if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+              this.body = x[i].body.toLowerCase().trim().split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+              this.quotes = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' + (x[i].body.toLowerCase().trim().split(
+                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+            } else {
+              this.body=x[i].body;
+              this.quotes = '';
+            }
+          }
           this.emailList = x;
         });
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
+      this.body='';
+      this.quotes='';
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          if (x[0].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
-            this.body = x[0].body.toLowerCase().trim().split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
-            this.quotes = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' + (x[0].body.toLowerCase().trim().split(
-              '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+          for (let i=0; i<x.length;i++) {
+            if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+              this.body = x[i].body.toLowerCase().trim().split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+              this.quotes = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' + (x[i].body.toLowerCase().trim().split(
+                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+            } else {
+              this.body=x[i].body;
+              this.quotes = '';
+            }
           }
           this.emailList = x;
         });
@@ -201,7 +220,9 @@ export class EmailViewComponent implements OnInit {
   }
 
   getPrint() {
-    document.getElementById('footer_button').style.visibility = 'hidden'
+    if ( this.quotes !== '' ) {
+      document.getElementById('footer_button').style.visibility = 'hidden';
+    }
       let printContents, popupWin;
       printContents = document.getElementById('printSection').innerHTML;
       popupWin = window.open();

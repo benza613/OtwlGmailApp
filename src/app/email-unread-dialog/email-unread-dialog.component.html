@@ -33,8 +33,8 @@
     </div>
   </div>
   <div *ngIf="storeSelector === 'mapped'">
-    <div *ngFor="let mail of mailList let i='index'" class="col">
-      <div style="padding-bottom: 5px" class="row">
+    <div class="col card" *ngFor="let mail of mailList let i='index'" style="margin-bottom: 5px; box-shadow: rgb(228, 228, 228)">
+      <div class="row card-body" style="padding-bottom: 5px">
         <div class="col">
           <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
             {{mail.ThreadSubject}}

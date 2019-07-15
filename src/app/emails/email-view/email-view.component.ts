@@ -235,6 +235,8 @@ export class EmailViewComponent implements OnInit {
         </html>`
       );
       popupWin.document.close();
-      document.getElementById('footer_button').style.visibility = 'visible';
+      if ( this.quotes !== '' ) {
+        document.getElementById('footer_button').style.visibility = 'visible';
+      }
   }
 }

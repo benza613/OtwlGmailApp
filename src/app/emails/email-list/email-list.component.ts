@@ -41,6 +41,7 @@ export class EmailListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.spinner.show();
+    this.detector.detectChanges();
     setTimeout(() => {
       if (this.storeSelector === 'EmailUnreadComponent') {
         this.emailStore.unreadThreadsCount$.subscribe(x => {

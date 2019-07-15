@@ -57,6 +57,7 @@ export class EmailViewComponent implements OnInit {
         this.renderMessages();
       });
 
+
     // let button = document.getElementById('reg_button');
     // button.
   }
@@ -197,5 +198,22 @@ export class EmailViewComponent implements OnInit {
         x.isOpen = false;
       });
     }
+  }
+
+  getPrint() {
+    document.getElementById('footer_button').style.visibility = 'hidden'
+      let printContents, popupWin;
+      printContents = document.getElementById('printSection').innerHTML;
+      popupWin = window.open();
+      popupWin.document.write(`
+        <html>
+          <head>
+            <title>${this.subject}</title>
+          </head>
+      <body onload="window.print();window.close()">${printContents}</body>
+        </html>`
+      );
+      popupWin.document.close();
+      document.getElementById('footer_button').style.visibility = 'visible';
   }
 }

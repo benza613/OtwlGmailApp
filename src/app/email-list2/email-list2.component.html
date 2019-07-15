@@ -3,7 +3,13 @@
 
 <div class="col">
   <div class="row" style="margin-bottom: 10px;">
-    <div class="col-md-3">
+    <!-- <div class="col-md-1" style="margin-top: 30px; padding: 0px;">
+      <button type="button" *ngIf="mappedThreads" class="btn bg-primary" (click)="editThreadList()"
+        ngbTooltip="EDIT MULTIPLE" style="transform: scale(0.75); color: white; float: left; padding: 3px 0px;">
+        <span class="fa fa-pencil-square-o enlarge pull-left" container="body" style="margin-top: 5px;"></span>
+      </button>
+    </div> -->
+    <div class="col-md-3" style="padding-left: 0px;">
       <div class="col" style="padding: 0px;">
         <small class="text-muted">FILTER REFERENCE</small>
       </div>
@@ -32,10 +38,9 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <button type="button" class="btn bg-primary" (click)="editThreadList()" style="transform: scale(0.75); color: white; float: left;">
-        <span class="fa fa-pencil-square-o enlarge pull-left"container="body" style="margin-top: 5px;"></span>
-      EDIT MULTIPLE
+  <div class="row" style="margin-left: 3px; padding: 0px;">
+    <button type="button" *ngIf="mappedThreads" style="padding: 3px 0px !important;" class="btn bg-primary" (click)="editThreadList()" ngbTooltip="EDIT MULTIPLE" style="transform: scale(0.75); color: white; float: left;">
+        <span class="fa fa-pencil-square-o enlarge pull-left"container="body" style="margin-top: 5px;transform: scale(1.25);"></span>
     </button>
   </div>
   <div class="col" style="height: 70vh; overflow: auto; padding: 0px;">
@@ -46,7 +51,8 @@
         <div class="col-md-3">
           <div class="row align-items-center">
             <div class="col-sm-10 MailHeaders" style="margin-left: 15px;">
-              <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)" style="transform: scale(1.25);-webkit-transform: scale(1.25);">
+              <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
+                style="transform: scale(1.25);-webkit-transform: scale(1.25);">
               <span (click)="onClick_GetThreadMessages(item)">{{item.ThreadReferenceText}}</span>
             </div>
           </div>

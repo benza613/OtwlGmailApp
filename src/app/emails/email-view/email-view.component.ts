@@ -146,6 +146,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   async fileAction(id, msgId, attachments, file?) {
+    const that = this;
     this.attachmentGIDs = [];
     this.attachmentNames = [];
     this.downloadFileObject = [];
@@ -178,14 +179,13 @@ export class EmailViewComponent implements OnInit {
 
     if (id === 1) {
       this.spinner.show();
-      const that = this;
       this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
         that.spinner.hide();
       });
     } else if (id === 2) {
       this.spinner.show();
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
-        this.spinner.hide();
+        that.spinner.hide();
         const modalRef = this.modalService.open(
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }

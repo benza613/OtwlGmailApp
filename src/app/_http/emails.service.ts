@@ -26,12 +26,12 @@ export class EmailsService {
     }
   };
 
-  httpOptions_download = {
-    responseType: 'blob',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    }
-  };
+  // httpOptions_download = {
+  //   responseType: 'blob',
+  //   headers: {
+  //     'Content-Type': 'application/json;charset=utf-8',
+  //   }
+  // };
 
   indexUnread(pageToken, addrFrom, addrTo, subject): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getUnreadThreads`,

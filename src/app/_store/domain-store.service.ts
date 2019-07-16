@@ -132,9 +132,7 @@ export class DomainStoreService {
   }
 
   async updateFilesList(dirId) {
-    if (this.filesList.length > 0) {
-      return;
-    }
+    
     const res = await this.domainService.fetchFiles(dirId).toPromise();
     if (res.d.errId === '200') {
       const arrx = this.filesList;

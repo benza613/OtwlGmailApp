@@ -1,4 +1,4 @@
-import { FsOrderFiles } from './../../models/fs-order-files';
+import { DomainStoreService } from './../../_store/domain-store.service';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -6,6 +6,8 @@ import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { LocalStorageService } from 'src/app/_util/local-storage.service';
 import { environment } from 'src/environments/environment.prod';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
 
 const URL = environment.url.uploadsGA;
 
@@ -81,7 +83,9 @@ export class EditorComponent implements OnInit {
     private emailStore: EmailsStoreService,
     private detector: ChangeDetectorRef,
     private locStgService: LocalStorageService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
+    private domainStore: DomainStoreService
   ) { }
 
   ngOnInit() {
@@ -590,5 +594,14 @@ export class EditorComponent implements OnInit {
       this.orderDetails.push(order);
       this.detector.detectChanges();
     }
+  }
+
+  addAttachments() {
+    this.domainStore.updateFSDirList();
+    const modalRef = this.modalService.open(
+      FSDirDialogComponent,
+      { size: 'lg', backdrop: 'static', keyboard: false }
+    );
+    modalRef.componentInstance.storeSelector = 'editor'; // should be the id
   }
 }

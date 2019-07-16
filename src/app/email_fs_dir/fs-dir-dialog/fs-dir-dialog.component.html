@@ -1,27 +1,37 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
-  </ngx-spinner>
+</ngx-spinner>
 
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">CHOOSE A FOLDER TO SAVE IN</h5>
+  <h5 *ngIf="storeSelector !== 'editor'" class="modal-title" id="modal-basic-title">CHOOSE A FOLDER TO SAVE IN</h5>
+  <h5 *ngIf="storeSelector === 'editor'" class="modal-title" id="modal-basic-title">ADD ATTACHMENTS</h5>
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
-<div class="modal-body" style="padding: 0px;">
+<div class="modal-body col" style="padding: 0px;">
   <!-- <div class="row" style="margin: 10px">
     <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left" (click)="decrementLevel()">
         <i class="fa fa-arrow-left"  aria-hidden="true"></i>
     </button>
   </div> -->
+  <div class="row" *ngIf="storeSelector === 'editor'" style="margin: 10px;">
+    <div class="col">
+      <ng-select [items]="fsDirData" bindLabel="flMdID" bindValue="flDisplayName" placeholder="ORDER"
+        (change)="getDirectoryStructure(flMdID)">
+      </ng-select>
+    </div>
+  </div>
   <table class="table table-striped" style="width: 100%">
     <thead>
       <tr>
         <th scope="col">
-            <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left" (click)="decrementLevel()">
-                <i class="fa fa-arrow-left"  aria-hidden="true"></i>
-            </button>
+          <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left"
+            (click)="decrementLevel()">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
         </th>
         <th scope="col">FOLDER</th>
         <th scope="col" style="text-align: center;">BROWSE</th>
-        <th scope="col" style="text-align: center;">SAVE TO</th>
+        <th *ngIf="storeSelector !== 'editor'" scope="col" style="text-align: center;">SAVE TO</th>
+        <th *ngIf="storeSelector === 'editor'" scope="col" style="text-align: center;">ADD</th>
       </tr>
     </thead>
     <tbody>
@@ -29,13 +39,13 @@
         <th scope="row"></th>
         <td>{{folder.name}}</td>
         <td style="text-align: center;">
-          <button id = "i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">
+          <button id="i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">
             <i class="fa fa-folder-open" aria-hidden="true"></i>
           </button>
         </td>
         <td style="text-align: center;">
           <button type="button" class="btn btn-sm btn-outline-success" (click)="saveToFS(folder)">
-            <i class="fa fa-floppy-o" aria-hidden="true" ></i>
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
           </button>
         </td>
         <td></td>

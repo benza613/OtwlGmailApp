@@ -6,6 +6,7 @@ import { RefType } from '../models/ref-type';
 import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FSDirList } from '../models/fsdir-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,12 @@ export class DomainStoreService {
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
   private readonly _refTypeData = new BehaviorSubject<RefTypeData[]>([]);
   private readonly _threadTypeData = new BehaviorSubject<ThreadTypeData[]>([]);
+  private readonly _fsDirData = new BehaviorSubject<FSDirList[]>([]);
 
   readonly refType$ = this._refType.asObservable();
   readonly refTypeData$ = this._refTypeData.asObservable();
   readonly threadTypeData$ = this._threadTypeData.asObservable();
+  readonly fsDirData$ = this._fsDirData.asObservable();
 
   private get refType(): RefType[] {
     return this._refType.getValue();
@@ -49,6 +52,22 @@ export class DomainStoreService {
   private set threadTypeData(val: ThreadTypeData[]) {
     this._threadTypeData.next(val);
   }
+
+  private get fsDirData(): FSDirList[] {
+    return this._fsDirData.getValue();
+  }
+
+  private set fsDirData(val: FSDirList[]) {
+    this._fsDirData.next(val);
+  }
+
+  // private get ordersData(): ThreadTypeData[] {
+  //   return this._ordersData.getValue();
+  // }
+
+  // private set ordersData(val: ThreadTypeData[]) {
+  //   this._ordersData.next(val);
+  // }
 
 
 
@@ -94,4 +113,32 @@ export class DomainStoreService {
       this.erorService.displayError(res, 'fetchThreadTypeData');
     }
   }
+
+  async updateFSDirList() {
+    if (this.fsDirData.length > 0) {
+      return;
+    }
+    const res = await this.domainService.fetchFSDirList().toPromise();
+    if (res.d.errId === '200') {
+      const arrx = this.fsDirData;
+      arrx.push(...<FSDirList[]>res.d.fsList);
+      this.fsDirData = arrx;
+    } else {
+      this.erorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
+
+  // async updateOrdersData() {
+  //   if (this.ordersData.length > 0) {
+  //     return;
+  //   }
+  //   const res = await this.domainService.fetchOrdersData().toPromise();
+  //   if (res.d.errId === '200') {
+  //     const arrx = this.ordersData;
+  //     arrx.push(...<Orders[]>res.d.orders);
+  //     this.ordersData = arrx;
+  //   } else {
+  //     this.erorService.displayError(res, 'fetchThreadTypeData');
+  //   }
+  // }
 }

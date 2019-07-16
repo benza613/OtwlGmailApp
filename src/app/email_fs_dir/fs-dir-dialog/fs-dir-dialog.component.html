@@ -14,8 +14,8 @@
   </div> -->
   <div class="row" *ngIf="storeSelector === 'editor'" style="margin: 10px;">
     <div class="col">
-      <ng-select [items]="fsDirData" bindLabel="flMdID" bindValue="flDisplayName" placeholder="ORDER"
-        (change)="getDirectoryStructure(flMdID)">
+      <ng-select [items]="fsDirData" [(ngModel)]="dirId" bindLabel="flMdDisplayName" bindValue="flMdID" placeholder="ORDER"
+        (change)="onChange_getFiles()">
       </ng-select>
     </div>
   </div>

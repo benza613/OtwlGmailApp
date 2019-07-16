@@ -7,6 +7,7 @@ import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FSDirList } from '../models/fsdir-list.model';
+import { FilesList } from '../models/files-list';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,13 @@ export class DomainStoreService {
   private readonly _refTypeData = new BehaviorSubject<RefTypeData[]>([]);
   private readonly _threadTypeData = new BehaviorSubject<ThreadTypeData[]>([]);
   private readonly _fsDirData = new BehaviorSubject<FSDirList[]>([]);
+  private readonly _filesList = new BehaviorSubject<FilesList[]>([]);
 
   readonly refType$ = this._refType.asObservable();
   readonly refTypeData$ = this._refTypeData.asObservable();
   readonly threadTypeData$ = this._threadTypeData.asObservable();
   readonly fsDirData$ = this._fsDirData.asObservable();
+  readonly filesList$ = this._filesList.asObservable();
 
   private get refType(): RefType[] {
     return this._refType.getValue();
@@ -61,13 +64,13 @@ export class DomainStoreService {
     this._fsDirData.next(val);
   }
 
-  // private get ordersData(): ThreadTypeData[] {
-  //   return this._ordersData.getValue();
-  // }
+  private get filesList(): FilesList[] {
+    return this._filesList.getValue();
+  }
 
-  // private set ordersData(val: ThreadTypeData[]) {
-  //   this._ordersData.next(val);
-  // }
+  private set filesList(val: FilesList[]) {
+    this._filesList.next(val);
+  }
 
 
 
@@ -128,17 +131,17 @@ export class DomainStoreService {
     }
   }
 
-  // async updateOrdersData() {
-  //   if (this.ordersData.length > 0) {
-  //     return;
-  //   }
-  //   const res = await this.domainService.fetchOrdersData().toPromise();
-  //   if (res.d.errId === '200') {
-  //     const arrx = this.ordersData;
-  //     arrx.push(...<Orders[]>res.d.orders);
-  //     this.ordersData = arrx;
-  //   } else {
-  //     this.erorService.displayError(res, 'fetchThreadTypeData');
-  //   }
-  // }
+  async updateFilesList(dirId) {
+    if (this.filesList.length > 0) {
+      return;
+    }
+    const res = await this.domainService.fetchFiles(dirId).toPromise();
+    if (res.d.errId === '200') {
+      const arrx = this.filesList;
+      arrx.push(...<FilesList[]>res.d.files);
+      this.filesList = arrx;
+    } else {
+      this.erorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
 }

@@ -22,6 +22,8 @@ export class FSDirDialogComponent implements OnInit {
   fsDirData: any;
   backDisable = true;
   browseDisable = false;
+  dirId;
+  fileList = [];
 
 
   constructor(
@@ -37,7 +39,11 @@ export class FSDirDialogComponent implements OnInit {
       this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
     }
     this.domainStore.fsDirData$.subscribe(x => {
-      this.fsDirData = x;
+      this.fsDirData = [];
+      for (let ix = 0; ix < x.length; ix++) {
+        this.fsDirData = [...this.fsDirData, x[ix]];
+      }
+      console.log(this.fsDirData);
     });
   }
 
@@ -85,11 +91,15 @@ export class FSDirDialogComponent implements OnInit {
     }, 2000);
   }
 
-  onChange_getOrdersData(typeId) {
-    //
-  }
-
-  getDirectoryStructure(dirId) {
-    console.log(dirId);
+  onChange_getFiles() {
+    if (this.dirId) {
+      this.domainStore.updateFilesList(this.dirId);
+      this.domainStore.filesList$.subscribe(x => {
+        this.fileList = [];
+        for (let ix = 0; ix < x.length; ix++) {
+          this.fileList = [...this.fileList, x[ix]];
+        }
+      });
+    }
   }
 }

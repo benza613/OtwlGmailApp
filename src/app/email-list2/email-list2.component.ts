@@ -47,21 +47,14 @@ export class EmailList2Component implements OnInit, OnDestroy {
     // this.detector.detectChanges();
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
-      this.spinner.show('list2');
-      this.detector.detectChanges();
     });
-
-    setTimeout(() => {
-      this.mappedThreads = this.emailStore.mappedThreads$;
-      this.domainStore.threadTypeData$.subscribe(x => {
-        this.threadTypeData = [];
-        for (let ix = 0; ix < x.length; ix++) {
-          this.threadTypeData = [...this.threadTypeData, x[ix]];
-        }
-        this.spinner.hide('list2');
-        this.detector.detectChanges();
-      });
-    }, 3000);
+    this.mappedThreads = this.emailStore.mappedThreads$;
+    this.domainStore.threadTypeData$.subscribe(x => {
+      this.threadTypeData = [];
+      for (let ix = 0; ix < x.length; ix++) {
+        this.threadTypeData = [...this.threadTypeData, x[ix]];
+      }
+    });
   }
 
   showConfirmDialog(thread) {

@@ -3,6 +3,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Folders } from 'src/app/models/folders.model';
+import { DomainStoreService } from 'src/app/_store/domain-store.service';
 
 @Component({
   selector: 'app-fs-dir-dialog',
@@ -18,6 +19,7 @@ export class FSDirDialogComponent implements OnInit {
   @Input() attachmentNames;
   @Input() reqThreadId;
   folderList: any;
+  fsDirData: any;
   backDisable = true;
   browseDisable = false;
 
@@ -26,11 +28,17 @@ export class FSDirDialogComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private emailStore: EmailsStoreService,
     private spinner: NgxSpinnerService,
-    private changeDetRef: ChangeDetectorRef
+    private changeDetRef: ChangeDetectorRef,
+    private domainStore: DomainStoreService
   ) { }
 
   ngOnInit() {
-    this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
+    if (this.storeSelector !== 'editor') {
+      this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
+    }
+    this.domainStore.fsDirData$.subscribe(x => {
+      this.fsDirData = x;
+    });
   }
 
   incrementLevel(folder, idx) {
@@ -75,5 +83,13 @@ export class FSDirDialogComponent implements OnInit {
           }
         });
     }, 2000);
+  }
+
+  onChange_getOrdersData(typeId) {
+    //
+  }
+
+  getDirectoryStructure(dirId) {
+    console.log(dirId);
   }
 }

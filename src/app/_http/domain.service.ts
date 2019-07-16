@@ -33,4 +33,9 @@ export class DomainService {
     return this.http.post(`${this.apiBaseUrl}/getDomainMailTypes`, {}, this.httpOptions)
       .pipe(map(r => r));
   }
+
+  fetchFSDirList(): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getFSDirectoryList`, {}, this.httpOptions)
+      .pipe(map(r => r));
+  }
 }

@@ -41,7 +41,10 @@
           </div>
           <div class="row">
             <span style="font-size: 12px;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
-                Mapped To: {{mail.ThreadReferenceText}}
+                Previous Mapping:
+            </span>
+            <span style="font-size: 12px; font-weight: 600;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
+              {{mail.ThreadReferenceText}}
             </span>
           </div>
           <div class="row" *ngIf="mail.SelectedTypeIdList.length > 0">

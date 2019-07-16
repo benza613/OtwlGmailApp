@@ -1,5 +1,5 @@
 import { DomainStoreService } from './../_store/domain-store.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { RefType } from '../models/ref-type';
 import { Observable } from 'rxjs';
 import { RefTypeData } from '../models/ref-type-data';
@@ -35,7 +35,6 @@ export class EmailUnreadDialogComponent implements OnInit {
   ngOnInit() {
     this.refType = this.domainStore.refType$;
     this.threadTypeData = this.domainStore.threadTypeData$;
-    console.log('MAPPED', this.mailList);
   }
 
   onChange_GetRefTypeData() {
@@ -67,14 +66,24 @@ export class EmailUnreadDialogComponent implements OnInit {
       selectedThreads: [],
       selectedThreadsFullData: []
     };
-    for (let i = 0; i < this.mailList.length; i++) {
-      mapTypes.selectedThreads.push({
-        ThreadID: this.mailList[i].ThreadId,
-        ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
-      });
+    if (this.storeSelector === 'unread') {
+      for (let i = 0; i < this.mailList.length; i++) {
+        mapTypes.selectedThreads.push({
+          ThreadID: this.mailList[i].ThreadId,
+          ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
+        });
+      }
+      mapTypes.selectedThreadsFullData = this.mailList;
+    } else {
+      for (let i = 0; i < this.mailList.length; i++) {
+        mapTypes.selectedThreads.push({
+          ThreadID: this.mailList[i].ThreadGID,
+          ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
+        });
+      }
+      mapTypes.selectedThreadsFullData = this.mailList;
     }
-    mapTypes.selectedThreadsFullData = this.mailList;
-
+    console.log('MAP TYPES', mapTypes);
     var that = this;
     // this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
     //   that.spinner.hide();

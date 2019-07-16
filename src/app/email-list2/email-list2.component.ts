@@ -6,7 +6,6 @@ import { DomainStoreService } from '../_store/domain-store.service';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../auth/auth.service';
-import { filter, map } from 'rxjs/operators';
 import { EmailUnreadDialogComponent } from '../email-unread-dialog/email-unread-dialog.component';
 
 @Component({
@@ -44,10 +43,12 @@ export class EmailList2Component implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.spinner.show('list2');
-    this.detector.detectChanges();
+    // this.spinner.show('list2');
+    // this.detector.detectChanges();
     this.emailStore.mappedThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
+      this.spinner.show('list2');
+      this.detector.detectChanges();
     });
 
     setTimeout(() => {

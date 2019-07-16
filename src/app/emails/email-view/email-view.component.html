@@ -31,24 +31,24 @@
           {{eml.date}}
         </div>
         <div class="col-md-2 pull-left">
-          <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right" style="margin: 2px;"
-            (click)="eml.isOpen = !eml.isOpen">
+          <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
+            style="margin: 2px;" (click)="eml.isOpen = !eml.isOpen">
             E
           </button>
-          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-secondary float-right" style="margin: 2px;"
-            (click)="draftReply(eml)">
+          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-secondary float-right"
+            style="margin: 2px;" (click)="draftReply(eml)">
             R
           </button>
-          <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-secondary float-right" style="margin: 2px;"
-            (click)="draftReplyToAll(eml)">
+          <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-secondary float-right"
+            style="margin: 2px;" (click)="draftReplyToAll(eml)">
             R All
           </button>
-          <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-secondary float-right" style="margin: 2px;"
-            (click)="draftForward(eml)">
+          <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-secondary float-right"
+            style="margin: 2px;" (click)="draftForward(eml)">
             F
-          </button> 
-          <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-danger float-right" style="margin: 2px;"
-            (click)="getPrint()">
+          </button>
+          <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-danger float-right"
+            style="margin: 2px;" (click)="getPrint()">
             P
           </button>
         </div>
@@ -81,20 +81,20 @@
         </div>
       </div>
       <div id="printSection">
-          <div class="row" id ="body" [innerHTML]="body | safeHtml" style="max-width:100%; margin: 0px;">
+        <div class="row" id="body" [innerHTML]="body | safeHtml" style="max-width:100%; margin: 0px;">
 
-            </div>
-            <div class="row pull left">
-              <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes !== ''" style="margin-left: 20px;"
-                (click)="eml.showFooter = !eml.showFooter">
-                {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
-              </button>
-            </div>
-            <div *ngIf="eml.showFooter">
-              <div class="row" id="footer" [innerHTML]="quotes | safeHtml" style="max-width:100%; margin: 0px;">
-      
-              </div>
-            </div>
+        </div>
+        <div class="row pull left">
+          <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes !== ''"
+            style="margin-left: 20px;" (click)="eml.showFooter = !eml.showFooter">
+            {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
+          </button>
+        </div>
+        <div *ngIf="eml.showFooter">
+          <div class="row" id="footer" [innerHTML]="quotes | safeHtml" style="max-width:100%; margin: 0px;">
+
+          </div>
+        </div>
       </div>
       <!-- <div class="row" id ="body" [innerHTML]="body | safeHtml" style="max-width:100%; margin: 0px;">
 

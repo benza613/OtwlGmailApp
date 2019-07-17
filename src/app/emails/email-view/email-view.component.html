@@ -31,7 +31,11 @@
           {{eml.date}}
         </div>
         <div class="col-md-2 pull-left">
-          <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
+          <button *ngIf="!eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
+            style="margin: 2px;transform: scale(0.75);" (click)="getPrint(i)">
+            <i class="fa fa-print"></i>
+          </button>
+          <button *ngIf="eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-warnings float-right"
             style="margin: 2px;transform: scale(0.75);" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>

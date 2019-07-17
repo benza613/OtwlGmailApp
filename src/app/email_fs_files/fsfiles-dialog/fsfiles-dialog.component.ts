@@ -59,7 +59,7 @@ export class FSFilesDialogComponent implements OnInit {
       flTag: file.flTag,
     };
     this.sendFileList.push(newFile);
-    const idx = this.fileList.indexOf(newFile);
+    const idx = this.fileList.indexOf(file);
     this.fileList.splice(idx, 1);
   }
 

@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div class="card" *ngFor="let eml of emailList" style="max-width:100%;margin-bottom: 5px;">
+<div class="card" *ngFor="let eml of emailList; let i = index;" style="max-width:100%;margin-bottom: 5px;">
   <div class="card-header no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
@@ -31,24 +31,24 @@
           {{eml.date}}
         </div>
         <div class="col-md-2 pull-left">
-            <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
-            style="margin: 2px;" (click)="getPrint()">
+          <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
+            style="margin: 2px;transform: scale(0.75);" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="margin: 2px;" (click)="eml.isOpen = !eml.isOpen">
+            style="margin: 2px;transform: scale(0.75);" (click)="eml.isOpen = !eml.isOpen">
             <i class="fa fa-expand"></i>
           </button>
-          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right"
-            style="margin: 2px;" (click)="draftReply(eml)">
-            <i class="fa fa-reply"></i>
-          </button>
           <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right"
-            style="margin: 2px;" (click)="draftReplyToAll(eml)">
+            style="margin: 2px;transform: scale(0.75);" (click)="draftReplyToAll(eml)">
             <i class="fa fa-reply-all"></i>
           </button>
+          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right"
+            style="margin: 2px;transform: scale(0.75);" (click)="draftReply(eml)">
+            <i class="fa fa-reply"></i>
+          </button>
           <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right"
-            style="margin: 2px;" (click)="draftForward(eml)">
+            style="margin: 2px;transform: scale(0.75);" (click)="draftForward(eml)">
             <i class="fa fa-arrow-right"></i>
           </button>
         </div>
@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div id="printSection">
+      <div id="{{i}}">
         <div class="row" id="body" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
 
         </div>

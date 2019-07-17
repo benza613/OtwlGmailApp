@@ -227,12 +227,12 @@ export class EmailViewComponent implements OnInit {
     }
   }
 
-  getPrint() {
+  getPrint(id) {
     if (this.quotes !== '') {
       document.getElementById('footer_button').style.visibility = 'hidden';
     }
     let printContents, popupWin;
-    printContents = document.getElementById('printSection').innerHTML;
+    printContents = document.getElementById(id).innerHTML;
     popupWin = window.open();
     popupWin.document.write(`
         <html>

@@ -14,8 +14,8 @@ export class FSFilesDialogComponent implements OnInit {
   fsDirData: any;
   dirId;
   fileList = [];
+  sendFileList = [];
   discardList = [];
-  @Output() sendFile = new EventEmitter();
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,6 +40,7 @@ export class FSFilesDialogComponent implements OnInit {
       this.domainStore.updateFilesList(this.dirId);
       this.domainStore.filesList$.subscribe(x => {
         this.fileList = [];
+        this.changeDetRef.detectChanges();
         for (let ix = 0; ix < x.length; ix++) {
           this.fileList = [...this.fileList, x[ix]];
         }
@@ -49,15 +50,20 @@ export class FSFilesDialogComponent implements OnInit {
 
   addFilesToMail(file) {
     const newFile = {
-      flDisplayName: file.flDisplayName,
-      flID:  file.flId,
+      flDisplayName: file.flName,
+      flID: file.flId,
       flMdDisplayName: file.flMdDisplayName,
       flMdID: file.flMdId,
       flParentFolder: file.flParentFolder,
       flSize: file.flSize,
       flTag: file.flTag,
     };
-    this.sendFile.emit(newFile);
+    this.sendFileList.push(newFile);
+    const idx = this.fileList.indexOf(newFile);
+    this.fileList.splice(idx, 1);
   }
 
+  close() {
+    this.activeModal.close({ files: this.sendFileList });
+  }
 }

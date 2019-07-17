@@ -603,22 +603,28 @@ export class EditorComponent implements OnInit {
       FSFilesDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
-    modalRef.componentInstance.storeSelector = 'editor'; // should be the id
-  }
+    modalRef.componentInstance.storeSelector = 'editor';
+    modalRef.result.then((result) => {
+      console.log(result.files);
+      if (result.files.length > 0) {
+        result.files.forEach(file => {
+          if (file.flSize.split(' ')[1] === 'kB') {
+            this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1024);
+          } else {
+            this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1048576);
+          }
 
-  receiveFile(file) {
-    if (file.flSize.split(' ')[1] === 'kB') {
-      this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1024);
-    } else {
-      this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1048576);
-    }
-
-    if (this.sendFileSize <= 999999) {
-      this.showUploadSize = String((this.sendFileSize / 1024).toFixed(2)) + 'KB';
-    } else {
-      this.showUploadSize = String((this.sendFileSize / 1048576).toFixed(2)) + 'MB';
-    }
-    this.orderDetails.push(file);
-    this.detector.detectChanges();
+          if (this.sendFileSize <= 999999) {
+            this.showUploadSize = String((this.sendFileSize / 1024).toFixed(2)) + 'KB';
+          } else {
+            this.showUploadSize = String((this.sendFileSize / 1048576).toFixed(2)) + 'MB';
+          }
+          this.orderDetails.push(file);
+          this.detector.detectChanges();
+        });
+        this.detector.detectChanges();
+        modalRef.close();
+      }
+    });
   }
 }

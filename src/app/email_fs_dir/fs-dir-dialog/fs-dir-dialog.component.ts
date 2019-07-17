@@ -90,16 +90,4 @@ export class FSDirDialogComponent implements OnInit {
         });
     }, 2000);
   }
-
-  onChange_getFiles() {
-    if (this.dirId) {
-      this.domainStore.updateFilesList(this.dirId);
-      this.domainStore.filesList$.subscribe(x => {
-        this.fileList = [];
-        for (let ix = 0; ix < x.length; ix++) {
-          this.fileList = [...this.fileList, x[ix]];
-        }
-      });
-    }
-  }
 }

@@ -1,5 +1,5 @@
 import { DomainStoreService } from './../../_store/domain-store.service';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -7,7 +7,7 @@ import { LocalStorageService } from 'src/app/_util/local-storage.service';
 import { environment } from 'src/environments/environment.prod';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
+import { FSFilesDialogComponent } from 'src/app/email_fs_files/fsfiles-dialog/fsfiles-dialog.component';
 
 const URL = environment.url.uploadsGA;
 
@@ -600,9 +600,25 @@ export class EditorComponent implements OnInit {
   addAttachments() {
     this.domainStore.updateFSDirList();
     const modalRef = this.modalService.open(
-      FSDirDialogComponent,
+      FSFilesDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
     modalRef.componentInstance.storeSelector = 'editor'; // should be the id
+  }
+
+  receiveFile(file) {
+    if (file.flSize.split(' ')[1] === 'kB') {
+      this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1024);
+    } else {
+      this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1048576);
+    }
+
+    if (this.sendFileSize <= 999999) {
+      this.showUploadSize = String((this.sendFileSize / 1024).toFixed(2)) + 'KB';
+    } else {
+      this.showUploadSize = String((this.sendFileSize / 1048576).toFixed(2)) + 'MB';
+    }
+    this.orderDetails.push(file);
+    this.detector.detectChanges();
   }
 }

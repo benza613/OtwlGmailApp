@@ -1,0 +1,43 @@
+<ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
+</ngx-spinner>
+
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">ADD ATTACHMENTS</h5>
+  <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
+</div>
+<div class="modal-body col align-content-center" style="padding: 0px;">
+  <div class="col" style="margin: 10px; padding-left: 0px;">
+    <div class="col">
+      <ng-select [items]="fsDirData" [(ngModel)]="dirId" bindLabel="flMdDisplayName" bindValue="flMdID"
+        placeholder="ORDER" (change)="onChange_getFiles()">
+      </ng-select>
+    </div>
+    <div class="col" *ngFor="let file of fileList" style="margin: 5px;padding-left: 7.5px;">
+      <div class="card">
+        <div class="col card-body">
+          <div class="row align-content-stretch">
+            <div class="col">
+              {{file.flMdDisplayName}}/<b>{{file.flName}}</b>
+            </div>
+            <div class="col p-2" style="float: right; padding-top: 0px;">
+              <span (click)="addFilesToMail(file)">
+                <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
+              </span>
+            </div>
+          </div>
+          <div class="row align-content-stretch">
+            <div class="col">
+              {{file.flTag}}
+            </div>
+            <div class="col">
+              {{file.flUploadUser}}
+            </div>
+            <div class="col">
+              {{file.flUploadDate}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

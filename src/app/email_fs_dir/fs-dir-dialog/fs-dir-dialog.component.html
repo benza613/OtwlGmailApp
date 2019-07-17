@@ -3,7 +3,6 @@
 
 <div class="modal-header">
   <h5 *ngIf="storeSelector !== 'editor'" class="modal-title" id="modal-basic-title">CHOOSE A FOLDER TO SAVE IN</h5>
-  <h5 *ngIf="storeSelector === 'editor'" class="modal-title" id="modal-basic-title">ADD ATTACHMENTS</h5>
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
 <div class="modal-body col" style="padding: 0px;">
@@ -12,13 +11,6 @@
         <i class="fa fa-arrow-left"  aria-hidden="true"></i>
     </button>
   </div> -->
-  <div class="row" *ngIf="storeSelector === 'editor'" style="margin: 10px;">
-    <div class="col">
-      <ng-select [items]="fsDirData" [(ngModel)]="dirId" bindLabel="flMdDisplayName" bindValue="flMdID" placeholder="ORDER"
-        (change)="onChange_getFiles()">
-      </ng-select>
-    </div>
-  </div>
   <table class="table table-striped" style="width: 100%">
     <thead>
       <tr>

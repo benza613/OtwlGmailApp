@@ -7,7 +7,7 @@ import { RefTypeData } from '../models/ref-type-data';
 import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FSDirList } from '../models/fsdir-list.model';
-import { FilesList } from '../models/files-list';
+import { FilesList } from '../models/files-list.model';
 
 @Injectable({
   providedIn: 'root'

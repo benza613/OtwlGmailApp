@@ -342,7 +342,6 @@ export class EmailsStoreService {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.requestOrderDetails(reqOrderID).toPromise();
       console.log(res);
-
       if (res.d.errId === '200') {
         resolve(res.d.orderFiles);
       } else {

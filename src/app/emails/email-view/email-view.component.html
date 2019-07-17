@@ -31,25 +31,25 @@
           {{eml.date}}
         </div>
         <div class="col-md-2 pull-left">
+            <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
+            style="margin: 2px;" (click)="getPrint()">
+            <i class="fa fa-print"></i>
+          </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
             style="margin: 2px;" (click)="eml.isOpen = !eml.isOpen">
-            E
+            <i class="fa fa-expand"></i>
           </button>
-          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-secondary float-right"
+          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right"
             style="margin: 2px;" (click)="draftReply(eml)">
-            R
+            <i class="fa fa-reply"></i>
           </button>
-          <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-secondary float-right"
+          <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right"
             style="margin: 2px;" (click)="draftReplyToAll(eml)">
-            R All
+            <i class="fa fa-reply-all"></i>
           </button>
-          <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-secondary float-right"
+          <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right"
             style="margin: 2px;" (click)="draftForward(eml)">
-            F
-          </button>
-          <button type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-danger float-right"
-            style="margin: 2px;" (click)="getPrint()">
-            P
+            <i class="fa fa-arrow-right"></i>
           </button>
         </div>
       </div>

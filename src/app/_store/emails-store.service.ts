@@ -161,6 +161,7 @@ export class EmailsStoreService {
       }
     } else {
       this.unreadThreads = [];
+      const arrx = [];
       for (let idx = 0; idx < 10; idx++) {
         const res = await this.emailServ.indexUnread(
           this.pageTokenUnread == null ? '' : this.pageTokenUnread,
@@ -170,7 +171,6 @@ export class EmailsStoreService {
         ).toPromise();
         console.log(res);
         if (res.d.errId === '200') {
-          const arrx = this.unreadThreads;
           res.d.threads.forEach(x => {
             x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
           });

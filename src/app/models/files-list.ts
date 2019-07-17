@@ -1,7 +1,11 @@
 export interface FilesList {
-    entityID: string, 
-    isTemplateFolder_ID: string;
-    isParentFolder_ID: string; 
-    name: string;
-    qlevel: string;
+    flId: string,
+    flName: string;
+    flUploadUser: string;
+    flUploadDate: string;
+    flTag: string;
+    flMdId: string;
+    flMdDisplayName: string;
+    flSize: string;
+    flParentFolder: string;
 }

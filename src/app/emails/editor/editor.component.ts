@@ -321,6 +321,7 @@ export class EditorComponent implements OnInit {
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
+                    this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
                     console.log('res.d.errId:', value);
                   });
               });

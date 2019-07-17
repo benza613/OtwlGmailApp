@@ -40,7 +40,7 @@ export class DomainService {
   }
 
   fetchFiles(dirId): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/getFilesList`, { dirId }, this.httpOptions)
+    return this.http.post(`${this.apiBaseUrl}/getFSDirectoryFiles`, { dirId }, this.httpOptions)
       .pipe(map(r => r));
   }
 }

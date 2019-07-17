@@ -609,9 +609,9 @@ export class EditorComponent implements OnInit {
       if (result.files.length > 0) {
         result.files.forEach(file => {
           if (file.flSize.split(' ')[1] === 'kB') {
-            this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1024);
+            this.sendFileSize += (Number(file.flSize.split(' ')[0]) * 1024);
           } else {
-            this.sendFileSize -= (Number(file.flSize.split(' ')[0]) * 1048576);
+            this.sendFileSize += (Number(file.flSize.split(' ')[0]) * 1048576);
           }
 
           if (this.sendFileSize <= 999999) {

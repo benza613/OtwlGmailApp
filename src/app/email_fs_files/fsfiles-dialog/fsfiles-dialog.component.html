@@ -13,11 +13,11 @@
       </ng-select>
     </div>
     <div class="col" *ngFor="let file of fileList" style="margin: 5px;padding-left: 7.5px;">
-      <div class="card">
+      <div class="card" style="height: 100px;">
         <div class="col card-body">
           <div class="row align-content-stretch">
             <div class="col">
-              {{file.flMdDisplayName}}/<b>{{file.flName}}</b>
+              {{file.flMdDisplayName}}/<b [ngbTooltip]="file.flName">{{file.flName | slice:0:30}}</b><b *ngIf="file.flName.length > 30" [ngbTooltip]="file.flName">...</b>
             </div>
             <div class="col p-2" style="float: right; padding-top: 0px;">
               <span (click)="addFilesToMail(file)">

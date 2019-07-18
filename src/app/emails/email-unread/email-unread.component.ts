@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-unread',
@@ -23,13 +22,20 @@ export class EmailUnreadComponent implements OnInit {
     public emailStore: EmailsStoreService,
     public modalService: NgbModal,
     private domainStore: DomainStoreService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private detector: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
-    this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject);
+    setTimeout(() => {
+      this.spinner.show();
+      this.detector.detectChanges();
+    }, 5000);
+    this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
+      this.spinner.hide();
+    });
   }
 
   getMails() {
@@ -57,8 +63,10 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   fetchUnreadThreads() {
-    // console.log(this.addrFrom, this.addrTo, this.subject);
-    this.emailStore.updateUnreadThreadList(1, this.addrFrom, this.addrTo, this.subject);
+    this.spinner.show();
+    this.emailStore.updateUnreadThreadList(1, this.addrFrom, this.addrTo, this.subject).then(result => {
+      this.spinner.hide();
+    });
   }
 
 }

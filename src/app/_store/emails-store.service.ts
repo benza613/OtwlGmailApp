@@ -138,31 +138,10 @@ export class EmailsStoreService {
   /**
    * UNREAD module methods
    */
-  async updateUnreadThreadList(flag, addrFrom, addrTo, subject) {
+  updateUnreadThreadList(flag, addrFrom, addrTo, subject) {
     if (flag === 0) {
       this.unreadThreads = [];
-      const res = await this.emailServ.indexUnread(
-        this.pageTokenUnread == null ? '' : this.pageTokenUnread,
-        addrFrom == null ? '' : addrFrom,
-        addrTo == null ? '' : addrTo,
-        subject == null ? '' : subject
-      ).toPromise();
-      console.log(res);
-      if (res.d.errId === '200') {
-        const arrx = [];
-        res.d.threads.forEach(x => {
-          x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-        });
-        arrx.push(...<Thread[]>res.d.threads);
-        this.unreadThreads = arrx;
-        this.pageTokenUnread = '';
-      } else {
-        this.errorService.displayError(res, 'indexUnread');
-      }
-    } else {
-      this.unreadThreads = [];
-      const arrx = [];
-      for (let idx = 0; idx < 10; idx++) {
+      return new Promise(async (resolve, reject) => {
         const res = await this.emailServ.indexUnread(
           this.pageTokenUnread == null ? '' : this.pageTokenUnread,
           addrFrom == null ? '' : addrFrom,
@@ -171,21 +150,50 @@ export class EmailsStoreService {
         ).toPromise();
         console.log(res);
         if (res.d.errId === '200') {
+          const arrx = [];
           res.d.threads.forEach(x => {
             x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
           });
           arrx.push(...<Thread[]>res.d.threads);
           this.unreadThreads = arrx;
-          if (res.d.pageToken == null) {
-            this.pageTokenUnread = '';
-            break;
-          } else {
-            this.pageTokenUnread = res.d.pageToken;
-          }
+          this.pageTokenUnread = '';
         } else {
           this.errorService.displayError(res, 'indexUnread');
         }
-      }
+        console.log("TOKEN",this.pageTokenUnread.length);
+        resolve();
+      });
+    } else {
+      this.unreadThreads = [];
+      const arrx = [];
+      return new Promise(async (resolve, reject) => {
+        for (let idx = 0; idx < 10; idx++) {
+          const res = await this.emailServ.indexUnread(
+            this.pageTokenUnread == null ? '' : this.pageTokenUnread,
+            addrFrom == null ? '' : addrFrom,
+            addrTo == null ? '' : addrTo,
+            subject == null ? '' : subject
+          ).toPromise();
+          console.log(res);
+          if (res.d.errId === '200') {
+            res.d.threads.forEach(x => {
+              x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+            });
+            arrx.push(...<Thread[]>res.d.threads);
+            this.unreadThreads = arrx;
+            if (res.d.pageToken == null) {
+              this.pageTokenUnread = '';
+              break;
+            } else {
+              this.pageTokenUnread = res.d.pageToken;
+            }
+          } else {
+            this.errorService.displayError(res, 'indexUnread');
+          }
+        }
+        console.log("TOKEN",this.pageTokenUnread.length);
+        resolve();
+      });
     }
   }
 
@@ -368,12 +376,12 @@ export class EmailsStoreService {
     return new Promise(async (res, rej) => {
       const result = await this.emailServ.submitUnreadThreadData(mapTypes).toPromise();
       if (result.d.errId === '200') {
-        // mapTypes.selectedThreads.forEach(x => {
-        //   this.unreadThreads = [...this.unreadThreads.filter(thread => thread.ThreadId !== x)];
-        // });
-        // for (let i = 0; i < mapTypes.selectedThreads.length; i++) {
-        //   this.unreadThreads = [...this.unreadThreads.filter(x => x.ThreadId !== mapTypes.selectedThreads[i])];
-        // }
+        mapTypes.selectedThreads.forEach(x => {
+          this.unreadThreads = [...this.unreadThreads.filter(thread => thread.ThreadId !== x)];
+        });
+        for (let i = 0; i < mapTypes.selectedThreads.length; i++) {
+          this.unreadThreads = [...this.unreadThreads.filter(x => x.ThreadId !== mapTypes.selectedThreads[i])];
+        }
         res(result.d.errId);
       } else {
         this.errorService.displayError(result, 'submitUnreadThreadData');

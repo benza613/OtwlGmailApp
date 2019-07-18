@@ -21,20 +21,20 @@
         </div>
         <div class="col" *ngFor="let file of fileList" style="margin: 20px 0px;">
           <div class="card" style="height: 100px; margin: 5px;">
-            <div class="card-header" style="background-color: #3a3a3a;color:white;">
+            <div class="card-header" style="background-color: #ed6f70;color:white;">
                 <div class="row align-content-stretch">
                     <div class="col-md-10">
                       {{file.flMdDisplayName}}/<b [ngbTooltip]="file.flName" container="body">{{file.flName | slice:0:50}}</b><b
                         *ngIf="file.flName.length > 30" [ngbTooltip]="file.flName">...</b>
                     </div>
-                    <div class="col-md-2" style="float: right; padding-top: 0px;">
+                    <div id="{{i}}" class="col-md-2" style="float: right; padding-top: 0px;">
                       <span (click)="addFilesToMail(file)">
-                        <i class="fa fa-plus-circle" style="color: white; transform: scale(1.5); float: right;"></i>
+                        <i class="fa fa-plus-circle" style="color: rgb(54, 54, 54); transform: scale(1.5); float: right;"></i>
                       </span>
                     </div>
                   </div>
             </div>
-            <div class="col card-body" style="background-color: #ececec; font-weight: 600;">
+            <div class="col card-body" style="background-color: #f1f1f1; font-weight: 600;">
               <div class="row align-content-stretch">
                 <div class="col">
                   {{file.flTag}}

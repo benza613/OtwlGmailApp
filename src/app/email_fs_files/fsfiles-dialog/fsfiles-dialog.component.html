@@ -19,31 +19,53 @@
           <div class="loading-bar"></div>
           <div class="loading-bar"></div>
         </div>
-        <div class="col" *ngFor="let file of fileList" style="margin: 20px 0px;">
-          <div class="card" style="height: 100px; margin: 5px;">
-            <div class="card-header" style="background-color: #ed6f70;color:white;">
-                <div class="row align-content-stretch">
-                    <div class="col-md-10">
-                      {{file.flMdDisplayName}}/<b [ngbTooltip]="file.flName" container="body">{{file.flName | slice:0:50}}</b><b
-                        *ngIf="file.flName.length > 30" [ngbTooltip]="file.flName">...</b>
-                    </div>
-                    <div id="{{i}}" class="col-md-2" style="float: right; padding-top: 0px;">
-                      <span (click)="addFilesToMail(file)">
-                        <i class="fa fa-plus-circle" style="color: rgb(54, 54, 54); transform: scale(1.5); float: right;"></i>
-                      </span>
-                    </div>
-                  </div>
-            </div>
-            <div class="col card-body" style="background-color: #f1f1f1; font-weight: 600;">
+        <div class="col" *ngFor="let file of fileList" style="margin: 5px 0px;">
+          <div class="card" style="height: 50px; margin: 5px;">
+            <div class="col" style="background-color: #f1f1f1; font-weight: 600;">
               <div class="row align-content-stretch">
-                <div class="col">
-                  {{file.flTag}}
+                <div class="col-md-2" style="float: right;margin-top:5px;">
+                  <i class="fa fa-file-pdf-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === 'pdf'"></i>
+                  <i class="fa fa-file-archive-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === 'zip' || 
+                                                          file.flName.toLowerCase().slice(-4,file.flName.length) === 'sitx' ||
+                                                          file.flName.toLowerCase().slice(-2,file.flName.length) === '7z' ||
+                                                          file.flName.toLowerCase().split('.')[1] === 'rar' || 
+                                                          file.flName.toLowerCase().split('.')[1] === 'gz'
+                                                    "></i>
+                  <i class="fa fa-file-excel-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === 'xls' || 
+                                                      file.flName.toLowerCase().slice(-4,file.flName.length) === 'xlsx'
+                                                      "></i>
+                  <i class="fa fa-file-word-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === 'doc' || 
+                                                      file.flName.toLowerCase().slice(-4,file.flName.length) === 'docx'
+                                                                "></i>
+                  <i class="fa fa-file-image-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === 'png' || 
+                                                        file.flName.toLowerCase().split('.')[1] === 'jpg' ||
+                                                        file.flName.toLowerCase().slice(-4,file.flName.length) === 'jpeg' ||
+                                                        file.flName.toLowerCase().slice(-4,file.flName.length) === 'tiff'
+                                                              "></i>
+                  <i class="fa fa-file-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === undefined"></i>
                 </div>
-                <div class="col">
+                <div class="col-md-8">
+                  {{file.flMdDisplayName}} / <b [ngbTooltip]="file.flName" container="body">
+                    {{file.flName | slice:0:10}}</b><b *ngIf="file.flName.length > 30"
+                    [ngbTooltip]="file.flName">...</b>
+                  <b [ngbTooltip]="file.flName" container="body">{{file.flName | slice:-10:file.flName.length}}</b>
+                </div>
+                <div class="col-md-2" style="float: right; padding: 10px 10px;">
+                  <span (click)="addFilesToMail(file)">
+                    <i class="fa fa-plus-circle"
+                      style="color: rgb(54, 54, 54); transform: scale(1.5); float: right;"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="row align-content-stretch" style="font-size:10px;">
+                <div class="col" style="padding-left: 5px;">
                   {{file.flUploadUser}}
                 </div>
                 <div class="col pull-left">
                   {{file.flUploadDate | slice:0:10}}
+                </div>
+                <div class="col">
+                  {{file.flTag}}
                 </div>
               </div>
             </div>
@@ -53,3 +75,38 @@
     </div>
   </div>
 </div>
+
+
+
+
+<!-- <i class="fa fa-file-pdf-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().split('.')[1] === 'pdf'"></i>
+                  <i class="fa fa-file-archive-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'zip' || 
+                                                          file.flName.toLowerCase().slice(-4,file.flName.length) === 'sitx' ||
+                                                          file.flName.toLowerCase().slice(-2,file.flName.length) === '7z' ||
+                                                          file.flName.toLowerCase().slice(-3,file.flName.length) === 'rar' || 
+                                                          file.flName.toLowerCase().slice(-3,file.flName.length) === 'gz'
+                                                    "></i>
+                  <i class="fa fa-file-excel-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'xls' || 
+                                                      file.flName.toLowerCase().slice(-4,file.flName.length) === 'xlsx'
+                                                      "></i>
+                  <i class="fa fa-file-word-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'doc' || 
+                                                      file.flName.toLowerCase().slice(-4,file.flName.length) === 'docx'
+                                                                "></i>
+                  <i class="fa fa-file-image-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'png' || 
+                                                        file.flName.toLowerCase().slice(-3,file.flName.length) === 'jpg' ||
+                                                        file.flName.toLowerCase().slice(-4,file.flName.length) === 'jpeg' ||
+                                                        file.flName.toLowerCase().slice(-4,file.flName.length) === 'tiff'
+                                                              "></i>
+                  <i class="fa fa-file-o" style="transform: scale(1.5);" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) !== 'zip' || 
+                                                  file.flName.toLowerCase().slice(-4,file.flName.length) !== 'sitx' ||
+                                                  file.flName.toLowerCase().slice(-2,file.flName.length) !== '7z' ||
+                                                  file.flName.toLowerCase().slice(-3,file.flName.length) !== 'rar' || 
+                                                  file.flName.toLowerCase().slice(-3,file.flName.length) !== 'gz' ||
+                                                  file.flName.toLowerCase().slice(-3,file.flName.length) !== 'xls' || 
+                                                  file.flName.toLowerCase().slice(-4,file.flName.length) !== 'xlsx'||
+                                                  file.flName.toLowerCase().slice(-3,file.flName.length) !== 'doc' || 
+                                                  file.flName.toLowerCase().slice(-4,file.flName.length) !== 'docx' ||
+                                                  file.flName.toLowerCase().slice(-3,file.flName.length) !== 'png' || 
+                                                  file.flName.toLowerCase().slice(-3,file.flName.length) !== 'jpg' ||
+                                                  file.flName.toLowerCase().slice(-4,file.flName.length) !== 'jpeg' ||
+                                                  file.flName.toLowerCase().slice(-4,file.flName.length) !== 'tiff'"></i> -->

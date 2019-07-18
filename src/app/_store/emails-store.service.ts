@@ -174,7 +174,6 @@ export class EmailsStoreService {
             addrTo == null ? '' : addrTo,
             subject == null ? '' : subject
           ).toPromise();
-          console.log(res);
           if (res.d.errId === '200') {
             res.d.threads.forEach(x => {
               x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');

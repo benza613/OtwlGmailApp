@@ -23,7 +23,7 @@
           <div class="card" style="height: 50px; margin: 5px;">
             <div class="col" style="background-color: #f1f1f1; font-weight: 600;">
               <div class="row align-content-stretch">
-                <div class="col-md-2" style="float: right;margin-top:5px;">
+                <div class="col-md-1" style="float: right;margin-top:5px;">
                   <i class="fa fa-file-pdf-o" style="color: red;" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'pdf'"></i>
                   <i class="fa fa-file-archive-o" style="color: rgb(199, 170, 8)" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'zip' || 
                                                           file.flName.toLowerCase().slice(-4,file.flName.length) === 'sitx' ||
@@ -62,11 +62,11 @@
                 </div>
               </div>
               <div class="row align-content-stretch" style="font-size:10px;">
+                  <div class="col-md-2 pull-left" style="padding: 0px 0px 0px 15px;">
+                      {{file.flUploadDate | slice:0:10}}
+                    </div>
                 <div class="col" style="padding-left: 5px;">
                   {{file.flUploadUser}}
-                </div>
-                <div class="col pull-left">
-                  {{file.flUploadDate | slice:0:10}}
                 </div>
                 <div class="col">
                   {{file.flTag}}

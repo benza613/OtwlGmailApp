@@ -181,7 +181,7 @@ export class EmailsStoreService {
             arrx.push(...<Thread[]>res.d.threads);
             this.unreadThreads = arrx;
             // if (this.unreadThreads.length === 10) {
-            //   resolve(0);
+            //   reject(0);
             // }
             if (res.d.pageToken == null) {
               this.pageTokenUnread = '';

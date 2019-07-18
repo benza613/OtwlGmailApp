@@ -40,12 +40,12 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   getMails() {
-    this.spinner.show();
+    this.spinner.show('load');
     this.emailStore.getCheckedMsgList$.subscribe(x => {
       this.mailList = x;
     });
     if (this.mailList.length > 0) {
-      this.spinner.hide();
+      this.spinner.hide('load');
       const modalRef = this.modalService.open(
         EmailUnreadDialogComponent,
         { size: 'lg', backdrop: 'static', keyboard: false }
@@ -59,7 +59,7 @@ export class EmailUnreadComponent implements OnInit {
       });
     } else {
       alert('Please select atleast one row.');
-      this.spinner.hide();
+      this.spinner.hide('load');
     }
   }
 
@@ -67,7 +67,6 @@ export class EmailUnreadComponent implements OnInit {
     this.showLoaders = true;
     const that = this;
     this.emailStore.updateUnreadThreadList(1, this.addrFrom, this.addrTo, this.subject).then(function (value) {
-      console.log(value);
       if (value === undefined) {
         that.showLoaders = false;
       }

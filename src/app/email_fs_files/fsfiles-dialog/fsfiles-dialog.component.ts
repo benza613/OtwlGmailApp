@@ -16,6 +16,7 @@ export class FSFilesDialogComponent implements OnInit {
   fileList = [];
   sendFileList = [];
   discardList = [];
+  showLoaders = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,7 +41,6 @@ export class FSFilesDialogComponent implements OnInit {
       this.domainStore.updateFilesList(this.dirId);
       this.domainStore.filesList$.subscribe(x => {
         this.fileList = [];
-        this.changeDetRef.detectChanges();
         for (let ix = 0; ix < x.length; ix++) {
           this.fileList = [...this.fileList, x[ix]];
         }

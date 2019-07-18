@@ -1,4 +1,4 @@
-<ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
+<ngx-spinner size="default" name='loading' type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 <div style="height: 90vh !important;">
   <div class="modal-header">
@@ -13,20 +13,28 @@
         </ng-select>
       </div>
       <div style="height: 65vh !important; overflow: auto;">
-        <div class="col" *ngFor="let file of fileList" style="margin: 5px 0px;">
-          <div class="card" style="height: 100px;">
-            <div class="col card-body">
-              <div class="row align-content-stretch">
-                <div class="col">
-                  {{file.flMdDisplayName}}/<b [ngbTooltip]="file.flName">{{file.flName | slice:0:30}}</b><b
-                    *ngIf="file.flName.length > 30" [ngbTooltip]="file.flName">...</b>
-                </div>
-                <div class="col p-2" style="float: right; padding-top: 0px;">
-                  <span (click)="addFilesToMail(file)">
-                    <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
-                  </span>
-                </div>
-              </div>
+        <div class="loading" *ngIf="showLoaders">
+          <div class="loading-bar"></div>
+          <div class="loading-bar"></div>
+          <div class="loading-bar"></div>
+          <div class="loading-bar"></div>
+        </div>
+        <div class="col" *ngFor="let file of fileList" style="margin: 20px 0px;">
+          <div class="card" style="height: 100px; margin: 5px;">
+            <div class="card-header" style="background-color: #3a3a3a;color:white;">
+                <div class="row align-content-stretch">
+                    <div class="col-md-10">
+                      {{file.flMdDisplayName}}/<b [ngbTooltip]="file.flName" container="body">{{file.flName | slice:0:50}}</b><b
+                        *ngIf="file.flName.length > 30" [ngbTooltip]="file.flName">...</b>
+                    </div>
+                    <div class="col-md-2" style="float: right; padding-top: 0px;">
+                      <span (click)="addFilesToMail(file)">
+                        <i class="fa fa-plus-circle" style="color: white; transform: scale(1.5); float: right;"></i>
+                      </span>
+                    </div>
+                  </div>
+            </div>
+            <div class="col card-body" style="background-color: #ececec; font-weight: 600;">
               <div class="row align-content-stretch">
                 <div class="col">
                   {{file.flTag}}

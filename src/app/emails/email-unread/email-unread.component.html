@@ -36,18 +36,37 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col">
                 <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads()"
-                 style="color: white">FILTER</button>
+                    style="color: white">FILTER</button>
             </div>
         </div>
     </div>
     <div class="col" [ngClass]="{'filterBorder': !isCollapsed}">
         <div class="row pull-left">
             <button type="button" class="btn btn-success" (click)="isCollapsed = !isCollapsed"
-            ngbTooltip="Filtered mails from server" placement="right" style="transform: scale(0.80)"><i class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
+                ngbTooltip="Filtered mails from server" placement="right" style="transform: scale(0.80)"><i
+                    class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
         </div>
         <div class="row pull-right">
+            <div *ngIf="showLoaders">
+                <!-- <div id="layer1" class="spinner-grow text-success" role="status" style="transform: scale(0.75)">
+                    <span class="sr-only"></span>
+                </div>
+                <div id="layer2" class="spinner-grow text-danger" role="status" style="transform: scale(0.75)">
+                    <span class="sr-only"></span>
+                </div>
+                <div id="layer3" class="spinner-grow text-warning" role="status" style="transform: scale(0.75)">
+                    <span class="sr-only"></span>
+                </div>
+                <div id="layer4" class="spinner-grow text-info" role="status" style="transform: scale(0.75)">
+                    <span class="sr-only"></span>
+                </div> -->
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+                <div class="loading-bar"></div>
+            </div>
             <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)"
-                ngbTooltip="Map checked threads"><i class="fa fa-external-link-square"></i>  MAP</button>
+                ngbTooltip="Map checked threads"><i class="fa fa-external-link-square"></i> MAP</button>
         </div>
         <div>
             <app-email-list [storeSelector]="dynamicdata">

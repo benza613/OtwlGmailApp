@@ -18,6 +18,7 @@ export class EmailUnreadComponent implements OnInit {
   subject;
   fetch;
   isCollapsed = true;
+  showLoaders = false;
   constructor(
     public emailStore: EmailsStoreService,
     public modalService: NgbModal,
@@ -63,9 +64,13 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   fetchUnreadThreads() {
-    this.spinner.show();
-    this.emailStore.updateUnreadThreadList(1, this.addrFrom, this.addrTo, this.subject).then(result => {
-      this.spinner.hide();
+    this.showLoaders = true;
+    const that = this;
+    this.emailStore.updateUnreadThreadList(1, this.addrFrom, this.addrTo, this.subject).then(function (value) {
+      console.log(value);
+      if (value === undefined) {
+        that.showLoaders = false;
+      }
     });
   }
 

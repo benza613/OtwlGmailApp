@@ -180,9 +180,9 @@ export class EmailsStoreService {
             });
             arrx.push(...<Thread[]>res.d.threads);
             this.unreadThreads = arrx;
-            if (this.unreadThreads.length === 10) {
-              resolve();
-            }
+            // if (this.unreadThreads.length === 10) {
+            //   resolve(0);
+            // }
             if (res.d.pageToken == null) {
               this.pageTokenUnread = '';
               break;
@@ -193,7 +193,7 @@ export class EmailsStoreService {
             this.errorService.displayError(res, 'indexUnread');
           }
         }
-        console.log("TOKEN", this.pageTokenUnread.length);
+        resolve();
       });
     }
   }

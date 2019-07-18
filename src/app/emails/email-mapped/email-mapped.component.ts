@@ -43,6 +43,7 @@ export class EmailMappedComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.toggleDateFilter();
     this.domainStore.refType$.subscribe(x => {
       this.refType = [];
       for (let ix = 0; ix < x.length; ix++) {

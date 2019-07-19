@@ -46,6 +46,8 @@ export class FSFilesDialogComponent implements OnInit {
         }
         // console.log(this.fileList[0].flDisplayName.slice(-3,this.fileList[0].flDisplayName.length));
       });
+    } else {
+      this.fileList = [];
     }
   }
 

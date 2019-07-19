@@ -46,6 +46,7 @@ export class EditorComponent implements OnInit {
     { emailId: 'benito.alvares@gmail.com' },
     { emailId: '<it3@oceantransworld.com>' },
     { emailId: 'pritee@oceantransworld.com' },
+    { emailId: 'it7@oceantransworld.com' },
     { emailId: 'nivedita@oceantransworld.com' },
     { emailId: 'ganesh@oceantransworld.com' },
     { emailId: 'Sushant <it5@oceantransworld.com>' },

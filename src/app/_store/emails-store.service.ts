@@ -139,15 +139,21 @@ export class EmailsStoreService {
    * UNREAD module methods
    */
   updateUnreadThreadList(flag, addrFrom, addrTo, subject) {
-    if (flag === 0) {
-      this.unreadThreads = [];
-      return new Promise(async (resolve, reject) => {
+
+    return new Promise(async (resolve, reject) => {
+
+      if (flag === 'user init' && this.unreadThreads.length > 0) {
+        resolve();
+      }
+      else if (flag === 'user init' && this.unreadThreads.length == 0) {
+
         const res = await this.emailServ.indexUnread(
           this.pageTokenUnread == null ? '' : this.pageTokenUnread,
           addrFrom == null ? '' : addrFrom,
           addrTo == null ? '' : addrTo,
           subject == null ? '' : subject
         ).toPromise();
+
         console.log(res);
         if (res.d.errId === '200') {
           const arrx = [];
@@ -160,14 +166,16 @@ export class EmailsStoreService {
         } else {
           this.errorService.displayError(res, 'indexUnread');
         }
-        console.log("TOKEN", this.pageTokenUnread.length);
         resolve();
-      });
-    } else {
-      this.unreadThreads = [];
-      const arrx = [];
-      return new Promise(async (resolve, reject) => {
+
+
+      } else {
+        this.unreadThreads = [];
+
+        const arrx = [];
+
         for (let idx = 0; idx < 10; idx++) {
+
           const res = await this.emailServ.indexUnread(
             this.pageTokenUnread == null ? '' : this.pageTokenUnread,
             addrFrom == null ? '' : addrFrom,
@@ -180,9 +188,6 @@ export class EmailsStoreService {
             });
             arrx.push(...<Thread[]>res.d.threads);
             this.unreadThreads = arrx;
-            // if (this.unreadThreads.length === 10) {
-            //   reject(0);
-            // }
             if (res.d.pageToken == null) {
               this.pageTokenUnread = '';
               break;
@@ -192,10 +197,13 @@ export class EmailsStoreService {
           } else {
             this.errorService.displayError(res, 'indexUnread');
           }
+          
         }
         resolve();
-      });
-    }
+
+      }
+    });
+
   }
 
 

@@ -19,7 +19,7 @@
             (click)="showFilter = !showFilter"></i>
         </div>
       </div>
-      <div class="row" *ngIf="showFilter">
+      <div class="row" *ngIf="showFilter" style="margin: 0px 40px 0px 15px">
         <div class="col" style="padding: 0px 5px;">
             <input placeholder="FILES" style="height: 25px;" class="form-control" [(ngModel)]="filterFiles"
             (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />

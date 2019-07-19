@@ -40,10 +40,10 @@ export class FileFilterPipe implements PipeTransform {
       return items.filter(item => (item.flName.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
     }
     else if (!isNullOrEmptyB) {
-      return items.filter(item => (item.flUploadDate.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
+      return items.filter(item => (item.flUploadDate.split(' ')[0]).toLowerCase().indexOf(filter.b.toLowerCase()) !== -1);
     }
     else if (!isNullOrEmptyC) {
-      return items.filter(item => (item.flUploadUser.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
+      return items.filter(item => (item.flUploadUser.split(' ')[0]).toLowerCase().indexOf(filter.c.toLowerCase()) !== -1);
     }
 
     //if all are empty=> true

@@ -52,7 +52,7 @@ export class FSFilesDialogComponent implements OnInit {
             this.fileListFiltered = this.fileList;
           }
         });
-      }, 5000);
+      }, 3000);
     } else {
         this.fileListFiltered = [];
         this.spinner.hide('loading');

@@ -85,17 +85,17 @@
         </div>
       </div>
       <div id="{{i}}">
-        <div class="row" id="body" [innerHTML]="body | safeHtml" style="max-width:100%; margin: 0px;">
+        <div class="row" id="body" [innerHTML]="body[i] | safeHtml" style="max-width:100%; margin: 0px;">
 
         </div>
         <div class="row pull left">
-          <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes !== ''"
+          <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes[i] !== ''"
             style="margin-left: 20px;" (click)="eml.showFooter = !eml.showFooter">
             {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
           </button>
         </div>
         <div *ngIf="eml.showFooter">
-          <div class="row" [innerHTML]="quotes | safeHtml" style="max-width:100%; margin: 0px;">
+          <div class="row" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml" style="max-width:100%; margin: 0px;">
 
           </div>
         </div>

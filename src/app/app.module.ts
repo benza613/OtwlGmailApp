@@ -29,6 +29,7 @@ import { FSDirDialogComponent } from './email_fs_dir/fs-dir-dialog/fs-dir-dialog
 import { LocalStorageService } from './_util/local-storage.service';
 import { UnreadViewFilterPipe } from './_pipe/unread-view-filter.pipe';
 import { FSFilesDialogComponent } from './email_fs_files/fsfiles-dialog/fsfiles-dialog.component';
+import { FileFilterPipe } from './_pipe/file-filter.pipe';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { FSFilesDialogComponent } from './email_fs_files/fsfiles-dialog/fsfiles-
     mapViewFilter,
     FSDirDialogComponent,
     UnreadViewFilterPipe,
-    FSFilesDialogComponent
+    FSFilesDialogComponent,
+    FileFilterPipe
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,8 @@
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment as env } from '../../environments/environment';
 import { MessageInlineAtt } from '../models/messageInlineAtt.model';
 import { ErrorService } from '../error/error.service';

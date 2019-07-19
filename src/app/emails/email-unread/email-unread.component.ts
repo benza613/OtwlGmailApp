@@ -30,17 +30,17 @@ export class EmailUnreadComponent implements OnInit {
   ngOnInit() {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
-    setTimeout(() => {
-      this.spinner.show();
-      this.detector.detectChanges();
-    }, 5000);
-    this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
-      this.spinner.hide();
-    });
+    // setTimeout(() => {
+    //   this.spinner.show();
+    //   this.detector.detectChanges();
+    // }, 5000);
+      this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
+        this.spinner.hide();
+      });
   }
 
   getMails() {
-    this.spinner.show('load');
+    // this.spinner.show('load');
     this.emailStore.getCheckedMsgList$.subscribe(x => {
       this.mailList = x;
     });
@@ -59,7 +59,7 @@ export class EmailUnreadComponent implements OnInit {
       });
     } else {
       alert('Please select atleast one row.');
-      this.spinner.hide('load');
+      // this.spinner.hide('load');
     }
   }
 

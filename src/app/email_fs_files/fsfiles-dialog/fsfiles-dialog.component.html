@@ -1,6 +1,6 @@
 <ngx-spinner size="default" name='loading' type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
-<div style="height: 90vh !important;">
+<div style="height: 90vh !important; background-color: whitesmoke">
   <div class="modal-header">
     <h5 class="modal-title" id="modal-basic-title">ADD ATTACHMENTS</h5>
     <i class="fa fa-times fa-lg" (click)="close()" style="cursor: pointer;"></i>
@@ -20,11 +20,11 @@
           <div class="loading-bar"></div>
         </div>
         <div class="col" *ngFor="let file of fileList" style="margin: 5px 0px;">
-          <div class="card" style="height: 50px; margin: 5px;">
-            <div class="col" style="background-color: #f1f1f1; font-weight: 600;">
+          <div class="card" style="height: 50px; margin: 10px;">
+            <div class="col" style="background-color: #39508a; font-weight: 600; border-radius: 3px;">
               <div class="row align-content-stretch">
-                <div class="col-md-1" style="float: right;margin-top:5px;">
-                  <i class="fa fa-file-pdf-o" style="color: red;" *ngIf="['pdf'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])"></i>
+                <div class="col-md-1" style="float: right;margin-top:5px;background-color: rgb(251, 251, 251);padding: 0px;text-align: center;">
+                      <i class="fa fa-file-pdf-o" style="color: red;" *ngIf="['pdf'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])"></i>
                   <i class="fa fa-file-archive-o" style="color: rgb(199, 170, 8)" *ngIf="['zip','sitx','7z','rar','gz'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])
                                                     "></i>
                   <i class="fa fa-file-excel-o" style="color: rgb(20, 133, 20)" *ngIf="['xls','xlsx'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])
@@ -40,24 +40,24 @@
                                                                         !(['png','jpg','jpeg','tiff'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1]))
                   "></i>
                 </div>
-                <div class="col-md-9"  *ngIf="file.flName.length > 40">
+                <div class="col-md-9" style="color: white;"  *ngIf="file.flName.length > 40">
                   {{file.flMdDisplayName}} / <span style="font-size: 16px; font-weight: 600;" [ngbTooltip]="file.flName" container="body">
                     {{file.flName | slice:0:25}}</span><span
                     [ngbTooltip]="file.flName">...</span>
                   <span style="font-size: 16px; font-weight: 600;" [ngbTooltip]="file.flName" container="body">{{file.flName | slice:-9:file.flName.length}}</span>
                 </div>
-                <div class="col-md-9" *ngIf="file.flName.length <= 40">
+                <div class="col-md-9" style="color: white;" *ngIf="file.flName.length <= 40">
                     {{file.flMdDisplayName}} / <span style="font-size: 16px; font-weight: 600;" [ngbTooltip]="file.flName" container="body">
                       {{file.flName}}</span>
                   </div>
                 <div class="col-md-2" style="float: right; padding: 10px 10px;">
                   <span (click)="addFilesToMail(file)">
                     <i class="fa fa-plus-circle"
-                      style="color: rgb(54, 54, 54); transform: scale(1.5); float: right;"></i>
+                      style="color: white; transform: scale(1.5); float: right;"></i>
                   </span>
                 </div>
               </div>
-              <div class="row align-content-stretch" style="font-size:10px;">
+              <div class="row align-content-stretch" style="font-size:10px; color:white;">
                   <div class="col-md-2 pull-left" style="padding: 0px 0px 0px 15px;">
                       {{file.flUploadDate | slice:0:10}}
                     </div>

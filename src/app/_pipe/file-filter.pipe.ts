@@ -25,25 +25,25 @@ export class FileFilterPipe implements PipeTransform {
     //case 3: only A is empty
 
     if (!isNullOrEmptyA && !isNullOrEmptyB && !isNullOrEmptyC) {
-      return items.filter(item => (item.flName.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1 && item.flUploadDate.toLowerCase().indexOf(filter.b.toLowerCase()) !== -1 && item.flUploadUser.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1);
+      return items.filter(item => (item.flName.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1 && item.flUploadDate.toLowerCase().indexOf(filter.b.toLowerCase()) !== -1 && item.flUploadUser.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1));
     } else if (!isNullOrEmptyA && !isNullOrEmptyB) {
-      return items.filter(item => (item.flName.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1 && item.flUploadDate.toLowerCase().indexOf(filter.b.toLowerCase()) !== -1);
+      return items.filter(item => (item.flName.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1 && item.flUploadDate.toLowerCase().indexOf(filter.b.toLowerCase()) !== -1));
     }
     else if (!isNullOrEmptyB && !isNullOrEmptyC) {
       // tslint:disable-next-line: max-line-length
       return items.filter(item => (item.flUploadDate.toLowerCase().indexOf(filter.b.toLowerCase()) !== -1 && item.flUploadUser.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1));
     }
     else if (!isNullOrEmptyA && !isNullOrEmptyC) {
-      return items.filter(item => (item.flName.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1 && item.flUploadUser.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1);
+      return items.filter(item => (item.flName.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1 && item.flUploadUser.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1));
     }
     else if (!isNullOrEmptyA) {
-      return items.filter(item => (item.flName.split(' ')[0]).toLowerCase().indexOf(filter.a.toLowerCase()) !== -1);
+      return items.filter(item => (item.flName.toLowerCase().indexOf(filter.a.toLowerCase()) !== -1));
     }
     else if (!isNullOrEmptyB) {
-      return items.filter(item => (item.flUploadDate.split(' ')[0]).toLowerCase().indexOf(filter.b.toLowerCase()) !== -1);
+      return items.filter(item => (item.flUploadDate.toLowerCase().indexOf(filter.b.toLowerCase()) !== -1));
     }
     else if (!isNullOrEmptyC) {
-      return items.filter(item => (item.flUploadUser.split(' ')[0]).toLowerCase().indexOf(filter.c.toLowerCase()) !== -1);
+      return items.filter(item => (item.flUploadUser.toLowerCase().indexOf(filter.c.toLowerCase()) !== -1));
     }
 
     //if all are empty=> true

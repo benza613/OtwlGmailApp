@@ -14,9 +14,12 @@ export class FSFilesDialogComponent implements OnInit {
   fsDirData: any;
   dirId;
   fileList = [];
+  fileListFiltered = [];
   sendFileList = [];
   discardList = [];
   showLoaders = false;
+  filterFiles;
+  showFilter = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -43,6 +46,7 @@ export class FSFilesDialogComponent implements OnInit {
         this.fileList = [];
         for (let ix = 0; ix < x.length; ix++) {
           this.fileList = [...this.fileList, x[ix]];
+          this.fileListFiltered = this.fileList;
         }
         // console.log(this.fileList[0].flDisplayName.slice(-3,this.fileList[0].flDisplayName.length));
       });
@@ -68,5 +72,9 @@ export class FSFilesDialogComponent implements OnInit {
 
   close() {
     this.activeModal.close({ files: this.sendFileList });
+  }
+
+  applyFilter() {
+    this.fileListFiltered = this.fileList.filter(x => x.flName.toLowerCase().includes(this.filterFiles.trim().toLowerCase()));
   }
 }

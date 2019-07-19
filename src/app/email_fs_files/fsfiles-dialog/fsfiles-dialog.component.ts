@@ -40,18 +40,22 @@ export class FSFilesDialogComponent implements OnInit {
   }
 
   onChange_getFiles() {
+    this.spinner.show('loading');
     if (this.dirId) {
       this.domainStore.updateFilesList(this.dirId);
-      this.domainStore.filesList$.subscribe(x => {
-        this.fileList = [];
-        for (let ix = 0; ix < x.length; ix++) {
-          this.fileList = [...this.fileList, x[ix]];
-          this.fileListFiltered = this.fileList;
-        }
-        // console.log(this.fileList[0].flDisplayName.slice(-3,this.fileList[0].flDisplayName.length));
-      });
+      setTimeout(() => {
+        this.domainStore.filesList$.subscribe(x => {
+          this.fileList = [];
+          this.spinner.hide('loading');
+          for (let ix = 0; ix < x.length; ix++) {
+            this.fileList = [...this.fileList, x[ix]];
+            this.fileListFiltered = this.fileList;
+          }
+        });
+      }, 5000);
     } else {
-      this.fileList = [];
+        this.fileListFiltered = [];
+        this.spinner.hide('loading');
     }
   }
 

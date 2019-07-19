@@ -75,14 +75,27 @@ export class EmailViewComponent implements OnInit {
             if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
 
               this.body = x[i].body.toLowerCase().trim().split(
-                                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
 
               this.quotes = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-                              (x[i].body.toLowerCase().trim()
-                              .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
-            } else {
-              this.body = x[i].body;
-              this.quotes = '';
+                (x[i].body.toLowerCase().trim()
+                  .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+            } 
+            else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+              this.body = x[i].body.toLowerCase().trim().split(
+                '<div class="gmail_quote">')[0];
+
+                this.quotes = '<div class="gmail_quote">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div class="gmail_quote">')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
+              x[i].body = x[i].body.toLowerCase().trim().split(
+                '<div id="divSignatureLine">')[0];
+
+              this.quotes[i] = '<div id="divSignatureLine">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div id="divSignatureLine"')[1]);
+              this.quotes[i] = '';
             }
           }
           this.emailList = x;
@@ -98,15 +111,15 @@ export class EmailViewComponent implements OnInit {
           for (let i = 0; i < x.length; i++) {
             if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
 
-              this.body = x[i].body.toLowerCase().trim()
-                                .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+              x[i].body = x[i].body.toLowerCase().trim()
+                .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
 
-              this.quotes = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-                                    (x[i].body.toLowerCase().trim().split(
-                                              '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+              this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
+                (x[i].body.toLowerCase().trim().split(
+                  '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
             } else {
-              this.body = x[i].body;
-              this.quotes = '';
+              x[i].body = x[i].body;
+              this.quotes[i] = '';
             }
           }
           this.emailList = x;

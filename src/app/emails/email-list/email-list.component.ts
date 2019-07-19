@@ -40,9 +40,11 @@ export class EmailListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
       if (this.storeSelector === 'EmailUnreadComponent') {
-        this.emailStore.unreadThreadsCount$.subscribe(x => {
-          this.t_CollectionSize = x;
-        });
+        this.emailStore.unreadThreadsCount$.subscribe(
+          x => { this.t_CollectionSize = x; console.log(x); },
+          (err) => { console.log('Complete'); },
+          () => { console.log('Complete'); }
+        );
         this.threadList = this.emailStore.unreadThreads$.pipe(
           map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
         );

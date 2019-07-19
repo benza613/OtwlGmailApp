@@ -24,33 +24,29 @@
             <div class="col" style="background-color: #f1f1f1; font-weight: 600;">
               <div class="row align-content-stretch">
                 <div class="col-md-1" style="float: right;margin-top:5px;">
-                  <i class="fa fa-file-pdf-o" style="color: red;" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'pdf'"></i>
-                  <i class="fa fa-file-archive-o" style="color: rgb(199, 170, 8)" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'zip' || 
-                                                          file.flName.toLowerCase().slice(-4,file.flName.length) === 'sitx' ||
-                                                          file.flName.toLowerCase().slice(-2,file.flName.length) === '7z' ||
-                                                          file.flName.toLowerCase().slice(-3,file.flName.length) === 'rar' || 
-                                                          file.flName.toLowerCase().slice(-3,file.flName.length) === 'gz'
+                  <i class="fa fa-file-pdf-o" style="color: red;" *ngIf="['pdf'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])"></i>
+                  <i class="fa fa-file-archive-o" style="color: rgb(199, 170, 8)" *ngIf="['zip','sitx','7z','rar','gz'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])
                                                     "></i>
-                  <i class="fa fa-file-excel-o" style="color: rgb(20, 133, 20)" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'xls' || 
-                                                      file.flName.toLowerCase().slice(-4,file.flName.length) === 'xlsx'
+                  <i class="fa fa-file-excel-o" style="color: rgb(20, 133, 20)" *ngIf="['xls','xlsx'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])
                                                       "></i>
-                  <i class="fa fa-file-word-o" style="color: rgb(0, 110, 255)" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'doc' || 
-                                                      file.flName.toLowerCase().slice(-4,file.flName.length) === 'docx'
+                  <i class="fa fa-file-word-o" style="color: rgb(0, 110, 255)" *ngIf="['doc','docx'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])
                                                                 "></i>
-                  <i class="fa fa-file-image-o" style="color: rgb(162, 0, 255)" *ngIf="file.flName.toLowerCase().slice(-3,file.flName.length) === 'png' || 
-                                                        file.flName.toLowerCase().slice(-3,file.flName.length) === 'jpg' ||
-                                                        file.flName.toLowerCase().slice(-4,file.flName.length) === 'jpeg' ||
-                                                        file.flName.toLowerCase().slice(-4,file.flName.length) === 'tiff'
+                  <i class="fa fa-file-image-o" style="color: rgb(162, 0, 255)" *ngIf="['png','jpg','jpeg','tiff'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])
                                                               "></i>
-                  <i class="fa fa-file-o" style="color: black" *ngIf="file.flName.toLowerCase().split('.')[1] === undefined"></i>
+                  <i class="fa fa-file-o" style="color: black" *ngIf="!(['pdf'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])) &&
+                                                                        !(['zip','sitx','7z','rar','gz'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])) &&
+                                                                        !(['xls','xlsx'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])) &&
+                                                                        !(['doc','docx'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1])) &&
+                                                                        !(['png','jpg','jpeg','tiff'].includes(file.flName.trim().toLowerCase().split('.')[(file.flName.trim().toLowerCase().split('.')).length - 1]))
+                  "></i>
                 </div>
-                <div class="col-md-8"  *ngIf="file.flName.length > 40">
+                <div class="col-md-9"  *ngIf="file.flName.length > 40">
                   {{file.flMdDisplayName}} / <span style="font-size: 16px; font-weight: 600;" [ngbTooltip]="file.flName" container="body">
-                    {{file.flName | slice:0:10}}</span><span
+                    {{file.flName | slice:0:25}}</span><span
                     [ngbTooltip]="file.flName">...</span>
                   <span style="font-size: 16px; font-weight: 600;" [ngbTooltip]="file.flName" container="body">{{file.flName | slice:-9:file.flName.length}}</span>
                 </div>
-                <div class="col-md-8" *ngIf="file.flName.length <= 40">
+                <div class="col-md-9" *ngIf="file.flName.length <= 40">
                     {{file.flMdDisplayName}} / <span style="font-size: 16px; font-weight: 600;" [ngbTooltip]="file.flName" container="body">
                       {{file.flName}}</span>
                   </div>

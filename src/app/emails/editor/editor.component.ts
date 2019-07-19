@@ -621,7 +621,8 @@ export class EditorComponent implements OnInit {
             this.showUploadSize = String((this.sendFileSize / 1048576).toFixed(2)) + 'MB';
           }
           this.orderFilesSize = this.showUploadSize;
-          this.orderDetails.push(file);
+          this._isOrdersComplete = true;
+          this.orderDetails = [...this.orderDetails, file];
           this.detector.detectChanges();
         });
         this.detector.detectChanges();

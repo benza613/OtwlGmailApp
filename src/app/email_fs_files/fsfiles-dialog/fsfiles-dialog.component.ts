@@ -19,7 +19,11 @@ export class FSFilesDialogComponent implements OnInit {
   discardList = [];
   showLoaders = false;
   filterFiles;
+  filterName;
+  filterDate;
+  filterTag;
   showFilter = false;
+  fileFilterArgs = { a: '', b: '', c: ''};
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -47,15 +51,19 @@ export class FSFilesDialogComponent implements OnInit {
         this.domainStore.filesList$.subscribe(x => {
           this.fileList = [];
           this.spinner.hide('loading');
-          for (let ix = 0; ix < x.length; ix++) {
-            this.fileList = [...this.fileList, x[ix]];
-            this.fileListFiltered = this.fileList;
+          if (x.length === 0) {
+            this.fileList = [];
+          } else {
+            for (let ix = 0; ix < x.length; ix++) {
+              this.fileList = [...this.fileList, x[ix]];
+            }
           }
+          this.fileListFiltered = this.fileList;
         });
       }, 3000);
     } else {
-        this.fileListFiltered = [];
-        this.spinner.hide('loading');
+      this.fileListFiltered = [];
+      this.spinner.hide('loading');
     }
   }
 
@@ -70,8 +78,8 @@ export class FSFilesDialogComponent implements OnInit {
       flTag: file.flTag,
     };
     this.sendFileList.push(newFile);
-    const idx = this.fileList.indexOf(file);
-    this.fileList.splice(idx, 1);
+    const idx = this.fileListFiltered.indexOf(file);
+    this.fileListFiltered.splice(idx, 1);
   }
 
   close() {
@@ -79,6 +87,9 @@ export class FSFilesDialogComponent implements OnInit {
   }
 
   applyFilter() {
-    this.fileListFiltered = this.fileList.filter(x => x.flName.toLowerCase().includes(this.filterFiles.trim().toLowerCase()));
+    this.fileFilterArgs = {
+      a: this.filterFiles, b: this.filterDate,
+      c: this.filterName
+    };
   }
 }

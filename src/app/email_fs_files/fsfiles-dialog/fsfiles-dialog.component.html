@@ -8,12 +8,15 @@
   <div class="modal-body col align-content-center" style="padding-top: 5px;">
     <div class="col" style="margin: 10px; padding-left: 0px;">
       <div class="row">
-
-      </div>
-      <div class="col" style="margin-bottom: 5px;">
-        <ng-select [items]="fsDirData" [(ngModel)]="dirId" bindLabel="flMdDisplayName" bindValue="flMdID"
-          placeholder="ORDER" (change)="onChange_getFiles()" appendTo="body">
-        </ng-select>
+        <div class="col-md-11" style="margin: 0px 0px 5px 15px;">
+          <ng-select [items]="fsDirData" [(ngModel)]="dirId" bindLabel="flMdDisplayName" bindValue="flMdID"
+            placeholder="ORDER" (change)="onChange_getFiles()" appendTo="body">
+          </ng-select>
+        </div>
+        <div class="col" style="padding: 0px;">
+          <i class="fa fa-filter" ngbTooltip="FILTER" style="transform: scale(1.5);cursor: pointer;"
+            (click)="showFilter = !showFilter"></i>
+        </div>
       </div>
       <div class="row" style="margin: 5px 50px;" *ngIf="showFilter">
         <div class="col">
@@ -21,7 +24,7 @@
             (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
         </div>
       </div>
-      <div style="height: 63vh !important; overflow: auto;">
+      <div style="height: 65vh !important; overflow: auto;">
         <div class="loading" *ngIf="showLoaders">
           <div class="loading-bar"></div>
           <div class="loading-bar"></div>

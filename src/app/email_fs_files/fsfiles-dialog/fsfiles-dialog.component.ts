@@ -22,8 +22,8 @@ export class FSFilesDialogComponent implements OnInit {
   filterName;
   filterDate;
   filterTag;
-  showFilter = false;
-  fileFilterArgs = { a: '', b: '', c: ''};
+  showFilter = true;
+  fileFilterArgs = { a: '', b: '', c: '', d: '' };
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -39,7 +39,6 @@ export class FSFilesDialogComponent implements OnInit {
       for (let ix = 0; ix < x.length; ix++) {
         this.fsDirData = [...this.fsDirData, x[ix]];
       }
-      console.log(this.fsDirData);
     });
   }
 
@@ -87,9 +86,10 @@ export class FSFilesDialogComponent implements OnInit {
   }
 
   applyFilter() {
+    console.log(this.filterTag);
     this.fileFilterArgs = {
       a: this.filterFiles, b: this.filterDate,
-      c: this.filterName
+      c: this.filterName, d: this.filterTag
     };
   }
 }

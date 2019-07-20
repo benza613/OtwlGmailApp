@@ -19,23 +19,23 @@
             (click)="showFilter = !showFilter"></i>
         </div>
       </div>
-      <div class="row" *ngIf="showFilter" style="margin: 0px 40px 0px 20px">
+      <div class="row" *ngIf="showFilter" style="margin: 0px 30px 0px 20px">
         <div class="col" style="padding: 0px 5px;">
-            <input placeholder="FILES" style="height: 25px;" class="form-control" [(ngModel)]="filterFiles"
+          <input placeholder="File Name" style="height: 25px;" class="form-control" [(ngModel)]="filterFiles"
             (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
         </div>
         <div class="col" style="padding: 0px 5px;">
-            <input placeholder="NAME" style="height: 25px;" class="form-control" [(ngModel)]="filterName"
+          <input placeholder="User Name" style="height: 25px;" class="form-control" [(ngModel)]="filterName"
             (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
         </div>
         <div class="col" style="padding: 0px 5px;">
-            <input placeholder="DATE" style="height: 25px;" class="form-control" [(ngModel)]="filterDate"
+          <input placeholder="Date" style="height: 25px;" class="form-control" [(ngModel)]="filterDate"
             (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
         </div>
-        <!-- <div class="col" style="padding: 0px 5px;">
+        <div class="col" style="padding: 0px 5px;">
             <input placeholder="TAG" style="height: 25px;" class="form-control" [(ngModel)]="filterTag"
-            (keyup)="filterOnTag()" (keydown)="filterTag()" (ngModelChange)="filterTag()" />
-        </div> -->
+            (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
+        </div>
       </div>
       <div style="height: 65vh !important; overflow: auto;">
         <div class="loading" *ngIf="showLoaders">
@@ -44,7 +44,8 @@
           <div class="loading-bar"></div>
           <div class="loading-bar"></div>
         </div>
-        <div class="col" *ngFor="let file of (fileListFiltered | fileFilter : fileFilterArgs) " style="margin: 5px 0px;">
+        <div class="col" *ngFor="let file of (fileListFiltered | fileFilter : fileFilterArgs) "
+          style="margin: 5px 0px;">
           <div class="card" style="height: 50px; margin: 10px;">
             <div class="col" style="background-color: #39508a; font-weight: 600; border-radius: 3px;">
               <div class="row align-content-stretch">

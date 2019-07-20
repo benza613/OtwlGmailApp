@@ -77,7 +77,7 @@ export class EditorComponent implements OnInit {
   footerHtml;
   orderFilesSize;
   uploadFilesSize = 0;
-  sendFileSize;
+  sendFileSize = 0;
   showUploadSize;
   constructor(
     private route: ActivatedRoute,

@@ -49,7 +49,7 @@
     <div class="row">
       <div class="col-5 attachments-partition card">
         <div class="row">
-          <div class="col-md-12 upl-block" style="margin-bottom: 40px;">
+          <div class="col-md-12 upl-block" style="margin-bottom: 40px; ">
             <div class="row card-header" style="background-color: #5271C2; color: white;">
               <div class="col">
                 <p class="upl-headers">Upload Files</p>
@@ -59,7 +59,7 @@
                 <b *ngIf="uploadFilesSize > 999999">{{uploadFilesSize / 1048576 | number:'1.1-2'}} MB</b>
               </div>
             </div>
-            <div class="row card-header">
+            <div class="row card-header" style="background-color: white">
               <div class="col">
                 <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
                   [uploader]="uploader" class="well my-drop-zone">
@@ -71,7 +71,7 @@
             </div>
             <hr />
             <p class="upl-headers">Attachments Selected: </p>
-            <div style="height: 250px; overflow: auto;">
+            <div style="height: 300px; overflow: auto;">
               <p>Queue length: {{ uploader?.queue?.length }}</p>
               <div>
                 <div>
@@ -174,7 +174,7 @@
                     </ngb-tab>
                     <ngb-tab title="DISCARD">
                       <ng-template ngbTabContent>
-                        <div style="height: 325px; overflow: auto">
+                        <div style="height: 298px; overflow: auto">
                           <div *ngFor="let order of delOrderDetails">
                             <div class="card" style="height: 75px">
                               <div class="col card-body" style="padding: 15px;">

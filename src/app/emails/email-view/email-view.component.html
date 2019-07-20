@@ -23,9 +23,17 @@
   <div class="no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
-        <div class="col-md-7">
-          {{eml.from}}
-          <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i>
+        <div class="col-md-3">
+            <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin: 0px 5px;"
+            *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[0]}}
+            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i></span>
+        </div>
+        <div class="col-md-4">
+            <span class="row MailHeaders_Sub" [ngClass]="{'card-color': eml.isOpen}" style="margin-left: 5px;"
+            *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[1] === undefined ? '' : (eml.from.split('<')[1]).slice(0,-1)}}</span>
+          <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin-left: 5px;font-size: 12px;"
+            *ngIf="eml.from.split('<')[0] === ''">{{eml.from.split('<')[1] === undefined ? '' : (eml.from.split('<')[1]).slice(0,-1)}}
+            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i></span>
         </div>
         <div class="col-md-3 pull-right">
           {{eml.date}}
@@ -175,3 +183,17 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- 
+<div class="col-md-4">
+    <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin: 0px 5px;"
+    *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[0]}}
+    <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i></span>
+  <span class="row MailHeaders_Sub" [ngClass]="{'card-color': eml.isOpen}" style="margin-left: 5px; font-size: 12px;"
+    *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[1] === undefined ? '' : (eml.from.split('<')[1]).slice(0,-1)}}</span>
+  <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin-left: 5px;font-size: 12px;"
+    *ngIf="eml.from.split('<')[0] === ''">{{eml.from.split('<')[1] === undefined ? '' : (eml.from.split('<')[1]).slice(0,-1)}}
+    <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i></span>
+</div> -->

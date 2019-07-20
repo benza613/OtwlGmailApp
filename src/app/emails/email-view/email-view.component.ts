@@ -207,14 +207,26 @@ export class EmailViewComponent implements OnInit {
 
 
   draftForward(msg: Message) {
-    this.router.navigate(['draft/'], {
-      queryParams:
-      {
+    let ra_obj;
+    if (this.locst_id !== null) {
+      ra_obj = {
+        q: this.storeSelector,
+        a: 'f',
+        mid: msg.msgid,
+        tid: this.reqThreadId,
+        locst_id: this.locst_id
+      };
+    } else {
+      ra_obj = {
         q: this.storeSelector,
         a: 'f',
         mid: msg.msgid,
         tid: this.reqThreadId
-      }
+      };
+    }
+
+    this.router.navigate(['draft/'], {
+      queryParams:ra_obj
     });
   }
 

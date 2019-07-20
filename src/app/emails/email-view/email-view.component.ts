@@ -83,7 +83,7 @@ export class EmailViewComponent implements OnInit {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<div class="gmail_quote">')[0];
 
-                this.quotes[i] = '<div class="gmail_quote">' +
+              this.quotes[i] = '<div class="gmail_quote">' +
                 (x[i].body.toLowerCase().trim()
                   .split('<div class="gmail_quote">')[1]);
             } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
@@ -95,6 +95,13 @@ export class EmailViewComponent implements OnInit {
                   .split('<div id="divSignatureLine"')[1]);
             }
             else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<blockquote')[0];
+
+              this.quotes[i] = '<blockquote' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<blockquote')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('class=""')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<blockquote')[0];
 
@@ -130,7 +137,7 @@ export class EmailViewComponent implements OnInit {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<div class="gmail_quote">')[0];
 
-                this.quotes[i] = '<div class="gmail_quote">' +
+              this.quotes[i] = '<div class="gmail_quote">' +
                 (x[i].body.toLowerCase().trim()
                   .split('<div class="gmail_quote">')[1]);
             } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {

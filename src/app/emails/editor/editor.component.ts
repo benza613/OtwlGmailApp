@@ -176,7 +176,7 @@ export class EditorComponent implements OnInit {
           var localToken = params.locst_id;
           if (localToken) {
             const emlData = that.locStgService.fetchMessagePacket(localToken);
-            console.log('emlData',emlData);
+            console.log('emlData', emlData);
             that.initMessagePacket_LocalStorage(emlData);
           }
         }
@@ -227,6 +227,10 @@ export class EditorComponent implements OnInit {
           this.base64EmbeddedAttachmentsToBody(data).then(
             (finalBody) => {
               // then send mail
+              const emailList = [];
+                this.msgAddrList.forEach(x => {
+                  emailList.push(x['emailId']);
+                });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
@@ -308,6 +312,7 @@ export class EditorComponent implements OnInit {
     this.spinner.show();
     this.detector.detectChanges();
     var that = this;
+    console.log("ADDress book", this.msgAddrList);
 
     if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
       if (this.uploader.queue.length == 0) {
@@ -317,6 +322,11 @@ export class EditorComponent implements OnInit {
             this.base64EmbeddedAttachmentsToBody(data).then(
               (finalBody) => {
                 // then send mail
+                const emailList = [];
+                this.msgAddrList.forEach(x => {
+                  emailList.push(x['emailId']);
+                });
+                this.emailStore.addEmailAddresses(emailList);
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
@@ -629,5 +639,9 @@ export class EditorComponent implements OnInit {
         modalRef.close();
       }
     });
+  }
+
+  addEmailAddress(event) {
+    this.msgAddrList = [...this.msgAddrList, event[0]];
   }
 }

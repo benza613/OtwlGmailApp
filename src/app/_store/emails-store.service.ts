@@ -415,4 +415,13 @@ export class EmailsStoreService {
     });
   }
 
+  async addEmailAddresses(addressList) {
+    const result = await this.emailServ.addEmailAddresses(addressList).toPromise();
+      if (result.d.errId === '200') {
+        alert(result.d.errMsg);
+      } else {
+        this.errorService.displayError(result, 'addEmailAddresses');
+      }
+  }
+
 }

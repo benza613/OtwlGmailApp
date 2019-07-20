@@ -176,7 +176,7 @@ export class EditorComponent implements OnInit {
           var localToken = params.locst_id;
           if (localToken) {
             const emlData = that.locStgService.fetchMessagePacket(localToken);
-            console.log(emlData);
+            console.log('emlData',emlData);
             that.initMessagePacket_LocalStorage(emlData);
           }
         }

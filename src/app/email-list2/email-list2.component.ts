@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from '../auth/auth.service';
 import { EmailUnreadDialogComponent } from '../email-unread-dialog/email-unread-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-email-list2',
@@ -30,6 +31,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   subject = '';
   reference = '';
   editList = [];
+  locst_id = null;
 
   debounceSearch: Subject<string> = new Subject();
 
@@ -39,7 +41,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
     private authServ: AuthService,
-    private detector: ChangeDetectorRef
+    private detector: ChangeDetectorRef,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -53,6 +56,11 @@ export class EmailList2Component implements OnInit, OnDestroy {
       this.threadTypeData = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.threadTypeData = [...this.threadTypeData, x[ix]];
+      }
+    });
+    this.route.queryParams.subscribe((params) => {
+      if (params.locst_id != null) {
+        this.locst_id = params.locst_id;
       }
     });
   }
@@ -76,7 +84,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
 
   onClick_GetThreadMessages(threadData) {
     this.authServ.login();
-    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject);
+    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject, this.locst_id);
   }
 
   openUnreadDialog(flag, item) {
@@ -113,7 +121,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
       }
     });
     if (this.editList.length === 0) {
-      alert('Please select threads to edit.')
+      alert('Please select threads to edit.');
       return;
     }
     this.openUnreadDialog(2, this.editList);

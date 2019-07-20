@@ -35,6 +35,7 @@ export class EmailViewComponent implements OnInit {
   showInfo = false;
   body;
   quotes;
+  locst_id = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,12 +55,9 @@ export class EmailViewComponent implements OnInit {
         this.storeSelector = params.q;
         this.refId = params.j;
         this.subject = params.subject;
+        this.locst_id = params.locst_id;
         this.renderMessages();
       });
-
-
-    // let button = document.getElementById('reg_button');
-    // button.
   }
 
   renderMessages() {
@@ -104,8 +102,8 @@ export class EmailViewComponent implements OnInit {
         });
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
-      this.body = '';
-      this.quotes = '';
+      this.body = [];
+      this.quotes = [];
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
@@ -113,14 +111,29 @@ export class EmailViewComponent implements OnInit {
           for (let i = 0; i < x.length; i++) {
             if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
 
-              x[i].body = x[i].body.toLowerCase().trim()
-                .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
 
               this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-                (x[i].body.toLowerCase().trim().split(
-                  '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+                (x[i].body.toLowerCase().trim()
+                  .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+            }
+            else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<div class="gmail_quote">')[0];
+
+                this.quotes[i] = '<div class="gmail_quote">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div class="gmail_quote">')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<div id="divSignatureLine">')[0];
+
+              this.quotes[i] = '<div id="divSignatureLine">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div id="divSignatureLine"')[1]);
             } else {
-              x[i].body = x[i].body;
+              this.body[i] = x[i].body;
               this.quotes[i] = '';
             }
           }
@@ -132,26 +145,48 @@ export class EmailViewComponent implements OnInit {
 
 
   draftReply(msg: Message) {
-    this.router.navigate(['draft/'], {
-      queryParams:
-      {
+    let r_obj;
+    if (this.locst_id !== null) {
+      r_obj = {
+        q: this.storeSelector,
+        a: 'r',
+        mid: msg.msgid,
+        tid: this.reqThreadId,
+        locst_id: this.locst_id
+      };
+    } else {
+      r_obj = {
         q: this.storeSelector,
         a: 'r',
         mid: msg.msgid,
         tid: this.reqThreadId
-      }
+      };
+    }
+    this.router.navigate(['draft/'], {
+      queryParams: r_obj
     });
   }
 
   draftReplyToAll(msg: Message) {
-    this.router.navigate(['draft/'], {
-      queryParams:
-      {
+    let ra_obj;
+    if (this.locst_id !== null) {
+      ra_obj = {
+        q: this.storeSelector,
+        a: 'ra',
+        mid: msg.msgid,
+        tid: this.reqThreadId,
+        locst_id: this.locst_id
+      };
+    } else {
+      ra_obj = {
         q: this.storeSelector,
         a: 'ra',
         mid: msg.msgid,
         tid: this.reqThreadId
-      }
+      };
+    }
+    this.router.navigate(['draft/'], {
+      queryParams: ra_obj
     });
   }
 

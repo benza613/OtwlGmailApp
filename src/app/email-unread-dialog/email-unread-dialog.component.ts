@@ -85,13 +85,13 @@ export class EmailUnreadDialogComponent implements OnInit {
     }
     console.log('MAP TYPES', mapTypes);
     var that = this;
-    // this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
-    //   that.spinner.hide();
-    //   if (value === '200') {
-    //     const res = '1';
-    //     alert('Mapping successfully done.');
-    //     that.activeModal.close({ action: '1' });
-    //   }
-    // });
+    this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
+      that.spinner.hide();
+      if (value === '200') {
+        const res = '1';
+        alert('Mapping successfully done.');
+        that.activeModal.close({ action: '1' });
+      }
+    });
   }
 }

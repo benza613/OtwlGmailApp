@@ -268,7 +268,7 @@ export class EmailsStoreService {
   }
 
 
-  async update_MappedThreadEmails(ThreadId, Subject) {
+  async update_MappedThreadEmails(ThreadId, Subject, loc_st_id) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     console.log(res);
     if (res.d.errId === '200') {
@@ -289,7 +289,8 @@ export class EmailsStoreService {
         this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
       }
       this.mappedThreads = [...this.mappedThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', subject: Subject } });
+
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', locst_id: loc_st_id, subject: Subject} });
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }

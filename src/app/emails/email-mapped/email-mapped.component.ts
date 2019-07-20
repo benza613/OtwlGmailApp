@@ -29,7 +29,7 @@ export class EmailMappedComponent implements OnInit {
   disableDropdowns = false;
   mappedThreadList: MappedThread[] = [];
 
-  _queryParams = { r: null, v: null };
+  _queryParams = { r: null, v: null, locst_id: null };
 
   constructor(
     private domainStore: DomainStoreService,
@@ -55,6 +55,9 @@ export class EmailMappedComponent implements OnInit {
           this.disableDropdowns = true;
           this._queryParams.r = params.r;
           this._queryParams.v = params.v;
+          if (params.locst_id) {
+            this._queryParams.locst_id = params.locst_id;
+          }
           this.authServ.login();
           this.onChange_GetRefTypeData();
         } else {

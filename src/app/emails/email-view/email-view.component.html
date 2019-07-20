@@ -19,8 +19,8 @@
   </div>
 </div>
 
-<div class="card threadCss" *ngFor="let eml of emailList; let i = index;">
-  <div class="no-gutters" [ngClass]="{'card-color': eml.isOpen}" style="margin: 5px;">
+<div class="card" [ngClass]="{'threadCss': !eml.isOpen}" *ngFor="let eml of emailList; let i = index;">
+  <div class="no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
         <div class="col-md-7">

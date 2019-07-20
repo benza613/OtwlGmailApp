@@ -41,7 +41,7 @@
       <input type="text" class="form-control" placeholder="" [(ngModel)]="msgPacket.subject">
     </div>
   </div>
-  <div class="ejsEditor">
+  <div class="ejsEditor card">
     <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue' (actionComplete)="actionCompleted($event)"
       [toolbarSettings]='EditorTools'></ejs-richtexteditor>
   </div>
@@ -126,90 +126,95 @@
         <!-- ben -->
       </div>
       <div class="col-4 attachments-partition">
-          <div class="card">
-              <div class="card-header" style="background-color: #35a541; color: white;">
-                  <div class="row">
-                      <div class="col-md-7">
-                        <p class="upl-headers ">File Server Attachments :</p>
-                      </div>
-                      <div class="col-md-4 pull-right" style="margin-top: 3px;">
-                        <b style="padding: 0px; font-size: 12px; color: white;">{{showUploadSize}}</b> <b>/</b>
-                        <b style="padding: 0px; font-size: 12px; color: white;">{{orderFilesSize}}</b>
-                      </div>
-                      <div >
-                        <span (click)="addAttachments()">
-                          <i class="fa fa-plus-circle" style="color: white; transform: scale(1.5); float: right;"></i>
-                        </span>
-                      </div>
-                    </div>
+        <div class="card">
+          <div class="card-header" style="background-color: #35a541; color: white;">
+            <div class="row">
+              <div class="col-md-7">
+                <p class="upl-headers ">File Server Attachments :</p>
               </div>
-              <div class="card-body" style="padding: 0px;">
-                  <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
-                  <ngb-tabset *ngIf="_isOrdersComplete">
-                    <ngb-tab title="SEND">
-                      <ng-template ngbTabContent>
-                        <div style="height: 298px; overflow: auto">
-                          <div *ngFor="let order of orderDetails" style="margin: 2px;">
-                            <div class="card" style="height: 75px">
-                              <div class="col card-body" style="padding: 15px;">
-                                <div class="row">
-                                  <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b><i [ngbTooltip]="order.flDisplayName" >{{order.flDisplayName| slice:0:15}}</i><i [ngbTooltip]="order.flDisplayName" *ngIf="order.flDisplayName.length > 15">...</i></div>
-                                  <div class="col-md-2" style="cursor: pointer;">
-                                    <span (click)="editOrderDetails(1,order)">
-                                      <i class="fa fa-minus-circle" style="color: red; transform: scale(1.5); float: right;"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="col-md-9">
-                                    <div class="badge badge-warning">{{order.flTag}}</div>
-                                  </div>
-                                  <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </ngb-tab>
-                    <ngb-tab title="DISCARD">
-                      <ng-template ngbTabContent>
-                        <div style="height: 298px; overflow: auto">
-                          <div *ngFor="let order of delOrderDetails">
-                            <div class="card" style="height: 75px">
-                              <div class="col card-body" style="padding: 15px;">
-                                <div class="row">
-                                  <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b><i [ngbTooltip]="order.flDisplayName" >{{order.flDisplayName| slice:0:15}}</i> </div>
-                                  <div class="col-md-2 pull-left" style="cursor: pointer;">
-                                    <span (click)="editOrderDetails(2,order)">
-                                      <i class="fa fa-plus-circle" style="color: green; transform: scale(1.5); float: right;"></i>
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="col-md-9">
-                                    <div class="badge badge-warning">{{order.flTag}}</div>
-                                  </div>
-                                  <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </ngb-tab>
-                  </ngb-tabset>
+              <div class="col-md-4 pull-right" style="margin-top: 3px;">
+                <b style="padding: 0px; font-size: 12px; color: white;">{{showUploadSize}}</b> <b>/</b>
+                <b style="padding: 0px; font-size: 12px; color: white;">{{orderFilesSize}}</b>
+              </div>
+              <div>
+                <span (click)="addAttachments()">
+                  <i class="fa fa-plus-circle" style="color: white; transform: scale(1.5); float: right;"></i>
+                </span>
               </div>
             </div>
+          </div>
+          <div class="card-body" style="padding: 0px;">
+            <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
+            <ngb-tabset *ngIf="_isOrdersComplete">
+              <ngb-tab title="SEND">
+                <ng-template ngbTabContent>
+                  <div style="height: 298px; overflow: auto">
+                    <div *ngFor="let order of orderDetails" style="margin: 2px;">
+                      <div class="card" style="height: 75px">
+                        <div class="col card-body" style="padding: 15px;">
+                          <div class="row">
+                            <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b><i
+                                [ngbTooltip]="order.flDisplayName">{{order.flDisplayName| slice:0:15}}</i><i
+                                [ngbTooltip]="order.flDisplayName" *ngIf="order.flDisplayName.length > 15">...</i></div>
+                            <div class="col-md-2" style="cursor: pointer;">
+                              <span (click)="editOrderDetails(1,order)">
+                                <i class="fa fa-minus-circle"
+                                  style="color: red; transform: scale(1.5); float: right;"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-9">
+                              <div class="badge badge-warning">{{order.flTag}}</div>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="DISCARD">
+                <ng-template ngbTabContent>
+                  <div style="height: 298px; overflow: auto">
+                    <div *ngFor="let order of delOrderDetails">
+                      <div class="card" style="height: 75px">
+                        <div class="col card-body" style="padding: 15px;">
+                          <div class="row">
+                            <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b><i
+                                [ngbTooltip]="order.flDisplayName">{{order.flDisplayName| slice:0:15}}</i> </div>
+                            <div class="col-md-2 pull-left" style="cursor: pointer;">
+                              <span (click)="editOrderDetails(2,order)">
+                                <i class="fa fa-plus-circle"
+                                  style="color: green; transform: scale(1.5); float: right;"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-9">
+                              <div class="badge badge-warning">{{order.flTag}}</div>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
       </div>
-      <div class="col card" style="margin: 5px 0px; padding: 0px;">
-        <!-- <div class="card-header" style="background-color: #db6623; color: white;">
+      <div class="col attachments-partition card" style="margin: 5px 0px; padding: 0px;">
+        <div class="card-header" style="background-color: #db6623; color: white;">
           <div class="row">
             <div class="col">
               <p class="upl-headers">Signature </p>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="card-body">
           <div class="container-fluid-cust" [innerHTML]="signatureHtml | safeHtml"
             style="text-align: right;font-size: 12px;">
@@ -235,7 +240,3 @@
     </div>
   </div>
 </div>
-
-
-
-

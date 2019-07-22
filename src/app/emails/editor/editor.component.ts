@@ -42,17 +42,17 @@ export class EditorComponent implements OnInit {
       'Image', '|', 'Print', '|', 'FullScreen']
   };
 
-  msgAddrList = [
-    { emailId: 'benito.alvares@gmail.com' },
-    { emailId: '<it3@oceantransworld.com>' },
-    { emailId: 'pritee@oceantransworld.com' },
-    { emailId: 'it7@oceantransworld.com' },
-    { emailId: 'nivedita@oceantransworld.com' },
-    { emailId: 'ganesh@oceantransworld.com' },
-    { emailId: 'Sushant <it5@oceantransworld.com>' },
-  ];
+  // msgAddrList = [
+  //   { emailId: 'benito.alvares@gmail.com' },
+  //   { emailId: '<it3@oceantransworld.com>' },
+  //   { emailId: 'pritee@oceantransworld.com' },
+  //   { emailId: 'it7@oceantransworld.com' },
+  //   { emailId: 'nivedita@oceantransworld.com' },
+  //   { emailId: 'ganesh@oceantransworld.com' },
+  //   { emailId: 'Sushant <it5@oceantransworld.com>' },
+  // ];
 
-  // msgAddrList = [];
+  msgAddrList = [];
 
   _TOKEN_POSSESION = "";
 
@@ -94,7 +94,7 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     const emlData = {};
-
+    this.emailStore.getAddressBook();
     this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
 
 
@@ -243,7 +243,7 @@ export class EditorComponent implements OnInit {
               });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
+                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, this.msgAddrList).then(function (value) {
                   that.spinner.hide();
                   that.detector.detectChanges();
                   console.log('res.d.errId:', value);
@@ -336,10 +336,9 @@ export class EditorComponent implements OnInit {
                 this.msgAddrList.forEach(x => {
                   emailList.push(x['emailId']);
                 });
-                this.emailStore.addEmailAddresses(emailList);
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
+                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, this.msgAddrList).then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);

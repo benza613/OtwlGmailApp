@@ -1,3 +1,4 @@
+import { MessageUiAttach } from './../models/message-ui-attach.model';
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -100,9 +101,9 @@ export class EmailsService {
   }
 
   // tslint:disable-next-line:max-line-length
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[]): Observable<any> {
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: MessageUiAttach): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList },
       this.httpOptions)
       .pipe(map(r => r));
   }
@@ -136,8 +137,8 @@ export class EmailsService {
     .pipe(map(r => r));
   }
 
-  addEmailAddresses(emailAddrList): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/insertEmailAddress`, { emailAddrList },
-      this.httpOptions).pipe(map(r => r));
-  }
+  // addEmailAddresses(emailAddrList): Observable<any> {
+  //   return this.http.post(`${this.apiBaseUrl}/insertEmailAddress`, { emailAddrList },
+  //     this.httpOptions).pipe(map(r => r));
+  // }
 }

@@ -125,7 +125,7 @@ export class EmailsStoreService {
   }
 
 
-  sendNewEmail(packet, body, inlineAtachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList) {
+  sendNewEmail(packet, body, inlineAtachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList, emailAddrList) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.sendNewMail(
         packet.to.map(key => key.emailId),
@@ -133,7 +133,7 @@ export class EmailsStoreService {
         packet.bcc.map(key => key.emailId),
         packet.subject, body, inlineAtachments,
         actionType, MessageID,
-        TokenPossession, orderFilesList).toPromise();
+        TokenPossession, orderFilesList, emailAddrList).toPromise();
       if (res.d.errId === '200') {
         alert(res.d.errMsg);
         resolve(res.d.errId);
@@ -438,13 +438,13 @@ export class EmailsStoreService {
     }
   }
 
-  async addEmailAddresses(addressList) {
-    const result = await this.emailServ.addEmailAddresses(addressList).toPromise();
-      if (result.d.errId === '200') {
-        alert(result.d.errMsg);
-      } else {
-        this.errorService.displayError(result, 'addEmailAddresses');
-      }
-  }
+  // async addEmailAddresses(addressList) {
+  //   const result = await this.emailServ.addEmailAddresses(addressList).toPromise();
+  //     if (result.d.errId === '200') {
+  //       alert(result.d.errMsg);
+  //     } else {
+  //       this.errorService.displayError(result, 'addEmailAddresses');
+  //     }
+  // }
 
 }

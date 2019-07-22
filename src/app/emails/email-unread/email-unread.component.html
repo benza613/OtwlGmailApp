@@ -1,71 +1,93 @@
 <ngx-spinner size="medium" color="#fff" type="ball-fall" [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+  <p style="color: white"> Loading... </p>
 </ngx-spinner>
 <ngx-spinner size="default" name="load" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 <div class="row" style="height: 84.5vh;">
-    <div class="col-md-2 align-content-md-stretch" style=" transition: 1s;" [ngbCollapse]="isCollapsed">
-        <h5>SEARCH</h5>
-        <div class="row">
-            <div class="col">
-                <small class="text-muted">EMAIL FROM</small>
-            </div>
-        </div>
-        <div class="row filters">
-            <div class="col">
-                <textarea class="form-control" [(ngModel)]="addrFrom" rows="1"></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <small class="text-muted">EMAIL TO</small>
-            </div>
-        </div>
-        <div class="row filters">
-            <div class="col">
-                <textarea class="form-control" [(ngModel)]="addrTo" rows="1"></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <small class="text-muted">SUBJECT</small>
-            </div>
-        </div>
-        <div class="row filters">
-            <div class="col">
-                <textarea class="form-control" [(ngModel)]="subject" rows="1"></textarea>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 20px;">
-            <div class="col">
-                <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads()"
-                    style="color: white">FILTER</button>
-            </div>
-        </div>
+  <div class="col-md-2 align-content-md-stretch" style=" transition: 1s;" [ngbCollapse]="isCollapsed">
+    <h5>SEARCH</h5>
+    <div class="row">
+      <div class="col">
+        <small class="text-muted">EMAIL FROM</small>
+      </div>
     </div>
-    <div class="col" [ngClass]="{'filterBorder': !isCollapsed}">
-        <div class="row align-content-md-stretch">
-            <div class="col">
-                <button type="button" class="btn btn-success" (click)="isCollapsed = !isCollapsed"
-                    ngbTooltip="Filtered mails from server" placement="right" style="transform: scale(0.80)"><i
-                        class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
-            </div>
-            <div class="col text-center" *ngIf="showLoaders">
-                <div class="loading-bar"></div>
-                <div class="loading-bar"></div>
-                <div class="loading-bar"></div>
-                <div class="loading-bar"></div>
-            </div>
-            <div class="col text-right">
-                <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)"
-                    ngbTooltip="Map checked threads"><i class="fa fa-external-link-square"></i> MAP</button>
-            </div>
-        </div>
-        <div>
-            <app-email-list [storeSelector]="dynamicdata">
-            </app-email-list>
-        </div>
+    <div class="row filters">
+      <div class="col">
+        <textarea class="form-control" [(ngModel)]="addrFrom" rows="1"></textarea>
+      </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <small class="text-muted">EMAIL TO</small>
+      </div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+        <textarea class="form-control" [(ngModel)]="addrTo" rows="1"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <small class="text-muted">SUBJECT</small>
+      </div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+        <textarea class="form-control" [(ngModel)]="subject" rows="1"></textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+      <div class="col">
+        <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads()" style="color: white">FILTER</button>
+      </div>
+    </div>
+  </div>
+  <div class="col" [ngClass]="{'filterBorder': !isCollapsed}">
+    <div class="row align-content-md-stretch">
+      <div class="col">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <button type="button" class="btn btn-success" (click)="isCollapsed = !isCollapsed"
+              ngbTooltip="Filtered mails from server" placement="right" style="transform: scale(0.80)"><i
+                class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
+          </div>
+          <div class="btn-group">
+            <button type="button" ngbTooltip="Get next 50" placement="bottom" class="btn btn-sm btn-outline-primary" style="transform: scale(0.80);"
+              (click)="getPrint(i)">
+              <i class="fa fa-envelope-o"></i>&nbsp;<i class="fa fa-plus"></i>50
+            </button>
+            <!-- </div>
+          <div class="btn-group"> -->
+            <button type="button" ngbTooltip="Get next 100" placement="bottom" class="btn btn-sm btn-outline-primary" style="transform: scale(0.80);"
+              (click)="getPrint(i)">
+              <i class="fa fa-envelope-o"></i>&nbsp;<i class="fa fa-plus"></i>100
+            </button>
+            <!-- </div>
+          <div class="btn-group"> -->
+            <button type="button" ngbTooltip="Get next 200" placement="bottom" class="btn btn-sm btn-outline-primary" style="transform: scale(0.80);"
+              (click)="getPrint(i)">
+              <i class="fa fa-envelope-o"></i>&nbsp;<i class="fa fa-plus"></i>200
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col text-center" *ngIf="showLoaders">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+      </div>
+
+      <div class="col text-right">
+        <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)"
+          ngbTooltip="Map checked threads"><i class="fa fa-external-link-square"></i> MAP</button>
+      </div>
+    </div>
+    <div>
+      <app-email-list [storeSelector]="dynamicdata">
+      </app-email-list>
+    </div>
+  </div>
 </div>
 
 

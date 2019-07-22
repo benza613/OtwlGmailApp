@@ -149,14 +149,14 @@ export class EmailsStoreService {
   /**
    * UNREAD module methods
    */
-  updateUnreadThreadList(flag, addrFrom, addrTo, subject) {
+  updateUnreadThreadList(flagCount, addrFrom, addrTo, subject) {
 
     return new Promise(async (resolve, reject) => {
 
-      if (flag === 'user init' && this.unreadThreads.length > 0) {
+      if (flagCount === 0 && this.unreadThreads.length > 0) {
         resolve();
       }
-      else if (flag === 'user init' && this.unreadThreads.length == 0) {
+      else if (flagCount === 0 && this.unreadThreads.length == 0) {
 
         const res = await this.emailServ.indexUnread(
           this.pageTokenUnread == null ? '' : this.pageTokenUnread,
@@ -185,7 +185,7 @@ export class EmailsStoreService {
 
         const arrx = [];
 
-        for (let idx = 0; idx < 10; idx++) {
+        for (let idx = 0; idx < flagCount; idx++) {
 
           const res = await this.emailServ.indexUnread(
             this.pageTokenUnread == null ? '' : this.pageTokenUnread,

@@ -34,9 +34,9 @@ export class EmailUnreadComponent implements OnInit {
     //   this.spinner.show();
     //   this.detector.detectChanges();
     // }, 5000);
-      this.emailStore.updateUnreadThreadList('user init', this.addrFrom, this.addrTo, this.subject).then(result => {
-        this.spinner.hide();
-      });
+    this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
+      this.spinner.hide();
+    });
   }
 
   getMails() {
@@ -63,14 +63,16 @@ export class EmailUnreadComponent implements OnInit {
     }
   }
 
-  fetchUnreadThreads() {
+  fetchUnreadThreads(i) {
     this.showLoaders = true;
     const that = this;
-    this.emailStore.updateUnreadThreadList('user demand', this.addrFrom, this.addrTo, this.subject).then(function (value) {
+    this.emailStore.updateUnreadThreadList(i, this.addrFrom, this.addrTo, this.subject).then(function (value) {
       if (value === undefined) {
         that.showLoaders = false;
       }
     });
   }
+
+
 
 }

@@ -93,15 +93,15 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames): Observable<any> {
+  saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachments): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`,
-      { entityID, qlevel, reqThreadId, msgid, attachmentGIds, fileNames },
+      { entityID, qlevel, reqThreadId, msgid, attachments },
       this.httpOptions)
       .pipe(map(r => r));
   }
 
   // tslint:disable-next-line:max-line-length
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: MessageUiAttach): Observable<any> {
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
       { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList },
       this.httpOptions)
@@ -136,9 +136,4 @@ export class EmailsService {
     return this.http.post(`${this.apiBaseUrl}/fetchAddressBook`, {}, this.httpOptions)
     .pipe(map(r => r));
   }
-
-  // addEmailAddresses(emailAddrList): Observable<any> {
-  //   return this.http.post(`${this.apiBaseUrl}/insertEmailAddress`, { emailAddrList },
-  //     this.httpOptions).pipe(map(r => r));
-  // }
 }

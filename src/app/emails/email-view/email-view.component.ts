@@ -1,3 +1,4 @@
+import { MessageUiAttach } from './../../models/message-ui-attach.model';
 import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,6 +27,7 @@ export class EmailViewComponent implements OnInit {
   refId;
   emailList;
   details = false;
+  attachments = [];
   attachmentGIDs = [];
   attachmentNames = [];
   selectAll = true;
@@ -226,18 +228,21 @@ export class EmailViewComponent implements OnInit {
     }
 
     this.router.navigate(['draft/'], {
-      queryParams:ra_obj
+      queryParams: ra_obj
     });
   }
 
   async fileAction(id, msgId, attachments, file?) {
     const that = this;
+    this.attachments = [];
     this.attachmentGIDs = [];
     this.attachmentNames = [];
     this.downloadFileObject = [];
+    var fileDetails: MessageUiAttach;
     if (file) {
-      this.attachmentGIDs.push(file.attachmentGId);
-      this.attachmentNames.push(file.fileName);
+      fileDetails.attachmentGId = file.attachmentGId;
+      fileDetails.fileName = file.fileName;
+      this.attachments.push(fileDetails);
       this.downloadFileObject.push([file.attachmentGId, file.fileName]);
     } else {
       if (id === 3) {
@@ -245,9 +250,11 @@ export class EmailViewComponent implements OnInit {
         attachments.forEach(att => {
           att.isChecked = this.selectAll === false ? true : false;
           if (att.isChecked === true) {
-            this.attachmentGIDs.push(att.attachmentGId);
-            this.attachmentNames.push(att.fileName);
+            fileDetails.attachmentGId = file.attachmentGId;
+            fileDetails.fileName = file.fileName;
+            this.attachments.push(fileDetails);
           } else {
+            this.attachments = [];
             this.attachmentGIDs = [];
             this.attachmentNames = [];
           }
@@ -255,8 +262,9 @@ export class EmailViewComponent implements OnInit {
       } else {
         const attachments_filtered = attachments.filter(x => x.isChecked === true);
         attachments_filtered.forEach(att => {
-          this.attachmentGIDs.push(att.attachmentGId);
-          this.attachmentNames.push(att.fileName);
+          fileDetails.attachmentGId = file.attachmentGId;
+          fileDetails.fileName = file.fileName;
+          this.attachments.push(fileDetails);
           this.downloadFileObject.push([att.attachmentGId, att.fileName]);
         });
       }
@@ -282,6 +290,7 @@ export class EmailViewComponent implements OnInit {
         modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
         modalRef.componentInstance.folderHierarchy = folderHeirarchy;
         modalRef.componentInstance.msgId = msgId;
+        modalRef.componentInstance.attachments = this.attachments;
         modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
         modalRef.componentInstance.attachmentNames = this.attachmentNames;
         modalRef.componentInstance.reqThreadId = this.reqThreadId;

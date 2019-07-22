@@ -15,6 +15,7 @@ export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
   @Input() folderHierarchy: Folders[];
   @Input() msgId;
+  @Input() attachments;
   @Input() attachmentGIds;
   @Input() attachmentNames;
   @Input() reqThreadId;
@@ -82,7 +83,7 @@ export class FSDirDialogComponent implements OnInit {
     var that = this;
     setTimeout(() => {
       this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
-        this.msgId, this.attachmentGIds, this.attachmentNames).then(function (value) {
+        this.msgId, this.attachments).then(function (value) {
           if (value === '1') {
             that.spinner.hide();
             that.changeDetRef.detectChanges();

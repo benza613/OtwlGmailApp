@@ -137,7 +137,7 @@ export class EmailsService {
   }
 
   addEmailAddresses(emailAddrList): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/updateAddressBook`, { emailAddrList },
+    return this.http.post(`${this.apiBaseUrl}/insertEmailAddress`, { emailAddrList },
       this.httpOptions).pipe(map(r => r));
   }
 }

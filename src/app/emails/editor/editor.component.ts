@@ -42,17 +42,17 @@ export class EditorComponent implements OnInit {
       'Image', '|', 'Print', '|', 'FullScreen']
   };
 
-  // msgAddrList = [
-  //   { emailId: 'benito.alvares@gmail.com' },
-  //   { emailId: '<it3@oceantransworld.com>' },
-  //   { emailId: 'pritee@oceantransworld.com' },
-  //   { emailId: 'it7@oceantransworld.com' },
-  //   { emailId: 'nivedita@oceantransworld.com' },
-  //   { emailId: 'ganesh@oceantransworld.com' },
-  //   { emailId: 'Sushant <it5@oceantransworld.com>' },
-  // ];
+  msgAddrList = [
+    { emailId: 'benito.alvares@gmail.com' },
+    { emailId: '<it3@oceantransworld.com>' },
+    { emailId: 'pritee@oceantransworld.com' },
+    { emailId: 'it7@oceantransworld.com' },
+    { emailId: 'nivedita@oceantransworld.com' },
+    { emailId: 'ganesh@oceantransworld.com' },
+    { emailId: 'Sushant <it5@oceantransworld.com>' },
+  ];
 
-  msgAddrList = [];
+  // msgAddrList = [];
 
   _TOKEN_POSSESION = "";
 
@@ -342,7 +342,7 @@ export class EditorComponent implements OnInit {
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
-                    this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
+                    that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
                     console.log('res.d.errId:', value);
                   });
               });
@@ -652,6 +652,12 @@ export class EditorComponent implements OnInit {
   }
 
   addEmailAddress(event) {
-    this.msgAddrList = [...this.msgAddrList, event[0]];
+    if (event.length > 0) {
+      const idx = this.msgAddrList.findIndex(x => x.emailId === event[0].emailId);
+      console.log(idx);
+      if (idx === -1) {
+        this.msgAddrList = [...this.msgAddrList, event[0]];
+      }
+    }
   }
 }

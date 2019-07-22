@@ -79,6 +79,7 @@ export class EditorComponent implements OnInit {
   uploadFilesSize = 0;
   sendFileSize = 0;
   showUploadSize;
+  addressBook;
   constructor(
     private route: ActivatedRoute,
     private emailStore: EmailsStoreService,
@@ -125,6 +126,8 @@ export class EditorComponent implements OnInit {
       that.detector.detectChanges();
 
     });
+
+    this.addressBook = this.emailStore.addressBook$;
 
     this.route.queryParams
       .subscribe(params => {

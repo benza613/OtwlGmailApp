@@ -1,4 +1,4 @@
 export interface AddressBook {
-    emailName: String;
-    emailAddr: String;
+    emailName: string;
+    emailAddr: string;
 }

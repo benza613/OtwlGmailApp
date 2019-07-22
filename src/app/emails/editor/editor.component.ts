@@ -42,15 +42,17 @@ export class EditorComponent implements OnInit {
       'Image', '|', 'Print', '|', 'FullScreen']
   };
 
-  msgAddrList = [
-    { emailId: 'benito.alvares@gmail.com' },
-    { emailId: '<it3@oceantransworld.com>' },
-    { emailId: 'pritee@oceantransworld.com' },
-    { emailId: 'it7@oceantransworld.com' },
-    { emailId: 'nivedita@oceantransworld.com' },
-    { emailId: 'ganesh@oceantransworld.com' },
-    { emailId: 'Sushant <it5@oceantransworld.com>' },
-  ];
+  // msgAddrList = [
+  //   { emailId: 'benito.alvares@gmail.com' },
+  //   { emailId: '<it3@oceantransworld.com>' },
+  //   { emailId: 'pritee@oceantransworld.com' },
+  //   { emailId: 'it7@oceantransworld.com' },
+  //   { emailId: 'nivedita@oceantransworld.com' },
+  //   { emailId: 'ganesh@oceantransworld.com' },
+  //   { emailId: 'Sushant <it5@oceantransworld.com>' },
+  // ];
+
+  msgAddrList = [];
 
   _TOKEN_POSSESION = "";
 
@@ -127,7 +129,12 @@ export class EditorComponent implements OnInit {
 
     });
 
-    this.addressBook = this.emailStore.addressBook$;
+    this.emailStore.addressBook$.subscribe(addrBook => {
+      addrBook.forEach(x => {
+        this.msgAddrList.push({ emailId: x.emailName + ' ' + x.emailAddr });
+      });
+    });
+
 
     this.route.queryParams
       .subscribe(params => {
@@ -231,9 +238,9 @@ export class EditorComponent implements OnInit {
             (finalBody) => {
               // then send mail
               const emailList = [];
-                this.msgAddrList.forEach(x => {
-                  emailList.push(x['emailId']);
-                });
+              this.msgAddrList.forEach(x => {
+                emailList.push(x['emailId']);
+              });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails).then(function (value) {

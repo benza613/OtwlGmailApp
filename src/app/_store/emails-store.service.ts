@@ -1,3 +1,4 @@
+import { AddressBook } from './../models/address-book.model';
 import { Folders } from '../models/folders.model';
 import { Thread } from './../models/thread.model';
 import { ThreadTypeData } from './../models/thread-type-data';
@@ -34,6 +35,7 @@ export class EmailsStoreService {
   private readonly _pageTokenUnread = new BehaviorSubject<String>('');
   private readonly _threadTypeList = new BehaviorSubject<ThreadTypeData[]>([]);
   private readonly _folderList = new BehaviorSubject<Folders[]>([]);
+  private readonly _addressBook = new BehaviorSubject<AddressBook[]>([]);
 
 
   // Expose the observable$ part of the _tickets subject (read only stream)
@@ -41,6 +43,7 @@ export class EmailsStoreService {
   readonly mappedThreads$ = this._mappedThreads.asObservable();
   readonly threadTypeList$ = this._threadTypeList.asObservable();
   readonly folderList$ = this._folderList.asObservable();
+  readonly addressBook$ = this._addressBook.asObservable();
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
@@ -111,6 +114,14 @@ export class EmailsStoreService {
 
   private set pageTokenUnread(val: String) {
     this._pageTokenUnread.next(val);
+  }
+
+  private get addressBook(): AddressBook[] {
+    return this._addressBook.getValue();
+  }
+
+  private set addressBook(val: AddressBook[]) {
+    this._addressBook.next(val);
   }
 
 
@@ -413,6 +424,27 @@ export class EmailsStoreService {
         rej();
       }
     });
+  }
+
+  async getAddressBook() {
+    const res = await this.emailServ.fetchAddressBook().toPromise();
+    if (res.d.errId === '200') {
+      this.addressBook = [];
+      const arrx = this.addressBook;
+      arrx.push(...<AddressBook[]>res.d.addressBook);
+      this.addressBook = arrx;
+    } else {
+      this.errorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
+
+  async addEmailAddresses(addressList) {
+    const result = await this.emailServ.addEmailAddresses(addressList).toPromise();
+      if (result.d.errId === '200') {
+        alert(result.d.errMsg);
+      } else {
+        this.errorService.displayError(result, 'addEmailAddresses');
+      }
   }
 
 }

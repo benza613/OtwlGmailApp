@@ -130,4 +130,14 @@ export class EmailsService {
     return this.http.post(`${this.apiBaseUrl}/deleteThreadRefMapping`, { ThreadUId, ThreadGId },
       this.httpOptions).pipe(map(r => r));
   }
+
+  fetchAddressBook(): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/fetchAddressBook`, {}, this.httpOptions)
+    .pipe(map(r => r));
+  }
+
+  addEmailAddresses(emailAddrList): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/updateAddressBook`, { emailAddrList },
+      this.httpOptions).pipe(map(r => r));
+  }
 }

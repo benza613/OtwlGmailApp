@@ -101,6 +101,13 @@ export class EmailViewComponent implements OnInit {
               this.quotes[i] = '<blockquote' +
                 (x[i].body.toLowerCase().trim()
                   .split('<blockquote')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('class=""')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<blockquote')[0];
+
+              this.quotes[i] = '<blockquote' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<blockquote')[1]);
             } else {
               this.body[i] = x[i].body;
               this.quotes[i] = '';

@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.prod';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FSFilesDialogComponent } from 'src/app/email_fs_files/fsfiles-dialog/fsfiles-dialog.component';
+import {Location} from '@angular/common';
 
 const URL = environment.url.uploadsGA;
 
@@ -42,15 +43,6 @@ export class EditorComponent implements OnInit {
       'Image', '|', 'Print', '|', 'FullScreen']
   };
 
-  // msgAddrList = [
-  //   { emailId: 'benito.alvares@gmail.com' },
-  //   { emailId: '<it3@oceantransworld.com>' },
-  //   { emailId: 'pritee@oceantransworld.com' },
-  //   { emailId: 'it7@oceantransworld.com' },
-  //   { emailId: 'nivedita@oceantransworld.com' },
-  //   { emailId: 'ganesh@oceantransworld.com' },
-  //   { emailId: 'Sushant <it5@oceantransworld.com>' },
-  // ];
 
   msgAddrList = [];
   newAddrList = [];
@@ -90,7 +82,8 @@ export class EditorComponent implements OnInit {
     private locStgService: LocalStorageService,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
-    private domainStore: DomainStoreService
+    private domainStore: DomainStoreService,
+    private location: Location
   ) {  }
 
   ngOnInit() {
@@ -662,5 +655,9 @@ export class EditorComponent implements OnInit {
         this.newAddrList.push(event[0]);
       }
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

@@ -90,11 +90,12 @@ export class EditorComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private domainStore: DomainStoreService
-  ) { }
+  ) { 
+    this.emailStore.getAddressBook();
+  }
 
   ngOnInit() {
     const emlData = {};
-    this.emailStore.getAddressBook();
     this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
 
 
@@ -133,6 +134,8 @@ export class EditorComponent implements OnInit {
       addrBook.forEach(x => {
         this.msgAddrList.push({ emailId: x.emailName + ' ' + x.emailAddr });
       });
+      // console.log(this.msgAddrList);
+      this.detector.detectChanges();
     });
 
 

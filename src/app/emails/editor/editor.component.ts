@@ -53,6 +53,7 @@ export class EditorComponent implements OnInit {
   // ];
 
   msgAddrList = [];
+  newAddrList = [];
 
   _TOKEN_POSSESION = "";
 
@@ -90,9 +91,7 @@ export class EditorComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private domainStore: DomainStoreService
-  ) { 
-    this.emailStore.getAddressBook();
-  }
+  ) {  }
 
   ngOnInit() {
     const emlData = {};
@@ -118,7 +117,7 @@ export class EditorComponent implements OnInit {
       this.detector.detectChanges();
     };
     var that = this;
-
+    this.emailStore.getAddressBook();
     this.emailStore.getUserMailInfo().then(function (value) {
       console.log('SIGNATURE', value);
       that.senderName = value['d'].userFullName;
@@ -130,11 +129,11 @@ export class EditorComponent implements OnInit {
 
     });
 
-    this.emailStore.addressBook$.subscribe(addrBook => {
-      addrBook.forEach(x => {
-        this.msgAddrList.push({ emailId: x.emailName + ' ' + x.emailAddr });
-      });
-      // console.log(this.msgAddrList);
+    this.emailStore.addressBook$.subscribe(x => {
+      this.msgAddrList = [];
+      for (let ix = 0; ix < x.length; ix++) {
+        this.msgAddrList = [...this.msgAddrList, { emailId: x[ix].emailName + ' ' + x[ix].emailAddr }];
+      }
       this.detector.detectChanges();
     });
 
@@ -241,15 +240,16 @@ export class EditorComponent implements OnInit {
             (finalBody) => {
               // then send mail
               const emailList = [];
-              this.msgAddrList.forEach(x => {
+              this.newAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, this.msgAddrList).then(function (value) {
+                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList).then(function (value) {
                   that.spinner.hide();
                   that.detector.detectChanges();
                   console.log('res.d.errId:', value);
+                  console.log(that.newAddrList);
                 });
             });
         },
@@ -336,12 +336,12 @@ export class EditorComponent implements OnInit {
               (finalBody) => {
                 // then send mail
                 const emailList = [];
-                this.msgAddrList.forEach(x => {
+                this.newAddrList.forEach(x => {
                   emailList.push(x['emailId']);
                 });
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, this.msgAddrList).then(function (value) {
+                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList).then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
@@ -659,6 +659,7 @@ export class EditorComponent implements OnInit {
       console.log(idx);
       if (idx === -1) {
         this.msgAddrList = [...this.msgAddrList, event[0]];
+        this.newAddrList.push(event[0]);
       }
     }
   }

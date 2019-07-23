@@ -86,7 +86,7 @@ export class EmailsService {
     });
   }
 
-  previewLocal(msgId, attachmentGId) {
+  previewLocal(msgId, iddd,  namee) {
     return new Promise((resolve) => {
 
       const optionsN = {
@@ -94,7 +94,7 @@ export class EmailsService {
       };
 
       optionsN['responseType'] = 'blob';
-      optionsN['params'] = { msgId, lstAttch: JSON.stringify(attachmentGId) };
+      optionsN['params'] = { msgId, iddd, namee };
       optionsN['observe'] = 'response';
 
       this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {

@@ -286,9 +286,6 @@ export class EmailViewComponent implements OnInit {
       });
     } else if (id === 2) {
       this.spinner.show();
-      this.emailServ.previewLocal(msgId, file.attachmentGId, file.fileName).then(function (value) {
-        that.spinner.hide();
-      });
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
         that.spinner.hide();
         const modalRef = this.modalService.open(
@@ -323,6 +320,14 @@ export class EmailViewComponent implements OnInit {
         x.isOpen = false;
       });
     }
+  }
+
+  getPreview(msgId, file) {
+    const that = this;
+    this.spinner.show();
+    this.emailServ.previewLocal(msgId, file.attachmentGId, file.fileName).then(function (value) {
+      that.spinner.hide();
+    });
   }
 
   getPrint(id) {

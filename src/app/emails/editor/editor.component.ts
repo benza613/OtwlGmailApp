@@ -125,7 +125,7 @@ export class EditorComponent implements OnInit {
     this.emailStore.addressBook$.subscribe(x => {
       this.msgAddrList = [];
       for (let ix = 0; ix < x.length; ix++) {
-        this.msgAddrList = [...this.msgAddrList, { emailId: x[ix].emailName + ' ' + x[ix].emailAddr }];
+        this.msgAddrList = [...this.msgAddrList, { emailId: x[ix].emailName + ' ' + '<' + x[ix].emailAddr + '>'}];
       }
       this.detector.detectChanges();
     });

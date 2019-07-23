@@ -133,8 +133,9 @@
                   <input [(ngModel)]="att.isChecked" type="checkbox"
                     style="transform: scale(1.5);-webkit-transform: scale(1.5);">
                 </div>
-                <div class="row" style=" font-size: 14px;" [ngbTooltip]="att.fileName">
-                  <span class="attSections">{{att.fileName | slice:0:20}}<i
+                <div class="row" style=" font-size: 14px;">
+                  <i class="fa fa-eye preview" *ngIf="['pdf','jpg','jpeg','png'].includes((att.fileName.split('.')[1]).toLowerCase())" (click) = "getPreview(eml.msgid,att)" ngbTooltip="Preview"></i>
+                  <span class="attSections" [ngbTooltip]="att.fileName">{{att.fileName | slice:0:20}}<i
                       *ngIf="att.fileName.length > 20">...</i></span>
                 </div>
                 <hr style="background-color: #3a3a3a;color: #3a3a3a; margin: 8px;" />

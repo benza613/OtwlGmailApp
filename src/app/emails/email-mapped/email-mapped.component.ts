@@ -28,6 +28,7 @@ export class EmailMappedComponent implements OnInit {
   disableDate = true;
   disableDropdowns = false;
   mappedThreadList: MappedThread[] = [];
+  params_flag = false;
 
   _queryParams = { r: null, v: null, locst_id: null };
 
@@ -59,14 +60,17 @@ export class EmailMappedComponent implements OnInit {
             this._queryParams.locst_id = params.locst_id;
           }
           this.authServ.login();
-          this.onChange_GetRefTypeData();
+          this.params_flag = true;
         } else {
           this.spinner.hide();
         }
       });
     });
-
-
+  
+    if (this.params_flag) {
+      this.onChange_GetRefTypeData(1);
+    }
+    
     this.domainStore.threadTypeData$.subscribe(x => {
       this.threadTypeData = [];
       for (let ix = 0; ix < x.length; ix++) {
@@ -79,7 +83,7 @@ export class EmailMappedComponent implements OnInit {
   }
 
   //toggle parent reftype ddl
-  onChange_GetRefTypeData() {
+  onChange_GetRefTypeData(flag?) {
     if (this.refId) {
       this.spinner.show();
       this.refValId = null;
@@ -92,7 +96,10 @@ export class EmailMappedComponent implements OnInit {
           }
           if (that._queryParams.v != null) {
             that.refValId = that._queryParams.v;
-            that.getThreads();
+            if (flag) {
+              console.log('X');
+              that.getThreads();
+            }
           }
           that.spinner.hide();
         });

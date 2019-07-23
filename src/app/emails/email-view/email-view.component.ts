@@ -72,8 +72,15 @@ export class EmailViewComponent implements OnInit {
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
           for (let i = 0; i < x.length; i++) {
-            if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+            if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<blockquote')[0];
 
+              this.quotes[i] = '<blockquote' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<blockquote')[1]);
+            } 
+            else if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
 
@@ -96,14 +103,7 @@ export class EmailViewComponent implements OnInit {
                 (x[i].body.toLowerCase().trim()
                   .split('<div id="divSignatureLine"')[1]);
             }
-            else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<blockquote')[0];
-
-              this.quotes[i] = '<blockquote' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<blockquote')[1]);
-            } else if (x[i].body.toLowerCase().trim().includes('class=""')) {
+            else  if (x[i].body.toLowerCase().trim().includes('class=""')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<blockquote')[0];
 
@@ -331,9 +331,9 @@ export class EmailViewComponent implements OnInit {
   }
 
   getPrint(id) {
-    if (this.quotes !== '') {
-      document.getElementById('footer_button').style.visibility = 'hidden';
-    }
+    // if (this.quotes !== '') {
+    //   document.getElementById('footer_button').style.visibility = 'hidden';
+    // }
     let printContents, popupWin;
     printContents = document.getElementById(id).innerHTML;
     popupWin = window.open();

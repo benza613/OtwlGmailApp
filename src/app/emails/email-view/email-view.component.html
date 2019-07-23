@@ -14,7 +14,9 @@
   </div>
 </div>
 
-<div class="card" [ngClass]="{'threadCss': !eml.isOpen}" *ngFor="let eml of emailList; let i = index;">
+<div class="card" 
+    [ngClass]="{'threadCssOcean': !eml.isOpen && eml.from.toLowerCase().includes('oceantransworld.com'), 'threadCss': !eml.isOpen && !(eml.from.toLowerCase().includes('oceantransworld.com'))}"  
+    *ngFor="let eml of emailList; let i = index;">
   <div class="no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
@@ -42,10 +44,6 @@
             style="margin: 2px;transform: scale(0.75);" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
-          <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="eml.isOpen = !eml.isOpen">
-            <i class="fa fa-expand"></i>
-          </button>
           <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right"
             style="margin: 2px;transform: scale(0.75);" (click)="draftReplyToAll(eml)">
             <i class="fa fa-reply-all"></i>
@@ -57,6 +55,10 @@
           <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right"
             style="margin: 2px;transform: scale(0.75);" (click)="draftForward(eml)">
             <i class="fa fa-arrow-right"></i>
+          </button>
+          <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
+            style="margin: 2px;transform: scale(0.75);" (click)="eml.isOpen = !eml.isOpen">
+            <i class="fa fa-expand"></i>
           </button>
         </div>
       </div>

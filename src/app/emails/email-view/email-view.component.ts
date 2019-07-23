@@ -286,7 +286,7 @@ export class EmailViewComponent implements OnInit {
       });
     } else if (id === 2) {
       this.spinner.show();
-      this.emailServ.previewLocal(msgId, this.downloadFileObject).then(function (value) {
+      this.emailServ.previewLocal(msgId, file.attachmentGId, file.fileName).then(function (value) {
         that.spinner.hide();
       });
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {

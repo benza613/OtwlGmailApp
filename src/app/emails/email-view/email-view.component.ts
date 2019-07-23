@@ -79,7 +79,7 @@ export class EmailViewComponent implements OnInit {
               this.quotes[i] = '<blockquote' +
                 (x[i].body.toLowerCase().trim()
                   .split('<blockquote')[1]);
-            } 
+            }
             else if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
@@ -103,7 +103,7 @@ export class EmailViewComponent implements OnInit {
                 (x[i].body.toLowerCase().trim()
                   .split('<div id="divSignatureLine"')[1]);
             }
-            else  if (x[i].body.toLowerCase().trim().includes('class=""')) {
+            else if (x[i].body.toLowerCase().trim().includes('class=""')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<blockquote')[0];
 
@@ -247,10 +247,13 @@ export class EmailViewComponent implements OnInit {
     this.attachmentGIDs = [];
     this.attachmentNames = [];
     this.downloadFileObject = [];
-    let fileDetails: MessageUiAttach;
+
     if (file) {
-      fileDetails.attachmentGId = file.attachmentGId;
-      fileDetails.fileName = file.fileName;
+      let fileDetails: MessageUiAttach = {
+        attachmentGId: file.attachmentGId,
+        fileName: file.fileName,
+        fileSize: '0',
+      }
       this.attachments.push(fileDetails);
       this.downloadFileObject.push([file.attachmentGId, file.fileName]);
     } else {
@@ -259,8 +262,11 @@ export class EmailViewComponent implements OnInit {
         attachments.forEach(att => {
           att.isChecked = this.selectAll === false ? true : false;
           if (att.isChecked === true) {
-            fileDetails.attachmentGId = file.attachmentGId;
-            fileDetails.fileName = file.fileName;
+            let fileDetails: MessageUiAttach = {
+              attachmentGId: file.attachmentGId,
+              fileName: file.fileName,
+              fileSize: '0',
+            }
             this.attachments.push(fileDetails);
           } else {
             this.attachments = [];
@@ -271,8 +277,11 @@ export class EmailViewComponent implements OnInit {
       } else {
         const attachments_filtered = attachments.filter(x => x.isChecked === true);
         attachments_filtered.forEach(att => {
-          fileDetails.attachmentGId = file.attachmentGId;
-          fileDetails.fileName = file.fileName;
+          let fileDetails: MessageUiAttach = {
+            attachmentGId: att.attachmentGId,
+            fileName: att.fileName,
+            fileSize: '0',
+          }
           this.attachments.push(fileDetails);
           this.downloadFileObject.push([att.attachmentGId, att.fileName]);
         });

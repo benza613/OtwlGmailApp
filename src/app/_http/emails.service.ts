@@ -109,10 +109,7 @@ export class EmailsService {
           console.log('BLOB', blob);
           resolve(blob);
           const iurl = window.URL.createObjectURL(blob);
-          const anchor = document.createElement('a');
-          anchor.href = iurl;
-          anchor.target = '_blank';
-          anchor.click();
+          window.open(iurl, '_blank');
         }
       });
     });

@@ -247,33 +247,33 @@ export class EmailViewComponent implements OnInit {
     this.attachmentGIDs = [];
     this.attachmentNames = [];
     this.downloadFileObject = [];
-    // let fileDetails: MessageUiAttach;
+    let fileDetails: MessageUiAttach;
     if (file) {
-      // fileDetails.attachmentGId = file.attachmentGId;
-      // fileDetails.fileName = file.fileName;
-      // this.attachments.push(fileDetails);
+      fileDetails.attachmentGId = file.attachmentGId;
+      fileDetails.fileName = file.fileName;
+      this.attachments.push(fileDetails);
       this.downloadFileObject.push([file.attachmentGId, file.fileName]);
     } else {
       if (id === 3) {
         this.selectAll = !this.selectAll;
         attachments.forEach(att => {
           att.isChecked = this.selectAll === false ? true : false;
-          // if (att.isChecked === true) {
-          //   fileDetails.attachmentGId = file.attachmentGId;
-          //   fileDetails.fileName = file.fileName;
-          //   this.attachments.push(fileDetails);
-          // } else {
-          //   this.attachments = [];
-          //   this.attachmentGIDs = [];
-          //   this.attachmentNames = [];
-          // }
+          if (att.isChecked === true) {
+            fileDetails.attachmentGId = file.attachmentGId;
+            fileDetails.fileName = file.fileName;
+            this.attachments.push(fileDetails);
+          } else {
+            this.attachments = [];
+            this.attachmentGIDs = [];
+            this.attachmentNames = [];
+          }
         });
       } else {
         const attachments_filtered = attachments.filter(x => x.isChecked === true);
         attachments_filtered.forEach(att => {
-          // fileDetails.attachmentGId = file.attachmentGId;
-          // fileDetails.fileName = file.fileName;
-          // this.attachments.push(fileDetails);
+          fileDetails.attachmentGId = file.attachmentGId;
+          fileDetails.fileName = file.fileName;
+          this.attachments.push(fileDetails);
           this.downloadFileObject.push([att.attachmentGId, att.fileName]);
         });
       }
@@ -331,9 +331,6 @@ export class EmailViewComponent implements OnInit {
   }
 
   getPrint(id) {
-    // if (this.quotes !== '') {
-    //   document.getElementById('footer_button').style.visibility = 'hidden';
-    // }
     let printContents, popupWin;
     printContents = document.getElementById(id).innerHTML;
     popupWin = window.open();

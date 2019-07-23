@@ -116,6 +116,15 @@ export class EmailViewComponent implements OnInit {
             }
           }
           this.emailList = x;
+          // if (document.getElementsByClassName("MsoNormal").length > 0) {
+          //   console.log('ENTERED');
+          //   for (let j = 0; j < document.getElementsByClassName('MsoNormal').length; j++) {
+          //     if (document.getElementsByClassName('MsoNormal')[j].innerHTML.toLowerCase().includes('thanks')) {
+          //       const parent = document.getElementsByClassName('MsoNormal')[j].parentElement;
+          //       console.log('PARENT', parent);
+          //     }
+          //   }
+          // }
         });
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
@@ -238,33 +247,33 @@ export class EmailViewComponent implements OnInit {
     this.attachmentGIDs = [];
     this.attachmentNames = [];
     this.downloadFileObject = [];
-    var fileDetails: MessageUiAttach;
+    // let fileDetails: MessageUiAttach;
     if (file) {
-      fileDetails.attachmentGId = file.attachmentGId;
-      fileDetails.fileName = file.fileName;
-      this.attachments.push(fileDetails);
+      // fileDetails.attachmentGId = file.attachmentGId;
+      // fileDetails.fileName = file.fileName;
+      // this.attachments.push(fileDetails);
       this.downloadFileObject.push([file.attachmentGId, file.fileName]);
     } else {
       if (id === 3) {
         this.selectAll = !this.selectAll;
         attachments.forEach(att => {
           att.isChecked = this.selectAll === false ? true : false;
-          if (att.isChecked === true) {
-            fileDetails.attachmentGId = file.attachmentGId;
-            fileDetails.fileName = file.fileName;
-            this.attachments.push(fileDetails);
-          } else {
-            this.attachments = [];
-            this.attachmentGIDs = [];
-            this.attachmentNames = [];
-          }
+          // if (att.isChecked === true) {
+          //   fileDetails.attachmentGId = file.attachmentGId;
+          //   fileDetails.fileName = file.fileName;
+          //   this.attachments.push(fileDetails);
+          // } else {
+          //   this.attachments = [];
+          //   this.attachmentGIDs = [];
+          //   this.attachmentNames = [];
+          // }
         });
       } else {
         const attachments_filtered = attachments.filter(x => x.isChecked === true);
         attachments_filtered.forEach(att => {
-          fileDetails.attachmentGId = file.attachmentGId;
-          fileDetails.fileName = file.fileName;
-          this.attachments.push(fileDetails);
+          // fileDetails.attachmentGId = file.attachmentGId;
+          // fileDetails.fileName = file.fileName;
+          // this.attachments.push(fileDetails);
           this.downloadFileObject.push([att.attachmentGId, att.fileName]);
         });
       }
@@ -277,6 +286,9 @@ export class EmailViewComponent implements OnInit {
       });
     } else if (id === 2) {
       this.spinner.show();
+      this.emailServ.previewLocal(msgId, this.downloadFileObject).then(function (value) {
+        that.spinner.hide();
+      });
       await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
         that.spinner.hide();
         const modalRef = this.modalService.open(

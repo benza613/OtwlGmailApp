@@ -41,7 +41,7 @@ export class EmailListComponent implements OnInit, OnChanges {
   ngOnInit() {
       if (this.storeSelector === 'EmailUnreadComponent') {
         this.emailStore.unreadThreadsCount$.subscribe(
-          x => { this.t_CollectionSize = x; console.log(x); },
+          x => { this.t_CollectionSize = x; },
           (err) => { console.log('Complete'); },
           () => { console.log('Complete'); }
         );

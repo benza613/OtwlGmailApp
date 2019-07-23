@@ -15,6 +15,7 @@ import { ErrorService } from '../error/error.service';
 export class EmailsService {
   private readonly apiBaseUrl = env.url.server;
   private readonly apiBaseUrl_Download = env.url.downloadsGA;
+  private readonly apiBaseUrl_Preview = env.url.previewGA;
 
   constructor(
     private http: HttpClient,
@@ -65,9 +66,8 @@ export class EmailsService {
       optionsN['observe'] = 'response';
 
       this.http.get(`${this.apiBaseUrl_Download}`, optionsN).subscribe(response => {
-        resolve(response);
         console.log('eeee', <any>response);
-
+        resolve(response);
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
         } else {
@@ -81,6 +81,38 @@ export class EmailsService {
           anchor.href = iurl;
           anchor.dispatchEvent(new MouseEvent(`click`, { bubbles: true, cancelable: true, view: window }));
           anchor.remove();
+        }
+      });
+    });
+  }
+
+  previewLocal(msgId, attachmentGId) {
+    return new Promise((resolve) => {
+
+      const optionsN = {
+        headers: new HttpHeaders()
+      };
+
+      optionsN['responseType'] = 'blob';
+      optionsN['params'] = { msgId, lstAttch: JSON.stringify(attachmentGId) };
+      optionsN['observe'] = 'response';
+
+      this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {
+        console.log('eeee', <any>response);
+
+        if (response['headers'].get('content-type') === 'text/plain') {
+          this.errorServ.displayError(response, '');
+        } else {
+          const blob = new Blob([response['body'] as Blob], {
+            type: response['headers'].get('content-type')
+          });
+          console.log('BLOB', blob);
+          resolve(blob);
+          const iurl = window.URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = iurl;
+          anchor.target = '_blank';
+          anchor.click();
         }
       });
     });
@@ -134,6 +166,6 @@ export class EmailsService {
 
   fetchAddressBook(): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/fetchAddressBook`, {}, this.httpOptions)
-    .pipe(map(r => r));
+      .pipe(map(r => r));
   }
 }

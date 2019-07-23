@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ErrorService } from './../error/error.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SearchParams } from '../models/search-params.model';
+import { SearchingLocks } from '../enums/searching-locks.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +38,8 @@ export class EmailsStoreService {
   private readonly _threadTypeList = new BehaviorSubject<ThreadTypeData[]>([]);
   private readonly _folderList = new BehaviorSubject<Folders[]>([]);
   private readonly _addressBook = new BehaviorSubject<AddressBook[]>([]);
-
+  private readonly _lastValidSearch = new BehaviorSubject<SearchParams>(null);
+  private readonly _LOCK_CurrentSearch = new BehaviorSubject<SearchingLocks>(SearchingLocks.Open);
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly unreadThreads$ = this._unreadThreads.asObservable();
@@ -44,6 +47,7 @@ export class EmailsStoreService {
   readonly threadTypeList$ = this._threadTypeList.asObservable();
   readonly folderList$ = this._folderList.asObservable();
   readonly addressBook$ = this._addressBook.asObservable();
+
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
@@ -108,6 +112,24 @@ export class EmailsStoreService {
     this._folderList.next(val);
   }
 
+  private get lastValidSearch(): SearchParams {
+    return this._lastValidSearch.getValue();
+  }
+
+  private set lastValidSearch(val: SearchParams) {
+    this._lastValidSearch.next(val);
+  }
+
+  private get LOCK_CURRENTSEARCH(): SearchingLocks {
+    return this._LOCK_CurrentSearch.getValue();
+  }
+
+  private set LOCK_CURRENTSEARCH(val: SearchingLocks) {
+    this._LOCK_CurrentSearch.next(val);
+  }
+
+
+
   private get pageTokenUnread(): String {
     return this._pageTokenUnread.getValue();
   }
@@ -154,69 +176,111 @@ export class EmailsStoreService {
     return new Promise(async (resolve, reject) => {
 
       if (flagCount === 0 && this.unreadThreads.length > 0) {
-        resolve();
+        reject();
+        return;
       }
-      else if (flagCount === 0 && this.unreadThreads.length == 0) {
+
+      //use this variable to terminate ongoing calls in pagination
+      if (this.LOCK_CURRENTSEARCH == SearchingLocks.Open) {
+        this.LOCK_CURRENTSEARCH = SearchingLocks.Acquired;
+      } else if (this.LOCK_CURRENTSEARCH == SearchingLocks.Acquired) {
+        this.LOCK_CURRENTSEARCH = SearchingLocks.SetForRelease;
+      }
+
+      this.unreadThreads = [];
+
+      const arrx = [];
+
+      this.lastValidSearch = {
+        addrFrom: addrFrom,
+        addrTo: addrTo,
+        subject: subject
+      }
+
+
+      const res = await this.emailServ.indexUnread(
+        this.pageTokenUnread == null ? '' : this.pageTokenUnread,
+        addrFrom == null ? '' : addrFrom,
+        addrTo == null ? '' : addrTo,
+        subject == null ? '' : subject
+      ).toPromise();
+      if (res.d.errId === '200') {
+        res.d.threads.forEach(x => {
+          x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        });
+        arrx.push(...<Thread[]>res.d.threads);
+        this.unreadThreads = arrx;
+        if (res.d.pageToken == null) {
+          this.pageTokenUnread = '';
+        } else {
+          this.pageTokenUnread = res.d.pageToken;
+        }
+      } else {
+        this.errorService.displayError(res, 'indexUnread');
+      }
+
+
+      resolve();
+
+
+    });
+
+  }
+
+  paginateUnreadThreadList(flagCount) {
+    console.log(this.lastValidSearch);
+
+    let addfrom = this.lastValidSearch.addrFrom != undefined ? this.lastValidSearch.addrFrom : "";
+    let addTo = this.lastValidSearch.addrTo != undefined ? this.lastValidSearch.addrTo : "";
+    let subj = this.lastValidSearch.subject != undefined ? this.lastValidSearch.subject : "";
+
+    return new Promise(async (resolve, reject) => {
+
+      const arrx = [];
+      arrx.push(...this.unreadThreads);
+
+
+
+      for (let idx = 0; idx < flagCount; idx++) {
+
+        if (this.LOCK_CURRENTSEARCH == SearchingLocks.SetForRelease) {
+          this.LOCK_CURRENTSEARCH = SearchingLocks.Acquired;
+          break;
+        }
 
         const res = await this.emailServ.indexUnread(
           this.pageTokenUnread == null ? '' : this.pageTokenUnread,
-          addrFrom == null ? '' : addrFrom,
-          addrTo == null ? '' : addrTo,
-          subject == null ? '' : subject
+          addfrom,
+          addTo,
+          subj
         ).toPromise();
-
-        console.log(res);
         if (res.d.errId === '200') {
-          const arrx = [];
           res.d.threads.forEach(x => {
             x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
           });
           arrx.push(...<Thread[]>res.d.threads);
           this.unreadThreads = arrx;
-          this.pageTokenUnread = '';
+
+          
+          if (res.d.pageToken == null) {
+            this.pageTokenUnread = '';
+            break;
+          } else {
+            this.pageTokenUnread = res.d.pageToken;
+          }
+
+
         } else {
           this.errorService.displayError(res, 'indexUnread');
         }
-        resolve();
-
-
-      } else {
-        this.unreadThreads = [];
-
-        const arrx = [];
-
-        for (let idx = 0; idx < flagCount; idx++) {
-
-          const res = await this.emailServ.indexUnread(
-            this.pageTokenUnread == null ? '' : this.pageTokenUnread,
-            addrFrom == null ? '' : addrFrom,
-            addrTo == null ? '' : addrTo,
-            subject == null ? '' : subject
-          ).toPromise();
-          if (res.d.errId === '200') {
-            res.d.threads.forEach(x => {
-              x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-            });
-            arrx.push(...<Thread[]>res.d.threads);
-            this.unreadThreads = arrx;
-            if (res.d.pageToken == null) {
-              this.pageTokenUnread = '';
-              break;
-            } else {
-              this.pageTokenUnread = res.d.pageToken;
-            }
-          } else {
-            this.errorService.displayError(res, 'indexUnread');
-          }
-          
-        }
-        resolve();
 
       }
+      resolve();
+
+
     });
 
   }
-
 
   async update_UnreadThreadEmails(ThreadId, storeSelector, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
@@ -251,9 +315,6 @@ export class EmailsStoreService {
   /**
    * MAPPED module methods
    */
-
-
-
   async updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
     const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
     console.log(res);
@@ -301,7 +362,7 @@ export class EmailsStoreService {
       }
       this.mappedThreads = [...this.mappedThreads];
 
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', locst_id: loc_st_id, subject: Subject} });
+      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', locst_id: loc_st_id, subject: Subject } });
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }

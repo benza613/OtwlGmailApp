@@ -35,36 +35,40 @@
         <div class="col-md-3 pull-right">
           {{eml.date}}
         </div>
-        <div class="col-md-2 pull-left">
+        <div class="col-md-2 pull-left" style="padding-left: 0px;">
+            <button type="button" ngbTooltip="Upload" class="btn btn-sm btn-outline-secondary float-right"
+            style="transform: scale(0.75);" (click)="uploadToFileServer(i, eml,body[i],quotes[i])">
+            <i class="fa fa-upload"></i>
+          </button>
           <button *ngIf="!eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="getPrint(i)">
+            style="transform: scale(0.75);" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
           <button *ngIf="eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-warning float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="getPrint(i)">
+            style="transform: scale(0.75);" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
           <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="draftReplyToAll(eml)">
+            style="transform: scale(0.75);" (click)="draftReplyToAll(eml)">
             <i class="fa fa-reply-all"></i>
           </button>
           <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="draftReply(eml)">
+            style="transform: scale(0.75);" (click)="draftReply(eml)">
             <i class="fa fa-reply"></i>
           </button>
           <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="draftForward(eml)">
+            style="transform: scale(0.75);" (click)="draftForward(eml)">
             <i class="fa fa-arrow-right"></i>
           </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="margin: 2px;transform: scale(0.75);" (click)="eml.isOpen = !eml.isOpen">
+            style="transform: scale(0.75);" (click)="eml.isOpen = !eml.isOpen">
             <i class="fa fa-expand"></i>
           </button>
         </div>
       </div>
     </div>
   </div>
-  <div class="card-body no-gutters" style="max-width:100%;" [ngbCollapse]="!eml.isOpen">
+  <div id="headers{{i}}" class="card-body no-gutters" style="max-width:100%;" [ngbCollapse]="!eml.isOpen">
     <div class="col">
       <div class="card" style="margin-bottom: 5px;" *ngIf="showInfo">
         <div class="card-body">

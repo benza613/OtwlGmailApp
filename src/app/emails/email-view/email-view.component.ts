@@ -8,6 +8,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailsService } from 'src/app/_http/emails.service';
+import { ConfirmDialogComponent } from 'src/app/confirm/confirm-dialog/confirm-dialog.component';
+import html2canvas from 'html2canvas';
+import jspdf from 'jspdf';
+import { stringify } from 'querystring';
 
 
 @Component({
@@ -337,6 +341,38 @@ export class EmailViewComponent implements OnInit {
     this.emailServ.previewLocal(msgId, file.attachmentGId, file.fileName).then(function (value) {
       that.spinner.hide();
     });
+  }
+
+  uploadToFileServer(id, eml, body, quotes) {
+    document.getElementById('footer_button').style.visibility = 'hidden';
+    const headers = document.getElementById('headers' + id);
+    let headerData;
+    let headerHeight;
+    html2canvas(headers).then(canvas => {
+      headerData = canvas.toDataURL('image/png');
+    });
+    const email = document.getElementById(id);
+    html2canvas(email).then(canvas => {
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight + headerHeight;
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jspdf('p', 'mm');
+      let position = 0;
+      pdf.addImage(headerData, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      pdf.save('Email.pdf');
+    });
+    document.getElementById('footer_button').style.visibility = 'visible';
   }
 
   getPrint(id) {

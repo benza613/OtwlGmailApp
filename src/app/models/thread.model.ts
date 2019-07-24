@@ -11,4 +11,5 @@ export interface Thread {
     errMsg: string;
     Messages: Message[];
     isChecked: boolean;
+    isUnread: boolean;
 }

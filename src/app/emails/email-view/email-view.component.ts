@@ -345,23 +345,15 @@ export class EmailViewComponent implements OnInit {
 
   uploadToFileServer(id, eml, body, quotes) {
     document.getElementById('footer_button').style.visibility = 'hidden';
-    const headers = document.getElementById('headers' + id);
-    let headerData;
-    let headerHeight;
-    html2canvas(headers).then(canvas => {
-      headerData = canvas.toDataURL('image/png');
-    });
     const email = document.getElementById(id);
     html2canvas(email).then(canvas => {
-      const imgWidth = 210;
-      const pageHeight = 295;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight + headerHeight;
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jspdf('p', 'mm');
+      let imgWidth = 210;
+      let pageHeight = 295;
+      let imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+      let imgData = canvas.toDataURL('image/png');
+      let pdf = new jspdf('p', 'mm');
       let position = 0;
-      pdf.addImage(headerData, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.addPage();
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
       while (heightLeft >= 0) {
@@ -370,26 +362,26 @@ export class EmailViewComponent implements OnInit {
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-      pdf.save('Email.pdf');
+      pdf.save('Email.pdf'); // Generated PDF
+      document.getElementById('footer_button').style.visibility = 'visible';
     });
-    document.getElementById('footer_button').style.visibility = 'visible';
   }
 
-  getPrint(id) {
-    let printContents, popupWin;
-    printContents = document.getElementById(id).innerHTML;
-    popupWin = window.open();
-    popupWin.document.write(`
+getPrint(id) {
+  let printContents, popupWin;
+  printContents = document.getElementById(id).innerHTML;
+  popupWin = window.open();
+  popupWin.document.write(`
         <html>
           <head>
             <title>${this.subject}</title>
           </head>
       <body onload="window.print();window.close()">${printContents}</body>
         </html>`
-    );
-    popupWin.document.close();
-    if (this.quotes !== '') {
-      document.getElementById('footer_button').style.visibility = 'visible';
-    }
+  );
+  popupWin.document.close();
+  if (this.quotes !== '') {
+    document.getElementById('footer_button').style.visibility = 'visible';
   }
+}
 }

@@ -116,7 +116,7 @@ export class EmailsService {
     });
   }
 
-  uploadPDF(entityID, qlevel, reqThreadId, msgid, pdfFile) {
+  uploadPDF(entityID, qlevel, pdfFile) {
       return new Promise(async (resolve, reject) => {
         const blob = new Blob([pdfFile as Blob], {
           type: 'application/pdf'

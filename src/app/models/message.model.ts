@@ -10,5 +10,6 @@ export interface Message {
     date: string;
     err: Number;
     isOpen: boolean;
+    isUnread: boolean;
     attachments: MessageUiAttach[];
 }

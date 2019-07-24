@@ -40,6 +40,8 @@ export class EmailsStoreService {
   private readonly _addressBook = new BehaviorSubject<AddressBook[]>([]);
   private readonly _lastValidSearch = new BehaviorSubject<SearchParams>(null);
   private readonly _LOCK_CurrentSearch = new BehaviorSubject<SearchingLocks>(SearchingLocks.Open);
+  private readonly _pageTokenSent = new BehaviorSubject<String>('');
+  private readonly _sentThreads = new BehaviorSubject<Thread[]>([]);
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly unreadThreads$ = this._unreadThreads.asObservable();
@@ -47,10 +49,15 @@ export class EmailsStoreService {
   readonly threadTypeList$ = this._threadTypeList.asObservable();
   readonly folderList$ = this._folderList.asObservable();
   readonly addressBook$ = this._addressBook.asObservable();
+  readonly sentThreads$ = this._sentThreads.asObservable();
 
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
+  );
+
+  readonly sentThreadsCount$ = this.sentThreads$.pipe(
+    map(th => this.sentThreads.length)
   );
 
   readonly mappedThreadsCount$ = this.mappedThreads$.pipe(
@@ -86,6 +93,14 @@ export class EmailsStoreService {
 
   private set unreadThreads(val: Thread[]) {
     this._unreadThreads.next(val);
+  }
+
+  private get sentThreads(): Thread[] {
+    return this._sentThreads.getValue();
+  }
+
+  private set sentThreads(val: Thread[]) {
+    this._sentThreads.next(val);
   }
 
   private get mappedThreads(): MappedThread[] {
@@ -136,6 +151,14 @@ export class EmailsStoreService {
 
   private set pageTokenUnread(val: String) {
     this._pageTokenUnread.next(val);
+  }
+
+  private get pageTokenSent(): String {
+    return this._pageTokenSent.getValue();
+  }
+
+  private set pageTokenSent(val: String) {
+    this._pageTokenSent.next(val);
   }
 
   private get addressBook(): AddressBook[] {
@@ -310,6 +333,31 @@ export class EmailsStoreService {
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }
+  }
+
+  updateSentThreadList() {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.indexSent(
+        this.pageTokenSent == null ? '' : this.pageTokenSent,
+      ).toPromise();
+      if (res.d.errId === '200') {
+        const arrx = [];
+        res.d.threads.forEach(x => {
+          x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        });
+        arrx.push(...<Thread[]>res.d.threads);
+        this.sentThreads = arrx;
+        console.log('SENT', arrx);
+        if (res.d.pageToken == null) {
+          this.pageTokenSent = '';
+        } else {
+          this.pageTokenSent = res.d.pageToken;
+        }
+      } else {
+        this.errorService.displayError(res, 'indexSent');
+      }
+      resolve();
+    });
   }
 
   /**

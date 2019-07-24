@@ -1,0 +1,76 @@
+<ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
+  </ngx-spinner>
+  <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
+    [(page)]="t_currentPage" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
+    [boundaryLinks]="true"></ngb-pagination>
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col">
+      <div class="col" style="padding: 0px;">
+        <input placeholder="FILTER FROM" class="form-control" style="height: 25px;" [(ngModel)]="filterFrom"
+          (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
+      </div>
+    </div>
+    <div class="col">
+      <div class="col" style="padding: 0px;">
+        <input placeholder="FILTER SUBJECT" class="form-control" style="height: 25px;" [(ngModel)]="filterSubject"
+          (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
+      </div>
+    </div>
+    <div class="col">
+      <div class="input-group">
+        <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
+          [(ngModel)]="filterDate" (dateSelect)="applyFilter()" ngbDatepicker #t="ngbDatepicker" readonly>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()"
+            type="button">
+            <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+          </button>
+        </div>
+        <div class="input-group-append">
+          <i class="fa fa-times" style="border: 1px solid gray;padding:2px 2px 0px 2px; border-radius: 2px"
+            ngbTooltip="Clear" (click)="clearDateField()"></i>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  <div style="height: 75vh; overflow: auto; opacity: 1.0;">
+    <div class="card"
+      *ngFor="let item of (sentThreads | async | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
+      <div class="card-body no-gutters">
+        <div class="row" style="margin-left: 5px;">
+          <!-- <div class="form-check">
+            <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
+              style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+          </div> -->
+          <div class="col-md-4 UnreadContent" (click)="onClick_GetThreadMessages(item)">
+            <div class="row align-items-center">
+              <div class="col"><span class="row"
+                  *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
+                <span class="row"
+                  *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
+                <span class="row"
+                  *ngIf="item.Msg_From.split('<')[0] === ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7 UnreadContent" (click)="onClick_GetThreadMessages(item)">
+            <div class="row align-items-center">
+              <div class="col-12 MailSubject">
+                <span [ngbTooltip]="item.Subject" container="body">{{item.Subject | slice:0:50}}
+                  <span *ngIf="item.Subject.length > 50">...</span>
+                </span>
+                <span class="pull-right MailDate">{{item.Msg_Date}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-md-1">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="onClick_MapThread(item)">M</button>
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  

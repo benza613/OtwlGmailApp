@@ -1,3 +1,4 @@
+import { EmailSentComponent } from './emails/email-sent/email-sent.component';
 import { ActivateGuardService } from './activate-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -24,6 +25,11 @@ const routes: Routes = [
     pathMatch: 'full',
     // canActivate: [ActivateGuardService]
 
+  },
+  {
+    path: 'sent',
+    component: EmailSentComponent,
+    pathMatch: 'full',
   },
   {
     path: 'draft',

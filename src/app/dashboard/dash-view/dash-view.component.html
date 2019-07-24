@@ -3,26 +3,33 @@
 <div class="row" style="height: 86.5vh !important;">
   <div class="col">
     <div class="row" style="height: 10vh">
-        <div class="col card text-white mb-3 cardLayout" style="background-color: #27a9e3;" routerLink="/unread">
-          <div class="card-body">
-            <h6>UNREAD MAILS</h6>
-          </div>
+      <div class="col card text-white mb-3 cardLayout" style="background-color: #27a9e3;" routerLink="/unread">
+        <div class="card-body">
+          <h6>UNREAD MAILS</h6>
         </div>
-        <div class="col card text-white mb-3 cardLayout" routerLink="/mapped" style="background-color: #28b779;">
-          <div class="card-body">
-            <h6>MAPPED MAILS</h6>
-          </div>
+      </div>
+      <div class="col card text-white mb-3 cardLayout" routerLink="/mapped" style="background-color: #28b779;">
+        <div class="card-body">
+          <h6>MAPPED MAILS</h6>
         </div>
-        <div class="col card text-white mb-3 cardLayout" style="background-color: #852b99;" (click)="onClick_SendNewMail()">
-          <div class="card-body">
-            <h6>SEND NEW MAIL</h6>
-          </div>
+      </div>
+      <div class="col card text-white mb-3 cardLayout" routerLink="/sent" style="background-color: #da8320;">
+        <div class="card-body">
+          <h6>SENT MAILS</h6>
         </div>
-        <div class="col card text-white mb-3 cardLayout" style="background-color: #ffb848" (click)="onClick_getUrgentEmails()">
-            <div class="card-body">
-              <h6>URGENT MAILS</h6>
-            </div>
-          </div>
+      </div>
+      <div class="col card text-white mb-3 cardLayout" style="background-color: #852b99;"
+        (click)="onClick_SendNewMail()">
+        <div class="card-body">
+          <h6>SEND NEW MAIL</h6>
+        </div>
+      </div>
+      <div class="col card text-white mb-3 cardLayout" style="background-color: #ffb848"
+        (click)="onClick_getUrgentEmails()">
+        <div class="card-body">
+          <h6>URGENT MAILS</h6>
+        </div>
+      </div>
     </div>
   </div>
 </div>

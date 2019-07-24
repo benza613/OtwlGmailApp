@@ -1,5 +1,5 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
-  </ngx-spinner>
+</ngx-spinner>
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
@@ -7,29 +7,29 @@
   <div class="col">
     <div class="col" style="padding: 0px;">
       <input placeholder="FILTER FROM" class="form-control" style="height: 25px;" [(ngModel)]="filterFrom"
-        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()"/>
+        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
     </div>
   </div>
   <div class="col">
     <div class="col" style="padding: 0px;">
       <input placeholder="FILTER SUBJECT" class="form-control" style="height: 25px;" [(ngModel)]="filterSubject"
-        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()"/>
+        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
     </div>
   </div>
   <div class="col">
     <div class="input-group">
-      <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important" [(ngModel)]="filterDate"
-        (dateSelect)="applyFilter()" ngbDatepicker #t="ngbDatepicker" readonly>
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()"
-              type="button">
-              <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
-            </button>
-          </div>
-        <div class="input-group-append">
-            <i class="fa fa-times" style="border: 1px solid gray;padding:2px 2px 0px 2px; border-radius: 2px" ngbTooltip="Clear"
-            (click)="clearDateField()"></i>
-        </div>
+      <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
+        [(ngModel)]="filterDate" (dateSelect)="applyFilter()" ngbDatepicker #t="ngbDatepicker" readonly>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()"
+          type="button">
+          <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+        </button>
+      </div>
+      <div class="input-group-append">
+        <i class="fa fa-times" style="border: 1px solid gray;padding:2px 2px 0px 2px; border-radius: 2px"
+          ngbTooltip="Clear" (click)="clearDateField()"></i>
+      </div>
     </div>
   </div>
 

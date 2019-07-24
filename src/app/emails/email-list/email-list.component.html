@@ -45,9 +45,9 @@
         </div>
         <div class="col-md-4" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
-            <div class="col MailHeaders"><span class="row"
+            <div class="col" [ngClass]="{unread: item.isUnread}"><span class="row"
                 *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
-              <span class="row MailHeaders_Sub"
+              <span class="row" 
                 *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
               <span class="row"
                 *ngIf="item.Msg_From.split('<')[0] === ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
@@ -56,10 +56,10 @@
         </div>
         <div class="col-md-7" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
-            <div class="col-12 MailSubject"><span [ngbTooltip]="item.Subject"
+            <div class="col-12" [ngClass]="{unread: item.isUnread}"><span [ngbTooltip]="item.Subject"
                 container="body">{{item.Subject | slice:0:50}}<span
                   *ngIf="item.Subject.length > 50">...</span></span><span
-                class="MailDate pull-right">{{item.Msg_Date}}</span>
+                class="pull-right" [ngClass]="{unread: item.isUnread}">{{item.Msg_Date}}</span>
             </div>
           </div>
         </div>

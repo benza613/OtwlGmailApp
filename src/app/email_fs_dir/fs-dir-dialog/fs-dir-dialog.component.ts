@@ -1,5 +1,5 @@
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Folders } from 'src/app/models/folders.model';
@@ -19,13 +19,14 @@ export class FSDirDialogComponent implements OnInit {
   @Input() attachmentGIds;
   @Input() attachmentNames;
   @Input() reqThreadId;
+  @Input() uploadType: string;
   folderList: any;
   fsDirData: any;
   backDisable = true;
   browseDisable = false;
   dirId;
   fileList = [];
-
+  @Output() response: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -81,7 +82,7 @@ export class FSDirDialogComponent implements OnInit {
   saveToFS(folder) {
     this.spinner.show();
     var that = this;
-    setTimeout(() => {
+    if (this.uploadType === 'email_attachment') {
       this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
         this.msgId, this.attachments).then(function (value) {
           if (value === '1') {
@@ -89,6 +90,9 @@ export class FSDirDialogComponent implements OnInit {
             that.changeDetRef.detectChanges();
           }
         });
-    }, 2000);
+    } else {
+      this.activeModal.close();
+      this.response.emit([folder.entityID, folder.qlevel]);
+    }
   }
 }

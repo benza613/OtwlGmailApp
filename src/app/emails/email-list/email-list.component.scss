@@ -5,10 +5,10 @@
 }
 
 
-.MailHeaders {
+.unread {
   font-weight: 600;
-  color: #011f4b;
-  font-style: italic;
+  color: #2b7fdf;
+  // font-style: italic;
 
   & .MailHeaders_Sub {
     font-size: 11px;
@@ -22,25 +22,25 @@
   }
 }
 
-.MailSubject span {
-  color: #99001a;
-  font-style: normal;
-  font-size: 15px;
+// .MailSubject span {
+//   color: #99001a;
+//   font-style: normal;
+//   font-size: 15px;
 
-  font-family: 'Trebuchet MS',
-    'Lucida Sans Unicode',
-    'Lucida Grande',
-    'Lucida Sans',
-    Arial,
-    sans-serif;
+//   font-family: 'Trebuchet MS',
+//     'Lucida Sans Unicode',
+//     'Lucida Grande',
+//     'Lucida Sans',
+//     Arial,
+//     sans-serif;
 
-  &.MailDate {
-    font-size: 12px;
-    font-style: normal;
-    color: #009980;
+//   &.MailDate {
+//     font-size: 12px;
+//     font-style: normal;
+//     color: #009980;
 
-  }
-}
+//   }
+// }
 
 // SCROLLBAR CSS
 

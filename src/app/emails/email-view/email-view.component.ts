@@ -42,6 +42,8 @@ export class EmailViewComponent implements OnInit {
   body;
   quotes;
   locst_id = null;
+  entityId;
+  folderId;
 
   constructor(
     private route: ActivatedRoute,
@@ -316,6 +318,7 @@ export class EmailViewComponent implements OnInit {
         modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
         modalRef.componentInstance.attachmentNames = this.attachmentNames;
         modalRef.componentInstance.reqThreadId = this.reqThreadId;
+        modalRef.componentInstance.uploadType = 'email_attachment';
 
       });
 
@@ -343,7 +346,35 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
-  uploadToFileServer(id, eml, body, quotes) {
+  async selectFolderForUpload(id, msgId) {
+    this.spinner.show();
+    const that = this;
+    let folderHeirarchy;
+    await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
+      that.spinner.hide();
+    });
+    this.emailStore.getFolderList$.subscribe(x => {
+      folderHeirarchy = x;
+    });
+    const modalRef = this.modalService.open(
+      FSDirDialogComponent,
+      { size: 'lg', backdrop: 'static', keyboard: false }
+    );
+    modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+    modalRef.componentInstance.folderHierarchy = folderHeirarchy;
+    modalRef.componentInstance.msgId = msgId;
+    modalRef.componentInstance.attachments = this.attachments;
+    modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
+    modalRef.componentInstance.attachmentNames = this.attachmentNames;
+    modalRef.componentInstance.reqThreadId = this.reqThreadId;
+    modalRef.componentInstance.uploadType = 'email_body';
+    modalRef.componentInstance.response.subscribe((x) => {
+      this.uploadToFileServer(id, msgId, x[0], x[1]);
+    });
+  }
+
+
+  uploadToFileServer(id, msgId, entityId, qlevel) {
     document.getElementById('footer_button').style.visibility = 'hidden';
     const email = document.getElementById(id);
     html2canvas(email).then(canvas => {
@@ -362,26 +393,31 @@ export class EmailViewComponent implements OnInit {
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-      pdf.save('Email.pdf'); // Generated PDF
+      //CALL THE ASHX METHOD HERE
+
+      this.emailServ.uploadPDF(entityId, qlevel, this.reqThreadId, msgId, pdf).then(function (value) {
+        alert('Upload Successfully done!');
+      });
+      // pdf.save('Email.pdf');
       document.getElementById('footer_button').style.visibility = 'visible';
     });
   }
 
-getPrint(id) {
-  let printContents, popupWin;
-  printContents = document.getElementById(id).innerHTML;
-  popupWin = window.open();
-  popupWin.document.write(`
+  getPrint(id) {
+    let printContents, popupWin;
+    printContents = document.getElementById(id).innerHTML;
+    popupWin = window.open();
+    popupWin.document.write(`
         <html>
           <head>
             <title>${this.subject}</title>
           </head>
       <body onload="window.print();window.close()">${printContents}</body>
         </html>`
-  );
-  popupWin.document.close();
-  if (this.quotes !== '') {
-    document.getElementById('footer_button').style.visibility = 'visible';
+    );
+    popupWin.document.close();
+    if (this.quotes !== '') {
+      document.getElementById('footer_button').style.visibility = 'visible';
+    }
   }
-}
 }

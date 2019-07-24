@@ -14,9 +14,9 @@
   </div>
 </div>
 
-<div class="card" 
-    [ngClass]="{'threadCssOcean': !eml.isOpen && eml.from.toLowerCase().includes('oceantransworld.com'), 'threadCss': !eml.isOpen && !(eml.from.toLowerCase().includes('oceantransworld.com'))}"  
-    *ngFor="let eml of emailList; let i = index;">
+<div class="card"   
+    *ngFor="let eml of emailList; let i = index;"
+    [ngClass]="{'threadCssOcean': !eml.isOpen && eml.from.toLowerCase().includes('oceantransworld.com'), 'threadCss': !eml.isOpen && !(eml.from.toLowerCase().includes('oceantransworld.com')), 'unread': eml.isUnread}">
   <div class="no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
@@ -36,7 +36,7 @@
           {{eml.date}}
         </div>
         <div class="col-md-2 pull-left" style="padding-left: 0px;">
-            <button type="button" ngbTooltip="Upload" class="btn btn-sm btn-outline-secondary float-right"
+            <button *ngIf="storeSelector !== 'unread'" type="button" ngbTooltip="Upload" class="btn btn-sm btn-outline-secondary float-right"
             style="transform: scale(0.75);" (click)="selectFolderForUpload(i, eml.msgid)">
             <i class="fa fa-upload"></i>
           </button>

@@ -395,7 +395,7 @@ export class EmailViewComponent implements OnInit {
       }
       //CALL THE ASHX METHOD HERE
 
-      this.emailServ.uploadPDF(entityId, qlevel, this.reqThreadId, msgId, pdf).then(function (value) {
+      this.emailServ.uploadPDF(entityId, qlevel, pdf).then(function (value) {
         alert('Upload Successfully done!');
       });
       // pdf.save('Email.pdf');

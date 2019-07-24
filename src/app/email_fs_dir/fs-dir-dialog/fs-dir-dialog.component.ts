@@ -91,6 +91,7 @@ export class FSDirDialogComponent implements OnInit {
           }
         });
     } else {
+      this.activeModal.dismiss();
       this.activeModal.close();
       this.response.emit([folder.entityID, folder.qlevel]);
     }

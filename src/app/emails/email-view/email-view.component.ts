@@ -347,6 +347,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   async selectFolderForUpload(id, msgId) {
+    const email = document.getElementById(id);
     this.spinner.show();
     const that = this;
     let folderHeirarchy;
@@ -369,14 +370,13 @@ export class EmailViewComponent implements OnInit {
     modalRef.componentInstance.reqThreadId = this.reqThreadId;
     modalRef.componentInstance.uploadType = 'email_body';
     modalRef.componentInstance.response.subscribe((x) => {
-      this.uploadToFileServer(id, msgId, x[0], x[1]);
+      this.uploadToFileServer(id, msgId, email, x[0], x[1]);
     });
   }
 
 
-  uploadToFileServer(id, msgId, entityId, qlevel) {
+  uploadToFileServer(id, msgId, email, entityId, qlevel) {
     document.getElementById('footer_button').style.visibility = 'hidden';
-    const email = document.getElementById(id);
     html2canvas(email).then(canvas => {
       let imgWidth = 210;
       let pageHeight = 295;
@@ -398,7 +398,7 @@ export class EmailViewComponent implements OnInit {
       this.emailServ.uploadPDF(entityId, qlevel, pdf).then(function (value) {
         alert('Upload Successfully done!');
       });
-      // pdf.save('Email.pdf');
+      pdf.save('Email.pdf');
       document.getElementById('footer_button').style.visibility = 'visible';
     });
   }

@@ -8,7 +8,7 @@ export const environment = {
     uploadsGA: 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx',
     downloadsGA: 'http://localhost:3001/OtwlGmailApp/DownloadAttch.ashx',
     previewGA: 'http://localhost:3001/OtwlGmailApp/PreviewAttch.ashx',
-    uploadHtmlPdf: 'http://localhost:3001/OtwlGmailApp/UploadHtmlPdf.ashx'
+    uploadPdf: 'http://localhost:3001/OtwlFileServer/Upload.ashx'
   }
 };
 

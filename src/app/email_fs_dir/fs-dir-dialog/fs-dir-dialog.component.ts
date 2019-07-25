@@ -81,6 +81,7 @@ export class FSDirDialogComponent implements OnInit {
 
   saveToFS(folder) {
     this.spinner.show();
+    console.log('Folder', folder);
     var that = this;
     if (this.uploadType === 'email_attachment') {
       this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
@@ -93,7 +94,7 @@ export class FSDirDialogComponent implements OnInit {
     } else {
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel]);
+      this.response.emit([folder.entityID, folder.qlevel, folder.isTemplateFolder_ID]);
     }
   }
 }

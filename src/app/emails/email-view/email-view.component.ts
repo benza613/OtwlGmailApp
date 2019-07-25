@@ -410,12 +410,12 @@ export class EmailViewComponent implements OnInit {
     modalRef.componentInstance.reqThreadId = this.reqThreadId;
     modalRef.componentInstance.uploadType = 'email_body';
     modalRef.componentInstance.response.subscribe((x) => {
-      this.uploadToFileServer(id, msgId, email, x[0], x[1]);
+      this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2]);
     });
   }
 
 
-  uploadToFileServer(id, msgId, email, entityId, qlevel) {
+  uploadToFileServer(id, msgId, email, entityId, qlevel, mdId) {
     document.getElementById('footer_button').style.visibility = 'hidden';
     html2canvas(email).then(canvas => {
       let imgWidth = 210;
@@ -435,7 +435,7 @@ export class EmailViewComponent implements OnInit {
       }
       //CALL THE ASHX METHOD HERE
 
-      this.emailServ.uploadPDF(entityId, qlevel, pdf).then(function (value) {
+      this.emailServ.uploadPDF(pdf,mdId,entityId,qlevel).then(function (value) {
         alert('Upload Successfully done!');
       });
       pdf.save('Email.pdf');

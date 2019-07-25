@@ -30,10 +30,9 @@ export class EmailUnreadComponent implements OnInit {
   ngOnInit() {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
-
+    this.showLoaders = true;
     this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
       console.log('promise succ for updateUnreadThreadList');
-
       this.spinner.hide();
       this.doUnreadPagination(9);
     }, err => {
@@ -76,7 +75,6 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   doUnreadPagination(i) {
-    this.showLoaders = true;
     const that = this;
     this.emailStore.paginateUnreadThreadList(i).then(function (value) {
       if (value === undefined) {

@@ -16,7 +16,7 @@ export class EmailsService {
   private readonly apiBaseUrl = env.url.server;
   private readonly apiBaseUrl_Download = env.url.downloadsGA;
   private readonly apiBaseUrl_Preview = env.url.previewGA;
-  private readonly apiBaseUrl_HtmlPdf = env.url.uploadHtmlPdf;
+  private readonly apiBaseUrl_Pdf = env.url.uploadPdf;
 
   constructor(
     private http: HttpClient,
@@ -123,14 +123,17 @@ export class EmailsService {
     });
   }
 
-  uploadPDF(entityID, qlevel, pdfFile) {
-      return new Promise(async (resolve, reject) => {
-        const blob = new Blob([pdfFile as Blob], {
-          type: 'application/pdf'
-        });
-        console.log(pdfFile);
-        resolve('200');
+  uploadPDF(pdfFile, mdId, qlevel, entityId) {
+    return new Promise(async (resolve, reject) => {
+      const blob = new Blob([pdfFile as Blob], {
+        type: 'application/pdf'
       });
+      this.http.post(`${this.apiBaseUrl_Pdf}`,
+        { file: blob, 'keyD': mdId, 'keyQ': qlevel, 'keyPF': entityId },
+        this.httpOptions).subscribe(x => {
+          resolve('200');
+        });
+    });
   }
 
   requestFSDir(reqThreadId): Observable<any> {

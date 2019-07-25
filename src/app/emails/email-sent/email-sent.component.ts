@@ -36,23 +36,26 @@ export class EmailSentComponent implements OnInit {
   ngOnInit() {
     this.showLoaders = true;
     this.emailStore.updateSentThreadList().then(success => {
-      // this.spinner.show('sent');
+      this.doSentPagination(10);
       this.detector.detectChanges();
     });
     this.emailStore.sentThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
-    setTimeout(() => {
-      this.getSentThreads();
-    }, 5000);
-  }
-
-  getSentThreads() {
     this.sentThreads = this.emailStore.sentThreads$.pipe(
       map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
     );
-    this.showLoaders = false;
-    console.log(this.sentThreads);
+    this.detector.detectChanges();
+  }
+
+  doSentPagination(i) {
+    this.showLoaders = true;
+    const that = this;
+    this.emailStore.paginateSentThreadList(i).then(function (value) {
+      if (value === undefined) {
+        that.showLoaders = false;
+      }
+    });
   }
 
   onClick_GetThreadMessages(threadData) {

@@ -11,7 +11,7 @@ import { EmailsService } from 'src/app/_http/emails.service';
 import { ConfirmDialogComponent } from 'src/app/confirm/confirm-dialog/confirm-dialog.component';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
-import { stringify } from 'querystring';
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -51,7 +51,8 @@ export class EmailViewComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
-    private emailServ: EmailsService
+    private emailServ: EmailsService,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -458,5 +459,9 @@ export class EmailViewComponent implements OnInit {
     if (this.quotes !== '') {
       document.getElementById('footer_button').style.visibility = 'visible';
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

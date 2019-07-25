@@ -3,7 +3,8 @@
 
 <div class="row" style="margin-bottom:0px 0px 5px 5px;">
   <div class="col">
-    <i class="fa fa-arrow-circle-left" (click)="goBack()" style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
+    <i class="fa fa-arrow-circle-left" (click)="goBack()"
+      style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col">
@@ -14,34 +15,36 @@
   </div>
 </div>
 
-<div class="card"   
-    *ngFor="let eml of emailList; let i = index;"
-    [ngClass]="{'threadCssOcean': !eml.isOpen && eml.from.toLowerCase().includes('oceantransworld.com'), 'threadCss': !eml.isOpen && !(eml.from.toLowerCase().includes('oceantransworld.com')), 'unread': eml.isUnread}">
+<div class="card" *ngFor="let eml of emailList; let i = index;"
+  [ngClass]="{'threadCssOcean': !eml.isOpen && eml.from.toLowerCase().includes('oceantransworld.com'), 'threadCss': !eml.isOpen && !(eml.from.toLowerCase().includes('oceantransworld.com')), 'unread': eml.isUnread}">
   <div class="no-gutters" [ngClass]="{'card-color': eml.isOpen}">
     <div class="col">
       <div class="row">
         <div class="col-md-3">
-            <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin: 2px 5px;"
+          <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin: 2px 5px;"
             *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[0]}}
-            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i></span>
+            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo"
+              ngbTooltip="Show Details"></i></span>
         </div>
         <div class="col-md-4">
-            <span class="row MailHeaders_Sub" [ngClass]="{'card-color': eml.isOpen}" style="margin: 2px 5px;"
+          <span class="row MailHeaders_Sub" [ngClass]="{'card-color': eml.isOpen}" style="margin: 2px 5px;"
             *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[1] === undefined ? '' : (eml.from.split('<')[1]).slice(0,-1)}}</span>
           <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin: 2px 5px;"
             *ngIf="eml.from.split('<')[0] === ''">{{eml.from.split('<')[1] === undefined ? '' : (eml.from.split('<')[1]).slice(0,-1)}}
-            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo" ngbTooltip="Show Details"></i></span>
+            <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo"
+              ngbTooltip="Show Details"></i></span>
         </div>
-        <div class="col-md-3 pull-right">
+        <div class="col-md-2 pull-right">
           {{eml.date}}
         </div>
-        <div class="col-md-2 pull-left" style="padding-left: 0px;">
-            <button *ngIf="storeSelector !== 'unread'" type="button" ngbTooltip="Upload" class="btn btn-sm btn-outline-secondary float-right"
-            style="transform: scale(0.75);" (click)="selectFolderForUpload(i, eml.msgid)">
+        <div class="col-md-3 pull-left" style="padding-left: 0px;">
+          <button *ngIf="storeSelector !== 'unread'" type="button" ngbTooltip="Upload"
+            class="btn btn-sm btn-outline-secondary float-right" style="transform: scale(0.75);"
+            (click)="selectFolderForUpload(i, eml.msgid)">
             <i class="fa fa-upload"></i>
           </button>
-          <button *ngIf="!eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-secondary float-right"
-            style="transform: scale(0.75);" (click)="getPrint(i)">
+          <button *ngIf="!eml.isOpen" type="button" ngbTooltip="Print"
+            class="btn btn-sm btn-outline-secondary float-right" style="transform: scale(0.75);" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
           <button *ngIf="eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-warning float-right"
@@ -61,9 +64,15 @@
             <i class="fa fa-arrow-right"></i>
           </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="transform: scale(0.75);" (click)="eml.isOpen = !eml.isOpen">
+            style="transform: scale(0.75);" (click)="expand(eml)">
             <i class="fa fa-expand"></i>
           </button>
+          <span>
+            {{eml.attachments.length}}
+          </span>
+          <span>
+            <i class="fa fa-files-o"></i>
+          </span>
         </div>
       </div>
     </div>
@@ -104,7 +113,8 @@
           </button>
         </div>
         <div *ngIf="eml.showFooter">
-          <div class="row" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml" style="max-width:100%; margin: 0px;">
+          <div class="row" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml"
+            style="max-width:100%; margin: 0px;">
 
           </div>
         </div>
@@ -140,7 +150,9 @@
                     style="transform: scale(1.5);-webkit-transform: scale(1.5);">
                 </div>
                 <div class="row" style=" font-size: 14px;">
-                  <i class="fa fa-eye preview" *ngIf="['pdf','jpg','jpeg','png'].includes((att.fileName.split('.')[1]).toLowerCase())" (click) = "getPreview(eml.msgid,att)" ngbTooltip="Preview"></i>
+                  <i class="fa fa-eye preview"
+                    *ngIf="['pdf','jpg','jpeg','png'].includes((att.fileName.split('.')[1]).toLowerCase())"
+                    (click)="getPreview(eml.msgid,att)" ngbTooltip="Preview"></i>
                   <span class="attSections" [ngbTooltip]="att.fileName">{{att.fileName | slice:0:20}}<i
                       *ngIf="att.fileName.length > 20">...</i></span>
                 </div>
@@ -171,4 +183,3 @@
     </div>
   </div>
 </div>
-

@@ -123,15 +123,6 @@ export class EmailViewComponent implements OnInit {
             }
           }
           this.emailList = x;
-          // if (document.getElementsByClassName("MsoNormal").length > 0) {
-          //   console.log('ENTERED');
-          //   for (let j = 0; j < document.getElementsByClassName('MsoNormal').length; j++) {
-          //     if (document.getElementsByClassName('MsoNormal')[j].innerHTML.toLowerCase().includes('thanks')) {
-          //       const parent = document.getElementsByClassName('MsoNormal')[j].parentElement;
-          //       console.log('PARENT', parent);
-          //     }
-          //   }
-          // }
         });
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
@@ -466,6 +457,19 @@ export class EmailViewComponent implements OnInit {
     popupWin.document.close();
     if (this.quotes !== '') {
       document.getElementById('footer_button').style.visibility = 'visible';
+    }
+  }
+
+  expand(eml) {
+    eml.isOpen = !eml.isOpen;
+    if (document.getElementsByClassName("MsoNormal").length > 0) {
+      console.log('ENTERED');
+      for (let j = 0; j < document.getElementsByClassName('MsoNormal').length; j++) {
+        if (document.getElementsByClassName('MsoNormal')[j].innerHTML.toLowerCase().includes('thanks')) {
+          const parent = document.getElementsByClassName('MsoNormal')[j].parentElement;
+          console.log('PARENT', parent);
+        }
+      }
     }
   }
 

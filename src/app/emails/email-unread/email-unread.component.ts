@@ -4,6 +4,7 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-email-unread',
@@ -38,8 +39,21 @@ export class EmailUnreadComponent implements OnInit {
     }, err => {
       this.spinner.hide();
       console.log('promise reject for updateUnreadThreadList');
-
     });
+    interval(2000 * 60).subscribe(x => {
+      this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
+        console.log('promise succ for updateUnreadThreadList');
+        this.spinner.hide();
+        this.doUnreadPagination(9);
+      }, err => {
+        this.spinner.hide();
+        console.log('promise reject for updateUnreadThreadList');
+      });
+    });
+  }
+
+  getLatestThreads() {
+    // this.showLoaders = true;
   }
 
   getMails() {
@@ -67,7 +81,6 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   fetchUnreadThreads(i) {
-
     this.emailStore.updateUnreadThreadList(i, this.addrFrom, this.addrTo, this.subject).then(result => {
       this.spinner.hide();
       this.doUnreadPagination(i - 1);

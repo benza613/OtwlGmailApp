@@ -434,9 +434,9 @@ export class EmailViewComponent implements OnInit {
         heightLeft -= pageHeight;
       }
       //UPLOAD TO FS
-      const  file = pdf.output();
+      const  file = pdf.output('blob');
       const formData: FormData = new FormData();
-      formData.append('file', file);
+      formData.append('file', file, 'abc.pdf');
       formData.append('keyD', mdId);
       formData.append('keyQ', qlevel);
       formData.append('keyPF', entityId);

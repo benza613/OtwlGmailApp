@@ -172,6 +172,45 @@ export class EmailViewComponent implements OnInit {
           this.emailList = x;
         });
       this.spinner.hide();
+    } else if (this.storeSelector === 'sent') {
+      this.body = [];
+      this.quotes = [];
+      this.emailStore.getSentMsgList$(this.reqThreadId)
+        .pipe(
+          map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        ).subscribe(x => {
+          for (let i = 0; i < x.length; i++) {
+            if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+
+              this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+            }
+            else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<div class="gmail_quote">')[0];
+
+              this.quotes[i] = '<div class="gmail_quote">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div class="gmail_quote">')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<div id="divSignatureLine">')[0];
+
+              this.quotes[i] = '<div id="divSignatureLine">' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<div id="divSignatureLine"')[1]);
+            } else {
+              this.body[i] = x[i].body;
+              this.quotes[i] = '';
+            }
+          }
+          this.emailList = x;
+        });
+      this.spinner.hide();
     }
   }
 

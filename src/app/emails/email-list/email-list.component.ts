@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./email-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmailListComponent implements OnInit, OnChanges {
+export class EmailListComponent implements OnInit {
   @Input() storeSelector: string;
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
   t_CollectionSize: number;
@@ -33,10 +33,6 @@ export class EmailListComponent implements OnInit, OnChanges {
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
   ) { }
-
-  ngOnChanges() {
-    this.spinner.show();
-  }
 
   ngOnInit() {
       if (this.storeSelector === 'EmailUnreadComponent') {

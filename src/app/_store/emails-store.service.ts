@@ -80,6 +80,10 @@ export class EmailsStoreService {
     map(tx => this.unreadThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
+  readonly getSentMsgList$ = (ThreadId) => this.sentThreads$.pipe(
+    map(tx => this.sentThreads.find(t => t.ThreadId === ThreadId).Messages)
+  )
+
   /*
     PROPERTY GETTERS AND SETTERS
   */
@@ -554,5 +558,35 @@ export class EmailsStoreService {
   //       this.errorService.displayError(result, 'addEmailAddresses');
   //     }
   // }
+
+  async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
+    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    if (res.d.errId === '200') {
+      const index = this.sentThreads.indexOf(this.sentThreads.find(t => t.ThreadId === ThreadId));
+      this.sentThreads[index].Messages = [];
+      for (let ix = 0; ix < res.d.msgList.length; ix++) {
+        res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
+          if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
+              + 'KB';
+          } else {
+            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
+              + 'MB';
+          }
+        }
+        this.sentThreads[index].Messages.push(res.d.msgList[ix]);
+      }
+      this.sentThreads = [...this.sentThreads];
+      this.router.navigate(['view/' + ThreadId], {
+        queryParams: {
+          q: storeSelector ,
+          subject: Subject
+        }
+      });
+    } else {
+      this.errorService.displayError(res, 'fetchThreadEmails');
+    }
+  }
 
 }

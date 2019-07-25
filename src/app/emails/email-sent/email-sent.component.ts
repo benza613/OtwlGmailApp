@@ -3,6 +3,8 @@ import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-sent',
@@ -13,6 +15,7 @@ export class EmailSentComponent implements OnInit {
 
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
   sentThreads;
+  storeSelector = 'sent';
   t_CollectionSize: number;
   t_currentPage = 1;
   t_itemsPerPage = 10;
@@ -20,6 +23,7 @@ export class EmailSentComponent implements OnInit {
   filterSubject;
   filterDate: NgbDateStruct = null;
   sentFilterArgs = { a: '', b: '', c: '' };
+  showLoaders = false;
   // optimization, rerenders only threads that change instead of the entire list of threads
   threadTrackFn = (i, thread) => thread.ThreadId;
   constructor(
@@ -30,23 +34,44 @@ export class EmailSentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.emailStore.updateSentThreadList();
+    this.showLoaders = true;
+    this.emailStore.updateSentThreadList().then(success => {
+      // this.spinner.show('sent');
+      this.detector.detectChanges();
+    });
     this.emailStore.sentThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
+    setTimeout(() => {
+      this.getSentThreads();
+    }, 5000);
   }
 
   getSentThreads() {
-    this.spinner.show();
-    this.detector.detectChanges();
-    this.emailStore.sentThreads$.subscribe(x => {
-      for (let i = 0; i < x.length; i++) {
-        this.sentThreads = [...this.sentThreads, x[i]];
-        this.detector.detectChanges();
-      }
-    });
+    this.sentThreads = this.emailStore.sentThreads$.pipe(
+      map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+    );
+    this.showLoaders = false;
     console.log(this.sentThreads);
-    this.spinner.hide();
+  }
+
+  onClick_GetThreadMessages(threadData) {
+    this.authServ.login();
+    this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject);
+  }
+
+  applyFilter() {
+    this.detector.detectChanges();
+    const date = moment(this.filterDate).subtract(1, 'month').format('YYYY-MM-DD');
+    this.sentFilterArgs = {
+      a: this.filterFrom, b: this.filterSubject,
+      c: date === 'Invalid date' ? '' : date
+    };
+  }
+
+  clearDateField() {
+    this.filterDate = null;
+    this.applyFilter();
   }
 
 }

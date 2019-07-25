@@ -1,6 +1,6 @@
 import { MessageUiAttach } from './../../models/message-ui-attach.model';
 import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Message } from '../../models/message.model';
@@ -11,7 +11,7 @@ import { EmailsService } from 'src/app/_http/emails.service';
 import { ConfirmDialogComponent } from 'src/app/confirm/confirm-dialog/confirm-dialog.component';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -433,12 +433,19 @@ export class EmailViewComponent implements OnInit {
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-      //CALL THE ASHX METHOD HERE
-
-      this.emailServ.uploadPDF(pdf,mdId,entityId,qlevel).then(function (value) {
-        alert('Upload Successfully done!');
-      });
-      pdf.save('Email.pdf');
+      //UPLOAD TO FS
+      const  file = pdf.output();
+      const formData: FormData = new FormData();
+      console.log('form Data', [file, mdId, qlevel, entityId]);
+      formData.append('file', file);
+      formData.append('keyD', mdId);
+      formData.append('keyQ', qlevel);
+      formData.append('keyPF', entityId);
+      console.log('FORM DATA', formData);
+      // this.emailServ.uploadPDF(formData).then(function (value) {
+      //   alert('Upload Successfully done!');
+      //   pdf.save('Email.pdf');
+      // });
       document.getElementById('footer_button').style.visibility = 'visible';
     });
   }

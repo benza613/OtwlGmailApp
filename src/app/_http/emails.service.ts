@@ -123,16 +123,12 @@ export class EmailsService {
     });
   }
 
-  uploadPDF(pdfFile, mdId, qlevel, entityId) {
+  uploadPDF(formData) {
+    console.log('Form Data', formData);
     return new Promise(async (resolve, reject) => {
-      const blob = new Blob([pdfFile as Blob], {
-        type: 'application/pdf'
+      this.http.post(`${this.apiBaseUrl_Pdf}`, formData).subscribe(x => {
+        resolve('200');
       });
-      this.http.post(`${this.apiBaseUrl_Pdf}`,
-        { file: blob, 'keyD': mdId, 'keyQ': qlevel, 'keyPF': entityId },
-        this.httpOptions).subscribe(x => {
-          resolve('200');
-        });
     });
   }
 

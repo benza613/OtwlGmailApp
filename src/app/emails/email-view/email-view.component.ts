@@ -384,6 +384,10 @@ export class EmailViewComponent implements OnInit {
   }
 
   async selectFolderForUpload(id, msgId) {
+
+    alert('Feature Unavailable');
+    return;
+
     const email = document.getElementById(id);
     this.spinner.show();
     const that = this;

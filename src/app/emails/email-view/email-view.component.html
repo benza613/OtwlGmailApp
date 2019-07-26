@@ -64,7 +64,7 @@
             <i class="fa fa-arrow-right"></i>
           </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="transform: scale(0.75);" (click)="expand(eml)">
+            style="transform: scale(0.75);" (click)="expand(eml,i)">
             <i class="fa fa-expand"></i>
           </button>
           <span>
@@ -103,8 +103,20 @@
         </div>
       </div>
       <div id="{{i}}">
-        <div class="row" id="body{{i}}" [innerHTML]="body[i] | safeHtml" style="max-width:100%; margin: 0px;">
+        <div class="row" id="body{{i}}" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
 
+        </div>
+        <div class="row pull left">
+          <button id="signature_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="signature[i] !== ''"
+            style="margin-left: 20px;" (click)="eml.showSignature = !eml.showSignature">
+            {{eml.showSignature ? 'HIDE SIGNATURE' : 'SHOW SIGNATURE' }}
+          </button>
+        </div>
+        <div *ngIf="eml.showSignature">
+          <div class="row" *ngIf="signature[i] !== ''" [innerHTML]="signature[i] | safeHtml"
+            style="max-width:100%; margin: 0px;">
+
+          </div>
         </div>
         <div class="row pull left">
           <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes[i] !== ''"

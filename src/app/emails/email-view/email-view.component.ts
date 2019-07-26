@@ -8,7 +8,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailsService } from 'src/app/_http/emails.service';
-import { ConfirmDialogComponent } from 'src/app/confirm/confirm-dialog/confirm-dialog.component';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import { Location } from '@angular/common';
@@ -78,50 +77,7 @@ export class EmailViewComponent implements OnInit {
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          for (let i = 0; i < x.length; i++) {
-            if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<blockquote')[0];
-
-              this.quotes[i] = '<blockquote' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<blockquote')[1]);
-            }
-            else if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
-
-              this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
-            }
-            else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div class="gmail_quote">')[0];
-
-              this.quotes[i] = '<div class="gmail_quote">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div class="gmail_quote">')[1]);
-            } else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<blockquote')[0];
-
-              this.quotes[i] = '<blockquote' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<blockquote')[1]);
-            } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div id="divSignatureLine">')[0];
-
-              this.quotes[i] = '<div id="divSignatureLine">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div id="divSignatureLine"')[1]);
-            } else {
-              this.body[i] = x[i].body;
-              this.quotes[i] = '';
-            }
-          }
-          this.emailList = x;
+          this.hideBlockQuotes(x);
         });
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
@@ -131,43 +87,7 @@ export class EmailViewComponent implements OnInit {
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          for (let i = 0; i < x.length; i++) {
-            if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
-
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
-
-              this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
-            }
-            else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div class="gmail_quote">')[0];
-
-              this.quotes[i] = '<div class="gmail_quote">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div class="gmail_quote">')[1]);
-            } else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<blockquote')[0];
-
-              this.quotes[i] = '<blockquote' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<blockquote')[1]);
-            } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div id="divSignatureLine">')[0];
-
-              this.quotes[i] = '<div id="divSignatureLine">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div id="divSignatureLine"')[1]);
-            } else {
-              this.body[i] = x[i].body;
-              this.quotes[i] = '';
-            }
-          }
-          this.emailList = x;
+          this.hideBlockQuotes(x);
         });
       this.spinner.hide();
     } else if (this.storeSelector === 'sent') {
@@ -177,36 +97,7 @@ export class EmailViewComponent implements OnInit {
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          for (let i = 0; i < x.length; i++) {
-            if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
-
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
-
-              this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
-            }
-            else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div class="gmail_quote">')[0];
-
-              this.quotes[i] = '<div class="gmail_quote">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div class="gmail_quote">')[1]);
-            } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<div id="divSignatureLine">')[0];
-
-              this.quotes[i] = '<div id="divSignatureLine">' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<div id="divSignatureLine"')[1]);
-            } else {
-              this.body[i] = x[i].body;
-              this.quotes[i] = '';
-            }
-          }
-          this.emailList = x;
+          this.hideBlockQuotes(x);
         });
       this.spinner.hide();
     }
@@ -415,6 +306,52 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
+  hideBlockQuotes(x) {
+    for (let i = 0; i < x.length; i++) {
+      if (x[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+        this.body[i] = x[i].body.toLowerCase().trim().split(
+          '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+
+        this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
+          (x[i].body.toLowerCase().trim()
+            .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+      }
+      else if (x[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+        this.body[i] = x[i].body.toLowerCase().trim().split(
+          '<div class="gmail_quote">')[0];
+
+        this.quotes[i] = '<div class="gmail_quote">' +
+          (x[i].body.toLowerCase().trim()
+            .split('<div class="gmail_quote">')[1]);
+      }else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
+        this.body[i] = x[i].body.toLowerCase().trim().split(
+          '<blockquote')[0];
+
+        this.quotes[i] = '<blockquote' +
+          (x[i].body.toLowerCase().trim()
+            .split('<blockquote')[1]);
+      } else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
+        this.body[i] = x[i].body.toLowerCase().trim().split(
+          '<blockquote')[0];
+
+        this.quotes[i] = '<blockquote' +
+          (x[i].body.toLowerCase().trim()
+            .split('<blockquote')[1]);
+      } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
+        this.body[i] = x[i].body.toLowerCase().trim().split(
+          '<div id="divSignatureLine">')[0];
+
+        this.quotes[i] = '<div id="divSignatureLine">' +
+          (x[i].body.toLowerCase().trim()
+            .split('<div id="divSignatureLine"')[1]);
+      } else {
+        this.body[i] = x[i].body;
+        this.quotes[i] = '';
+      }
+    }
+    this.emailList = x;
+  }
+
 
   uploadToFileServer(id, msgId, email, entityId, qlevel, mdId) {
     document.getElementById('footer_button').style.visibility = 'hidden';
@@ -472,8 +409,7 @@ export class EmailViewComponent implements OnInit {
 
   expand(eml) {
     eml.isOpen = !eml.isOpen;
-    if (document.getElementsByClassName("MsoNormal").length > 0) {
-      console.log('ENTERED');
+    if (document.getElementsByClassName('MsoNormal').length > 0) {
       for (let j = 0; j < document.getElementsByClassName('MsoNormal').length; j++) {
         if (document.getElementsByClassName('MsoNormal')[j].innerHTML.toLowerCase().includes('thanks')) {
           const parent = document.getElementsByClassName('MsoNormal')[j].parentElement;

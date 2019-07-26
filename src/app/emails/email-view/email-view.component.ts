@@ -102,6 +102,13 @@ export class EmailViewComponent implements OnInit {
               this.quotes[i] = '<div class="gmail_quote">' +
                 (x[i].body.toLowerCase().trim()
                   .split('<div class="gmail_quote">')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<blockquote')[0];
+
+              this.quotes[i] = '<blockquote' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<blockquote')[1]);
             } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<div id="divSignatureLine">')[0];
@@ -109,14 +116,6 @@ export class EmailViewComponent implements OnInit {
               this.quotes[i] = '<div id="divSignatureLine">' +
                 (x[i].body.toLowerCase().trim()
                   .split('<div id="divSignatureLine"')[1]);
-            }
-            else if (x[i].body.toLowerCase().trim().includes('class=""')) {
-              this.body[i] = x[i].body.toLowerCase().trim().split(
-                '<blockquote')[0];
-
-              this.quotes[i] = '<blockquote' +
-                (x[i].body.toLowerCase().trim()
-                  .split('<blockquote')[1]);
             } else {
               this.body[i] = x[i].body;
               this.quotes[i] = '';
@@ -149,6 +148,13 @@ export class EmailViewComponent implements OnInit {
               this.quotes[i] = '<div class="gmail_quote">' +
                 (x[i].body.toLowerCase().trim()
                   .split('<div class="gmail_quote">')[1]);
+            } else if (x[i].body.toLowerCase().trim().includes('<blockquote')) {
+              this.body[i] = x[i].body.toLowerCase().trim().split(
+                '<blockquote')[0];
+
+              this.quotes[i] = '<blockquote' +
+                (x[i].body.toLowerCase().trim()
+                  .split('<blockquote')[1]);
             } else if (x[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
               this.body[i] = x[i].body.toLowerCase().trim().split(
                 '<div id="divSignatureLine">')[0];
@@ -425,7 +431,7 @@ export class EmailViewComponent implements OnInit {
         heightLeft -= pageHeight;
       }
       //UPLOAD TO FS
-      const  file = pdf.output('blob');
+      const file = pdf.output('blob');
       const formData: FormData = new FormData();
       formData.append('file', file, 'abc.pdf');
       formData.append('keyD', mdId);
@@ -467,7 +473,9 @@ export class EmailViewComponent implements OnInit {
       for (let j = 0; j < document.getElementsByClassName('MsoNormal').length; j++) {
         if (document.getElementsByClassName('MsoNormal')[j].innerHTML.toLowerCase().includes('thanks')) {
           const parent = document.getElementsByClassName('MsoNormal')[j].parentElement;
-          console.log('PARENT', parent);
+          if (!parent.toString().toLowerCase().includes('wordsection1')) {
+            console.log('PARENT', parent);
+          }
         }
       }
     }

@@ -4,6 +4,22 @@
   cursor: pointer;
 }
 
+.threadCss {
+  max-width:100%;
+  margin-bottom: 5px;
+  border-left: 7px solid rgb(212, 76, 52); 
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.threadCssOcean {
+  max-width:100%;
+  margin-bottom: 5px;
+  border-left: 7px solid #006699; 
+  border-radius: 5px;
+  font-weight: 600;
+}
+
 
 .UnreadContent span {
   // color: #99001a;
@@ -57,38 +73,6 @@
 }
 
 
-// LIST CSS
-.rolldown-list {
-  visibility: hidden;
-  animation: rolldown .7s 1;
-  transform-origin: 50% 0;
-  animation-fill-mode: forwards;
-  margin: 5px;
-  border-radius: 30px;
-
-  &:hover {
-    background-color: rgb(221, 221, 221);
-  }
-}
-
-
-
-@keyframes rolldown {
-  0% {
-    visibility: visible;
-    transform: rotateX(180deg) perspective(500px);
-  }
-
-  70% {
-    visibility: visible;
-    transform: rotateX(-20deg);
-  }
-
-  100% {
-    visibility: visible;
-    transform: rotateX(0deg);
-  }
-}
 
 .loading-bar {
   display: inline-block;
@@ -134,7 +118,7 @@
   transform-origin: 50% 0;
   animation-fill-mode: forwards;
   margin: 5px;
-  border-radius: 30px; 
+  // border-radius: 30px; 
 
   &:hover {
     background-color: rgb(230, 230, 230);

@@ -22,7 +22,7 @@
       <div class="row">
         <div class="col-md-3">
           <span class="row" [ngClass]="{'card-color': eml.isOpen}" style="margin: 2px 5px;"
-            *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[0]}}
+            *ngIf="eml.from.split('<')[0] !== ''">{{eml.from.split('<')[0]}}&nbsp;
             <i class="fa fa-sort-desc" *ngIf="eml.isOpen" (click)=" showInfo = !showInfo"
               ngbTooltip="Show Details"></i></span>
         </div>

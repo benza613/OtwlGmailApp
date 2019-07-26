@@ -35,10 +35,7 @@ export class EmailSentComponent implements OnInit {
 
   ngOnInit() {
     this.showLoaders = true;
-    this.emailStore.updateSentThreadList().then(success => {
-      this.doSentPagination(10);
-      this.detector.detectChanges();
-    });
+    this.doSentPagination(10);
     this.emailStore.sentThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });

@@ -535,30 +535,30 @@ export class EmailsStoreService {
   //     }
   // }
 
-  updateSentThreadList() {
-    return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.indexSent(
-        this.pageTokenSent == null ? '' : this.pageTokenSent,
-      ).toPromise();
-      if (res.d.errId === '200') {
-        const arrx = [];
-        res.d.threads.forEach(x => {
-          x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-        });
-        arrx.push(...<Thread[]>res.d.threads);
-        this.sentThreads = arrx;
-        console.log('SENT', arrx);
-        if (res.d.pageToken == null) {
-          this.pageTokenSent = '';
-        } else {
-          this.pageTokenSent = res.d.pageToken;
-        }
-      } else {
-        this.errorService.displayError(res, 'indexSent');
-      }
-      resolve();
-    });
-  }
+  // updateSentThreadList() {
+  //   return new Promise(async (resolve, reject) => {
+  //     const res = await this.emailServ.indexSent(
+  //       this.pageTokenSent == null ? '' : this.pageTokenSent,
+  //     ).toPromise();
+  //     if (res.d.errId === '200') {
+  //       const arrx = [];
+  //       res.d.threads.forEach(x => {
+  //         x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+  //       });
+  //       arrx.push(...<Thread[]>res.d.threads);
+  //       this.sentThreads = arrx;
+  //       console.log('SENT', arrx);
+  //       if (res.d.pageToken == null) {
+  //         this.pageTokenSent = '';
+  //       } else {
+  //         this.pageTokenSent = res.d.pageToken;
+  //       }
+  //     } else {
+  //       this.errorService.displayError(res, 'indexSent');
+  //     }
+  //     resolve();
+  //   });
+  // }
 
   async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();

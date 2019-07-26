@@ -107,9 +107,9 @@
 
         </div>
         <div class="row pull left">
-          <button id="signature_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="signature[i] !== ''"
-            style="margin-left: 20px;" (click)="eml.showSignature = !eml.showSignature">
-            {{eml.showSignature ? 'HIDE SIGNATURE' : 'SHOW SIGNATURE' }}
+          <button id="signature_button" type="button" class="btn btn-sm btn-outline-success " *ngIf="signature[i] !== ''"
+            style="margin:5px 0px 5px 20px;" (click)="eml.showSignature = !eml.showSignature">
+            {{eml.showSignature ? 'HIDE DETAILS' : 'SHOW DETAILS' }}
           </button>
         </div>
         <div *ngIf="eml.showSignature">

@@ -342,6 +342,12 @@ export class EmailViewComponent implements OnInit {
                 .split('<div class="container-fluid"')[1]);
             this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
               '<div class="container-fluid"')[0];
+          }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+            this.signature[i] = '<div style="font-size:small">' +
+              (this.emailList[i].body.toLowerCase().trim()
+                .split('<div style="font-size:small">')[1]);
+            this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+              '<div style="font-size:small">')[0];
           }
       }
 
@@ -365,6 +371,12 @@ export class EmailViewComponent implements OnInit {
                 .split('<div class="container-fluid"')[1]);
             this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
               '<div class="container-fluid"')[0];
+          }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+            this.signature[i] = '<div style="font-size:small">' +
+              (this.emailList[i].body.toLowerCase().trim()
+                .split('<div style="font-size:small">')[1]);
+            this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+              '<div style="font-size:small">')[0];
           }
       }
 
@@ -388,6 +400,12 @@ export class EmailViewComponent implements OnInit {
                 .split('<div class="container-fluid"')[1]);
             this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
               '<div class="container-fluid"')[0];
+          }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+            this.signature[i] = '<div style="font-size:small">' +
+              (this.emailList[i].body.toLowerCase().trim()
+                .split('<div style="font-size:small">')[1]);
+            this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+              '<div style="font-size:small">')[0];
           }
 
       }
@@ -412,6 +430,12 @@ export class EmailViewComponent implements OnInit {
                 .split('<div class="container-fluid"')[1]);
             this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
               '<div class="container-fluid"')[0];
+          }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+            this.signature[i] = '<div style="font-size:small">' +
+              (this.emailList[i].body.toLowerCase().trim()
+                .split('<div style="font-size:small">')[1]);
+            this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+              '<div style="font-size:small">')[0];
           }
       }
 
@@ -512,6 +536,12 @@ export class EmailViewComponent implements OnInit {
             .split('<div class="container-fluid"')[1]);
         this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
           '<div class="container-fluid"')[0];
+      }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+        this.signature[i] = '<div style="font-size:small">' +
+          (this.emailList[i].body.toLowerCase().trim()
+            .split('<div style="font-size:small">')[1]);
+        this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+          '<div style="font-size:small">')[0];
       }
     }
 
@@ -536,6 +566,12 @@ export class EmailViewComponent implements OnInit {
             .split('<div class="container-fluid"')[1]);
         this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
           '<div class="container-fluid"')[0];
+      }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+        this.signature[i] = '<div style="font-size:small">' +
+          (this.emailList[i].body.toLowerCase().trim()
+            .split('<div style="font-size:small">')[1]);
+        this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+          '<div style="font-size:small">')[0];
       }
     }
 
@@ -560,6 +596,12 @@ export class EmailViewComponent implements OnInit {
             .split('<div class="container-fluid"')[1]);
         this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
           '<div class="container-fluid"')[0];
+      }else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+        this.signature[i] = '<div style="font-size:small">' +
+          (this.emailList[i].body.toLowerCase().trim()
+            .split('<div style="font-size:small">')[1]);
+        this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+          '<div style="font-size:small">')[0];
       }
     }
 
@@ -583,6 +625,12 @@ export class EmailViewComponent implements OnInit {
             .split('<div class="container-fluid"')[1]);
         this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
           '<div class="container-fluid"')[0];
+      } else if (this.emailList[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+        this.signature[i] = '<div style="font-size:small">' +
+          (this.emailList[i].body.toLowerCase().trim()
+            .split('<div style="font-size:small">')[1]);
+        this.emailList[i].body = this.emailList[i].body.toLowerCase().trim().split(
+          '<div style="font-size:small">')[0];
       }
     }
 

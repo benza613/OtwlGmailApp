@@ -11,5 +11,7 @@ export interface Message {
     err: Number;
     isOpen: boolean;
     isUnread: boolean;
+    showSignature: boolean;
+    showFooter: boolean;
     attachments: MessageUiAttach[];
 }

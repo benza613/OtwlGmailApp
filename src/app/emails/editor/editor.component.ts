@@ -1,6 +1,6 @@
 import { DomainStoreService } from './../../_store/domain-store.service';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { LocalStorageService } from 'src/app/_util/local-storage.service';
@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.prod';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FSFilesDialogComponent } from 'src/app/email_fs_files/fsfiles-dialog/fsfiles-dialog.component';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 const URL = environment.url.uploadsGA;
 
@@ -77,6 +77,7 @@ export class EditorComponent implements OnInit {
   addressBook;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private emailStore: EmailsStoreService,
     private detector: ChangeDetectorRef,
     private locStgService: LocalStorageService,
@@ -84,7 +85,7 @@ export class EditorComponent implements OnInit {
     private modalService: NgbModal,
     private domainStore: DomainStoreService,
     private location: Location
-  ) {  }
+  ) { }
 
   ngOnInit() {
     const emlData = {};
@@ -125,7 +126,7 @@ export class EditorComponent implements OnInit {
     this.emailStore.addressBook$.subscribe(x => {
       this.msgAddrList = [];
       for (let ix = 0; ix < x.length; ix++) {
-        this.msgAddrList = [...this.msgAddrList, { emailId: x[ix].emailName + ' ' + '<' + x[ix].emailAddr + '>'}];
+        this.msgAddrList = [...this.msgAddrList, { emailId: x[ix].emailName + ' ' + '<' + x[ix].emailAddr + '>' }];
       }
       this.detector.detectChanges();
     });
@@ -243,6 +244,11 @@ export class EditorComponent implements OnInit {
                   that.detector.detectChanges();
                   console.log('res.d.errId:', value);
                   console.log(that.newAddrList);
+                  if (this._reqStoreSelector !== '') {
+                    that.location.back();
+                  } else {
+                    that.router.navigate(['/unread']);
+                  }
                 });
             });
         },
@@ -278,7 +284,9 @@ export class EditorComponent implements OnInit {
       emlData.cc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
-          this.msgPacket.cc.push({ emailId: element });
+          if (element !== this.senderEmail) {
+            this.msgPacket.cc.push({ emailId: element });
+          }
         }
       });
     }
@@ -287,7 +295,9 @@ export class EditorComponent implements OnInit {
       emlData.bcc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
-          this.msgPacket.bcc.push({ emailId: element });
+          if (element !== this.senderEmail) {
+            this.msgPacket.bcc.push({ emailId: element });
+          }
         }
       });
     }
@@ -339,6 +349,11 @@ export class EditorComponent implements OnInit {
                     that.detector.detectChanges();
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
                     console.log('res.d.errId:', value);
+                    if (that._reqStoreSelector !== '') {
+                      that.location.back();
+                    } else {
+                      that.router.navigate(['/unread']);
+                    }
                   });
               });
 
@@ -553,14 +568,14 @@ export class EditorComponent implements OnInit {
       }
     });
 
-    msgs[0].msgTo.split(',').forEach(element => {
-      if (element !== undefined && element !== '') {
-        this.msgAddrList.push({ emailId: element });
-        if (this._reqActionType === 'ra') {
-          this.msgPacket.cc.push({ emailId: element });
-        }
-      }
-    });
+    // msgs[0].msgTo.split(',').forEach(element => {
+    //   if (element !== undefined && element !== '') {
+    //     this.msgAddrList.push({ emailId: element });
+    //     if (this._reqActionType === 'ra') {
+    //       this.msgPacket.cc.push({ emailId: element });
+    //     }
+    //   }
+    // });
 
   }
 

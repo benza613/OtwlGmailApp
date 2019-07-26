@@ -81,7 +81,6 @@ export class EmailViewComponent implements OnInit {
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          // this.hideBlockQuotes(x);
           this.emailList = x;
           this.emailListOriginal = x;
           for (let i = 0; i < x.length; i++) {
@@ -89,13 +88,13 @@ export class EmailViewComponent implements OnInit {
             this.signature[i] = '';
           }
         });
+        this.hideBlockQuotes();
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          // this.hideBlockQuotes(x);
           this.emailList = x;
           this.emailListOriginal = x;
           console.log(this.emailListOriginal);
@@ -104,13 +103,13 @@ export class EmailViewComponent implements OnInit {
             this.signature[i] = '';
           }
         });
+        this.hideBlockQuotes();
       this.spinner.hide();
     } else if (this.storeSelector === 'sent') {
       this.emailStore.getSentMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
         ).subscribe(x => {
-          // this.hideBlockQuotes(x);
           this.emailList = x;
           this.emailListOriginal = this.emailList;
           for (let i = 0; i < x.length; i++) {
@@ -118,6 +117,7 @@ export class EmailViewComponent implements OnInit {
             this.signature[i] = '';
           }
         });
+        this.hideBlockQuotes();
       this.spinner.hide();
     }
   }
@@ -274,7 +274,6 @@ export class EmailViewComponent implements OnInit {
 
   expandAll(flag) {
     this.action = !this.action;
-    this.hideBlockQuotes();
     if (flag === 1) {
       this.emailList.forEach(x => {
         x.isOpen = true;
@@ -341,6 +340,13 @@ export class EmailViewComponent implements OnInit {
                 .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
             this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
               '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+          } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
+            console.log('Enter');
+            this.signature[i] = '<div class=WordSection1>' +
+              (this.emailListOriginal[i].body.toLowerCase().trim()
+                .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);
+            this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+              '<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
           } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
             this.signature[i] = '<div class="container-fluid"' +
               (this.emailListOriginal[i].body.toLowerCase().trim()
@@ -370,6 +376,13 @@ export class EmailViewComponent implements OnInit {
                 .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
             this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
               '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+          }else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
+            console.log('Enter');
+            this.signature[i] = '<div class=WordSection1>' +
+              (this.emailListOriginal[i].body.toLowerCase().trim()
+                .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);
+            this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+              '<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
           } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
             this.signature[i] = '<div class="container-fluid"' +
               (this.emailListOriginal[i].body.toLowerCase().trim()
@@ -399,6 +412,13 @@ export class EmailViewComponent implements OnInit {
                 .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
             this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
               '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+          }else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
+            console.log('Enter');
+            this.signature[i] = '<div class=WordSection1>' +
+              (this.emailListOriginal[i].body.toLowerCase().trim()
+                .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);
+            this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+              '<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
           } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
             this.signature[i] = '<div class="container-fluid"' +
               (this.emailListOriginal[i].body.toLowerCase().trim()
@@ -429,6 +449,13 @@ export class EmailViewComponent implements OnInit {
                 .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
             this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
               '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+          }else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
+            console.log('Enter');
+            this.signature[i] = '<div class=WordSection1>' +
+              (this.emailListOriginal[i].body.toLowerCase().trim()
+                .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);
+            this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+              '<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
           } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
             this.signature[i] = '<div class="container-fluid"' +
               (this.emailListOriginal[i].body.toLowerCase().trim()
@@ -450,6 +477,7 @@ export class EmailViewComponent implements OnInit {
         this.quotes[i] = '';
         this.signature[i] = '';
       }
+      console.log('BODY',this.emailListOriginal[i].body);
     }
     this.emailList = this.emailListOriginal;
     this.detector.detectChanges();

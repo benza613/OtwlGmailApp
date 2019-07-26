@@ -68,7 +68,7 @@
   transform-origin: 50% 0;
   animation-fill-mode: forwards;
   margin: 5px;
-  border-radius: 30px;
+  // border-radius: 30px;
 
   &:hover {
     background-color: rgb(240, 240, 240);
@@ -92,4 +92,20 @@
     visibility: visible;
     transform: rotateX(0deg);
   }
+}
+
+.threadCss {
+  max-width:100%;
+  margin-bottom: 5px;
+  border-left: 7px solid rgb(212, 76, 52); 
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.threadCssOcean {
+  max-width:100%;
+  margin-bottom: 5px;
+  border-left: 7px solid #006699; 
+  border-radius: 5px;
+  font-weight: 600;
 }

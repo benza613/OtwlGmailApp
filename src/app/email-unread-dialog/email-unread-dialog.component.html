@@ -9,12 +9,12 @@
   <div class="row" style="padding-bottom: 10px">
     <div class="col">
       <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
-        [(ngModel)]="refId" (change)="onChange_GetRefTypeData()">
+        [(ngModel)]="refId" (change)="onChange_GetRefTypeData()" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col">
       <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
-        bindValue="refId">
+        bindValue="refId" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="col-4" style="padding-right: 0px;">
           <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true"
-            [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type">
+            [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
           </ng-select>
         </div>
       </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-4" style="padding-right: 0px; margin-right: 10px;">
           <ng-select [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
-            bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type">
+            bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
           </ng-select>
         </div>
       </div>

@@ -84,6 +84,14 @@ export class EmailsStoreService {
     map(tx => this.sentThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
+  readonly getUnreadThreadData$ = (ThreadId) => this.unreadThreads$.pipe(
+    map(tx => this.unreadThreads.find(t => t.ThreadId === ThreadId))
+  )
+
+  readonly getMappedThreadData$ = (ThreadId) => this.mappedThreads$.pipe(
+    map(tx => this.mappedThreads.find(t => t.ThreadGID === ThreadId))
+  )
+
   /*
     PROPERTY GETTERS AND SETTERS
   */

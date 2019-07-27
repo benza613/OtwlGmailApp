@@ -7,7 +7,9 @@
       style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
     <span class="subjectHeader">{{subject}}</span>
   </div>
-  <div class="col">
+  <div class="col pull-right">
+      <button type="button" class="btn btn-warning" (click)="OnClick_Map()" *ngIf="storeSelector === 'unread'" style="transform: scale(0.80)"
+       placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
     <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
     <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"

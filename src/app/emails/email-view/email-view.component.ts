@@ -1,3 +1,4 @@
+import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { MessageUiAttach } from './../../models/message-ui-attach.model';
 import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
 import { Component, OnInit, Output, ChangeDetectorRef } from '@angular/core';
@@ -45,6 +46,7 @@ export class EmailViewComponent implements OnInit {
   entityId;
   folderId;
   emailListOriginal;
+  thread;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,6 +79,9 @@ export class EmailViewComponent implements OnInit {
     this.quotes = [];
     this.signature = [];
     if (this.storeSelector === 'unread') {
+      this.emailStore.getUnreadThreadData$(this.reqThreadId).subscribe(x =>{
+        this.thread = x;
+      });
       this.emailStore.getUnreadMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
@@ -91,6 +96,9 @@ export class EmailViewComponent implements OnInit {
         this.hideBlockQuotes();
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
+      this.emailStore.getMappedThreadData$(this.reqThreadId).subscribe(x => {
+        this.thread = x;
+      });
       this.emailStore.getMappedMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
@@ -676,6 +684,21 @@ export class EmailViewComponent implements OnInit {
       this.quotes[i] = '';
       this.signature[i] = '';
     }
+  }
+
+  OnClick_Map() {
+    console.log(this.thread);
+    const modalRef = this.modalService.open(
+      EmailUnreadDialogComponent,
+      { size: 'lg', backdrop: 'static', keyboard: false }
+    );
+    modalRef.componentInstance.mailList = [this.thread];
+    modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+    modalRef.result.then((result) => {
+      if (result.action === '1') {
+        modalRef.close();
+      }
+    });
   }
 
   goBack() {

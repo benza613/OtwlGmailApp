@@ -1,3 +1,4 @@
+import { GlobalStoreService } from './../../_store/global-store.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -14,9 +15,6 @@ import { interval } from 'rxjs';
 export class EmailUnreadComponent implements OnInit {
   dynamicdata: string = 'EmailUnreadComponent';
   mailList = [];
-  addrFrom;
-  addrTo;
-  subject;
   fetch;
   isCollapsed = true;
   showLoaders = false;
@@ -25,14 +23,15 @@ export class EmailUnreadComponent implements OnInit {
     public modalService: NgbModal,
     private domainStore: DomainStoreService,
     private spinner: NgxSpinnerService,
-    private detector: ChangeDetectorRef
+    private detector: ChangeDetectorRef,
+    private globals: GlobalStoreService
   ) { }
 
   ngOnInit() {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
     this.showLoaders = true;
-    this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
+    this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
       console.log('promise succ for updateUnreadThreadList');
       this.spinner.hide();
       this.doUnreadPagination(9);
@@ -40,16 +39,16 @@ export class EmailUnreadComponent implements OnInit {
       this.spinner.hide();
       console.log('promise reject for updateUnreadThreadList');
     });
-    interval(2000 * 60).subscribe(x => {
-      this.emailStore.updateUnreadThreadList(0, this.addrFrom, this.addrTo, this.subject).then(result => {
-        console.log('promise succ for updateUnreadThreadList');
-        this.spinner.hide();
-        this.doUnreadPagination(9);
-      }, err => {
-        this.spinner.hide();
-        console.log('promise reject for updateUnreadThreadList');
-      });
-    });
+    // interval(2000 * 60).subscribe(x => {
+    //   this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+    //     console.log('promise succ for updateUnreadThreadList');
+    //     this.spinner.hide();
+    //     this.doUnreadPagination(9);
+    //   }, err => {
+    //     this.spinner.hide();
+    //     console.log('promise reject for updateUnreadThreadList');
+    //   });
+    // });
   }
 
   getLatestThreads() {
@@ -86,7 +85,7 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   fetchUnreadThreads(i) {
-    this.emailStore.updateUnreadThreadList(i, this.addrFrom, this.addrTo, this.subject).then(result => {
+    this.emailStore.updateUnreadThreadList(i, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
       this.spinner.hide();
       this.doUnreadPagination(i - 1);
     });

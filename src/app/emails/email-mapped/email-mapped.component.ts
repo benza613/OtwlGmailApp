@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/auth/auth.service';
+import { GlobalStoreService } from 'src/app/_store/global-store.service';
 
 @Component({
   selector: 'app-email-mapped',
@@ -37,7 +38,8 @@ export class EmailMappedComponent implements OnInit {
     private emailStore: EmailsStoreService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private authServ: AuthService
+    private authServ: AuthService,
+    private globals: GlobalStoreService
   ) {
     this.domainStore.updateRefType();
   }
@@ -52,7 +54,7 @@ export class EmailMappedComponent implements OnInit {
       }
       this.route.queryParams.subscribe((params) => {
         if (params.r !== undefined && params.v !== undefined) {
-          this.refId = params.r;
+          this.globals.mappedRefId = params.r;
           this.disableDropdowns = true;
           this._queryParams.r = params.r;
           this._queryParams.v = params.v;
@@ -66,11 +68,13 @@ export class EmailMappedComponent implements OnInit {
         }
       });
     });
-  
-    if (this.params_flag) {
-      this.onChange_GetRefTypeData(1);
+
+    if (this.params_flag || this.globals.mappedRefId !== 0) {
+      setTimeout(()=>{
+        this.onChange_GetRefTypeData(1);
+      });
     }
-    
+
     this.domainStore.threadTypeData$.subscribe(x => {
       this.threadTypeData = [];
       for (let ix = 0; ix < x.length; ix++) {
@@ -78,24 +82,24 @@ export class EmailMappedComponent implements OnInit {
       }
       this.spinner.hide();
     });
-    this.dateTo = { year: 2019, month: 6, day: 21 };
-    this.dateFrom = { year: 2019, month: this.dateTo.month - 3, day: 21 };
+    this.globals.mappedFromDate = { year: 2019, month: 6, day: 21 };
+    this.globals.mappedToDate = { year: 2019, month: this.globals.mappedFromDate.month - 3, day: 21 };
   }
 
   //toggle parent reftype ddl
   onChange_GetRefTypeData(flag?) {
-    if (this.refId) {
+    if (this.globals.mappedRefId) {
       this.spinner.show();
-      this.refValId = null;
+      this.globals.mappedRefValId = null;
       var that = this;
-      this.domainStore.updateRefTypeData(this.refId).then(function (value) {
+      this.domainStore.updateRefTypeData(this.globals.mappedRefId).then(function (value) {
         that.domainStore.refTypeData$.subscribe(x => {
           that.refTypeData = [];
           for (let ix = 0; ix < x.length; ix++) {
             that.refTypeData = [...that.refTypeData, x[ix]];
           }
           if (that._queryParams.v != null) {
-            that.refValId = that._queryParams.v;
+            that.globals.mappedRefValId = that._queryParams.v;
             if (flag) {
               console.log('X');
               that.getThreads();
@@ -110,18 +114,19 @@ export class EmailMappedComponent implements OnInit {
   }
 
   getThreads() {
-    if (!this.refId) {
+    if (!this.globals.mappedRefId) {
       alert('Please select a Reference Type');
       return;
     }
-    const date_from = moment(this.dateFrom).subtract(1, 'month').format('YYYY/MM/DD');
-    const date_to = moment(this.dateTo).subtract(1, 'month').format('YYYY/MM/DD');
-    this.emailStore.updateMappedThreadList(this.refId, this.refValId, date_from, date_to);
+    const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
+    const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
+    // tslint:disable-next-line: max-line-length
+    this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to);
     this.domainStore.updateThreadTypeData();
   }
 
   toggleDateFilter() {
-    if (this.refValId === null) {
+    if (this.globals.mappedRefValId === null) {
       this.disableDate = false;
     }
   }

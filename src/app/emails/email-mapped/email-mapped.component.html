@@ -1,70 +1,75 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
-  </ngx-spinner>
+</ngx-spinner>
 
 <div class="row" style="height: 93vh;">
   <div class="col-md-2 align-content-md-stretch">
     <h5>SEARCH</h5>
     <div class="row">
-        <div class="col">
-            <small class="text-muted">REFERENCE TYPE</small>
-        </div>
+      <div class="col">
+        <small class="text-muted">REFERENCE TYPE</small>
+      </div>
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refType" [(ngModel)]="refId" [disabled]="disableDropdowns" bindLabel="typeVal" bindValue="typeId"
-          (change)="onChange_GetRefTypeData()">
+        <ng-select [items]="refType" [(ngModel)]="globals.mappedRefId" [disabled]="disableDropdowns" bindLabel="typeVal"
+          bindValue="typeId" (change)="onChange_GetRefTypeData()">
         </ng-select>
       </div>
     </div>
     <div class="row">
-        <div class="col">
-            <small class="text-muted">REFERENCE ID</small>
-        </div>
+      <div class="col">
+        <small class="text-muted">REFERENCE ID</small>
+      </div>
     </div>
     <div class="row filters">
       <div class="col">
-          <ng-select [items]="refTypeData" [(ngModel)]="refValId" (change)="toggleDateFilter()" 
-           [disabled]="disableDropdowns" bindLabel="refNo" bindValue="refId">
-            </ng-select>
+        <ng-select [items]="refTypeData" [(ngModel)]="globals.mappedRefValId" (change)="toggleDateFilter()"
+          [disabled]="disableDropdowns" bindLabel="refNo" bindValue="refId">
+        </ng-select>
       </div>
     </div>
     <div class="row">
-        <div class="col">
-            <small class="text-muted">FROM DATE</small>
-        </div>
-    </div>
-    <div class="row filters" >
       <div class="col">
-          <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateFrom" [disabled]="disableDate" ngbDatepicker #f="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="f.toggle()" type="button">
-                  <i class="fa fa-calendar" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-      </div>
-    </div>
-    <div class="row" >
-        <div class="col">
-            <small class="text-muted">TO DATE</small>
-        </div>
-    </div>
-    <div class="row filters" >
-      <div class="col">
-          <div class="input-group">
-              <input class="form-control" [(ngModel)]="dateTo" [disabled]="disableDate" ngbDatepicker #t="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="t.toggle()" type="button">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
+        <small class="text-muted">FROM DATE</small>
       </div>
     </div>
     <div class="row filters">
       <div class="col">
-          <button type="submit" class="btn bg-primary btn-block" (click)="getThreads()" style="color:white">GET THREADS</button>
+        <div class="input-group">
+          <input class="form-control" [(ngModel)]="globals.mappedFromDate" [disabled]="disableDate" ngbDatepicker
+            #f="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="f.toggle()"
+              type="button">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <small class="text-muted">TO DATE</small>
+      </div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+        <div class="input-group">
+          <input class="form-control" [(ngModel)]="globals.mappedToDate" [disabled]="disableDate" ngbDatepicker
+            #t="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="t.toggle()"
+              type="button">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row filters">
+      <div class="col">
+        <button type="submit" class="btn bg-primary btn-block" (click)="getThreads()" style="color:white">GET
+          THREADS</button>
       </div>
     </div>
   </div>

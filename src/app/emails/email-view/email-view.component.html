@@ -8,8 +8,8 @@
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col pull-right">
-      <button type="button" class="btn btn-warning" (click)="OnClick_Map()" *ngIf="storeSelector === 'unread'" style="transform: scale(0.80)"
-       placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
+    <button type="button" class="btn btn-warning" (click)="OnClick_Map()" *ngIf="storeSelector === 'unread'"
+      style="transform: scale(0.80)" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
     <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
     <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"
@@ -66,15 +66,17 @@
             <i class="fa fa-arrow-right"></i>
           </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="transform: scale(0.75);" (click)="expand(eml,i)">
+            style="transform: scale(0.75); margin-right: 15px;" (click)="expand(eml,i)">
             <i class="fa fa-expand"></i>
           </button>
-          <span>
-            {{eml.attachments.length}}
-          </span>
-          <span>
-            <i class="fa fa-paperclip"></i>
-          </span>
+          <div style="cursor: pointer;" (click)="eml.showAttachments = !eml.showAttachments">
+            <span ngbTooltip="Show Attachments">
+              {{eml.attachments.length}}
+            </span>
+            <span>
+              <i class="fa fa-paperclip"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -103,40 +105,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div id="{{i}}">
-        <div class="row" id="body{{i}}" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
-
-        </div>
-        <div class="row pull left">
-          <button id="signature_button" type="button" class="btn btn-sm btn-outline-success " *ngIf="signature[i] !== ''"
-            style="margin:5px 0px 5px 20px;" (click)="eml.showSignature = !eml.showSignature">
-            {{eml.showSignature ? 'HIDE DETAILS' : 'SHOW DETAILS' }}
-          </button>
-        </div>
-        <div *ngIf="eml.showSignature">
-          <div class="row" *ngIf="signature[i] !== ''" [innerHTML]="signature[i] | safeHtml"
-            style="max-width:100%; margin: 0px;">
-
-          </div>
-        </div>
-        <div class="row pull left">
-          <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes[i] !== ''"
-            style="margin-left: 20px;" (click)="eml.showFooter = !eml.showFooter">
-            {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
-          </button>
-        </div>
-        <div *ngIf="eml.showFooter">
-          <div class="row" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml"
-            style="max-width:100%; margin: 0px;">
-
-          </div>
-        </div>
-      </div>
-      <div class="row float-right">
-        <button type="button" class="btn btn-sm btn-outline-warning " style="margin-left: 20px;"
-          (click)="eml.showAttachments = !eml.showAttachments"
-          *ngIf="eml.attachments.length > 0">{{ showAttachments ? 'HIDE ATTACHMENTS' : 'SHOW ATTACHMENTS'}}</button>
       </div>
       <div class="row" *ngIf="eml.showAttachments">
         <div class="col pull-left" style="margin-left: 3px;" *ngIf="eml.attachments.length > 0">
@@ -191,6 +159,36 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div id="{{i}}">
+        <div class="row" id="body{{i}}" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
+
+        </div>
+        <div class="row pull left">
+          <button id="signature_button" type="button" class="btn btn-sm btn-outline-success "
+            *ngIf="signature[i] !== ''" style="margin:5px 0px 5px 20px;"
+            (click)="eml.showSignature = !eml.showSignature">
+            {{eml.showSignature ? 'HIDE DETAILS' : 'SHOW DETAILS' }}
+          </button>
+        </div>
+        <div *ngIf="eml.showSignature">
+          <div class="row" *ngIf="signature[i] !== ''" [innerHTML]="signature[i] | safeHtml"
+            style="max-width:100%; margin: 0px;">
+
+          </div>
+        </div>
+        <div class="row pull left">
+          <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes[i] !== ''"
+            style="margin-left: 20px;" (click)="eml.showFooter = !eml.showFooter">
+            {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
+          </button>
+        </div>
+        <div *ngIf="eml.showFooter">
+          <div class="row" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml"
+            style="max-width:100%; margin: 0px;">
+
           </div>
         </div>
       </div>

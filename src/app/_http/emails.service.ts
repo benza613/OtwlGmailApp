@@ -113,7 +113,6 @@ export class EmailsService {
           const blob = new Blob([response['body'] as Blob], {
             type: response['headers'].get('content-type')
           });
-          console.log('BLOB', blob);
           resolve(blob);
           const iurl = window.URL.createObjectURL(blob);
           window.open(iurl, '_blank');

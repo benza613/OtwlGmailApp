@@ -1,4 +1,3 @@
-import { MessageUiAttach } from './../models/message-ui-attach.model';
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

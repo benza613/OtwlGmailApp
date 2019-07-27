@@ -83,8 +83,11 @@ export class EmailList2Component implements OnInit, OnDestroy {
   }
 
   onClick_GetThreadMessages(threadData) {
+    this.spinner.show('list2');
     this.authServ.login();
-    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject, this.locst_id);
+    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject, this.locst_id).then(success =>{
+      this.spinner.hide('list2');
+    });
   }
 
   openUnreadDialog(flag, item) {

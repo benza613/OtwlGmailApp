@@ -47,6 +47,7 @@ export class EmailViewComponent implements OnInit {
   folderId;
   emailListOriginal;
   thread;
+  mdId;
 
   constructor(
     private route: ActivatedRoute,
@@ -256,23 +257,25 @@ export class EmailViewComponent implements OnInit {
       });
     } else if (id === 2) {
       this.spinner.show();
-      await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
+      const that = this;
+      await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then( function(value) {
         that.spinner.hide();
-        const modalRef = this.modalService.open(
+        that.mdId = value;
+        const modalRef = that.modalService.open(
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }
         );
         let folderHeirarchy;
-        this.emailStore.getFolderList$.subscribe(x => {
+        that.emailStore.getFolderList$.subscribe(x => {
           folderHeirarchy = x;
         });
-        modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+        modalRef.componentInstance.storeSelector = that.storeSelector; // should be the id
         modalRef.componentInstance.folderHierarchy = folderHeirarchy;
         modalRef.componentInstance.msgId = msgId;
-        modalRef.componentInstance.attachments = this.attachments;
-        modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
-        modalRef.componentInstance.attachmentNames = this.attachmentNames;
-        modalRef.componentInstance.reqThreadId = this.reqThreadId;
+        modalRef.componentInstance.attachments = that.attachments;
+        modalRef.componentInstance.attachmentGIds = that.attachmentGIDs;
+        modalRef.componentInstance.attachmentNames = that.attachmentNames;
+        modalRef.componentInstance.reqThreadId = that.reqThreadId;
         modalRef.componentInstance.uploadType = 'email_attachment';
 
       });
@@ -310,8 +313,9 @@ export class EmailViewComponent implements OnInit {
     this.spinner.show();
     const that = this;
     let folderHeirarchy;
-    await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(success => {
+    await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(function (value) {
       that.spinner.hide();
+      that.mdId = value;
     });
     this.emailStore.getFolderList$.subscribe(x => {
       folderHeirarchy = x;
@@ -329,8 +333,82 @@ export class EmailViewComponent implements OnInit {
     modalRef.componentInstance.reqThreadId = this.reqThreadId;
     modalRef.componentInstance.uploadType = 'email_body';
     modalRef.componentInstance.response.subscribe((x) => {
-      this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2]);
+      this.uploadToFileServer(id, msgId, email, x[0], x[1], this.mdId);
     });
+  }
+
+
+  uploadToFileServer(id, msgId, email, entityId, qlevel, mdId) {
+    // document.getElementById('footer_button').style.visibility = 'hidden';
+    html2canvas(email).then(canvas => {
+      let imgWidth = 210;
+      let pageHeight = 295;
+      let imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+      let imgData = canvas.toDataURL('image/png');
+      let pdf = new jspdf('p', 'mm');
+      let position = 0;
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      //UPLOAD TO FS
+      const file = pdf.output('blob');
+      const formData: FormData = new FormData();
+      formData.append('file', file, 'abc.pdf');
+      formData.append('keyD', mdId);
+      formData.append('keyQ', qlevel);
+      formData.append('keyPF', entityId);
+      formData.forEach(x =>{
+        console.log(x);
+      });
+      // this.emailServ.uploadPDF(formData).then(function (value) {
+      //   alert('Upload Successfully done!');
+      //   pdf.save('Email.pdf');
+      // });
+      // document.getElementById('footer_button').style.visibility = 'visible';
+    });
+  }
+
+  getPrint(id) {
+    let printContents, popupWin;
+    printContents = document.getElementById(id).innerHTML;
+    popupWin = window.open();
+    popupWin.document.write(`
+        <html>
+          <head>
+            <title>${this.subject}</title>
+          </head>
+      <body onload="window.print();window.close()">${printContents}</body>
+        </html>`
+    );
+    popupWin.document.close();
+    if (this.quotes !== '') {
+      document.getElementById('footer_button').style.visibility = 'visible';
+    }
+  }
+
+  OnClick_Map() {
+    console.log(this.thread);
+    const modalRef = this.modalService.open(
+      EmailUnreadDialogComponent,
+      { size: 'lg', backdrop: 'static', keyboard: false }
+    );
+    modalRef.componentInstance.mailList = [this.thread];
+    modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+    modalRef.result.then((result) => {
+      if (result.action === '1') {
+        modalRef.close();
+      }
+    });
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   hideBlockQuotes() {
@@ -491,61 +569,6 @@ export class EmailViewComponent implements OnInit {
     this.detector.detectChanges();
   }
 
-
-  uploadToFileServer(id, msgId, email, entityId, qlevel, mdId) {
-    document.getElementById('footer_button').style.visibility = 'hidden';
-    html2canvas(email).then(canvas => {
-      let imgWidth = 210;
-      let pageHeight = 295;
-      let imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
-      let imgData = canvas.toDataURL('image/png');
-      let pdf = new jspdf('p', 'mm');
-      let position = 0;
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-      //UPLOAD TO FS
-      const file = pdf.output('blob');
-      const formData: FormData = new FormData();
-      formData.append('file', file, 'abc.pdf');
-      formData.append('keyD', mdId);
-      formData.append('keyQ', qlevel);
-      formData.append('keyPF', entityId);
-      // formData.forEach(x =>{
-      //   console.log(x);
-      // });
-      this.emailServ.uploadPDF(formData).then(function (value) {
-        alert('Upload Successfully done!');
-        pdf.save('Email.pdf');
-      });
-      document.getElementById('footer_button').style.visibility = 'visible';
-    });
-  }
-
-  getPrint(id) {
-    let printContents, popupWin;
-    printContents = document.getElementById(id).innerHTML;
-    popupWin = window.open();
-    popupWin.document.write(`
-        <html>
-          <head>
-            <title>${this.subject}</title>
-          </head>
-      <body onload="window.print();window.close()">${printContents}</body>
-        </html>`
-    );
-    popupWin.document.close();
-    if (this.quotes !== '') {
-      document.getElementById('footer_button').style.visibility = 'visible';
-    }
-  }
-
   expand(eml, i) {
     eml.isOpen = !eml.isOpen;
     // const bool = eml.isOpen;
@@ -684,24 +707,5 @@ export class EmailViewComponent implements OnInit {
       this.quotes[i] = '';
       this.signature[i] = '';
     }
-  }
-
-  OnClick_Map() {
-    console.log(this.thread);
-    const modalRef = this.modalService.open(
-      EmailUnreadDialogComponent,
-      { size: 'lg', backdrop: 'static', keyboard: false }
-    );
-    modalRef.componentInstance.mailList = [this.thread];
-    modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
-    modalRef.result.then((result) => {
-      if (result.action === '1') {
-        modalRef.close();
-      }
-    });
-  }
-
-  goBack() {
-    this.location.back();
   }
 }

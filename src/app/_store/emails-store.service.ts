@@ -441,7 +441,7 @@ export class EmailsStoreService {
         const arrx = this.folderList;
         arrx.push(...<Folders[]>res.d.folders);
         this.folderList = arrx;
-        resolve("OK");
+        resolve(res.d.mdId);
       } else {
         this.errorService.displayError(res, 'requestFSDir');
         rej();

@@ -39,13 +39,14 @@ export class FSDirDialogComponent implements OnInit {
   ngOnInit() {
     if (this.storeSelector !== 'editor') {
       this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
+      // console.log('Folder List',this.folderList);
     }
     this.domainStore.fsDirData$.subscribe(x => {
       this.fsDirData = [];
       for (let ix = 0; ix < x.length; ix++) {
         this.fsDirData = [...this.fsDirData, x[ix]];
       }
-      console.log(this.fsDirData);
+      // console.log('Dir List',this.fsDirData);
     });
   }
 
@@ -94,7 +95,7 @@ export class FSDirDialogComponent implements OnInit {
     } else {
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel, folder.isTemplateFolder_ID]);
+      this.response.emit([folder.entityID, folder.qlevel]);
     }
   }
 }

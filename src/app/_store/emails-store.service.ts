@@ -351,8 +351,9 @@ export class EmailsStoreService {
   /**
    * MAPPED module methods
    */
-  async updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
-    const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
+  updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
     console.log(res);
     if (res.d.errId === '200') {
       this.mappedThreads = [];
@@ -370,9 +371,11 @@ export class EmailsStoreService {
       }
       this.mappedThreads = arrx;
       this.threadTypeList = arrx2;
+      resolve();  
     } else {
       this.errorService.displayError(res, 'getMappedThreads');
     }
+    });
   }
 
 

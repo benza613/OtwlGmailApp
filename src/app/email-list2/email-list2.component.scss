@@ -68,14 +68,12 @@
   transform-origin: 50% 0;
   animation-fill-mode: forwards;
   margin: 5px;
-  border-radius: 30px; 
-
+  border-radius: 5px; 
+  
   &:hover {
     background-color: rgb(230, 230, 230);
   }
 }
-
-
 
 @keyframes rolldown {
   0% {
@@ -91,3 +89,7 @@
     transform: rotateX(0deg);
   }
 }
+
+// .card {
+//   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+// }

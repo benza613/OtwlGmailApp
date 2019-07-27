@@ -48,8 +48,12 @@ export class EmailListComponent implements OnInit {
   }
 
   onClick_GetThreadMessages(threadData) {
+    this.spinner.show('list1');
+    const that = this;
     this.authServ.login();
-    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject);
+    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(success =>{
+      that.spinner.hide('list1');
+    });
   }
 
   checkList(item) {

@@ -318,7 +318,8 @@ export class EmailsStoreService {
   }
 
   async update_UnreadThreadEmails(ThreadId, storeSelector, Subject) {
-    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     if (res.d.errId === '200') {
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
       this.unreadThreads[index].Messages = [];
@@ -345,6 +346,8 @@ export class EmailsStoreService {
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }
+    resolve();
+    });
   }
 
 

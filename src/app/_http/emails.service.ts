@@ -212,4 +212,9 @@ export class EmailsService {
     return this.http.post(`${this.apiBaseUrl}/updateMessageStatus`, {readThreadIds}, this.httpOptions)
       .pipe(map(r => r));
   }
+
+  updateUnreadThreadData(mapTypes): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/updateThreadDomainMapping`, { mapTypes }, this.httpOptions)
+      .pipe(map(r => r));
+  }
 }

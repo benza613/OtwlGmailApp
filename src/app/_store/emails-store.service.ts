@@ -515,6 +515,18 @@ export class EmailsStoreService {
     });
   }
 
+  updateUnreadThreadData(mapTypes) {
+    return new Promise(async (res, rej) => {
+      const result = await this.emailServ.updateUnreadThreadData(mapTypes).toPromise();
+      if (result.d.errId === '200') {
+        res(result.d.errId);
+      } else {
+        this.errorService.displayError(result, 'updateUnreadThreadData');
+        rej();
+      }
+    });
+  }
+
   deleteMapping(ThreadUId, ThreadGID) {
     return new Promise(async (res, rej) => {
       const result = await this.emailServ.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();

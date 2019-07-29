@@ -50,6 +50,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   onSubmit() {
+    const that = this;
     const idx = this.refTypeData.findIndex(x => x['refId'] === String(this.refValId));
     if (this.refId === 0) {
       alert('Please select a Reference Type ');
@@ -74,6 +75,14 @@ export class EmailUnreadDialogComponent implements OnInit {
         });
       }
       mapTypes.selectedThreadsFullData = this.mailList;
+      this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
+        that.spinner.hide();
+        if (value === '200') {
+          const res = '1';
+          alert('Mapping successfully done.');
+          that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
+        }
+      });
     } else {
       for (let i = 0; i < this.mailList.length; i++) {
         mapTypes.selectedThreads.push({
@@ -82,16 +91,14 @@ export class EmailUnreadDialogComponent implements OnInit {
         });
       }
       mapTypes.selectedThreadsFullData = this.mailList;
+      this.emailServ.updateUnreadThreadData(mapTypes).then(function (value) {
+        that.spinner.hide();
+        if (value === '200') {
+          const res = '1';
+          alert('Mapping Edit Successful !!.');
+          that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
+        }
+      });
     }
-    console.log('MAP TYPES', mapTypes);
-    var that = this;
-    this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
-      that.spinner.hide();
-      if (value === '200') {
-        const res = '1';
-        alert('Mapping successfully done.');
-        that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
-      }
-    });
   }
 }

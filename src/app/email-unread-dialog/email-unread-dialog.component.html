@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="col-4" style="padding-right: 0px; margin-right: 10px;">
-          <ng-select [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
+          <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
             bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
           </ng-select>
         </div>

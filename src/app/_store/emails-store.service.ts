@@ -638,7 +638,7 @@ export class EmailsStoreService {
 
   updateMessageStatus(readThreads) {
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.updateMessageStatus(JSON.stringify(readThreads)).toPromise();
+      const res = await this.emailServ.updateMessageStatus(readThreads).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'updateMessageStatus');
       }

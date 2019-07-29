@@ -372,15 +372,15 @@ export class EmailViewComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('file', file, fileName);
       formData.append('keyD', mdId);
-      formData.append('keyQ', (Number(qlevel)+1).toString());
+      formData.append('keyQ', (Number(qlevel) + 1).toString());
       formData.append('keyPF', entityId);
       formData.forEach(x => {
         console.log(x);
       });
-      // this.emailServ.uploadPDF(formData).then(function (value) {
-      //   alert('Upload Successfully done!');
-      //   pdf.save('Email.pdf');
-      // });
+      this.emailServ.uploadPDF(formData).then(function (value) {
+        alert('Upload Successfully done!');
+        //pdf.save('Email.pdf');
+      });
       // document.getElementById('footer_button').style.visibility = 'visible';
     });
   }

@@ -608,14 +608,9 @@ export class EmailsStoreService {
 
   paginateSentThreadList(flagCount) {
     return new Promise(async (resolve, reject) => {
-
       const arrx = [];
       arrx.push(...this.sentThreads);
-
-
-
       for (let idx = 0; idx < flagCount; idx++) {
-
         const res = await this.emailServ.indexSent(
           this.pageTokenSent == null ? '' : this.pageTokenSent,
         ).toPromise();
@@ -625,8 +620,6 @@ export class EmailsStoreService {
           });
           arrx.push(...<Thread[]>res.d.threads);
           this.sentThreads = arrx;
-
-
           if (res.d.pageToken == null) {
             this.pageTokenSent = '';
             break;
@@ -640,7 +633,17 @@ export class EmailsStoreService {
       }
       resolve();
     });
+  }
 
+
+  updateMessageStatus(readThreads) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.updateMessageStatus(JSON.stringify(readThreads)).toPromise();
+      if (res.d.errId !== '200') {
+        this.errorService.displayError(res, 'updateMessageStatus');
+      }
+      resolve(res.d.errId);
+    });
   }
 
 }

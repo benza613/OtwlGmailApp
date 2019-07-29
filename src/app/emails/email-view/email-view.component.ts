@@ -49,6 +49,7 @@ export class EmailViewComponent implements OnInit {
   folderId;
   thread;
   mdId;
+  readThreads = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -287,16 +288,26 @@ export class EmailViewComponent implements OnInit {
   }
 
   expandAll(flag) {
+    const that = this;
     this.action = !this.action;
+    this.readThreads = [];
     if (flag === 1) {
       this.emailList.forEach(x => {
         x.isOpen = true;
+        this.readThreads.push(x.msgid);
       });
     } else {
       this.emailList.forEach(x => {
         x.isOpen = false;
       });
     }
+    this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
+      if (value === '200') {
+        that.emailList.forEach(x => {
+          x.isUnread = false;
+        });
+      }
+    });
   }
 
   getPreview(msgId, file) {
@@ -726,6 +737,12 @@ export class EmailViewComponent implements OnInit {
       this.quotes[i] = '';
       this.signature[i] = '';
     }
+    this.readThreads.push(this.emailList[i].msgid);
+    this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
+      if (value === '200') {
+        this.emailList[i].isUnread = false;
+      }
+    });
     console.log('BODY', this.emailListOriginal[i].body);
   }
 

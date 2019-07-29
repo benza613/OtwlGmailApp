@@ -90,7 +90,7 @@ export class EmailUnreadDialogComponent implements OnInit {
       if (value === '200') {
         const res = '1';
         alert('Mapping successfully done.');
-        that.activeModal.close({ action: '1' });
+        that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
       }
     });
   }

@@ -180,4 +180,9 @@ export class EmailsService {
     return this.http.post(`${this.apiBaseUrl}/fetchAddressBook`, {}, this.httpOptions)
       .pipe(map(r => r));
   }
+
+  updateMessageStatus(readThreadIds): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/updateMessageStatus`, {readThreadIds}, this.httpOptions)
+      .pipe(map(r => r));
+  }
 }

@@ -72,7 +72,8 @@ export class EmailUnreadComponent implements OnInit {
         if (result.action === '1') {
           modalRef.close();
           this.emailStore.unreadThreads$.subscribe(x => {
-            x.filter(y => y.isChecked === true).forEach(thread =>{
+            x.filter(y => y.isChecked === true).forEach(thread => {
+              thread.isMapped = true;
               thread.isChecked = false;
             });
           });

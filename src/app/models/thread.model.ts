@@ -12,4 +12,5 @@ export interface Thread {
     Messages: Message[];
     isChecked: boolean;
     isUnread: boolean;
+    isMapped: boolean;
 }

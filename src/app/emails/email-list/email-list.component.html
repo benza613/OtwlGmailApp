@@ -44,7 +44,7 @@
           <input class="form-check-input" *ngIf="!item.isMapped" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
             style="transform: scale(1.5);-webkit-transform: scale(1.5);">
             <i class="fa fa-external-link-square form-check-input" *ngIf="item.isMapped" ngbTooltip="Already Mapped!"
-            style="margin-right: 30px;transform: scale(1.15);-webkit-transform: scale(1.15);" ></i>
+            container="body" style="margin-right: 30px;transform: scale(1.15);-webkit-transform: scale(1.15);" ></i>
         </div>
         <div class="col-md-4 UnreadContent" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">

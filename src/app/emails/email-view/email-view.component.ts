@@ -746,14 +746,14 @@ export class EmailViewComponent implements OnInit {
     console.log('BODY', this.emailListOriginal[i].body);
   }
 
-  // processAttachments() {
-  //   const that = this;
-  //   this.emailList.forEach(email => {
-  //     email.attachments.forEach(att => {
-  //       this.emailServ.previewLocal(email, email.attachmentGId, att.fileName).then(function (value) {
-  //         that.spinner.hide();
-  //       });
-  //     });
-  //   });
-  // }
+  processAttachments() {
+    const that = this;
+    this.emailList.forEach(email => {
+      email.attachments.forEach(att => {
+        this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (value) {
+          // make array of response i.e value
+        });
+      });
+    });
+  }
 }

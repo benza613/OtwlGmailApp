@@ -121,6 +121,33 @@ export class EmailsService {
     });
   }
 
+  restoreEmailBodyImages(msgId, attachmentId, attachmentName) {
+    return new Promise((resolve) => {
+
+      const optionsN = {
+        headers: new HttpHeaders()
+      };
+
+      optionsN['responseType'] = 'blob';
+      optionsN['params'] = { msgId, attachmentId, attachmentName };
+      optionsN['observe'] = 'response';
+
+      this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {
+        console.log('eeee', <any>response);
+
+        if (response['headers'].get('content-type') === 'text/plain') {
+          this.errorServ.displayError(response, '');
+        } else {
+          const blob = new Blob([response['body'] as Blob], {
+            type: response['headers'].get('content-type')
+          });
+          const iurl = window.URL.createObjectURL(blob);
+          resolve([iurl, blob]);
+        }
+      });
+    });
+  }
+
   uploadPDF(formData) {
     console.log('Form Data', formData);
     return new Promise(async (resolve, reject) => {

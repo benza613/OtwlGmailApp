@@ -39,7 +39,7 @@ export class EmailMappedComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private authServ: AuthService,
-    private globals: GlobalStoreService
+    public globals: GlobalStoreService
   ) {
     this.domainStore.updateRefType();
   }

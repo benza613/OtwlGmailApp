@@ -64,6 +64,8 @@ export class EditorComponent implements OnInit {
   _isOrdersComplete = false;
   orderDetails = [];
   delOrderDetails = [];
+
+  alacarteDetails = [];
   senderName;
   senderDesgn;
   senderMobile;
@@ -182,8 +184,16 @@ export class EditorComponent implements OnInit {
           var localToken = params.locst_id;
           if (localToken) {
             const emlData = that.locStgService.fetchMessagePacket(localToken);
+
             console.log('emlData', emlData);
             that.initMessagePacket_LocalStorage(emlData);
+
+            if (emlData["alacarte"] != undefined) {
+              for (let index = 0; index < emlData["alacarte"].length; index++) {
+                this.alacarteDetails.push(emlData["alacarte"][index]);
+              }
+
+            }
           }
         }
       });
@@ -239,7 +249,7 @@ export class EditorComponent implements OnInit {
               });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList).then(function (value) {
+                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
                   that.spinner.hide();
                   that.detector.detectChanges();
                   console.log('res.d.errId:', value);
@@ -302,6 +312,8 @@ export class EditorComponent implements OnInit {
       });
     }
 
+
+
   }
 
 
@@ -344,7 +356,7 @@ export class EditorComponent implements OnInit {
                 });
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList).then(function (value) {
+                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);

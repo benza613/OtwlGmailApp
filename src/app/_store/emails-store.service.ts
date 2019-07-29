@@ -182,7 +182,7 @@ export class EmailsStoreService {
   }
 
 
-  sendNewEmail(packet, body, inlineAtachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList, emailAddrList) {
+  sendNewEmail(packet, body, inlineAtachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList, emailAddrList, alacarteDetails) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.sendNewMail(
         packet.to.map(key => key.emailId),
@@ -190,7 +190,7 @@ export class EmailsStoreService {
         packet.bcc.map(key => key.emailId),
         packet.subject, body, inlineAtachments,
         actionType, MessageID,
-        TokenPossession, orderFilesList, emailAddrList).toPromise();
+        TokenPossession, orderFilesList, emailAddrList, alacarteDetails).toPromise();
       if (res.d.errId === '200') {
         alert(res.d.errMsg);
         resolve(res.d.errId);
@@ -320,33 +320,33 @@ export class EmailsStoreService {
   async update_UnreadThreadEmails(ThreadId, storeSelector, Subject) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    if (res.d.errId === '200') {
-      const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
-      this.unreadThreads[index].Messages = [];
-      for (let ix = 0; ix < res.d.msgList.length; ix++) {
-        res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-        for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
-          if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
-            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
-              + 'KB';
-          } else {
-            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
-              + 'MB';
+      if (res.d.errId === '200') {
+        const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
+        this.unreadThreads[index].Messages = [];
+        for (let ix = 0; ix < res.d.msgList.length; ix++) {
+          res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+          for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
+            if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
+              res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
+                + 'KB';
+            } else {
+              res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
+                + 'MB';
+            }
           }
+          this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
         }
-        this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
+        this.unreadThreads = [...this.unreadThreads];
+        this.router.navigate(['view/' + ThreadId], {
+          queryParams: {
+            q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped'
+            , subject: Subject
+          }
+        });
+      } else {
+        this.errorService.displayError(res, 'fetchThreadEmails');
       }
-      this.unreadThreads = [...this.unreadThreads];
-      this.router.navigate(['view/' + ThreadId], {
-        queryParams: {
-          q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped'
-          , subject: Subject
-        }
-      });
-    } else {
-      this.errorService.displayError(res, 'fetchThreadEmails');
-    }
-    resolve();
+      resolve();
     });
   }
 
@@ -357,27 +357,27 @@ export class EmailsStoreService {
   updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
-    console.log(res);
-    if (res.d.errId === '200') {
-      this.mappedThreads = [];
-      this.threadTypeList = [];
-      const arrx = [];
-      const arrx2 = [];
-      arrx.push(...<MappedThread[]>res.d.mappedThreads);
-      arrx2.push(...<ThreadTypeData[]>res.d.threadTypeList);
-      for (let i = 0; i < arrx.length; i++) {
-        const list2: any = [];
-        arrx[i]['SelectedTypeIdList'].forEach((y: String) => {
-          list2.push(arrx2.find(f => f['threadTypeId'] === y)['threadTypeVal']);
-        });
-        arrx[i]['SelectedTypeIdList'] = list2;
+      console.log(res);
+      if (res.d.errId === '200') {
+        this.mappedThreads = [];
+        this.threadTypeList = [];
+        const arrx = [];
+        const arrx2 = [];
+        arrx.push(...<MappedThread[]>res.d.mappedThreads);
+        arrx2.push(...<ThreadTypeData[]>res.d.threadTypeList);
+        for (let i = 0; i < arrx.length; i++) {
+          const list2: any = [];
+          arrx[i]['SelectedTypeIdList'].forEach((y: String) => {
+            list2.push(arrx2.find(f => f['threadTypeId'] === y)['threadTypeVal']);
+          });
+          arrx[i]['SelectedTypeIdList'] = list2;
+        }
+        this.mappedThreads = arrx;
+        this.threadTypeList = arrx2;
+        resolve();
+      } else {
+        this.errorService.displayError(res, 'getMappedThreads');
       }
-      this.mappedThreads = arrx;
-      this.threadTypeList = arrx2;
-      resolve();  
-    } else {
-      this.errorService.displayError(res, 'getMappedThreads');
-    }
     });
   }
 
@@ -385,30 +385,30 @@ export class EmailsStoreService {
   update_MappedThreadEmails(ThreadId, Subject, loc_st_id) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-    console.log(res);
-    if (res.d.errId === '200') {
-      const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
-      this.mappedThreads[index].Messages = [];
+      console.log(res);
+      if (res.d.errId === '200') {
+        const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
+        this.mappedThreads[index].Messages = [];
 
-      for (let ix = 0; ix < res.d.msgList.length; ix++) {
-        res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-        for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
-          if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
-            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
-              + 'KB';
-          } else {
-            res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
-              + 'MB';
+        for (let ix = 0; ix < res.d.msgList.length; ix++) {
+          res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+          for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
+            if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
+              res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
+                + 'KB';
+            } else {
+              res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
+                + 'MB';
+            }
           }
+          this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
         }
-        this.mappedThreads[index].Messages.push(res.d.msgList[ix]);
+        this.mappedThreads = [...this.mappedThreads];
+        this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', locst_id: loc_st_id, subject: Subject } });
+        resolve();
+      } else {
+        this.errorService.displayError(res, 'fetchThreadEmails');
       }
-      this.mappedThreads = [...this.mappedThreads];
-      this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', locst_id: loc_st_id, subject: Subject } });
-      resolve();
-    } else {
-      this.errorService.displayError(res, 'fetchThreadEmails');
-    }
     });
   }
 
@@ -609,7 +609,7 @@ export class EmailsStoreService {
       this.sentThreads = [...this.sentThreads];
       this.router.navigate(['view/' + ThreadId], {
         queryParams: {
-          q: storeSelector ,
+          q: storeSelector,
           subject: Subject
         }
       });

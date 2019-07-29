@@ -172,9 +172,9 @@ export class EmailsService {
   }
 
   // tslint:disable-next-line:max-line-length
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: string[]): Observable<any> {
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: string[], alacarteDetails: string[]): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList, lstAlaCarte: alacarteDetails },
       this.httpOptions)
       .pipe(map(r => r));
   }
@@ -209,7 +209,7 @@ export class EmailsService {
   }
 
   updateMessageStatus(readThreadIds): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/updateMessageStatus`, {readThreadIds}, this.httpOptions)
+    return this.http.post(`${this.apiBaseUrl}/updateMessageStatus`, { readThreadIds }, this.httpOptions)
       .pipe(map(r => r));
   }
 

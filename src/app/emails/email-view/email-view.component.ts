@@ -320,9 +320,6 @@ export class EmailViewComponent implements OnInit {
 
   async selectFolderForUpload(id, msgId) {
 
-    alert('Feature Unavailable');
-    return;
-
     const email = document.getElementById(id);
     this.spinner.show();
     const that = this;
@@ -375,7 +372,7 @@ export class EmailViewComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('file', file, 'abc.pdf');
       formData.append('keyD', mdId);
-      formData.append('keyQ', qlevel);
+      formData.append('keyQ', (Number(qlevel)+1).toString());
       formData.append('keyPF', entityId);
       formData.forEach(x => {
         console.log(x);

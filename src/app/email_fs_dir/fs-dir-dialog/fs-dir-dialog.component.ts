@@ -26,6 +26,7 @@ export class FSDirDialogComponent implements OnInit {
   browseDisable = false;
   dirId;
   fileList = [];
+  fileName;
   @Output() response: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -37,6 +38,7 @@ export class FSDirDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.storeSelector);
     if (this.storeSelector !== 'editor') {
       this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
       // console.log('Folder List',this.folderList);
@@ -81,6 +83,10 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
+    if (this.fileName === undefined) {
+      alert('Please enter a valid file name.');
+      return;
+    }
     this.spinner.show();
     console.log('Folder', folder);
     var that = this;
@@ -95,7 +101,7 @@ export class FSDirDialogComponent implements OnInit {
     } else {
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel]);
+      this.response.emit([folder.entityID, folder.qlevel, this.fileName]);
     }
   }
 }

@@ -95,7 +95,7 @@ export class EmailUnreadDialogComponent implements OnInit {
         that.spinner.hide();
         if (value === '200') {
           const res = '1';
-          alert('Mapping Edit Successful !!.');
+          alert('Mapping Edit Successful !!');
           that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
         }
       });

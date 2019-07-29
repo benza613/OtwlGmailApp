@@ -335,7 +335,7 @@ export class EmailViewComponent implements OnInit {
       FSDirDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
-    modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
+    modalRef.componentInstance.storeSelector = 'view'; // should be the id
     modalRef.componentInstance.folderHierarchy = folderHeirarchy;
     modalRef.componentInstance.msgId = msgId;
     modalRef.componentInstance.attachments = this.attachments;
@@ -344,12 +344,12 @@ export class EmailViewComponent implements OnInit {
     modalRef.componentInstance.reqThreadId = this.reqThreadId;
     modalRef.componentInstance.uploadType = 'email_body';
     modalRef.componentInstance.response.subscribe((x) => {
-      this.uploadToFileServer(id, msgId, email, x[0], x[1], this.mdId);
+      this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2], this.mdId);
     });
   }
 
 
-  uploadToFileServer(id, msgId, email, entityId, qlevel, mdId) {
+  uploadToFileServer(id, msgId, email, entityId, qlevel, fileName, mdId) {
     // document.getElementById('footer_button').style.visibility = 'hidden';
     html2canvas(email).then(canvas => {
       let imgWidth = 210;
@@ -370,7 +370,7 @@ export class EmailViewComponent implements OnInit {
       //UPLOAD TO FS
       const file = pdf.output('blob');
       const formData: FormData = new FormData();
-      formData.append('file', file, 'abc.pdf');
+      formData.append('file', file, fileName);
       formData.append('keyD', mdId);
       formData.append('keyQ', (Number(qlevel)+1).toString());
       formData.append('keyPF', entityId);

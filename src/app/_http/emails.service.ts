@@ -122,6 +122,7 @@ export class EmailsService {
   }
 
   restoreEmailBodyImages(msgId, attachmentId, attachmentName) {
+    console.log('Preview started', attachmentName);
     return new Promise((resolve) => {
 
       const optionsN = {
@@ -142,15 +143,15 @@ export class EmailsService {
             type: response['headers'].get('content-type')
           });
 
-          const url = URL.createObjectURL(blob);
-          resolve(url);
+          // const url = URL.createObjectURL(blob);
+          // resolve(url);
 
-          // const reader = new FileReader();
-          // reader.readAsDataURL(blob);
-          // reader.onloadend = function() {
-              // const base64data = reader.result;
-              // resolve(base64data);
-          // };
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function() {
+              const base64data = reader.result;
+              resolve(base64data);
+          };
         }
       });
     });
@@ -182,6 +183,7 @@ export class EmailsService {
   // tslint:disable-next-line:max-line-length
   sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: string[], alacarteDetails: string[]): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
+      // tslint:disable-next-line: max-line-length
       { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList, lstAlaCarte: alacarteDetails },
       this.httpOptions)
       .pipe(map(r => r));

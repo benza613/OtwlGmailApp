@@ -19,12 +19,16 @@
       <input placeholder="Enter a filename...." class="form-control" style="margin: 20px;" [(ngModel)]="fileName" />
     </div>
   </div> -->
-  <div class="col">
-    <div class="input-group">
-      <div class="input-group-append">
-        <h6 style="margin-top: 25px;">SAVE AS: </h6>
+  <div class="col" *ngIf="storeSelector === 'view'">
+    <div class="row card-header" style="background-color: white">
+      <div class="col">
+        <input type="file" ng2FileSelect [uploader]="uploader" /></div>
+    </div>
+    <div>
+      Queue progress: {{uploader.progress}}
+      <div class="progress" style="margin-bottom: 5px;">
+        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
       </div>
-      <input placeholder="Enter a filename...." class="form-control" style="margin: 20px;" [(ngModel)]="fileName" />
     </div>
   </div>
   <table class="table table-striped" style="width: 100%">

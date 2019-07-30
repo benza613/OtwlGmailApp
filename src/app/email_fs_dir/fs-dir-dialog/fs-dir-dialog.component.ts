@@ -4,6 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Folders } from 'src/app/models/folders.model';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
+import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
+import { environment } from 'src/environments/environment.prod';
+
+const URL = environment.url.uploadPdf;
 
 @Component({
   selector: 'app-fs-dir-dialog',
@@ -28,17 +32,19 @@ export class FSDirDialogComponent implements OnInit {
   fileList = [];
   fileName;
   @Output() response: EventEmitter<any> = new EventEmitter();
+  public uploader: FileUploader = new FileUploader({ url: URL });
+  public hasBaseDropZoneOver: boolean = false;
 
   constructor(
     public activeModal: NgbActiveModal,
     private emailStore: EmailsStoreService,
     private spinner: NgxSpinnerService,
     private changeDetRef: ChangeDetectorRef,
-    private domainStore: DomainStoreService
+    private domainStore: DomainStoreService,
+    private detector: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
-    console.log(this.storeSelector);
     if (this.storeSelector !== 'editor') {
       this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
       // console.log('Folder List',this.folderList);
@@ -50,6 +56,35 @@ export class FSDirDialogComponent implements OnInit {
       }
       // console.log('Dir List',this.fsDirData);
     });
+
+    this.uploader.removeFromQueue = (fileItem) => {
+      this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
+      this.detector.detectChanges();
+    };
+    this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
+    //this.uploader.options.removeAfterUpload = true;
+
+    this.uploader.options.isHTML5 = true;
+    this.uploader.onBeforeUploadItem = (item) => {
+      item.withCredentials = false;
+    }
+
+    this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      item.remove();
+    }
+
+    this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      console.log('err', item.file.name);
+    }
+
+    this.uploader.onCompleteAll = () => {
+      this.uploader.progress = 0;
+      this.detector.detectChanges();
+
+      if (this.uploader.queue.length > 0) {
+        alert('File upload unsuccessful!');
+      }
+    }
   }
 
   incrementLevel(folder, idx) {
@@ -83,10 +118,6 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
-    if (this.fileName === undefined) {
-      alert('Please enter a valid file name.');
-      return;
-    }
     this.spinner.show();
     console.log('Folder', folder);
     var that = this;
@@ -99,9 +130,10 @@ export class FSDirDialogComponent implements OnInit {
           }
         });
     } else {
+      // console.log(this.uploader.queue[0]);
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel, this.fileName]);
+      this.response.emit([folder.entityID, folder.qlevel, this.uploader.queue[0]]);
     }
   }
 }

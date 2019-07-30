@@ -320,7 +320,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   async selectFolderForUpload(id, msgId) {
-
+    this.getPrint(id);
     const email = document.getElementById(id);
     this.spinner.show();
     const that = this;
@@ -350,28 +350,9 @@ export class EmailViewComponent implements OnInit {
   }
 
 
-  uploadToFileServer(id, msgId, email, entityId, qlevel, fileName, mdId) {
-    // document.getElementById('footer_button').style.visibility = 'hidden';
-    html2canvas(email).then(canvas => {
-      let imgWidth = 210;
-      let pageHeight = 295;
-      let imgHeight = canvas.height * imgWidth / canvas.width;
-      let heightLeft = imgHeight;
-      let imgData = canvas.toDataURL('image/png');
-      let pdf = new jspdf('p', 'mm');
-      let position = 0;
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-      //UPLOAD TO FS
-      const file = pdf.output('blob');
+  uploadToFileServer(id, msgId, email, entityId, qlevel, file, mdId) {
       const formData: FormData = new FormData();
-      formData.append('file', file, fileName);
+      formData.append('file', file);
       formData.append('keyD', mdId);
       formData.append('keyQ', (Number(qlevel) + 1).toString());
       formData.append('keyPF', entityId);
@@ -380,10 +361,8 @@ export class EmailViewComponent implements OnInit {
       });
       this.emailServ.uploadPDF(formData).then(function (value) {
         alert('Upload Successfully done!');
-        //pdf.save('Email.pdf');
       });
       // document.getElementById('footer_button').style.visibility = 'visible';
-    });
   }
 
   getPrint(id) {
@@ -399,9 +378,9 @@ export class EmailViewComponent implements OnInit {
         </html>`
     );
     popupWin.document.close();
-    if (this.quotes !== '') {
-      document.getElementById('footer_button').style.visibility = 'visible';
-    }
+    // if (this.quotes !== '') {
+    //   document.getElementById('footer_button').style.visibility = 'visible';
+    // }
   }
 
   OnClick_Map() {
@@ -582,7 +561,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   expand(eml, i) {
-    this.processAttachments([eml]);
+    // this.processAttachments([eml]);
     eml.isOpen = !eml.isOpen;
     this.emailListOriginal = this.list;
     // eml.isOpen = bool;
@@ -745,17 +724,23 @@ export class EmailViewComponent implements OnInit {
     console.log('BODY', this.emailListOriginal[i].body);
   }
 
-  processAttachments(list) {
-    let imageInfo = [];
-    const that = this;
-    list.forEach(email => {
-      email.attachments.forEach(att => {
-        this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (value) {
-          that.imageList.push(value);
-        });
-      });
-    });
-    console.log(this.imageList);
-    this.detector.detectChanges();
-  }
+  // processAttachments(list) {
+  //   let imageInfo = [];
+  //   this.imageList = [];
+  //   const that = this;
+  //   list.forEach(email => {
+  //     email.attachments.forEach(att => {
+  //       this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (blob) {
+  //         let reader = new FileReader();
+  //         reader.readAsDataURL(blob); 
+  //         reader.onloadend = function() {
+  //            base64data = reader.result;     
+  //         }
+  //         that.imageList.push([dataurl, value[1]]);
+  //       });
+  //     });
+  //   });
+  //   console.log(this.imageList);
+  //   this.detector.detectChanges();
+  // }
 }

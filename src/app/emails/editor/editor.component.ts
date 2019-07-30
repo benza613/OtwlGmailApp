@@ -219,7 +219,6 @@ export class EditorComponent implements OnInit {
     this.uploader.options.isHTML5 = true;
     this.uploader.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
-
     }
 
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {

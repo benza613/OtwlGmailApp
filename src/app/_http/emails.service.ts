@@ -141,8 +141,8 @@ export class EmailsService {
           const blob = new Blob([response['body'] as Blob], {
             type: response['headers'].get('content-type')
           });
-          const iurl = window.URL.createObjectURL(blob);
-          resolve([iurl, blob]);
+          // const iurl = window.URL.createObjectURL(blob);
+          resolve(blob);
         }
       });
     });

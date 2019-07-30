@@ -6,7 +6,7 @@ distIndexfile = 'dist/OtwlGmailApp/index.html';
 
 srcdir = 'dist/OtwlGmailApp';
 //destdir = 'C:\\Users\\benza\\Source\\Repos\\IT1\\OTWLFRT\\CourierDetails';
-destdir = 'C:\\Users\\OTWL-D034\\source\\repos\\IT1\\OTWLFRT\\OtwlGmailApp';
+destdir = 'F:\\Backup of Imp IT Projects\\Changes\\2.Project with Benito Code\\20052019\\OTWLFRT\\OTWLFRT\\OtwlGmailApp';
 
 // destination will be created or overwritten by default.
 fs.copyFile(templfile, distfile, (err) => {

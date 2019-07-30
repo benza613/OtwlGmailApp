@@ -219,7 +219,7 @@ export class EmailsService {
   }
 
   updateMessageStatus(readThreadIds): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/updateMessageStatus`, { readThreadIds }, this.httpOptions)
+    return this.http.post(`${this.apiBaseUrl}/markMailsAsRead`, { readThreadIds }, this.httpOptions)
       .pipe(map(r => r));
   }
 

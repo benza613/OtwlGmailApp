@@ -138,11 +138,19 @@ export class EmailsService {
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
         } else {
-          const blob = new Blob([response['body'] as Blob], {
+          const blob: Blob = new Blob([response['body'] as Blob], {
             type: response['headers'].get('content-type')
           });
-          // const iurl = window.URL.createObjectURL(blob);
-          resolve(blob);
+
+          const url = URL.createObjectURL(blob);
+          resolve(url);
+
+          // const reader = new FileReader();
+          // reader.readAsDataURL(blob);
+          // reader.onloadend = function() {
+              // const base64data = reader.result;
+              // resolve(base64data);
+          // };
         }
       });
     });

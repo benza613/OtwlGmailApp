@@ -304,13 +304,13 @@ export class EmailViewComponent implements OnInit {
         x.isOpen = false;
       });
     }
-    // this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
-    //   if (value === '200') {
-    //     that.emailList.forEach(x => {
-    //       x.isUnread = false;
-    //     });
-    //   }
-    // });
+    this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
+      if (value === '200') {
+        that.emailList.forEach(x => {
+          x.isUnread = false;
+        });
+      }
+    });
   }
 
   getPreview(msgId, file) {
@@ -722,11 +722,11 @@ export class EmailViewComponent implements OnInit {
       this.signature[i] = '';
     }
     this.readThreads.push(this.emailList[i].msgid);
-    // this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
-    //   if (value === '200') {
-    //     this.emailList[i].isUnread = false;
-    //   }
-    // });
+    this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
+      if (value === '200') {
+        this.emailList[i].isUnread = false;
+      }
+    });
     // console.log('BODY', this.emailListOriginal[i].body);
   }
 

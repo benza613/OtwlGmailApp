@@ -351,6 +351,7 @@ export class EmailViewComponent implements OnInit {
 
 
   uploadToFileServer(id, msgId, email, entityId, qlevel, file, mdId) {
+      const that = this;
       const formData: FormData = new FormData();
       formData.append('file', file);
       formData.append('keyD', mdId);
@@ -359,8 +360,11 @@ export class EmailViewComponent implements OnInit {
       formData.forEach(x => {
         console.log(x);
       });
+      this.spinner.show();
+      this.detector.detectChanges();
       this.emailServ.uploadPDF(formData).then(function (value) {
         alert('Upload Successfully done!');
+        that.spinner.hide();
       });
       // document.getElementById('footer_button').style.visibility = 'visible';
   }

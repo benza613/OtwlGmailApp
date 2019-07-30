@@ -6,8 +6,26 @@ import { Folders } from 'src/app/models/folders.model';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment.prod';
+import { NgTypeToSearchTemplateDirective } from '@ng-select/ng-select/ng-select/ng-templates.directive';
 
 const URL = environment.url.uploadPdf;
+
+function readBase64(file): Promise<any> {
+  let reader  = new FileReader();
+  let future = new Promise((resolve, reject) => {
+    reader.addEventListener("load", function () {
+      resolve(reader.result);
+    }, false);
+
+    reader.addEventListener("error", function (event) {
+      reject(event);
+    }, false);
+
+    reader.readAsDataURL(file);
+  });
+  return future;
+}
+
 
 @Component({
   selector: 'app-fs-dir-dialog',
@@ -15,6 +33,7 @@ const URL = environment.url.uploadPdf;
   styleUrls: ['./fs-dir-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
   @Input() folderHierarchy: Folders[];
@@ -30,7 +49,7 @@ export class FSDirDialogComponent implements OnInit {
   browseDisable = false;
   dirId;
   fileList = [];
-  fileName;
+  file;
   @Output() response: EventEmitter<any> = new EventEmitter();
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver: boolean = false;
@@ -87,6 +106,17 @@ export class FSDirDialogComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: EventEmitter<File[]>) {
+    const data: File = event[0];
+    this.file = data;
+
+    // readBase64(file)
+    //   .then(function(data) {
+    //   that.file = data
+    // });
+
+  }
+
   incrementLevel(folder, idx) {
     this.backDisable = false;
     if (Number(folder.qlevel) === 0) {
@@ -133,7 +163,7 @@ export class FSDirDialogComponent implements OnInit {
       // console.log(this.uploader.queue[0]);
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel, this.uploader.queue[0]]);
+      this.response.emit([folder.entityID, folder.qlevel, this.file]);
     }
   }
 }

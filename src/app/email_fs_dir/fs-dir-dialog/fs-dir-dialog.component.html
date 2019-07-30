@@ -22,7 +22,7 @@
   <div class="col" *ngIf="storeSelector === 'view'">
     <div class="row card-header" style="background-color: white">
       <div class="col">
-        <input type="file" ng2FileSelect [uploader]="uploader" /></div>
+        <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
     </div>
     <div>
       Queue progress: {{uploader.progress}}

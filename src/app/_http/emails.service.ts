@@ -135,7 +135,7 @@ export class EmailsService {
       this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {
         // console.log('eeee', <any>response);
 
-        if (response['headers'].get('content-type') === 'text/plain') {
+        if (response['headers'].get('content-type').includes('text/plain')) {
           this.errorServ.displayError(response, '');
         } else {
           const blob: Blob = new Blob([response['body'] as Blob], {

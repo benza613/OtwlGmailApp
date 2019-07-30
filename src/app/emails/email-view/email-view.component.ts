@@ -62,7 +62,7 @@ export class EmailViewComponent implements OnInit {
     private emailServ: EmailsService,
     private location: Location,
     private detector: ChangeDetectorRef,
-    private sanitizer : DomSanitizer
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -353,22 +353,22 @@ export class EmailViewComponent implements OnInit {
 
 
   uploadToFileServer(id, msgId, email, entityId, qlevel, file, mdId) {
-      const that = this;
-      const formData: FormData = new FormData();
-      formData.append('file', file);
-      formData.append('keyD', mdId);
-      formData.append('keyQ', (Number(qlevel) + 1).toString());
-      formData.append('keyPF', entityId);
-      formData.forEach(x => {
-        console.log(x);
-      });
-      this.spinner.show();
-      this.detector.detectChanges();
-      this.emailServ.uploadPDF(formData).then(function (value) {
-        alert('Upload Successfully done!');
-        that.spinner.hide();
-      });
-      // document.getElementById('footer_button').style.visibility = 'visible';
+    const that = this;
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('keyD', mdId);
+    formData.append('keyQ', (Number(qlevel) + 1).toString());
+    formData.append('keyPF', entityId);
+    formData.forEach(x => {
+      console.log(x);
+    });
+    this.spinner.show();
+    this.detector.detectChanges();
+    this.emailServ.uploadPDF(formData).then(function (value) {
+      alert('Upload Successfully done!');
+      that.spinner.hide();
+    });
+    // document.getElementById('footer_button').style.visibility = 'visible';
   }
 
   getPrint(id) {
@@ -567,8 +567,10 @@ export class EmailViewComponent implements OnInit {
   }
 
   expand(eml, i) {
-    this.processAttachments([eml]);
     eml.isOpen = !eml.isOpen;
+    if (eml.isOpen) {
+      this.processAttachments([eml]);
+    }
     this.emailListOriginal = this.list;
     // eml.isOpen = bool;
     if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
@@ -731,14 +733,18 @@ export class EmailViewComponent implements OnInit {
   }
 
   processAttachments(list) {
+    console.log('Preview', list);
     let imageInfo = [];
     this.imageList = [];
     const that = this;
     list.forEach(email => {
       email.attachments.forEach(att => {
-        this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (base64) {
-          that.imageList.push(base64);
-        });
+        if (att.fileName.split('.')[1].includes('png') || att.fileName.split('.')[1].includes('jpg') ||
+        att.fileName.split('.')[1].includes('jpeg')) {
+          this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (base64) {
+            that.imageList.push(base64);
+          });
+        }
       });
     });
     console.log(this.imageList);

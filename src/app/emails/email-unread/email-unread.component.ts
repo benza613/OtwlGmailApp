@@ -34,7 +34,7 @@ export class EmailUnreadComponent implements OnInit {
     this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
       console.log('promise succ for updateUnreadThreadList');
       this.spinner.hide();
-      this.doUnreadPagination(9);
+      this.doUnreadPagination(2);
     }, err => {
       this.spinner.hide();
       console.log('promise reject for updateUnreadThreadList');

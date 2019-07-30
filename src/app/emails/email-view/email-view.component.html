@@ -69,7 +69,8 @@
             style="transform: scale(0.75); margin-right: 15px;" (click)="expand(eml,i)">
             <i class="fa fa-expand"></i>
           </button>
-          <div style="cursor: pointer;" *ngIf="eml.attachments.length !== 0" (click)="eml.showAttachments = !eml.showAttachments">
+          <div style="cursor: pointer;" *ngIf="eml.attachments.length !== 0"
+            (click)="eml.showAttachments = !eml.showAttachments">
             <span ngbTooltip="Show Attachments">
               {{eml.attachments.length}}
             </span>
@@ -196,5 +197,6 @@
   </div>
 </div>
 <div *ngFor="let image of imageList">
-  <img src="image" alt="Image" height="382" width="106" style="background-image: url({{image}})">
+  <img [src]="image | safeUrl" alt="Image">
+  <!-- style="background-image: url({{image}})" -->
 </div>

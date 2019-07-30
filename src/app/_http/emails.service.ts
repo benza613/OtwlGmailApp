@@ -143,15 +143,15 @@ export class EmailsService {
             type: response['headers'].get('content-type')
           });
 
-          // const url = URL.createObjectURL(blob);
-          // resolve(url);
+          const url = URL.createObjectURL(blob);
+          resolve(url);
 
-          const reader = new FileReader();
-          reader.readAsDataURL(blob);
-          reader.onloadend = function() {
-              const base64data = reader.result;
-              resolve(base64data);
-          };
+          // const reader = new FileReader();
+          // reader.readAsDataURL(blob);
+          // reader.onloadend = function() {
+          //     const base64data = reader.result;
+          //     resolve(base64data);
+          // };
         }
       });
     });

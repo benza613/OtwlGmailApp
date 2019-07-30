@@ -739,10 +739,10 @@ export class EmailViewComponent implements OnInit {
     const that = this;
     list.forEach(email => {
       email.attachments.forEach(att => {
-        if (att.fileName.split('.')[1].includes('png') || att.fileName.split('.')[1].includes('jpg') ||
-        att.fileName.split('.')[1].includes('jpeg')) {
-          this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (base64) {
-            that.imageList.push(base64);
+        let fileExtn = att.fileName.split('.');
+        if (fileExtn[1].includes('png') || fileExtn[1].includes('jpg') || fileExtn[1].includes('jpeg')) {
+          this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
+            that.imageList.push(blobUrl);
           });
         }
       });

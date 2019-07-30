@@ -12,6 +12,7 @@ import { EmailsService } from 'src/app/_http/emails.service';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import { Location } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -60,7 +61,8 @@ export class EmailViewComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private emailServ: EmailsService,
     private location: Location,
-    private detector: ChangeDetectorRef
+    private detector: ChangeDetectorRef,
+    private sanitizer : DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -565,7 +567,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   expand(eml, i) {
-    // this.processAttachments([eml]);
+    this.processAttachments([eml]);
     eml.isOpen = !eml.isOpen;
     this.emailListOriginal = this.list;
     // eml.isOpen = bool;
@@ -728,23 +730,18 @@ export class EmailViewComponent implements OnInit {
     console.log('BODY', this.emailListOriginal[i].body);
   }
 
-  // processAttachments(list) {
-  //   let imageInfo = [];
-  //   this.imageList = [];
-  //   const that = this;
-  //   list.forEach(email => {
-  //     email.attachments.forEach(att => {
-  //       this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (blob) {
-  //         let reader = new FileReader();
-  //         reader.readAsDataURL(blob); 
-  //         reader.onloadend = function() {
-  //            base64data = reader.result;     
-  //         }
-  //         that.imageList.push([dataurl, value[1]]);
-  //       });
-  //     });
-  //   });
-  //   console.log(this.imageList);
-  //   this.detector.detectChanges();
-  // }
+  processAttachments(list) {
+    let imageInfo = [];
+    this.imageList = [];
+    const that = this;
+    list.forEach(email => {
+      email.attachments.forEach(att => {
+        this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (base64) {
+          that.imageList.push(base64);
+        });
+      });
+    });
+    console.log(this.imageList);
+    this.detector.detectChanges();
+  }
 }

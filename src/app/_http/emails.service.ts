@@ -133,7 +133,7 @@ export class EmailsService {
       optionsN['observe'] = 'response';
 
       this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {
-        console.log('eeee', <any>response);
+        // console.log('eeee', <any>response);
 
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');

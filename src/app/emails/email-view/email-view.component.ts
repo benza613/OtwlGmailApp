@@ -50,6 +50,7 @@ export class EmailViewComponent implements OnInit {
   thread;
   mdId;
   readThreads = [];
+  imageList = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -581,6 +582,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   expand(eml, i) {
+    this.processAttachments([eml]);
     eml.isOpen = !eml.isOpen;
     this.emailListOriginal = this.list;
     // eml.isOpen = bool;
@@ -743,14 +745,17 @@ export class EmailViewComponent implements OnInit {
     console.log('BODY', this.emailListOriginal[i].body);
   }
 
-  processAttachments() {
+  processAttachments(list) {
+    let imageInfo = [];
     const that = this;
-    this.emailList.forEach(email => {
+    list.forEach(email => {
       email.attachments.forEach(att => {
         this.emailServ.restoreEmailBodyImages(email, email.attachmentGId, att.fileName).then(function (value) {
-          // make array of response i.e value
+          that.imageList.push(value);
         });
       });
     });
+    console.log(this.imageList);
+    this.detector.detectChanges();
   }
 }

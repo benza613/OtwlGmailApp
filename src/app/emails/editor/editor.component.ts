@@ -46,6 +46,8 @@ export class EditorComponent implements OnInit {
 
   msgAddrList = [];
   newAddrList = [];
+  addrListCc = [];
+  addrListBcc = [];
 
   _TOKEN_POSSESION = "";
 
@@ -122,7 +124,6 @@ export class EditorComponent implements OnInit {
       that.senderDesgn = value['d'].userDesignation;
       that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail);
       that.detector.detectChanges();
-
     });
 
     this.emailStore.addressBook$.subscribe(x => {
@@ -130,9 +131,23 @@ export class EditorComponent implements OnInit {
       for (let ix = 0; ix < x.length; ix++) {
         this.msgAddrList = [...this.msgAddrList, { emailId: x[ix].emailName + ' ' + '<' + x[ix].emailAddr + '>' }];
       }
-      this.detector.detectChanges();
+      setTimeout(() => {
+        if (this.msgPacket.cc.length > 0) {
+          this.msgPacket.cc.forEach(x => {
+            console.log(x);
+          });
+          this.msgPacket.cc = this.msgPacket.cc.filter(x => !x.emailId.includes(this.senderEmail));
+          this.detector.detectChanges();
+        }
+        if (this.msgPacket.bcc.length > 0) {
+          this.msgPacket.bcc.forEach(x => {
+            console.log(x);
+          });
+          this.msgPacket.bcc = this.msgPacket.bcc.filter(x => !x.emailId.includes(this.senderEmail));
+          this.detector.detectChanges();
+        }
+      });
     });
-
 
     this.route.queryParams
       .subscribe(params => {
@@ -291,29 +306,26 @@ export class EditorComponent implements OnInit {
     }
 
     if (emlData.cc !== undefined) {
+      console.log('CC', emlData.cc);
       emlData.cc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
-          if (element !== this.senderEmail) {
-            this.msgPacket.cc.push({ emailId: element });
-          }
+          this.msgPacket.cc = this.msgPacket.cc.filter(x => !x.emailId.includes(this.senderEmail));
+          this.detector.detectChanges();
         }
       });
     }
 
     if (emlData.bcc !== undefined) {
+      console.log('BCC', emlData.bcc);
       emlData.bcc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
-          if (element !== this.senderEmail) {
-            this.msgPacket.bcc.push({ emailId: element });
-          }
+          this.msgPacket.bcc = this.msgPacket.bcc.filter(x => !x.emailId.includes(this.senderEmail));
+          this.detector.detectChanges();
         }
       });
     }
-
-
-
   }
 
 

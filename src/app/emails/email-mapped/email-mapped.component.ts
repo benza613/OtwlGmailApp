@@ -69,8 +69,8 @@ export class EmailMappedComponent implements OnInit {
       });
     });
 
-    if (this.params_flag || this.globals.mappedRefId !== 0) {
-      setTimeout(()=>{
+    if (this.params_flag) {
+      setTimeout(() => {
         this.onChange_GetRefTypeData(1);
       });
     }
@@ -88,7 +88,7 @@ export class EmailMappedComponent implements OnInit {
 
   //toggle parent reftype ddl
   onChange_GetRefTypeData(flag?) {
-    if (this.globals.mappedRefId) {
+    if (this.globals.mappedRefId !== 0 || this.globals.mappedRefId) {
       this.spinner.show();
       this.globals.mappedRefValId = null;
       var that = this;
@@ -108,8 +108,6 @@ export class EmailMappedComponent implements OnInit {
           that.spinner.hide();
         });
       });
-    } else {
-      alert('Please select a Reference Type');
     }
   }
 
@@ -122,7 +120,7 @@ export class EmailMappedComponent implements OnInit {
     const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
     const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
     // tslint:disable-next-line: max-line-length
-    this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to).then( success => {
+    this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to).then(success => {
       this.spinner.hide('mapped');
     });
     this.domainStore.updateThreadTypeData();

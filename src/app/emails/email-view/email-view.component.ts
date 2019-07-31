@@ -257,9 +257,15 @@ export class EmailViewComponent implements OnInit {
 
     if (id === 1) {
       this.spinner.show();
-      this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
-        that.spinner.hide();
-      });
+      if (this.downloadFileObject.length > 0) {
+        this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
+          that.spinner.hide();
+        }); 
+      } else {
+        alert('Please Select files to download!');
+        this.spinner.hide();
+        return;
+      }
     } else if (id === 2) {
       this.spinner.show();
       const that = this;
@@ -295,7 +301,7 @@ export class EmailViewComponent implements OnInit {
     if (flag === 1) {
       this.emailList.forEach(x => {
         x.isOpen = true;
-        if (x.isUnread === false) {
+        if (x.isUnread === true) {
           this.readThreads.push(x.msgid);
         }
         console.log('READ IDS', this.readThreads);
@@ -310,7 +316,7 @@ export class EmailViewComponent implements OnInit {
       this.emailStore.updateMessageStatus(this.storeSelector, this.reqThreadId, this.readThreads).then(function (value) {
         if (value === '200') {
           that.emailList.forEach(x => {
-            x.isUnread = true;
+            x.isUnread = false;
           });
           that.detector.detectChanges();
         }
@@ -567,12 +573,12 @@ export class EmailViewComponent implements OnInit {
       this.signature[i] = '';
     }
     this.readThreads = [];
-    if (this.emailList[i].isUnread === false) {
+    if (this.emailList[i].isUnread === true) {
       this.readThreads.push(this.emailList[i].msgid);
       const that = this;
       this.emailStore.updateMessageStatus(this.storeSelector, this.reqThreadId, this.readThreads).then(function (value) {
         if (value === '200') {
-          that.emailList[i].isUnread = true;
+          that.emailList[i].isUnread = false;
         }
       });
     }

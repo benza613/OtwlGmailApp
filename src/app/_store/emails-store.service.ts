@@ -645,7 +645,7 @@ export class EmailsStoreService {
       const res = await this.emailServ.updateMessageStatus(readThreads).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'updateMessageStatus');
-      } 
+      }
       // else {
       //   if (storeSelector === 'unread') {
       //     const arrx = this.getUnreadMsgList$(reqThreadId);

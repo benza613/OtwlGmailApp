@@ -1,3 +1,4 @@
+import { SafeUrlPipe } from './../../_pipe/safe-url.pipe';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { MessageUiAttach } from './../../models/message-ui-attach.model';
 import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
@@ -10,7 +11,7 @@ import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailsService } from 'src/app/_http/emails.service';
 import { Location } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -260,7 +261,7 @@ export class EmailViewComponent implements OnInit {
       if (this.downloadFileObject.length > 0) {
         this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
           that.spinner.hide();
-        }); 
+        });
       } else {
         alert('Please Select files to download!');
         this.spinner.hide();
@@ -585,16 +586,31 @@ export class EmailViewComponent implements OnInit {
     // console.log('BODY', this.emailListOriginal[i].body);
   }
 
+  renderImages(eml) {
+    eml.showFooter = !eml.showFooter
+    this.processAttachments([eml]);
+  }
+
   processAttachments(list) {
     console.log('Preview', list);
     let imageInfo = [];
     this.imageList = [];
     const that = this;
+    const x = document.getElementsByTagName("img");
+    console.log(x.item);
     list.forEach(email => {
       email.attachments.forEach(att => {
         let fileExtn = att.fileName.split('.');
-        if (fileExtn[1].includes('png') || fileExtn[1].includes('jpg') || fileExtn[1].includes('jpeg')) {
+        var y = document.getElementsByTagName("img").item(1);
+        console.log(y);
+        if (fileExtn[1].toLowerCase().includes('png') || fileExtn[1].toLowerCase().includes('jpg') || fileExtn[1].toLowerCase().includes('jpeg') || fileExtn[1].toLowerCase().includes('gif')) {
           this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
+            // const url: SafeUrl = that.sanitizer.bypassSecurityTrustResourceUrl(blobUrl.toString());
+            for (let i = 0; i < x.length; i++) {
+              if (x[i].src.includes(att.fileName)) {
+                x[i].setAttribute('src', blobUrl.toString());
+              }
+            }
             that.imageList.push(blobUrl);
           });
         }

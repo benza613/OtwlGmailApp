@@ -182,7 +182,7 @@
         </div>
         <div class="row pull left">
           <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes[i] !== ''"
-            style="margin-left: 20px;" (click)="eml.showFooter = !eml.showFooter">
+            style="margin-left: 20px;" (click)="renderImages(eml)">
             {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
           </button>
         </div>
@@ -194,7 +194,7 @@
         </div>
         <div *ngFor="let image of imageList">
           <img [src]="image | safeUrl" alt="Image">
-          <!-- style="background-image: url({{image}})" -->
+           <!-- style="background-image: url({{image}})" -->
         </div>
       </div>
     </div>

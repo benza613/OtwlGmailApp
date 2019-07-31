@@ -9,8 +9,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailsService } from 'src/app/_http/emails.service';
-import html2canvas from 'html2canvas';
-import jspdf from 'jspdf';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -297,20 +295,27 @@ export class EmailViewComponent implements OnInit {
     if (flag === 1) {
       this.emailList.forEach(x => {
         x.isOpen = true;
-        this.readThreads.push(x.msgid);
+        if (x.isUnread === false) {
+          this.readThreads.push(x.msgid);
+        }
+        console.log('READ IDS', this.readThreads);
+
       });
     } else {
       this.emailList.forEach(x => {
         x.isOpen = false;
       });
     }
-    this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
-      if (value === '200') {
-        that.emailList.forEach(x => {
-          x.isUnread = false;
-        });
-      }
-    });
+    if (this.readThreads.length > 0) {
+      this.emailStore.updateMessageStatus(this.storeSelector, this.reqThreadId, this.readThreads).then(function (value) {
+        if (value === '200') {
+          that.emailList.forEach(x => {
+            x.isUnread = true;
+          });
+          that.detector.detectChanges();
+        }
+      });
+    }
   }
 
   getPreview(msgId, file) {
@@ -402,168 +407,6 @@ export class EmailViewComponent implements OnInit {
         modalRef.close();
       }
     });
-  }
-
-  goBack() {
-    this.location.back();
-  }
-
-  hideBlockQuotes() {
-    for (let i = 0; i < this.emailListOriginal.length; i++) {
-      if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
-        this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
-          (this.emailListOriginal[i].body.toLowerCase().trim()
-            .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
-        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-          '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
-        if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=wordsection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=WordSection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
-          this.signature[i] = '<div class="container-fluid"' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div class="container-fluid"')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div class="container-fluid"')[0];
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
-          this.signature[i] = '<div style="font-size:small">' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div style="font-size:small">')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div style="font-size:small">')[0];
-        }
-      }
-
-
-      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
-        this.quotes[i] = '<div class="gmail_quote">' +
-          (this.emailListOriginal[i].body.toLowerCase().trim()
-            .split('<div class="gmail_quote">')[1]);
-        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-          '<div class="gmail_quote">')[0];
-        if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=wordsection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=WordSection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
-          this.signature[i] = '<div class="container-fluid"' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div class="container-fluid"')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div class="container-fluid"')[0];
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
-          this.signature[i] = '<div style="font-size:small">' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div style="font-size:small">')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div style="font-size:small">')[0];
-        }
-      }
-
-
-      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<blockquote')) {
-        this.quotes[i] = '<blockquote' +
-          (this.emailListOriginal[i].body.toLowerCase().trim()
-            .split('<blockquote')[1]);
-        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-          '<blockquote')[0];
-        if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=wordsection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=WordSection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
-          this.signature[i] = '<div class="container-fluid"' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div class="container-fluid"')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div class="container-fluid"')[0];
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
-          this.signature[i] = '<div style="font-size:small">' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div style="font-size:small">')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div style="font-size:small">')[0];
-        }
-
-      }
-
-
-      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
-        this.quotes[i] = '<div id="divSignatureLine">' +
-          (this.emailListOriginal[i].body.toLowerCase().trim()
-            .split('<div id="divSignatureLine"')[1]);
-        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-          '<div id="divSignatureLine">')[0];
-        if (this.emailListOriginal[i].body.trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=wordsection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
-          this.signature[i] = '<div class=WordSection1>' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
-          this.signature[i] = '<div class="container-fluid"' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div class="container-fluid"')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div class="container-fluid"')[0];
-        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
-          this.signature[i] = '<div style="font-size:small">' +
-            (this.emailListOriginal[i].body.toLowerCase().trim()
-              .split('<div style="font-size:small">')[1]);
-          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
-            '<div style="font-size:small">')[0];
-        }
-      }
-
-
-      else {
-        this.emailListOriginal[i].body = this.emailListOriginal[i].body;
-        this.quotes[i] = '';
-        this.signature[i] = '';
-      }
-      console.log('BODY', this.emailListOriginal[i].body);
-    }
-    this.emailList = this.emailListOriginal;
-    this.detector.detectChanges();
   }
 
   expand(eml, i) {
@@ -723,12 +566,16 @@ export class EmailViewComponent implements OnInit {
       this.quotes[i] = '';
       this.signature[i] = '';
     }
-    this.readThreads.push(this.emailList[i].msgid);
-    this.emailStore.updateMessageStatus(this.readThreads).then(function (value) {
-      if (value === '200') {
-        this.emailList[i].isUnread = false;
-      }
-    });
+    this.readThreads = [];
+    if (this.emailList[i].isUnread === false) {
+      this.readThreads.push(this.emailList[i].msgid);
+      const that = this;
+      this.emailStore.updateMessageStatus(this.storeSelector, this.reqThreadId, this.readThreads).then(function (value) {
+        if (value === '200') {
+          that.emailList[i].isUnread = true;
+        }
+      });
+    }
     // console.log('BODY', this.emailListOriginal[i].body);
   }
 
@@ -747,7 +594,169 @@ export class EmailViewComponent implements OnInit {
         }
       });
     });
-    console.log(this.imageList);
     this.detector.detectChanges();
+  }
+
+  hideBlockQuotes() {
+    for (let i = 0; i < this.emailListOriginal.length; i++) {
+      // tslint:disable-next-line: max-line-length
+      if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
+        this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
+          (this.emailListOriginal[i].body.toLowerCase().trim()
+            .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
+        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+          '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
+        if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=wordsection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=WordSection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
+          this.signature[i] = '<div class="container-fluid"' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div class="container-fluid"')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div class="container-fluid"')[0];
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+          this.signature[i] = '<div style="font-size:small">' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div style="font-size:small">')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div style="font-size:small">')[0];
+        }
+      }
+
+
+      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+        this.quotes[i] = '<div class="gmail_quote">' +
+          (this.emailListOriginal[i].body.toLowerCase().trim()
+            .split('<div class="gmail_quote">')[1]);
+        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+          '<div class="gmail_quote">')[0];
+        if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=wordsection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=WordSection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
+          this.signature[i] = '<div class="container-fluid"' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div class="container-fluid"')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div class="container-fluid"')[0];
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+          this.signature[i] = '<div style="font-size:small">' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div style="font-size:small">')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div style="font-size:small">')[0];
+        }
+      }
+
+
+      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<blockquote')) {
+        this.quotes[i] = '<blockquote' +
+          (this.emailListOriginal[i].body.toLowerCase().trim()
+            .split('<blockquote')[1]);
+        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+          '<blockquote')[0];
+        if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=wordsection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=WordSection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
+          this.signature[i] = '<div class="container-fluid"' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div class="container-fluid"')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div class="container-fluid"')[0];
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+          this.signature[i] = '<div style="font-size:small">' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div style="font-size:small">')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div style="font-size:small">')[0];
+        }
+
+      }
+
+
+      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
+        this.quotes[i] = '<div id="divSignatureLine">' +
+          (this.emailListOriginal[i].body.toLowerCase().trim()
+            .split('<div id="divSignatureLine"')[1]);
+        this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+          '<div id="divSignatureLine">')[0];
+        if (this.emailListOriginal[i].body.trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=wordsection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
+          console.log('Enter');
+          this.signature[i] = '<div class=WordSection1>' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="container-fluid"')) {
+          this.signature[i] = '<div class="container-fluid"' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div class="container-fluid"')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div class="container-fluid"')[0];
+        } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div style="font-size:small">')) {
+          this.signature[i] = '<div style="font-size:small">' +
+            (this.emailListOriginal[i].body.toLowerCase().trim()
+              .split('<div style="font-size:small">')[1]);
+          this.emailListOriginal[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
+            '<div style="font-size:small">')[0];
+        }
+      }
+
+
+      else {
+        this.emailListOriginal[i].body = this.emailListOriginal[i].body;
+        this.quotes[i] = '';
+        this.signature[i] = '';
+      }
+      console.log('BODY', this.emailListOriginal[i].body);
+    }
+    this.emailList = this.emailListOriginal;
+    this.detector.detectChanges();
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

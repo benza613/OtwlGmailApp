@@ -8,7 +8,7 @@
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col pull-right">
-    <button type="button" class="btn btn-warning" (click)="OnClick_Map()" *ngIf="storeSelector === 'unread'"
+    <button type="button" class="btn btn-warning" (click)="OnClick_Map()"
       style="transform: scale(0.80)" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
     <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
@@ -118,7 +118,7 @@
           <div class="row pull-right" style="margin-right: 2px;">
             <button type="button" class="btn btn-primary actions"
               (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
-            <button type="button" class="btn btn-success actions" [disabled]="storeSelector === 'unread'"
+            <button type="button" class="btn btn-success actions" *ngIf="storeSelector !== 'unread'"
               (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
           </div>
         </div>
@@ -151,7 +151,7 @@
                     </button>
                   </div>
                   <div class="col-md-2" style="padding-right: 0px;">
-                    <button type="button" [disabled]="storeSelector === 'unread'" ngbTooltip="UPLOAD"
+                    <button type="button" *ngIf="storeSelector !== 'unread'" ngbTooltip="UPLOAD"
                       class="btn btn-sm btn-outline-success float-right" style="margin:0px 10px 0px 10px;;"
                       (click)="fileAction(2,eml.msgid, eml.attachments, att)">
                       <i class="fa fa-upload" aria-hidden="true"></i>
@@ -192,11 +192,12 @@
 
           </div>
         </div>
+        <div *ngFor="let image of imageList">
+          <img [src]="image | safeUrl" alt="Image">
+          <!-- style="background-image: url({{image}})" -->
+        </div>
       </div>
     </div>
   </div>
 </div>
-<div *ngFor="let image of imageList">
-  <img [src]="image | safeUrl" alt="Image">
-  <!-- style="background-image: url({{image}})" -->
-</div>
+

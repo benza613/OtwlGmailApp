@@ -45,7 +45,6 @@ export class EditorComponent implements OnInit {
 
 
   msgAddrList = [];
-  newAddrList = [];
   addrListCc = [];
   addrListBcc = [];
 
@@ -258,7 +257,25 @@ export class EditorComponent implements OnInit {
             (finalBody) => {
               // then send mail
               const emailList = [];
-              this.newAddrList.forEach(x => {
+              this.msgPacket.to.forEach(x => {
+                const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
+                if (idx === -1) {
+                  this.msgAddrList.push(x);
+                }
+              });
+              this.msgPacket.cc.forEach(x => {
+                const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
+                if (idx === -1) {
+                  this.msgAddrList.push(x);
+                }
+              });
+              this.msgPacket.bcc.forEach(x => {
+                const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
+                if (idx === -1) {
+                  this.msgAddrList.push(x);
+                }
+              });
+              this.msgAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
@@ -267,7 +284,7 @@ export class EditorComponent implements OnInit {
                   that.spinner.hide();
                   that.detector.detectChanges();
                   console.log('res.d.errId:', value);
-                  console.log(that.newAddrList);
+                  console.log(that.msgAddrList);
                   if (this._reqStoreSelector !== '') {
                     that.location.back();
                   } else {
@@ -352,7 +369,25 @@ export class EditorComponent implements OnInit {
     this.detector.detectChanges();
     var that = this;
     console.log("ADDress book", this.msgAddrList);
-
+    console.log('TO',this.msgPacket.to);
+    this.msgPacket.to.forEach(x => {
+      const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
+      if (idx === -1) {
+        this.msgAddrList.push(x);
+      }
+    });
+    this.msgPacket.cc.forEach(x => {
+      const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
+      if (idx === -1) {
+        this.msgAddrList.push(x);
+      }
+    });
+    this.msgPacket.bcc.forEach(x => {
+      const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
+      if (idx === -1) {
+        this.msgAddrList.push(x);
+      }
+    });
     if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
       if (this.uploader.queue.length == 0) {
 
@@ -362,9 +397,10 @@ export class EditorComponent implements OnInit {
               (finalBody) => {
                 // then send mail
                 const emailList = [];
-                this.newAddrList.forEach(x => {
+                this.msgAddrList.forEach(x => {
                   emailList.push(x['emailId']);
                 });
+                console.log('TO',this.msgPacket.to);
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
@@ -685,12 +721,23 @@ export class EditorComponent implements OnInit {
   }
 
   addEmailAddress(event) {
+    console.log(this.msgPacket.to);
     if (event.length > 0) {
       const idx = this.msgAddrList.findIndex(x => x.emailId === event[0].emailId);
-      console.log(idx);
+      const email = event[0];
       if (idx === -1) {
-        this.msgAddrList = [...this.msgAddrList, event[0]];
-        this.newAddrList.push(event[0]);
+        if (email.emailId.includes(' ')) {
+          email.emailId = email.emailId.split(' ')[1];
+        }
+        if (!email.emailId.includes('<')) {
+              email.emailId = '<' + email.emailId;
+          if (!email.emailId.includes('>')) {
+              email.emailId = email.emailId + '>';
+          } else if(!email.emailId.includes('>')) {
+            email.emailId = email.emailId + '>';
+          }
+        }
+        this.msgAddrList = [...this.msgAddrList, email];
       }
     }
   }

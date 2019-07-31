@@ -11,7 +11,7 @@ import { NgTypeToSearchTemplateDirective } from '@ng-select/ng-select/ng-select/
 const URL = environment.url.uploadPdf;
 
 function readBase64(file): Promise<any> {
-  let reader  = new FileReader();
+  let reader = new FileReader();
   let future = new Promise((resolve, reject) => {
     reader.addEventListener("load", function () {
       resolve(reader.result);
@@ -68,6 +68,7 @@ export class FSDirDialogComponent implements OnInit {
       this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
       // console.log('Folder List',this.folderList);
     }
+    console.log(this.uploadType);
     this.domainStore.fsDirData$.subscribe(x => {
       this.fsDirData = [];
       for (let ix = 0; ix < x.length; ix++) {
@@ -76,45 +77,39 @@ export class FSDirDialogComponent implements OnInit {
       // console.log('Dir List',this.fsDirData);
     });
 
-    this.uploader.removeFromQueue = (fileItem) => {
-      this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
-      this.detector.detectChanges();
-    };
-    this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
-    //this.uploader.options.removeAfterUpload = true;
+    // this.uploader.removeFromQueue = (fileItem) => {
+    //   this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
+    //   this.detector.detectChanges();
+    // };
+    // this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
+    // //this.uploader.options.removeAfterUpload = true;
 
-    this.uploader.options.isHTML5 = true;
-    this.uploader.onBeforeUploadItem = (item) => {
-      item.withCredentials = false;
-    }
+    // this.uploader.options.isHTML5 = true;
+    // this.uploader.onBeforeUploadItem = (item) => {
+    //   item.withCredentials = false;
+    // };
 
-    this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      item.remove();
-    }
+    // this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+    //   item.remove();
+    // };
 
-    this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      console.log('err', item.file.name);
-    }
+    // this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+    //   console.log('err', item.file.name);
+    // };
 
-    this.uploader.onCompleteAll = () => {
-      this.uploader.progress = 0;
-      this.detector.detectChanges();
+    // this.uploader.onCompleteAll = () => {
+    //   this.uploader.progress = 0;
+    //   this.detector.detectChanges();
 
-      if (this.uploader.queue.length > 0) {
-        alert('File upload unsuccessful!');
-      }
-    }
+    //   if (this.uploader.queue.length > 0) {
+    //     alert('File upload unsuccessful!');
+    //   }
+    // };
   }
 
   onFileSelected(event: EventEmitter<File[]>) {
     const data: File = event[0];
     this.file = data;
-
-    // readBase64(file)
-    //   .then(function(data) {
-    //   that.file = data
-    // });
-
   }
 
   incrementLevel(folder, idx) {
@@ -149,7 +144,6 @@ export class FSDirDialogComponent implements OnInit {
 
   saveToFS(folder) {
     this.spinner.show();
-    console.log('Folder', folder);
     var that = this;
     if (this.uploadType === 'email_attachment') {
       this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
@@ -157,10 +151,11 @@ export class FSDirDialogComponent implements OnInit {
           if (value === '1') {
             that.spinner.hide();
             that.changeDetRef.detectChanges();
+            that.activeModal.dismiss();
+            that.activeModal.close();
           }
         });
     } else {
-      // console.log(this.uploader.queue[0]);
       this.activeModal.dismiss();
       this.activeModal.close();
       this.response.emit([folder.entityID, folder.qlevel, this.file]);

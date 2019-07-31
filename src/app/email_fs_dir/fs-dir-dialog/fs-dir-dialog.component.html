@@ -19,53 +19,86 @@
       <input placeholder="Enter a filename...." class="form-control" style="margin: 20px;" [(ngModel)]="fileName" />
     </div>
   </div> -->
-  <div class="col" *ngIf="storeSelector === 'view'">
-    <div class="row card-header" style="background-color: white">
+  <div class="col">
+    <div class="row card-header" style="background-color: white" *ngIf="uploadType === 'email_body'">
       <div class="col">
         <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
-    </div>
-    <div>
-      Queue progress: {{uploader.progress}}
-      <div class="progress" style="margin-bottom: 5px;">
-        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+      </div>
+      <div>
+        Queue progress: {{uploader.progress}}
+        <div class="progress" style="margin-bottom: 5px;">
+          <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <table class="table table-striped" style="width: 100%">
-    <thead>
-      <tr>
-        <th scope="col">
-          <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left"
-            (click)="decrementLevel()">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </th>
-        <th scope="col">FOLDER</th>
-        <th scope="col" style="text-align: center;">BROWSE</th>
-        <th *ngIf="storeSelector !== 'editor'" scope="col" style="text-align: center;">SAVE TO</th>
-        <th *ngIf="storeSelector === 'editor'" scope="col" style="text-align: center;">ADD</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let folder of folderList; index as i">
-        <th scope="row"></th>
-        <td>{{folder.name}}</td>
-        <td style="text-align: center;">
-          <button id="i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">
-            <i class="fa fa-folder-open" aria-hidden="true"></i>
-          </button>
-        </td>
-        <td style="text-align: center;">
-          <button type="button" class="btn btn-sm btn-outline-success" (click)="saveToFS(folder)">
-            <i class="fa fa-floppy-o" aria-hidden="true"></i>
-          </button>
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-striped" style="width: 100%">
+      <thead>
+        <tr>
+          <th scope="col">
+            <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left"
+              (click)="decrementLevel()">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+          </th>
+          <th scope="col">FOLDER</th>
+          <th scope="col" style="text-align: center;">BROWSE</th>
+          <th *ngIf="storeSelector !== 'editor'" scope="col" style="text-align: center;">SAVE TO</th>
+          <th *ngIf="storeSelector === 'editor'" scope="col" style="text-align: center;">ADD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let folder of folderList; index as i">
+          <th scope="row"></th>
+          <td>{{folder.name}}</td>
+          <td style="text-align: center;">
+            <button id="i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">
+              <i class="fa fa-folder-open" aria-hidden="true"></i>
+            </button>
+          </td>
+          <td style="text-align: center;">
+            <button type="button" class="btn btn-sm btn-outline-success" (click)="saveToFS(folder)">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
 
-  <!-- <div class="col" *ngFor="let folder of folderList">
-    <span>{{folder.name}}</span>
-  </div> -->
-</div>
+    <!-- <div class="col" *ngIf="uploadType === 'email_attachment'">
+      <table class="table table-striped" style="width: 100%">
+        <thead>
+          <tr>
+            <th scope="col">
+              <button [disabled]="backDisable" ngbTooltip="BACK" class="btn btn-sm btn-outline-secondary float-left"
+                (click)="decrementLevel()">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th scope="col">FOLDER</th>
+            <th scope="col" style="text-align: center;">BROWSE</th>
+            <th *ngIf="storeSelector !== 'editor'" scope="col" style="text-align: center;">SAVE TO</th>
+            <th *ngIf="storeSelector === 'editor'" scope="col" style="text-align: center;">ADD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let folder of folderList; index as i">
+            <th scope="row"></th>
+            <td>{{folder.name}}</td>
+            <td style="text-align: center;">
+              <button id="i" type="button" class="btn btn-sm btn-outline-primary" (click)="incrementLevel(folder,i)">
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+              </button>
+            </td>
+            <td style="text-align: center;">
+              <button type="button" class="btn btn-sm btn-outline-success" (click)="saveToFS(folder)">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              </button>
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>  
+  </div>
+</div> -->

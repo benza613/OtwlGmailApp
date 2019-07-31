@@ -554,14 +554,6 @@ export class EmailsStoreService {
     }
   }
 
-  // async addEmailAddresses(addressList) {
-  //   const result = await this.emailServ.addEmailAddresses(addressList).toPromise();
-  //     if (result.d.errId === '200') {
-  //       alert(result.d.errMsg);
-  //     } else {
-  //       this.errorService.displayError(result, 'addEmailAddresses');
-  //     }
-  // }
 
   // updateSentThreadList() {
   //   return new Promise(async (resolve, reject) => {
@@ -648,12 +640,30 @@ export class EmailsStoreService {
   }
 
 
-  updateMessageStatus(readThreads) {
+  updateMessageStatus(storeSelector, reqThreadId, readThreads) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.updateMessageStatus(readThreads).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'updateMessageStatus');
-      }
+      } 
+      // else {
+      //   if (storeSelector === 'unread') {
+      //     const arrx = this.getUnreadMsgList$(reqThreadId);
+      //     readThreads.forEach(x => {
+      //       arrx[x].isUnread = false;
+      //     });
+      //   } else if (storeSelector === 'mapped') {
+      //     const arrx = this.getUnreadMsgList$(reqThreadId);
+      //     readThreads.forEach(x => {
+      //       arrx[x].isUnread = false;
+      //     });
+      //   } else {
+      //     const arrx = this.getUnreadMsgList$(reqThreadId);
+      //     readThreads.forEach(x => {
+      //       arrx[x].isUnread = false;
+      //     });
+      //   }
+      // }
       resolve(res.d.errId);
     });
   }

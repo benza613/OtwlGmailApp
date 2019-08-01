@@ -52,7 +52,7 @@ export class EmailListComponent implements OnInit {
     const that = this;
     this.authServ.login();
     this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(success => {
-      threadData.isUnread = !threadData.isUnread;
+      threadData.isUnread = false;
       this.detector.detectChanges();
       that.spinner.hide('list1');
     });

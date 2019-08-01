@@ -1,3 +1,4 @@
+import { SearchParams } from './../models/search-params.model';
 import { GlobalStoreService } from './../_store/global-store.service';
 import { DomainStoreService } from './../_store/domain-store.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
@@ -25,6 +26,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   refId = 1;
   refValId = 11;
   selectedThreads;
+  emailList;
   constructor(
     private domainStore: DomainStoreService,
     private config: NgbModalConfig,
@@ -37,7 +39,19 @@ export class EmailUnreadDialogComponent implements OnInit {
   ngOnInit() {
     this.refType = this.domainStore.refType$;
     this.threadTypeData = this.domainStore.threadTypeData$;
-    console.log('REF ID', this.globals.mappedRefId);
+    let tags = [];
+    this.threadTypeData.subscribe(x => {
+      tags = x;
+    });
+    this.mailList.forEach(x => {
+      const obj = this.globals.tagsList.filter(y => y.ThreadUId === x.ThreadUId);
+      console.log('OBJECT', obj[0]);
+      const list2: any = [];
+      obj[0].SelectedTypeIdList.forEach(tag => {
+        list2.push(tags.find(f => f['threadTypeVal'] === tag).threadTypeId);
+      });
+      x.ThreadTypeIds = list2;
+    });
   }
 
   onChange_GetRefTypeData() {
@@ -71,21 +85,21 @@ export class EmailUnreadDialogComponent implements OnInit {
         selectedThreads: [],
         selectedThreadsFullData: []
       };
-        for (let i = 0; i < this.mailList.length; i++) {
-          mapTypes.selectedThreads.push({
-            ThreadID: this.mailList[i].ThreadId,
-            ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
-          });
-        }
-        mapTypes.selectedThreadsFullData = this.mailList;
-        this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
-          that.spinner.hide();
-          if (value === '200') {
-            const res = '1';
-            alert('Mapping successfully done.');
-            that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
-          }
+      for (let i = 0; i < this.mailList.length; i++) {
+        mapTypes.selectedThreads.push({
+          ThreadID: this.mailList[i].ThreadId,
+          ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
         });
+      }
+      mapTypes.selectedThreadsFullData = this.mailList;
+      this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
+        that.spinner.hide();
+        if (value === '200') {
+          const res = '1';
+          alert('Mapping successfully done.');
+          that.activeModal.close({ action: '1', data: mapTypes.selectedThreads });
+        }
+      });
     }
     else {
       this.spinner.show();

@@ -1,3 +1,4 @@
+import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { AddressBook } from './../models/address-book.model';
 import { Folders } from '../models/folders.model';
 import { Thread } from './../models/thread.model';
@@ -23,7 +24,9 @@ export class EmailsStoreService {
     private emailServ: EmailsService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private errorService: ErrorService) { }
+    private errorService: ErrorService,
+    public globals: GlobalStoreService
+    ) { }
 
 
   // - We set the initial state in BehaviorSubject's constructor
@@ -363,6 +366,8 @@ export class EmailsStoreService {
         this.threadTypeList = [];
         const arrx = [];
         const arrx2 = [];
+        this.globals.tagsList = Object.assign([], <MappedThread[]>res.d.mappedThreads);
+        console.log(this.globals.tagsList);
         arrx.push(...<MappedThread[]>res.d.mappedThreads);
         arrx2.push(...<ThreadTypeData[]>res.d.threadTypeList);
         for (let i = 0; i < arrx.length; i++) {

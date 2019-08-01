@@ -34,7 +34,7 @@
   </div>
 
 </div>
-<div style="height: 75vh; overflow: auto; opacity: 1.0;">
+<div style="height: 73vh; overflow: auto; opacity: 1.0;">
   <div class="card thread-card rolldown-list"
     *ngFor="let item of (threadList | async | unreadViewFilter: unreadFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
     <div class="card-body no-gutters"

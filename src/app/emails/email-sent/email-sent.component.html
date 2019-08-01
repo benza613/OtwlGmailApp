@@ -1,5 +1,6 @@
 <ngx-spinner size="default" name="sent" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
+<h5 style="color: royalblue"><i class="fa fa-paper-plane"></i>&nbsp;SENT MAILS</h5>
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
@@ -40,7 +41,7 @@
   </div>
 
 </div>
-<div style="height: 75vh; overflow: auto; opacity: 1.0;">
+<div style="height: 70vh; overflow: auto; opacity: 1.0;">
   <div class="card rolldown-list"
     *ngFor="let item of (sentThreads | async | unreadViewFilter: sentFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index"
     (click)="onClick_GetThreadMessages(item)"

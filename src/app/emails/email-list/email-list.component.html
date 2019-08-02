@@ -34,17 +34,17 @@
   </div>
 
 </div>
-<div style="height: 70vh; overflow: auto; opacity: 1.0;">
+<div style="height: 65vh; overflow: auto; opacity: 1.0;">
   <div class="card thread-card rolldown-list"
     *ngFor="let item of (threadList | async | unreadViewFilter: unreadFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
     <div class="card-body no-gutters"
-    [ngClass]="{'threadCssOcean': item.Msg_From.toLowerCase().includes('oceantransworld.com'), 'threadCss': !(item.Msg_From.toLowerCase().includes('oceantransworld.com')), 'unread': item.isUnread}">
+      [ngClass]="{'threadCssOcean': item.Msg_From.toLowerCase().includes('oceantransworld.com'), 'threadCss': !(item.Msg_From.toLowerCase().includes('oceantransworld.com')), 'unread': item.isUnread}">
       <div class="row" style="margin-left: 5px;">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
             style="transform: scale(1.5);-webkit-transform: scale(1.5);">
         </div>
-        <div class="col-md-4 UnreadContent" (click)="onClick_GetThreadMessages(item)">
+        <div class="col-md-3 UnreadContent" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
             <div class="col" [ngClass]="{unread: item.isUnread}"><span class="row"
                 *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
@@ -55,12 +55,17 @@
             </div>
           </div>
         </div>
-        <div class="col-md-7 UnreadContent" (click)="onClick_GetThreadMessages(item)">
+        <div class="col-md-8 UnreadContent" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
-            <div class="col-12 MailSubject" [ngClass]="{unread: item.isUnread}">
+            <div class="col-md-7 MailSubject" [ngClass]="{unread: item.isUnread}">
               <span [ngbTooltip]="item.Subject" container="body">{{item.Subject | slice:0:50}}
                 <span *ngIf="item.Subject.length > 50">...</span>
               </span>
+            </div>
+            <div class="col-sm-3" [ngClass]="{unread: item.isUnread}">
+              <span ngbTooltip = "Messages" container = "body" style="font-weight: bold"><i class="fa fa-envelope-o"></i>&nbsp;{{item.MessagesCount}}</span>
+            </div>
+            <div class="col-md-2">
               <span class="pull-right MailDate" [ngClass]="{unread: item.isUnread}">{{item.Msg_Date}}</span>
             </div>
           </div>

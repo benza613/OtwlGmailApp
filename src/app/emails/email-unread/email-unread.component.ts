@@ -32,8 +32,8 @@ export class EmailUnreadComponent implements OnInit {
     this.domainStore.updateThreadTypeData();
     this.showLoaders = true;
     this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+      this.showLoaders = false;
       console.log('promise succ for updateUnreadThreadList');
-      this.spinner.hide();
       this.doUnreadPagination(2);
     }, err => {
       this.spinner.hide();
@@ -94,7 +94,7 @@ export class EmailUnreadComponent implements OnInit {
 
   doUnreadPagination(i) {
     const that = this;
-    that.showLoaders = true;
+    this.showLoaders = true;
     this.emailStore.paginateUnreadThreadList(i).then(function (value) {
       if (value === undefined) {
         that.showLoaders = false;

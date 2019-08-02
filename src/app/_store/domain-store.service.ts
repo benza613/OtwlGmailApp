@@ -123,7 +123,6 @@ export class DomainStoreService {
     }
     const res = await this.domainService.fetchFSDirList().toPromise();
     if (res.d.errId === '200') {
-      console.log('FS REsponse', res);
       const arrx = this.fsDirData;
       arrx.push(...<FSDirList[]>res.d.fsList);
       this.fsDirData = arrx;

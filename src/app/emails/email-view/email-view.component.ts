@@ -502,14 +502,12 @@ export class EmailViewComponent implements OnInit {
       this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
         '<blockquote')[0];
       if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-        console.log('Enter');
         this.signature[i] = '<div class=wordsection1>' +
           (this.emailListOriginal[i].body.toLowerCase().trim()
             .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
       } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
-        console.log('Enter');
         this.signature[i] = '<div class=WordSection1>' +
           (this.emailListOriginal[i].body.toLowerCase().trim()
             .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);

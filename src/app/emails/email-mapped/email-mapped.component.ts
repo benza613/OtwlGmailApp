@@ -96,7 +96,6 @@ export class EmailMappedComponent implements OnInit {
       this.globals.mappedRefValId = this.globals.mappedRefValId ? this.globals.mappedRefValId : null;
       var that = this;
       this.domainStore.updateRefTypeData(this.globals.mappedRefId).then(function (value) {
-        console.log('change');
         that.domainStore.refTypeData$.subscribe(x => {
           that.refTypeData = [];
           for (let ix = 0; ix < x.length; ix++) {
@@ -106,7 +105,6 @@ export class EmailMappedComponent implements OnInit {
           if (that._queryParams.v != null) {
             that.globals.mappedRefValId = that._queryParams.v;
             if (flag) {
-              console.log('X');
               that.getThreads();
             }
           }

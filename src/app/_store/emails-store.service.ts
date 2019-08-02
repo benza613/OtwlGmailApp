@@ -200,7 +200,6 @@ export class EmailsStoreService {
       } else {
         alert(res.d.errMsg);
         this.errorService.displayError(res, '');
-        console.log(res);
         rej(res.d.errId);
       }
     });
@@ -266,8 +265,6 @@ export class EmailsStoreService {
   }
 
   paginateUnreadThreadList(flagCount) {
-    console.log(this.lastValidSearch);
-
     let addfrom = this.lastValidSearch.addrFrom != undefined ? this.lastValidSearch.addrFrom : "";
     let addTo = this.lastValidSearch.addrTo != undefined ? this.lastValidSearch.addrTo : "";
     let subj = this.lastValidSearch.subject != undefined ? this.lastValidSearch.subject : "";
@@ -360,14 +357,12 @@ export class EmailsStoreService {
   updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
-      console.log(res);
       if (res.d.errId === '200') {
         this.mappedThreads = [];
         this.threadTypeList = [];
         const arrx = [];
         const arrx2 = [];
         this.globals.tagsList = Object.assign([], <MappedThread[]>res.d.mappedThreads);
-        console.log(this.globals.tagsList);
         arrx.push(...<MappedThread[]>res.d.mappedThreads);
         arrx2.push(...<ThreadTypeData[]>res.d.threadTypeList);
         for (let i = 0; i < arrx.length; i++) {
@@ -390,7 +385,6 @@ export class EmailsStoreService {
   update_MappedThreadEmails(ThreadId, Subject, loc_st_id) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
-      console.log(res);
       if (res.d.errId === '200') {
         const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
         this.mappedThreads[index].Messages = [];
@@ -448,7 +442,6 @@ export class EmailsStoreService {
   MessageAttch_RequestFSDir(reqThreadId) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
-      console.log(res);
       this.folderList = [];
       if (res.d.errId === '200') {
         const arrx = this.folderList;
@@ -479,7 +472,6 @@ export class EmailsStoreService {
   updateAttachmentOrderDetails(reqOrderID) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.requestOrderDetails(reqOrderID).toPromise();
-      console.log(res);
       if (res.d.errId === '200') {
         resolve(res.d.orderFiles);
       } else {
@@ -537,7 +529,6 @@ export class EmailsStoreService {
       const result = await this.emailServ.deleteThreadMapping(ThreadUId, ThreadGID).toPromise();
       if (result.d.errId === '200') {
         this.mappedThreads = [...this.mappedThreads.filter(x => x.ThreadGID !== ThreadGID)];
-        console.log('DELETE', this.mappedThreads);
         res(result.d.errId);
         alert(result.d.errMsg);
       } else {

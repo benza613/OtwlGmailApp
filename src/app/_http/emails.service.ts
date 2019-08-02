@@ -73,7 +73,6 @@ export class EmailsService {
       optionsN['observe'] = 'response';
 
       this.http.get(`${this.apiBaseUrl_Download}`, optionsN).subscribe(response => {
-        console.log('eeee', <any>response);
         resolve(response);
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
@@ -105,8 +104,6 @@ export class EmailsService {
       optionsN['observe'] = 'response';
 
       this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {
-        console.log('eeee', <any>response);
-
         if (response['headers'].get('content-type') === 'text/plain') {
           this.errorServ.displayError(response, '');
         } else {
@@ -122,7 +119,6 @@ export class EmailsService {
   }
 
   restoreEmailBodyImages(msgId, attachmentId, attachmentName) {
-    console.log('Preview started', attachmentName);
     return new Promise((resolve) => {
 
       const optionsN = {
@@ -158,7 +154,6 @@ export class EmailsService {
   }
 
   uploadPDF(formData) {
-    console.log('Form Data', formData);
     return new Promise(async (resolve, reject) => {
       this.http.post(`${this.apiBaseUrl_Pdf}`, formData).subscribe(x => {
         resolve('200');

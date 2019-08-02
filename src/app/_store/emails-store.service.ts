@@ -520,9 +520,9 @@ export class EmailsStoreService {
     });
   }
 
-  updateUnreadThreadData(mapTypes) {
+  updateUnreadThreadData(mapTypes,delTagList) {
     return new Promise(async (res, rej) => {
-      const result = await this.emailServ.updateUnreadThreadData(mapTypes).toPromise();
+      const result = await this.emailServ.updateUnreadThreadData(mapTypes, delTagList).toPromise();
       if (result.d.errId === '200') {
         res(result.d.errId);
       } else {

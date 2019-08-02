@@ -122,6 +122,7 @@ export class EmailsService {
   }
 
   restoreEmailBodyImages(msgId, attachmentId, attachmentName) {
+    console.log('Preview started', attachmentName);
     return new Promise((resolve) => {
 
       const optionsN = {
@@ -135,7 +136,7 @@ export class EmailsService {
       this.http.get(`${this.apiBaseUrl_Preview}`, optionsN).subscribe(response => {
         // console.log('eeee', <any>response);
 
-        if (response['headers'].get('content-type') === 'text/plain') {
+        if (response['headers'].get('content-type').includes('text/plain')) {
           this.errorServ.displayError(response, '');
         } else {
           const blob: Blob = new Blob([response['body'] as Blob], {
@@ -148,8 +149,8 @@ export class EmailsService {
           // const reader = new FileReader();
           // reader.readAsDataURL(blob);
           // reader.onloadend = function() {
-              // const base64data = reader.result;
-              // resolve(base64data);
+          //     const base64data = reader.result;
+          //     resolve(base64data);
           // };
         }
       });
@@ -182,6 +183,7 @@ export class EmailsService {
   // tslint:disable-next-line:max-line-length
   sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: string[], alacarteDetails: string[]): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
+      // tslint:disable-next-line: max-line-length
       { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList, lstAlaCarte: alacarteDetails },
       this.httpOptions)
       .pipe(map(r => r));
@@ -217,7 +219,7 @@ export class EmailsService {
   }
 
   updateMessageStatus(readThreadIds): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/updateMessageStatus`, { readThreadIds }, this.httpOptions)
+    return this.http.post(`${this.apiBaseUrl}/markMailsAsRead`, { readThreadIds }, this.httpOptions)
       .pipe(map(r => r));
   }
 

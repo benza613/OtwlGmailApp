@@ -94,6 +94,7 @@ export class EmailUnreadComponent implements OnInit {
 
   doUnreadPagination(i) {
     const that = this;
+    that.showLoaders = true;
     this.emailStore.paginateUnreadThreadList(i).then(function (value) {
       if (value === undefined) {
         that.showLoaders = false;

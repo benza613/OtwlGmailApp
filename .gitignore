@@ -4,7 +4,8 @@
 /dist
 /tmp
 /out-tsc
-/src/environments
+/src/environments/*
+/csharp/*
 
 # dependencies
 /node_modules

@@ -35,23 +35,25 @@ export class EmailListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-      if (this.storeSelector === 'EmailUnreadComponent') {
-        this.emailStore.unreadThreadsCount$.subscribe(
-          x => { this.t_CollectionSize = x; },
-          (err) => { console.log('Complete'); },
-          () => { console.log('Complete'); }
-        );
-        this.threadList = this.emailStore.unreadThreads$.pipe(
-          map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
-        );
-      }
+    if (this.storeSelector === 'EmailUnreadComponent') {
+      this.emailStore.unreadThreadsCount$.subscribe(
+        x => { this.t_CollectionSize = x; },
+        (err) => { console.log('Complete'); },
+        () => { console.log('Complete'); }
+      );
+      this.threadList = this.emailStore.unreadThreads$.pipe(
+        map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+      );
+    }
   }
 
   onClick_GetThreadMessages(threadData) {
     this.spinner.show('list1');
     const that = this;
     this.authServ.login();
-    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(success =>{
+    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(success => {
+      threadData.isUnread = false;
+      this.detector.detectChanges();
       that.spinner.hide('list1');
     });
   }

@@ -1,3 +1,4 @@
+import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { AddressBook } from './../models/address-book.model';
 import { Folders } from '../models/folders.model';
 import { Thread } from './../models/thread.model';
@@ -23,7 +24,9 @@ export class EmailsStoreService {
     private emailServ: EmailsService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private errorService: ErrorService) { }
+    private errorService: ErrorService,
+    public globals: GlobalStoreService
+    ) { }
 
 
   // - We set the initial state in BehaviorSubject's constructor
@@ -363,6 +366,8 @@ export class EmailsStoreService {
         this.threadTypeList = [];
         const arrx = [];
         const arrx2 = [];
+        this.globals.tagsList = Object.assign([], <MappedThread[]>res.d.mappedThreads);
+        console.log(this.globals.tagsList);
         arrx.push(...<MappedThread[]>res.d.mappedThreads);
         arrx2.push(...<ThreadTypeData[]>res.d.threadTypeList);
         for (let i = 0; i < arrx.length; i++) {
@@ -554,14 +559,6 @@ export class EmailsStoreService {
     }
   }
 
-  // async addEmailAddresses(addressList) {
-  //   const result = await this.emailServ.addEmailAddresses(addressList).toPromise();
-  //     if (result.d.errId === '200') {
-  //       alert(result.d.errMsg);
-  //     } else {
-  //       this.errorService.displayError(result, 'addEmailAddresses');
-  //     }
-  // }
 
   // updateSentThreadList() {
   //   return new Promise(async (resolve, reject) => {
@@ -648,12 +645,30 @@ export class EmailsStoreService {
   }
 
 
-  updateMessageStatus(readThreads) {
+  updateMessageStatus(storeSelector, reqThreadId, readThreads) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.updateMessageStatus(readThreads).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'updateMessageStatus');
       }
+      // else {
+      //   if (storeSelector === 'unread') {
+      //     const arrx = this.getUnreadMsgList$(reqThreadId);
+      //     readThreads.forEach(x => {
+      //       arrx[x].isUnread = false;
+      //     });
+      //   } else if (storeSelector === 'mapped') {
+      //     const arrx = this.getUnreadMsgList$(reqThreadId);
+      //     readThreads.forEach(x => {
+      //       arrx[x].isUnread = false;
+      //     });
+      //   } else {
+      //     const arrx = this.getUnreadMsgList$(reqThreadId);
+      //     readThreads.forEach(x => {
+      //       arrx[x].isUnread = false;
+      //     });
+      //   }
+      // }
       resolve(res.d.errId);
     });
   }

@@ -43,6 +43,7 @@
     </div>
   </div>
   <div class="col" [ngClass]="{'filterBorder': !isCollapsed}">
+      <h4 style="text-align: center; font-weight: bold;"><i class="fa fa-inbox"></i>&nbsp;INBOX</h4>
     <div class="row align-content-md-stretch">
       <div class="col">
         <div class="btn-toolbar">
@@ -78,7 +79,7 @@
         <div class="loading-bar"></div>
       </div>
       <div class="col text-right">
-          <i class="fa fa-refresh" ngbTooltip="Fetch Latest" (click)="getLatestThreads()" style="cursor: pointer; margin-top: 5px;" container="body" placement="left"></i>
+          <!-- <i class="fa fa-refresh" ngbTooltip="Fetch Latest" (click)="getLatestThreads()" style="cursor: pointer; margin-top: 5px;" container="body" placement="left"></i> -->
         <button type="button" class="btn btn-warning" (click)="getMails()" style="transform: scale(0.80)"
           ngbTooltip="Map checked threads" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
       </div>

@@ -8,7 +8,7 @@
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col pull-right">
-    <button type="button" class="btn btn-warning" (click)="OnClick_Map()" *ngIf="storeSelector === 'unread'"
+    <button type="button" class="btn btn-warning" (click)="OnClick_Map()"
       style="transform: scale(0.80)" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
     <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
       style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
@@ -69,7 +69,8 @@
             style="transform: scale(0.75); margin-right: 15px;" (click)="expand(eml,i)">
             <i class="fa fa-expand"></i>
           </button>
-          <div style="cursor: pointer;" *ngIf="eml.attachments.length !== 0" (click)="eml.showAttachments = !eml.showAttachments">
+          <div style="cursor: pointer;" *ngIf="eml.attachments.length !== 0"
+            (click)="eml.showAttachments = !eml.showAttachments">
             <span ngbTooltip="Show Attachments">
               {{eml.attachments.length}}
             </span>
@@ -115,10 +116,10 @@
         </div>
         <div class="col" *ngIf="eml.attachments.length > 0">
           <div class="row pull-right" style="margin-right: 2px;">
+            <button type="button" class="btn btn-success actions" *ngIf="storeSelector !== 'unread'"
+              (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
             <button type="button" class="btn btn-primary actions"
               (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
-            <button type="button" class="btn btn-success actions" [disabled]="storeSelector === 'unread'"
-              (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
           </div>
         </div>
       </div>
@@ -143,17 +144,17 @@
                   <div class="col-md-7">
                     <span class="attSections">{{att.fileSize}}</span>
                   </div>
+                  <div class="col-md-2" style="padding-right: 0px;">
+                    <button type="button" *ngIf="storeSelector !== 'unread'" ngbTooltip="UPLOAD"
+                      class="btn btn-sm btn-outline-success float-right" style="margin:0px 10px 0px 10px;;"
+                      (click)="fileAction(2,eml.msgid, eml.attachments, att)">
+                      <i class="fa fa-upload" aria-hidden="true"></i>
+                    </button>
+                  </div>
                   <div class="col-md-2">
                     <button type="button" class="btn btn-sm btn-outline-warning float-right" ngbTooltip="DOWNLOAD"
                       style="margin-bottom: 10px;" (click)="fileAction(1,eml.msgid, eml.attachments, att)">
                       <i class="fa fa-download" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  <div class="col-md-2" style="padding-right: 0px;">
-                    <button type="button" [disabled]="storeSelector === 'unread'" ngbTooltip="UPLOAD"
-                      class="btn btn-sm btn-outline-success float-right" style="margin:0px 10px 0px 10px;;"
-                      (click)="fileAction(2,eml.msgid, eml.attachments, att)">
-                      <i class="fa fa-upload" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>
@@ -181,7 +182,7 @@
         </div>
         <div class="row pull left">
           <button id="footer_button" type="button" class="btn btn-sm btn-outline-warning " *ngIf="quotes[i] !== ''"
-            style="margin-left: 20px;" (click)="eml.showFooter = !eml.showFooter">
+            style="margin-left: 20px;" (click)="renderImages(eml)">
             {{eml.showFooter ? 'HIDE QUOTES' : 'SHOW QUOTES' }}
           </button>
         </div>
@@ -195,6 +196,4 @@
     </div>
   </div>
 </div>
-<div *ngFor="let image of imageList">
-  <img alt="Image" height="382" width="106" style="background-image: url({{image}})">
-</div>
+

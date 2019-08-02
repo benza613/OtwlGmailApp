@@ -12,5 +12,6 @@ export class GlobalStoreService {
   public mappedRefValId: Number;
   public mappedFromDate: NgbDateStruct;
   public mappedToDate: NgbDateStruct;
+  public tagsList;
   constructor() { }
 }

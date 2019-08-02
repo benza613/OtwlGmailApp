@@ -6,7 +6,7 @@
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
 <div class="modal-body">
-  <div class="row" style="padding-bottom: 10px">
+  <div class="row" *ngIf="storeSelector === 'unread'" style="padding-bottom: 10px">
     <div class="col">
       <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
         [(ngModel)]="refId" (change)="onChange_GetRefTypeData()" [clearSearchOnAdd]="true">

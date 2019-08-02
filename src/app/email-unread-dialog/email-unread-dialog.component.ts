@@ -115,8 +115,16 @@ export class EmailUnreadDialogComponent implements OnInit {
         });
       }
       mapTypes.selectedThreadsFullData = this.mailList;
-      console.log('Data', mapTypes);
-      this.emailServ.updateUnreadThreadData(mapTypes).then(function (value) {
+      const emptyTagList =  mapTypes.selectedThreads.filter(x => x.ThreadTypeIds.length === 0);
+      console.log(emptyTagList);
+      const delTagList = [];
+      if (emptyTagList.length > 0) {
+        emptyTagList.forEach(x => {
+          delTagList.push(x.ThreadID);
+      });
+      }
+      console.log(delTagList);
+      this.emailServ.updateUnreadThreadData(mapTypes, delTagList).then(function (value) {
         that.spinner.hide();
         if (value === '200') {
           const res = '1';

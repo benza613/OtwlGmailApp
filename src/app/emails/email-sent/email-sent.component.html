@@ -1,6 +1,6 @@
 <ngx-spinner size="default" name="sent" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
-<h5 ><i class="fa fa-paper-plane"></i>&nbsp;SENT MAILS</h5>
+<h5><i class="fa fa-paper-plane"></i>&nbsp;SENT MAILS</h5>
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
   [(page)]="t_currentPage" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
@@ -48,7 +48,7 @@
     [ngClass]="{'threadCssOcean': item.Msg_To.toLowerCase().includes('oceantransworld.com'), 'threadCss': !(item.Msg_To.toLowerCase().includes('oceantransworld.com'))}">
     <div class="card-body no-gutters">
       <div class="row" style="margin-left: 5px;">
-        <div class="col-md-4 UnreadContent">
+        <div class="col-md-3 UnreadContent">
           <div class="row align-items-center">
             <div class="col" [ngClass]="{unread: item.isUnread}"><span class="row"
                 *ngIf="item.Msg_To.split('<')[0] !== ''">{{item.Msg_To.split('<')[0]}}</span>
@@ -59,12 +59,18 @@
             </div>
           </div>
         </div>
-        <div class="col-md-7 UnreadContent">
+        <div class="col-md-8 UnreadContent" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
-            <div class="col-12 MailSubject" [ngClass]="{unread: item.isUnread}">
+            <div class="col-md-7 MailSubject" [ngClass]="{unread: item.isUnread}">
               <span [ngbTooltip]="item.Subject" container="body">{{item.Subject | slice:0:50}}
                 <span *ngIf="item.Subject.length > 50">...</span>
               </span>
+            </div>
+            <div class="col-sm-3" [ngClass]="{unread: item.isUnread}">
+              <span ngbTooltip="Messages" container="body" style="font-weight: bold"><i
+                  class="fa fa-envelope-o"></i>&nbsp;{{item.MessagesCount}}</span>
+            </div>
+            <div class="col-md-2">
               <span class="pull-right MailDate" [ngClass]="{unread: item.isUnread}">{{item.Msg_Date}}</span>
             </div>
           </div>

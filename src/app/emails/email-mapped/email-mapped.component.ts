@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RefType } from '../../models/ref-type';
 import { RefTypeData } from '../../models/ref-type-data';
 import { DomainStoreService } from '../../_store/domain-store.service';
@@ -39,7 +39,8 @@ export class EmailMappedComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     private authServ: AuthService,
-    public globals: GlobalStoreService
+    public globals: GlobalStoreService,
+    private detector: ChangeDetectorRef
   ) {
     this.domainStore.updateRefType();
   }
@@ -73,6 +74,8 @@ export class EmailMappedComponent implements OnInit {
       setTimeout(() => {
         this.onChange_GetRefTypeData(1);
       });
+    } else {
+      this.onChange_GetRefTypeData(1);
     }
 
     this.domainStore.threadTypeData$.subscribe(x => {
@@ -88,16 +91,18 @@ export class EmailMappedComponent implements OnInit {
 
   //toggle parent reftype ddl
   onChange_GetRefTypeData(flag?) {
-    if (this.globals.mappedRefId !== 0 || this.globals.mappedRefId) {
+    if (this.globals.mappedRefId !== 0 && this.globals.mappedRefId !== null) {
       this.spinner.show();
-      this.globals.mappedRefValId = null;
+      this.globals.mappedRefValId = this.globals.mappedRefValId ? this.globals.mappedRefValId : null;
       var that = this;
       this.domainStore.updateRefTypeData(this.globals.mappedRefId).then(function (value) {
+        console.log('change');
         that.domainStore.refTypeData$.subscribe(x => {
           that.refTypeData = [];
           for (let ix = 0; ix < x.length; ix++) {
             that.refTypeData = [...that.refTypeData, x[ix]];
           }
+          that.detector.detectChanges();
           if (that._queryParams.v != null) {
             that.globals.mappedRefValId = that._queryParams.v;
             if (flag) {

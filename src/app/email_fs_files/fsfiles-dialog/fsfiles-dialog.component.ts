@@ -86,7 +86,6 @@ export class FSFilesDialogComponent implements OnInit {
   }
 
   applyFilter() {
-    console.log(this.filterTag);
     this.fileFilterArgs = {
       a: this.filterFiles, b: this.filterDate,
       c: this.filterName, d: this.filterTag

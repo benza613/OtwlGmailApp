@@ -68,7 +68,6 @@ export class FSDirDialogComponent implements OnInit {
       this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
       // console.log('Folder List',this.folderList);
     }
-    console.log(this.uploadType);
     this.domainStore.fsDirData$.subscribe(x => {
       this.fsDirData = [];
       for (let ix = 0; ix < x.length; ix++) {

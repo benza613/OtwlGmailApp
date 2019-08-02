@@ -45,7 +45,6 @@ export class EmailUnreadDialogComponent implements OnInit {
     });
     this.mailList.forEach(x => {
       const obj = this.globals.tagsList.filter(y => y.ThreadUId === x.ThreadUId);
-      console.log('OBJECT', obj[0]);
       const list2: any = [];
       obj[0].SelectedTypeIdList.forEach(tag => {
         list2.push(tags.find(f => f['threadTypeVal'] === tag).threadTypeId);
@@ -108,7 +107,6 @@ export class EmailUnreadDialogComponent implements OnInit {
         selectedThreadsFullData: []
       };
       for (let i = 0; i < this.mailList.length; i++) {
-        console.log(this.mailList[i]);
         mapTypes.selectedThreads.push({
           ThreadID: this.mailList[i].ThreadUId,
           ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
@@ -116,14 +114,12 @@ export class EmailUnreadDialogComponent implements OnInit {
       }
       mapTypes.selectedThreadsFullData = this.mailList;
       const emptyTagList =  mapTypes.selectedThreads.filter(x => x.ThreadTypeIds.length === 0);
-      console.log(emptyTagList);
       const delTagList = [];
       if (emptyTagList.length > 0) {
         emptyTagList.forEach(x => {
           delTagList.push(x.ThreadID);
       });
       }
-      console.log(delTagList);
       this.emailServ.updateUnreadThreadData(mapTypes, delTagList).then(function (value) {
         that.spinner.hide();
         if (value === '200') {

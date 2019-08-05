@@ -1,3 +1,4 @@
+import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -24,6 +25,7 @@ export class EmailSentComponent implements OnInit {
   filterDate: NgbDateStruct = null;
   sentFilterArgs = { a: '', b: '', c: '' };
   showLoaders = false;
+  showFilters = false;
   // optimization, rerenders only threads that change instead of the entire list of threads
   threadTrackFn = (i, thread) => thread.ThreadId;
   constructor(
@@ -31,11 +33,22 @@ export class EmailSentComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
+    public globals: GlobalStoreService
   ) { }
 
   ngOnInit() {
     this.showLoaders = true;
-    this.doSentPagination(10);
+    this.showLoaders = true;
+    const that = this;
+    this.emailStore.updateSentThreadList(0, this.globals.sentTo, this.globals.sentSubject).then(result => {
+      that.showLoaders = false;
+      console.log('promise succ for updateUnreadThreadList');
+      this.doSentPagination(2);
+    }, err => {
+      this.spinner.hide();
+      that.showLoaders = false;
+      console.log('promise reject for updateUnreadThreadList');
+    });
     this.emailStore.sentThreadsCount$.subscribe(x => {
       this.t_CollectionSize = x;
     });
@@ -43,6 +56,14 @@ export class EmailSentComponent implements OnInit {
       map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
     );
     this.detector.detectChanges();
+  }
+
+  fetchSentThreads(i) {
+    this.showLoaders = true;
+    this.emailStore.updateSentThreadList(i, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+      this.showLoaders = false;
+      this.doSentPagination(i - 1);
+    });
   }
 
   doSentPagination(i) {

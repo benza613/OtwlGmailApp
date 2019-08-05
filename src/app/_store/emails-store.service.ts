@@ -1,3 +1,4 @@
+import { SentSearchParams } from './../models/sent-search-params.model';
 import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { AddressBook } from './../models/address-book.model';
 import { Folders } from '../models/folders.model';
@@ -14,6 +15,7 @@ import { ErrorService } from './../error/error.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SearchParams } from '../models/search-params.model';
 import { SearchingLocks } from '../enums/searching-locks.enum';
+import { SentSearchLocks } from '../enums/sent-search-locks.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +44,9 @@ export class EmailsStoreService {
   private readonly _folderList = new BehaviorSubject<Folders[]>([]);
   private readonly _addressBook = new BehaviorSubject<AddressBook[]>([]);
   private readonly _lastValidSearch = new BehaviorSubject<SearchParams>(null);
+  private readonly _lastValidSentSearch = new BehaviorSubject<SentSearchParams>(null);
   private readonly _LOCK_CurrentSearch = new BehaviorSubject<SearchingLocks>(SearchingLocks.Open);
+  private readonly _LOCK_SentSearch = new BehaviorSubject<SentSearchLocks>(SentSearchLocks.Open);
   private readonly _pageTokenSent = new BehaviorSubject<String>('');
   private readonly _sentThreads = new BehaviorSubject<Thread[]>([]);
 
@@ -158,7 +162,21 @@ export class EmailsStoreService {
     this._LOCK_CurrentSearch.next(val);
   }
 
+  private get lastValidSentSearch(): SentSearchParams {
+    return this._lastValidSentSearch.getValue();
+  }
 
+  private set lastValidSentSearch(val: SentSearchParams) {
+    this._lastValidSentSearch.next(val);
+  }
+
+  private get LOCK_SentSearch(): SentSearchLocks {
+    return this._LOCK_SentSearch.getValue();
+  }
+
+  private set LOCK_SentSearch(val: SentSearchLocks) {
+    this._LOCK_SentSearch.next(val);
+  }
 
   private get pageTokenUnread(): String {
     return this._pageTokenUnread.getValue();
@@ -234,7 +252,6 @@ export class EmailsStoreService {
         subject: subject
       }
 
-
       const res = await this.emailServ.indexUnread(
         this.pageTokenUnread == null ? '' : this.pageTokenUnread,
         addrFrom == null ? '' : addrFrom,
@@ -255,13 +272,59 @@ export class EmailsStoreService {
       } else {
         this.errorService.displayError(res, 'indexUnread');
       }
-
-
       resolve();
-
-
     });
 
+  }
+
+  updateSentThreadList(flagCount, addrTo, subject) {
+    return new Promise(async (resolve, reject) => {
+
+      if (flagCount === 0 && this.sentThreads.length > 0) {
+        reject();
+        return;
+      }
+
+      //use this variable to terminate ongoing calls in pagination
+      if (this.LOCK_SentSearch == SentSearchLocks.Open) {
+        this.LOCK_SentSearch = SentSearchLocks.Acquired;
+      } else if (this.LOCK_SentSearch == SentSearchLocks.Acquired) {
+        this.LOCK_SentSearch = SentSearchLocks.SetForRelease;
+      }
+
+      this.sentThreads = [];
+
+      const arrx = [];
+
+      this.lastValidSentSearch = {
+        addrTo: addrTo,
+        subject: subject
+      };
+
+
+      const res = await this.emailServ.indexSent(
+        this.pageTokenSent == null ? '' : this.pageTokenSent,
+        addrTo == null ? '' : addrTo,
+        subject == null ? '' : subject
+      ).toPromise();
+      if (res.d.errId === '200') {
+        const arrx = [];
+        res.d.threads.forEach(x => {
+          x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+        });
+        arrx.push(...<Thread[]>res.d.threads);
+        this.sentThreads = arrx;
+        console.log('SENT', arrx);
+        if (res.d.pageToken == null) {
+          this.pageTokenSent = '';
+        } else {
+          this.pageTokenSent = res.d.pageToken;
+        }
+      } else {
+        this.errorService.displayError(res, 'indexSent');
+      }
+      resolve();
+    });
   }
 
   paginateUnreadThreadList(flagCount) {
@@ -311,10 +374,50 @@ export class EmailsStoreService {
 
       }
       resolve();
-
-
     });
+  }
 
+  paginateSentThreadList(flagCount) {
+
+    let addrTo = this.lastValidSentSearch.addrTo != undefined ? this.lastValidSentSearch.addrTo : "";
+    let subj = this.lastValidSentSearch.subject != undefined ? this.lastValidSentSearch.subject : "";
+
+    return new Promise(async (resolve, reject) => {
+      const arrx = [];
+      arrx.push(...this.sentThreads);
+
+
+      for (let idx = 0; idx < flagCount; idx++) {
+
+        if (this.LOCK_SentSearch == SentSearchLocks.SetForRelease) {
+          this.LOCK_SentSearch = SentSearchLocks.Acquired;
+          break;
+        }
+
+        const res = await this.emailServ.indexSent(
+          this.pageTokenSent == null ? '' : this.pageTokenSent,
+          addrTo,
+          subj
+        ).toPromise();
+        if (res.d.errId === '200') {
+          res.d.threads.forEach(x => {
+            x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+          });
+          arrx.push(...<Thread[]>res.d.threads);
+          this.sentThreads = arrx;
+          if (res.d.pageToken == null) {
+            this.pageTokenSent = '';
+            break;
+          } else {
+            this.pageTokenSent = res.d.pageToken;
+          }
+
+        } else {
+          this.errorService.displayError(res, 'indexSent');
+        }
+      }
+      resolve();
+    });
   }
 
   async update_UnreadThreadEmails(ThreadId, storeSelector, Subject) {
@@ -550,32 +653,6 @@ export class EmailsStoreService {
     }
   }
 
-
-  // updateSentThreadList() {
-  //   return new Promise(async (resolve, reject) => {
-  //     const res = await this.emailServ.indexSent(
-  //       this.pageTokenSent == null ? '' : this.pageTokenSent,
-  //     ).toPromise();
-  //     if (res.d.errId === '200') {
-  //       const arrx = [];
-  //       res.d.threads.forEach(x => {
-  //         x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-  //       });
-  //       arrx.push(...<Thread[]>res.d.threads);
-  //       this.sentThreads = arrx;
-  //       console.log('SENT', arrx);
-  //       if (res.d.pageToken == null) {
-  //         this.pageTokenSent = '';
-  //       } else {
-  //         this.pageTokenSent = res.d.pageToken;
-  //       }
-  //     } else {
-  //       this.errorService.displayError(res, 'indexSent');
-  //     }
-  //     resolve();
-  //   });
-  // }
-
   async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
     if (res.d.errId === '200') {
@@ -604,35 +681,6 @@ export class EmailsStoreService {
     } else {
       this.errorService.displayError(res, 'fetchThreadEmails');
     }
-  }
-
-  paginateSentThreadList(flagCount) {
-    return new Promise(async (resolve, reject) => {
-      const arrx = [];
-      arrx.push(...this.sentThreads);
-      for (let idx = 0; idx < flagCount; idx++) {
-        const res = await this.emailServ.indexSent(
-          this.pageTokenSent == null ? '' : this.pageTokenSent,
-        ).toPromise();
-        if (res.d.errId === '200') {
-          res.d.threads.forEach(x => {
-            x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
-          });
-          arrx.push(...<Thread[]>res.d.threads);
-          this.sentThreads = arrx;
-          if (res.d.pageToken == null) {
-            this.pageTokenSent = '';
-            break;
-          } else {
-            this.pageTokenSent = res.d.pageToken;
-          }
-
-        } else {
-          this.errorService.displayError(res, 'indexSent');
-        }
-      }
-      resolve();
-    });
   }
 
 

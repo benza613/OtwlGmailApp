@@ -31,12 +31,14 @@ export class EmailUnreadComponent implements OnInit {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
     this.showLoaders = true;
+    const that = this;
     this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
-      this.showLoaders = false;
+      that.showLoaders = false;
       console.log('promise succ for updateUnreadThreadList');
-      this.doUnreadPagination(2);
+      that.doUnreadPagination(2);
     }, err => {
       this.spinner.hide();
+      that.showLoaders = false;
       console.log('promise reject for updateUnreadThreadList');
     });
     // interval(2000 * 60).subscribe(x => {

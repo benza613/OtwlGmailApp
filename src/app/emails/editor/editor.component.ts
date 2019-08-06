@@ -548,39 +548,39 @@ export class EditorComponent implements OnInit {
 
   fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail) {
     this.signatureHtml = `<div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
-    <div style="text-align: right;">
+    <div style="text-align: left;">
       <span style="font-family: Arial, Helvetica, sans-serif;">
         <span style="color: rgb(47, 84, 150); text-decoration: inherit;">
           <strong><em>` + senderName + `&nbsp;</em></strong>
         </span>
       </span>
     </div>
-    <div style="text-align: right;"><span style="font-family: Arial, Helvetica, sans-serif;"><span
-          style="color: rgb(47, 84, 150); text-decoration: inherit;"><strong><em>` + senderDesgn + `&nbsp;</em></strong></span></span>
-      <div style="text-align: right;"><br></div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+    <div style="text-align: left;"><span style="font-family: Arial, Helvetica, sans-serif;"><span
+          style="color: rgb(47, 84, 150); text-decoration: inherit;"><strong><em>` + senderDesgn + `&nbsp;</em></strong></span></span></div>
+      <div style="text-align: left;"><br></div>
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">“Silver Astra” B-503/A, J. B. Nagar,&nbsp;</span></span>
       </div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Andheri (E) Mumbai- 400 099.&nbsp;</span></span></div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Board : +91 22 62839000-99 (100
             lines)&nbsp;</span></span>
       </div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Direct : +91 22 62839034&nbsp;</span></span></div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Mobile : ` + senderMobile + `&nbsp;</span></span></div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Fax : +91 11 22 2830 4386&nbsp;</span></span></div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">E-Mail : ` + senderEmail + `&nbsp;</span></span></div>
-      <div style="text-align: right;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
+      <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Web : www.oceantransworld.com</span></span></div>
 
     </div>`;
     this.footerHtml = `
-        <div style="text-align: right;">
+        <div style="text-align: left;">
             <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
               bgcolor="#fafafa" align="center">
               <tbody>
@@ -593,8 +593,7 @@ export class EditorComponent implements OnInit {
                   </td>
                 </tr>
               </tbody>
-            </table>
-        < /div>`;
+            </table>`;
   }
 
   private recycleGmailAddressFields(msgs) {

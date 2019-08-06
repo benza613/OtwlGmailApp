@@ -296,6 +296,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   expandAll(flag) {
+    this.hideBlockQuotes();
     const that = this;
     this.action = !this.action;
     this.readThreads = [];
@@ -416,13 +417,33 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
+  hideTillBottom(flag, idx) {
+    const html = document.getElementsByTagName('p');
+    for (let i = idx; i >= idx && i < html.length; i++) {
+      if (flag) {
+        html[i].style.display = 'block';
+      } else {
+        html[i].style.display = 'none';
+      }
+    }
+  }
+
   expand(eml, i) {
     eml.isOpen = !eml.isOpen;
+    const html = document.getElementById(i).getElementsByClassName('MsoNormal');
+    // const html = document.getElementsByClassName('p');
+    // const document.all
+    // for (let i = 0; i < html.length; i++) {
+    //   if (html[i].innerHTML.toLowerCase().includes('thanks')) {
+    //     this.hideTillBottom(0, i);
+    //     break;
+    //   }
+    // }
     if (eml.isOpen) {
       this.processAttachments([eml]);
     }
+
     this.emailListOriginal = this.list;
-    // eml.isOpen = bool;
     if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
       this.quotes[i] = '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">' +
         (this.emailListOriginal[i].body.toLowerCase().trim()
@@ -584,15 +605,18 @@ export class EmailViewComponent implements OnInit {
     // console.log('BODY', this.emailListOriginal[i].body);
   }
 
-  renderImages(eml) {
+  renderImages(eml, i) {
     eml.showFooter = !eml.showFooter
-    // const html = document.getElementsByTagName('p');
-    // for (let i = 0; i < html.length; i++) {
-    //   if (html[i].innerHTML.toLowerCase().includes('thanks')) {
-    //     html[i].parentElement.style.visibility = eml.showFooter ? 'visible' : 'hidden';
+    this.processAttachments([eml]);
+    // const body = document.getElementById(i);
+    // const parent = body.parentNode;
+    // const children = parent.children;
+    // for (let i = 0; i < children.length; i++) {
+    //   if (children[i].innerHTML.toLowerCase().includes('thanks')) {
+    //     this.hideTillBottom(eml.showFooter, i);
+    //     break;
     //   }
     // }
-    this.processAttachments([eml]);
   }
 
   processAttachments(list) {
@@ -624,6 +648,22 @@ export class EmailViewComponent implements OnInit {
   }
 
   hideBlockQuotes() {
+    // this.emailList.forEach(eml => {
+    //   eml.isOpen = !eml.isOpen;
+    //   eml.showFooter = false;
+    //   const html = document.getElementsByTagName('p');
+    //   for (let i = 0; i < html.length; i++) {
+    //     if (html[i].innerHTML.toLowerCase().includes('thanks')) {
+    //       this.hideTillBottom(0, i);
+    //       break;
+    //     }
+    //   }
+    //   if (eml.isOpen) {
+    //     this.processAttachments([eml]);
+    //   }
+    // });
+    // this.detector.detectChanges();
+
     for (let i = 0; i < this.emailListOriginal.length; i++) {
       // tslint:disable-next-line: max-line-length
       if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {
@@ -779,7 +819,6 @@ export class EmailViewComponent implements OnInit {
       console.log('BODY', this.emailListOriginal[i].body);
     }
     this.emailList = this.emailListOriginal;
-    this.detector.detectChanges();
   }
 
   goBack() {

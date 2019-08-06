@@ -42,9 +42,9 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  indexSent(pageToken): Observable<any> {
+  indexSent(pageToken, addrTo, subject): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getSentThreads`,
-      { pageToken },
+      { pageToken, addrTo, subject },
       this.httpOptions)
       .pipe(map(r => r));
   }

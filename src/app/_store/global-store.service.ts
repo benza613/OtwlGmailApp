@@ -8,6 +8,9 @@ export class GlobalStoreService {
   public unreadFrom: string;
   public unreadTo: string;
   public unreadSubject: string;
+  public sentTo: string;
+  public sentFrom: string;
+  public sentSubject: string;
   public mappedRefId: Number;
   public mappedRefValId: Number;
   public mappedFromDate: NgbDateStruct;

@@ -153,3 +153,13 @@ h5 {
   // -webkit-background-clip: text;
   // -webkit-text-fill-color: transparent;
 }
+
+.filterBorder {
+  border-left: 2px solid #C0C0C0;
+}
+
+.adjustHeight {
+  height: 70vh !important;
+  overflow: auto; 
+  opacity: 1.0;
+}

@@ -4,11 +4,11 @@
 export const environment = {
   production: false,
   url: {
-    server: 'http://localhost:3001/OtwlGmailApp/Home.aspx',
-    uploadsGA: 'http://localhost:3001/OtwlGmailApp/UploadGA.ashx',
-    downloadsGA: 'http://localhost:3001/OtwlGmailApp/DownloadAttch.ashx',
-    previewGA: 'http://localhost:3001/OtwlGmailApp/PreviewAttch.ashx',
-    uploadPdf: 'http://localhost:3001/OtwlFileServer/Upload.ashx'
+    server: 'http://localhost:36690/OtwlGmailApp/Home.aspx',
+    uploadsGA: 'http://localhost:36690/OtwlGmailApp/UploadGA.ashx',
+    downloadsGA: 'http://localhost:36690/OtwlGmailApp/DownloadAttch.ashx',
+    previewGA: 'http://localhost:36690/OtwlGmailApp/PreviewAttch.ashx',
+    uploadPdf: 'http://localhost:36690/OtwlFileServer/Upload.ashx'
   }
 };
 

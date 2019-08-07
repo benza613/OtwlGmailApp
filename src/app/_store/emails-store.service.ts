@@ -16,6 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SearchParams } from '../models/search-params.model';
 import { SearchingLocks } from '../enums/searching-locks.enum';
 import { SentSearchLocks } from '../enums/sent-search-locks.enum';
+import { FSMapping } from '../models/fsmapping.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,7 @@ export class EmailsStoreService {
   private readonly _LOCK_SentSearch = new BehaviorSubject<SentSearchLocks>(SentSearchLocks.Open);
   private readonly _pageTokenSent = new BehaviorSubject<String>('');
   private readonly _sentThreads = new BehaviorSubject<Thread[]>([]);
+  private readonly _fsMapList = new BehaviorSubject<FSMapping[]>([]);
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly unreadThreads$ = this._unreadThreads.asObservable();
@@ -57,6 +59,7 @@ export class EmailsStoreService {
   readonly folderList$ = this._folderList.asObservable();
   readonly addressBook$ = this._addressBook.asObservable();
   readonly sentThreads$ = this._sentThreads.asObservable();
+  readonly fsMapList$ = this._fsMapList.asObservable();
 
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
@@ -200,6 +203,14 @@ export class EmailsStoreService {
 
   private set addressBook(val: AddressBook[]) {
     this._addressBook.next(val);
+  }
+
+  private get fsMapList(): FSMapping[] {
+    return this._fsMapList.getValue();
+  }
+
+  private set fsMapList(val: FSMapping[]) {
+    this._fsMapList.next(val);
   }
 
 
@@ -542,22 +553,39 @@ export class EmailsStoreService {
   //   await this.emailServ.downloadLocal(msgId, attachmentGIds);
   // }
 
-  MessageAttch_RequestFSDir(reqThreadId) {
+  MessageAttch_RequestFSMapping(reqThreadId) {
     return new Promise(async (resolve, rej) => {
-      const res = await this.emailServ.requestFSDir(reqThreadId).toPromise();
-      this.folderList = [];
+      const res = await this.emailServ.requestFSMapping(reqThreadId).toPromise();
+      this.fsMapList = [];
       if (res.d.errId === '200') {
-        const arrx = this.folderList;
-        arrx.push(...<Folders[]>res.d.folders);
-        this.folderList = arrx;
-        resolve(res.d.mdId);
+        const arrx = this.fsMapList;
+        arrx.push(...<FSMapping[]>res.d.mapList);
+        this.fsMapList = arrx;
+        resolve();
       } else {
-        this.errorService.displayError(res, 'requestFSDir');
+        this.errorService.displayError(res, 'requestFSMapping');
         rej();
       }
     });
 
   }
+
+  // MessageAttch_RequestFSMapping(rfId, jobNo) {
+  //   return new Promise(async (resolve, rej) => {
+  //     const res = await this.emailServ.requestFSMapping(reqThreadId).toPromise();
+  //     this.folderList = [];
+  //     if (res.d.errId === '200') {
+  //       const arrx = this.folderList;
+  //       arrx.push(...<Folders[]>res.d.folders);
+  //       this.folderList = arrx;
+  //       resolve(res.d.mdId);
+  //     } else {
+  //       this.errorService.displayError(res, 'requestFSDir');
+  //       rej();
+  //     }
+  //   });
+
+  // }
 
   MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachments) {
     return new Promise(async (resolve, reject) => {

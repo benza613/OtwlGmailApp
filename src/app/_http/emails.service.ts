@@ -161,7 +161,7 @@ export class EmailsService {
     });
   }
 
-  requestFSDir(reqThreadId): Observable<any> {
+  requestFSMapping(reqThreadId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`,
       { reqThreadId },
       this.httpOptions)

@@ -50,6 +50,10 @@ export class FSDirDialogComponent implements OnInit {
   dirId;
   fileList = [];
   file;
+  fsMapList;
+  threadTypeData;
+  showFolders = false;
+  fileNames = [];
   @Output() response: EventEmitter<any> = new EventEmitter();
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver: boolean = false;
@@ -65,8 +69,9 @@ export class FSDirDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.storeSelector !== 'editor') {
-      this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
-      // console.log('Folder List',this.folderList);
+      // this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
+      this.fsMapList = this.emailStore.fsMapList$;
+      this.detector.detectChanges();
     }
     this.domainStore.fsDirData$.subscribe(x => {
       this.fsDirData = [];
@@ -75,35 +80,11 @@ export class FSDirDialogComponent implements OnInit {
       }
       // console.log('Dir List',this.fsDirData);
     });
-
-    // this.uploader.removeFromQueue = (fileItem) => {
-    //   this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
-    //   this.detector.detectChanges();
-    // };
-    // this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
-    // //this.uploader.options.removeAfterUpload = true;
-
-    // this.uploader.options.isHTML5 = true;
-    // this.uploader.onBeforeUploadItem = (item) => {
-    //   item.withCredentials = false;
-    // };
-
-    // this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-    //   item.remove();
-    // };
-
-    // this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-    //   console.log('err', item.file.name);
-    // };
-
-    // this.uploader.onCompleteAll = () => {
-    //   this.uploader.progress = 0;
-    //   this.detector.detectChanges();
-
-    //   if (this.uploader.queue.length > 0) {
-    //     alert('File upload unsuccessful!');
-    //   }
-    // };
+    this.threadTypeData = this.emailStore.threadTypeList$;
+    this.attachments.forEach(x => {
+      this.fileNames.push(x.fileName);
+    });
+    this.detector.detectChanges();
   }
 
   onFileSelected(event: EventEmitter<File[]>) {
@@ -159,5 +140,9 @@ export class FSDirDialogComponent implements OnInit {
       this.activeModal.close();
       this.response.emit([folder.entityID, folder.qlevel, this.file]);
     }
+  }
+
+  onClick_FetchMdId(row) {
+    //fire the query for webmethod.
   }
 }

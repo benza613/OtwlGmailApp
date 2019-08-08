@@ -36,13 +36,13 @@ function readBase64(file): Promise<any> {
 
 export class FSDirDialogComponent implements OnInit {
   @Input() storeSelector: string;
-  @Input() folderHierarchy: Folders[];
   @Input() msgId;
   @Input() attachments;
   @Input() attachmentGIds;
   @Input() attachmentNames;
   @Input() reqThreadId;
   @Input() uploadType: string;
+  folderHierarchy;
   folderList: any;
   fsDirData: any;
   backDisable = true;
@@ -54,6 +54,7 @@ export class FSDirDialogComponent implements OnInit {
   threadTypeData;
   showFolders = false;
   fileNames = [];
+  mdId;
   @Output() response: EventEmitter<any> = new EventEmitter();
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver: boolean = false;
@@ -69,7 +70,6 @@ export class FSDirDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.storeSelector !== 'editor') {
-      // this.folderList = this.folderHierarchy.filter(x => x.qlevel == '0');
       this.fsMapList = this.emailStore.fsMapList$;
       this.detector.detectChanges();
     }
@@ -78,7 +78,6 @@ export class FSDirDialogComponent implements OnInit {
       for (let ix = 0; ix < x.length; ix++) {
         this.fsDirData = [...this.fsDirData, x[ix]];
       }
-      // console.log('Dir List',this.fsDirData);
     });
     this.threadTypeData = this.emailStore.threadTypeList$;
     this.attachments.forEach(x => {
@@ -123,13 +122,13 @@ export class FSDirDialogComponent implements OnInit {
   }
 
   saveToFS(folder) {
-    this.spinner.show();
-    var that = this;
+    this.spinner.show('fsDir');
+    const that = this;
     if (this.uploadType === 'email_attachment') {
-      this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel, this.reqThreadId,
-        this.msgId, this.attachments).then(function (value) {
+      this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel,
+        this.msgId, this.attachments, this.mdId).then(function (value) {
           if (value === '1') {
-            that.spinner.hide();
+            that.spinner.hide('fsDir');
             that.changeDetRef.detectChanges();
             that.activeModal.dismiss();
             that.activeModal.close();
@@ -138,11 +137,24 @@ export class FSDirDialogComponent implements OnInit {
     } else {
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel, this.file]);
+      this.response.emit([folder.entityID, folder.qlevel, this.file, this.mdId]);
     }
   }
 
-  onClick_FetchMdId(row) {
-    //fire the query for webmethod.
+  onClick_FetchMdId(obj) {
+    const that = this;
+    this.spinner.show('fsDir');
+    this.emailStore.MessageAttch_RequestFSDir(obj.jobNo, obj.rfName).then(function (value) {
+      if (value) {
+        that.mdId = value;
+        that.emailStore.getFolderList$.subscribe(x => {
+          that.folderHierarchy = x;
+        });
+        that.folderList = that.folderHierarchy.filter(x => x.qlevel === '0');
+        that.spinner.hide('fsDir');
+        that.detector.detectChanges();
+      }
+    });
+    this.showFolders = true;
   }
 }

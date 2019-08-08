@@ -570,26 +570,27 @@ export class EmailsStoreService {
 
   }
 
-  // MessageAttch_RequestFSMapping(rfId, jobNo) {
-  //   return new Promise(async (resolve, rej) => {
-  //     const res = await this.emailServ.requestFSMapping(reqThreadId).toPromise();
-  //     this.folderList = [];
-  //     if (res.d.errId === '200') {
-  //       const arrx = this.folderList;
-  //       arrx.push(...<Folders[]>res.d.folders);
-  //       this.folderList = arrx;
-  //       resolve(res.d.mdId);
-  //     } else {
-  //       this.errorService.displayError(res, 'requestFSDir');
-  //       rej();
-  //     }
-  //   });
+  MessageAttch_RequestFSDir(jobNo, rfName) {
+    return new Promise(async (resolve, rej) => {
+      const res = await this.emailServ.requestFSDir(jobNo, rfName).toPromise();
+      this.folderList = [];
+      if (res.d.errId === '200') {
+        const arrx = this.folderList;
+        arrx.push(...<Folders[]>res.d.folders);
+        this.folderList = arrx;
+        console.log('FOlder List', this.folderList);
+        resolve(res.d.mdId);
+      } else {
+        this.errorService.displayError(res, 'requestFSDir');
+        rej(false);
+      }
+    });
 
-  // }
+  }
 
-  MessageAttch_SaveToFS(entityID, qlevel, reqThreadId, msgid, attachments) {
+  MessageAttch_SaveToFS(entityID, qlevel, msgid, attachments, mdId) {
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachments).toPromise();
+      const res = await this.emailServ.saveAttachmentToFS(entityID, qlevel, msgid, attachments, mdId).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'saveAttachmentToFS');
         reject();

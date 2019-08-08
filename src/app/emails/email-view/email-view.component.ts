@@ -112,7 +112,6 @@ export class EmailViewComponent implements OnInit {
           this.emailList = x;
           this.emailListOriginal = x;
           this.list = x;
-          console.log(this.emailListOriginal);
           for (let i = 0; i < x.length; i++) {
             this.quotes[i] = '';
             this.signature[i] = '';
@@ -333,35 +332,35 @@ export class EmailViewComponent implements OnInit {
     });
   }
 
-  // async selectFolderForUpload(id, msgId) {
-  //   this.getPrint(id);
-  //   const email = document.getElementById(id);
-  //   this.spinner.show();
-  //   const that = this;
-  //   let folderHeirarchy;
-  //   await this.emailStore.MessageAttch_RequestFSDir(this.reqThreadId).then(function (value) {
-  //     that.spinner.hide();
-  //     that.mdId = value;
-  //   });
-  //   this.emailStore.getFolderList$.subscribe(x => {
-  //     folderHeirarchy = x;
-  //   });
-  //   const modalRef = this.modalService.open(
-  //     FSDirDialogComponent,
-  //     { size: 'lg', backdrop: 'static', keyboard: false }
-  //   );
-  //   modalRef.componentInstance.storeSelector = 'view'; // should be the id
-  //   modalRef.componentInstance.folderHierarchy = folderHeirarchy;
-  //   modalRef.componentInstance.msgId = msgId;
-  //   modalRef.componentInstance.attachments = this.attachments;
-  //   modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
-  //   modalRef.componentInstance.attachmentNames = this.attachmentNames;
-  //   modalRef.componentInstance.reqThreadId = this.reqThreadId;
-  //   modalRef.componentInstance.uploadType = 'email_body';
-  //   modalRef.componentInstance.response.subscribe((x) => {
-  //     this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2], this.mdId);
-  //   });
-  // }
+  async selectFolderForUpload(id, msgId) {
+    this.getPrint(id);
+    const email = document.getElementById(id);
+    this.spinner.show();
+    const that = this;
+    await this.emailStore.MessageAttch_RequestFSMapping(this.reqThreadId).then(function (value) {
+      that.spinner.hide();
+      // that.mdId = value;
+    });
+    // let folderHeirarchy;
+    // this.emailStore.getFolderList$.subscribe(x => {
+    //   folderHeirarchy = x;
+    // });
+    const modalRef = this.modalService.open(
+      FSDirDialogComponent,
+      { size: 'lg', backdrop: 'static', keyboard: false }
+    );
+    modalRef.componentInstance.storeSelector = 'view'; // should be the id
+    // modalRef.componentInstance.folderHierarchy = folderHeirarchy;
+    modalRef.componentInstance.msgId = msgId;
+    modalRef.componentInstance.attachments = this.attachments;
+    modalRef.componentInstance.attachmentGIds = this.attachmentGIDs;
+    modalRef.componentInstance.attachmentNames = this.attachmentNames;
+    modalRef.componentInstance.reqThreadId = this.reqThreadId;
+    modalRef.componentInstance.uploadType = 'email_body';
+    modalRef.componentInstance.response.subscribe((x) => {
+      this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2], x[3]);
+    });
+  }
 
 
   uploadToFileServer(id, msgId, email, entityId, qlevel, file, mdId) {

@@ -162,15 +162,22 @@ export class EmailsService {
   }
 
   requestFSMapping(reqThreadId): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`,
+    return this.http.post(`${this.apiBaseUrl}/attachments_GetMapping`,
       { reqThreadId },
       this.httpOptions)
       .pipe(map(r => r));
   }
 
-  saveAttachmentToFS(entityID, qlevel, reqThreadId, msgid, attachments): Observable<any> {
+  requestFSDir(refValId, dirTypeName): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/attachments_GetFS`,
+      { refValId, dirTypeName },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+  
+  saveAttachmentToFS(entityID, qlevel, msgid, attachments, mdId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/attachments_saveToFS`,
-      { entityID, qlevel, reqThreadId, msgid, attachments },
+      { entityID, qlevel, msgid, attachments, mdId },
       this.httpOptions)
       .pipe(map(r => r));
   }

@@ -220,6 +220,7 @@ export class EmailViewComponent implements OnInit {
       let fileDetails: MessageUiAttach = {
         attachmentGId: file.attachmentGId,
         fileName: file.fileName,
+        fileTag: '0',
         fileSize: '0',
       };
       this.attachments.push(fileDetails);
@@ -233,6 +234,7 @@ export class EmailViewComponent implements OnInit {
             let fileDetails: MessageUiAttach = {
               attachmentGId: file.attachmentGId,
               fileName: file.fileName,
+              fileTag: '0',
               fileSize: '0',
             };
             this.attachments.push(fileDetails);
@@ -248,6 +250,7 @@ export class EmailViewComponent implements OnInit {
           let fileDetails: MessageUiAttach = {
             attachmentGId: att.attachmentGId,
             fileName: att.fileName,
+            fileTag: '0',
             fileSize: '0',
           };
           this.attachments.push(fileDetails);
@@ -358,18 +361,19 @@ export class EmailViewComponent implements OnInit {
     modalRef.componentInstance.reqThreadId = this.reqThreadId;
     modalRef.componentInstance.uploadType = 'email_body';
     modalRef.componentInstance.response.subscribe((x) => {
-      this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2], x[3]);
+      this.uploadToFileServer(id, msgId, email, x[0], x[1], x[2], x[3], x[4]);
     });
   }
 
 
-  uploadToFileServer(id, msgId, email, entityId, qlevel, file, mdId) {
+  uploadToFileServer(id, msgId, email, entityId, qlevel, file, mdId, fileTag) {
     const that = this;
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('keyD', mdId);
     formData.append('keyQ', (Number(qlevel) + 1).toString());
     formData.append('keyPF', entityId);
+    formData.append('keyTag', fileTag);
     formData.forEach(x => {
       console.log(x);
     });

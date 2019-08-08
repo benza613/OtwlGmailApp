@@ -55,6 +55,7 @@ export class FSDirDialogComponent implements OnInit {
   showFolders = false;
   fileNames = [];
   mdId;
+  fileTag;
   @Output() response: EventEmitter<any> = new EventEmitter();
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver: boolean = false;
@@ -124,6 +125,12 @@ export class FSDirDialogComponent implements OnInit {
   saveToFS(folder) {
     this.spinner.show('fsDir');
     const that = this;
+    this.attachments.forEach(x => {
+      if (x.fileTag === null) {
+        x.fileTag = '0';
+      }
+    });
+    console.log(this.attachments);
     if (this.uploadType === 'email_attachment') {
       this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel,
         this.msgId, this.attachments, this.mdId).then(function (value) {
@@ -137,7 +144,8 @@ export class FSDirDialogComponent implements OnInit {
     } else {
       this.activeModal.dismiss();
       this.activeModal.close();
-      this.response.emit([folder.entityID, folder.qlevel, this.file, this.mdId]);
+      this.fileTag = this.fileTag === null ? '0' : this.fileTag;
+      this.response.emit([folder.entityID, folder.qlevel, this.file, this.mdId, this.fileTag]);
     }
   }
 

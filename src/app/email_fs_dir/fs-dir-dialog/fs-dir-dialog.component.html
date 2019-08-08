@@ -22,11 +22,11 @@
         <td style="text-align: center;">
           <input type="text" class="form-control" [(ngModel)]="att.fileName" />
         </td>
-        <!-- <td>
-          <ng-select [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
+        <td>
+          <ng-select [items]="threadTypeData | async" [closeOnSelect]="false" [(ngModel)]="att.fileTag"
             bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Tags" [clearSearchOnAdd]="true">
           </ng-select>
-        </td> -->
+        </td>
         <td></td>
       </tr>
     </tbody>
@@ -35,6 +35,11 @@
     <div class="row card-header" style="background-color: white" *ngIf="uploadType === 'email_body'">
       <div class="col">
         <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+      </div>
+      <div class="col">
+        <ng-select [items]="threadTypeData | async" [closeOnSelect]="false" [(ngModel)]="fileTag"
+            bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Tags" [clearSearchOnAdd]="true">
+          </ng-select>
       </div>
     </div>
     <table class="table table-striped" style="width: 100%" *ngIf="showFolders">

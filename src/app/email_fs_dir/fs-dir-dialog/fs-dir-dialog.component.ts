@@ -130,7 +130,6 @@ export class FSDirDialogComponent implements OnInit {
         x.fileTag = '0';
       }
     });
-    console.log(this.attachments);
     if (this.uploadType === 'email_attachment') {
       this.emailStore.MessageAttch_SaveToFS(folder.entityID, folder.qlevel,
         this.msgId, this.attachments, this.mdId).then(function (value) {

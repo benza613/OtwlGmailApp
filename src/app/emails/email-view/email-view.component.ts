@@ -232,8 +232,8 @@ export class EmailViewComponent implements OnInit {
           att.isChecked = this.selectAll === false ? true : false;
           if (att.isChecked === true) {
             let fileDetails: MessageUiAttach = {
-              attachmentGId: file.attachmentGId,
-              fileName: file.fileName,
+              attachmentGId: att.attachmentGId,
+              fileName: att.fileName,
               fileTag: '0',
               fileSize: '0',
             };
@@ -307,8 +307,6 @@ export class EmailViewComponent implements OnInit {
         if (x.isUnread === true) {
           this.readThreads.push(x.msgid);
         }
-        console.log('READ IDS', this.readThreads);
-
       });
     } else {
       this.emailList.forEach(x => {
@@ -374,9 +372,6 @@ export class EmailViewComponent implements OnInit {
     formData.append('keyQ', (Number(qlevel) + 1).toString());
     formData.append('keyPF', entityId);
     formData.append('keyTag', fileTag);
-    formData.forEach(x => {
-      console.log(x);
-    });
     this.spinner.show();
     this.detector.detectChanges();
     this.emailServ.uploadPDF(formData).then(function (value) {
@@ -405,7 +400,6 @@ export class EmailViewComponent implements OnInit {
   }
 
   OnClick_Map() {
-    console.log(this.thread);
     const modalRef = this.modalService.open(
       EmailUnreadDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
@@ -484,14 +478,12 @@ export class EmailViewComponent implements OnInit {
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
         if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
           this.signature[i] = '<div class=wordsection1>' +
             (this.emailListOriginal[i].body.toLowerCase().trim()
               .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
           this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
             '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
         } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
           this.signature[i] = '<div class=WordSection1>' +
             (this.emailListOriginal[i].body.toLowerCase().trim()
               .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
@@ -520,14 +512,12 @@ export class EmailViewComponent implements OnInit {
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<div class="gmail_quote">')[0];
         if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
           this.signature[i] = '<div class=wordsection1>' +
             (this.emailListOriginal[i].body.toLowerCase().trim()
               .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
           this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
             '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
         } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
           this.signature[i] = '<div class=WordSection1>' +
             (this.emailListOriginal[i].body.toLowerCase().trim()
               .split('<p class="MsoNormal"><o:p>&nbsp;</o:p></p>')[1]);
@@ -591,14 +581,12 @@ export class EmailViewComponent implements OnInit {
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<div id="divSignatureLine">')[0];
         if (this.emailListOriginal[i].body.trim().includes('<p class=msonormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
           this.signature[i] = '<div class=wordsection1>' +
             (this.emailListOriginal[i].body.toLowerCase().trim()
               .split('<p class=msonormal><o:p>&nbsp;</o:p></p>')[1]);
           this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
             '<p class=msonormal><o:p>&nbsp;</o:p></p>')[0] + '</div>';
         } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')) {
-          console.log('Enter');
           this.signature[i] = '<div class=WordSection1>' +
             (this.emailListOriginal[i].body.toLowerCase().trim()
               .split('<p class=MsoNormal><o:p>&nbsp;</o:p></p>')[1]);

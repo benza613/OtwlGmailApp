@@ -116,7 +116,6 @@ export class EditorComponent implements OnInit {
     var that = this;
     this.emailStore.getAddressBook();
     this.emailStore.getUserMailInfo().then(function (value) {
-      console.log('SIGNATURE', value);
       that.senderName = value['d'].userFullName;
       that.senderEmail = value['d'].userEmailID;
       that.senderMobile = value['d'].userContactNumber;
@@ -133,14 +132,12 @@ export class EditorComponent implements OnInit {
       setTimeout(() => {
         if (this.msgPacket.cc.length > 0) {
           this.msgPacket.cc.forEach(x => {
-            console.log(x);
           });
           this.msgPacket.cc = this.msgPacket.cc.filter(x => !x.emailId.includes(this.senderEmail));
           this.detector.detectChanges();
         }
         if (this.msgPacket.bcc.length > 0) {
           this.msgPacket.bcc.forEach(x => {
-            console.log(x);
           });
           this.msgPacket.bcc = this.msgPacket.bcc.filter(x => !x.emailId.includes(this.senderEmail));
           this.detector.detectChanges();
@@ -194,12 +191,9 @@ export class EditorComponent implements OnInit {
         }
 
         if (params.locst_id !== undefined) {
-          console.log("params.locst_id", params.locst_id);
           var localToken = params.locst_id;
           if (localToken) {
             const emlData = that.locStgService.fetchMessagePacket(localToken);
-
-            console.log('emlData', emlData);
             that.initMessagePacket_LocalStorage(emlData);
 
             if (emlData["alacarte"] != undefined) {
@@ -283,8 +277,6 @@ export class EditorComponent implements OnInit {
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
                   that.spinner.hide();
                   that.detector.detectChanges();
-                  console.log('res.d.errId:', value);
-                  console.log(that.msgAddrList);
                   if (this._reqStoreSelector !== '') {
                     that.location.back();
                   } else {
@@ -322,7 +314,6 @@ export class EditorComponent implements OnInit {
     }
 
     if (emlData.cc !== undefined) {
-      console.log('CC', emlData.cc);
       emlData.cc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
@@ -333,7 +324,6 @@ export class EditorComponent implements OnInit {
     }
 
     if (emlData.bcc !== undefined) {
-      console.log('BCC', emlData.bcc);
       emlData.bcc.forEach(element => {
         if (element !== undefined && element !== '') {
           this.msgAddrList.push({ emailId: element });
@@ -368,8 +358,6 @@ export class EditorComponent implements OnInit {
     this.spinner.show();
     this.detector.detectChanges();
     var that = this;
-    console.log("ADDress book", this.msgAddrList);
-    console.log('TO',this.msgPacket.to);
     this.msgPacket.to.forEach(x => {
       const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
       if (idx === -1) {
@@ -400,14 +388,12 @@ export class EditorComponent implements OnInit {
                 this.msgAddrList.forEach(x => {
                   emailList.push(x['emailId']);
                 });
-                console.log('TO',this.msgPacket.to);
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
-                    console.log('res.d.errId:', value);
                     if (that._reqStoreSelector !== '') {
                       that.location.back();
                     } else {
@@ -461,7 +447,6 @@ export class EditorComponent implements OnInit {
               filename: img.alt,
               dataUrl: (reader.result as string).split(',')[1]
             });
-            console.log(reader.result);
 
             if (imgCounter === self._inlineAttachments.length - 1) {
               reslv(msgBodyCopy);
@@ -694,7 +679,6 @@ export class EditorComponent implements OnInit {
     );
     modalRef.componentInstance.storeSelector = 'editor';
     modalRef.result.then((result) => {
-      console.log(result.files);
       if (result.files.length > 0) {
         result.files.forEach(file => {
           if (file.flSize.split(' ')[1] === 'kB') {
@@ -720,7 +704,6 @@ export class EditorComponent implements OnInit {
   }
 
   addEmailAddress(event) {
-    console.log(this.msgPacket.to);
     if (event.length > 0) {
       const idx = this.msgAddrList.findIndex(x => x.emailId === event[0].emailId);
       const email = event[0];

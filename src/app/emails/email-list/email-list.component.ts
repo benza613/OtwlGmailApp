@@ -38,8 +38,6 @@ export class EmailListComponent implements OnInit {
     if (this.storeSelector === 'EmailUnreadComponent') {
       this.emailStore.unreadThreadsCount$.subscribe(
         x => { this.t_CollectionSize = x; },
-        (err) => { console.log('Complete'); },
-        () => { console.log('Complete'); }
       );
       this.threadList = this.emailStore.unreadThreads$.pipe(
         map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))

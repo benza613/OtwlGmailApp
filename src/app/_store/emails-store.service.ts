@@ -325,7 +325,6 @@ export class EmailsStoreService {
         });
         arrx.push(...<Thread[]>res.d.threads);
         this.sentThreads = arrx;
-        console.log('SENT', arrx);
         if (res.d.pageToken == null) {
           this.pageTokenSent = '';
         } else {
@@ -578,7 +577,6 @@ export class EmailsStoreService {
         const arrx = this.folderList;
         arrx.push(...<Folders[]>res.d.folders);
         this.folderList = arrx;
-        console.log('FOlder List', this.folderList);
         resolve(res.d.mdId);
       } else {
         this.errorService.displayError(res, 'requestFSDir');

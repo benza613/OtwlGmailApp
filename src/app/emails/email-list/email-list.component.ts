@@ -1,3 +1,4 @@
+import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef, OnChanges } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -32,6 +33,7 @@ export class EmailListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
+    private domainStore: DomainStoreService
   ) { }
 
   ngOnInit() {
@@ -46,12 +48,13 @@ export class EmailListComponent implements OnInit {
   }
 
   onClick_GetThreadMessages(threadData) {
-    this.spinner.show('list1');
     const that = this;
+    that.spinner.show('list1');
     this.authServ.login();
-    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(success => {
+    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
       threadData.isUnread = false;
-      this.detector.detectChanges();
+      threadData.isMapped = value === '0' ? false : true;
+      that.detector.detectChanges();
       that.spinner.hide('list1');
     });
   }

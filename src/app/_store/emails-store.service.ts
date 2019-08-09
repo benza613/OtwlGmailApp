@@ -454,12 +454,13 @@ export class EmailsStoreService {
           queryParams: {
             q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped'
             , subject: Subject
+            , isMapped: res.d.isMapped
           }
         });
       } else {
         this.errorService.displayError(res, 'fetchThreadEmails');
       }
-      resolve();
+      resolve(res.d.isMapped);
     });
   }
 

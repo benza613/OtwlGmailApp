@@ -42,7 +42,8 @@ export class EmailUnreadComponent implements OnInit {
       console.log('promise reject for updateUnreadThreadList');
     });
     // interval(2000 * 60).subscribe(x => {
-    //   this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+    //   this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo,
+    //                                               this.globals.unreadSubject).then(result => {
     //     console.log('promise succ for updateUnreadThreadList');
     //     this.spinner.hide();
     //     this.doUnreadPagination(9);
@@ -104,4 +105,13 @@ export class EmailUnreadComponent implements OnInit {
     });
   }
 
+  // onClick_DeleteThread(thread) {
+  //   let data = {
+  //     GThreadId: thread.ThreadId,
+  //     msgId: '',
+  //     refValId: ''
+  //   };
+  //   // call webmethod for delete...
+  //   console.log(data);
+  // }
 }

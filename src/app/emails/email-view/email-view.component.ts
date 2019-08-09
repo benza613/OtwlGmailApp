@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailsService } from 'src/app/_http/emails.service';
 import { Location } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomainStoreService } from 'src/app/_store/domain-store.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class EmailViewComponent implements OnInit {
   mdId;
   readThreads = [];
   imageList = [];
+  isMapped;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +63,8 @@ export class EmailViewComponent implements OnInit {
     private emailServ: EmailsService,
     private location: Location,
     private detector: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private domainStore: DomainStoreService
   ) { }
 
   ngOnInit() {
@@ -74,6 +77,7 @@ export class EmailViewComponent implements OnInit {
         this.refId = params.j;
         this.subject = params.subject;
         this.locst_id = params.locst_id;
+        this.isMapped = params.isMapped === '0' ? false : true;
         this.renderMessages();
       });
   }
@@ -102,6 +106,7 @@ export class EmailViewComponent implements OnInit {
       this.hideBlockQuotes();
       this.spinner.hide();
     } else if (this.storeSelector === 'mapped') {
+      this.isMapped = true;
       this.emailStore.getMappedThreadData$(this.reqThreadId).subscribe(x => {
         this.thread = x;
       });
@@ -626,6 +631,14 @@ export class EmailViewComponent implements OnInit {
     }
     this.emailList = this.emailListOriginal;
   }
+
+  // onClick_DeleteMsg(msg) {
+  //   let data = {
+  //     GThreadId: this.reqThreadId,
+  //     msgId: msgid,
+  //     refValId: '',
+  //   };
+  // }
 
   goBack() {
     this.location.back();

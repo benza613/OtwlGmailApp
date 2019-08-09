@@ -9,11 +9,11 @@
     </div>
     <div class="col pull-right">
       <button type="button" class="btn btn-warning" (click)="OnClick_Map()"
-        style="transform: scale(0.80)" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
+        style="transform: scale(0.8); float: right; margin-right:7px;" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
       <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
-        style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(1)"> EXPAND ALL</button>
+        style="margin: 2px 10px 2px 2px; transform: scale(0.8); float: right;" (click)="expandAll(1)"> EXPAND ALL</button>
       <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"
-        style="margin: 2px 10px 2px 2px; transform: scale(0.8)" (click)="expandAll(2)"> COLLAPSE ALL</button>
+        style="margin: 2px 10px 2px 2px; transform: scale(0.8); float: right;" (click)="expandAll(2)"> COLLAPSE ALL</button>
     </div>
   </div>
   
@@ -40,7 +40,7 @@
             {{eml.date}}
           </div>
           <div class="col-md-3 pull-left" style="padding-left: 0px;">
-            <button *ngIf="storeSelector !== 'unread'" type="button" ngbTooltip="Upload"
+            <button *ngIf="isMapped" type="button" ngbTooltip="Upload"
               class="btn btn-sm btn-outline-secondary float-right" style="transform: scale(0.75);"
               (click)="selectFolderForUpload(i, eml.msgid)">
               <i class="fa fa-upload"></i>
@@ -116,7 +116,7 @@
           </div>
           <div class="col" *ngIf="eml.attachments.length > 0">
             <div class="row pull-right" style="margin-right: 2px;">
-              <button type="button" class="btn btn-success actions" *ngIf="storeSelector !== 'unread'"
+              <button type="button" class="btn btn-success actions" *ngIf="isMapped"
                 (click)="fileAction(2, eml.msgid, eml.attachments)">UPLOAD</button>
               <button type="button" class="btn btn-primary actions"
                 (click)="fileAction(1, eml.msgid, eml.attachments)">DOWNLOAD</button>
@@ -145,7 +145,7 @@
                       <span class="attSections">{{att.fileSize}}</span>
                     </div>
                     <div class="col-md-2" style="padding-right: 0px;">
-                      <button type="button" *ngIf="storeSelector !== 'unread'" ngbTooltip="UPLOAD"
+                      <button type="button" *ngIf="isMapped" ngbTooltip="UPLOAD"
                         class="btn btn-sm btn-outline-success float-right" style="margin:0px 10px 0px 10px;;"
                         (click)="fileAction(2,eml.msgid, eml.attachments, att)">
                         <i class="fa fa-upload" aria-hidden="true"></i>

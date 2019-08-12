@@ -1,3 +1,4 @@
+import { ConfirmDialogComponent } from './../../confirm/confirm-dialog/confirm-dialog.component';
 import { SafeUrlPipe } from './../../_pipe/safe-url.pipe';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { MessageUiAttach } from './../../models/message-ui-attach.model';
@@ -64,7 +65,7 @@ export class EmailViewComponent implements OnInit {
     private location: Location,
     private detector: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-    private domainStore: DomainStoreService
+    private domainStore: DomainStoreService,
   ) { }
 
   ngOnInit() {
@@ -632,12 +633,17 @@ export class EmailViewComponent implements OnInit {
     this.emailList = this.emailListOriginal;
   }
 
-  // onClick_DeleteMsg(msg) {
-  //   let data = {
-  //     GThreadId: this.reqThreadId,
-  //     msgId: msgid,
-  //     refValId: '',
-  //   };
+  // showConfirmDialog(msg) {
+  //   // let data = {
+  //   //   GThreadId: this.reqThreadId,
+  //   //   msgId: msgid,
+  //   //   refValId: '',
+  //   // };
+  //   const modalRef = this.modalService.open(
+  //     ConfirmDialogComponent,
+  //     {size: 'lg', backdrop: 'static', keyboard: false}
+  //   );
+  //   modalRef.componentInstance.thre
   // }
 
   goBack() {

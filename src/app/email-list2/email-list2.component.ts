@@ -79,8 +79,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
       const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
         const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
         // tslint:disable-next-line: max-line-length
-        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to).then(success => {
-          this.spinner.hide('list2');
+        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
+        this.spinner.hide('list2');
         });
     });
   }
@@ -117,7 +117,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
         const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
         const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
         // tslint:disable-next-line: max-line-length
-        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to).then(success => {
+        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
           this.spinner.hide('list2');
         });
       }

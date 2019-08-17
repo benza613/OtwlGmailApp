@@ -1,3 +1,4 @@
+import { GlobalStoreService } from './../../_store/global-store.service';
 import { ConfirmDialogComponent } from './../../confirm/confirm-dialog/confirm-dialog.component';
 import { SafeUrlPipe } from './../../_pipe/safe-url.pipe';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
@@ -66,6 +67,7 @@ export class EmailViewComponent implements OnInit {
     private detector: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
     private domainStore: DomainStoreService,
+    public globals: GlobalStoreService
   ) { }
 
   ngOnInit() {
@@ -144,7 +146,7 @@ export class EmailViewComponent implements OnInit {
   }
 
 
-  draftReply(msg: Message) {
+  draftReply(msg: Message, body, details) {
     let r_obj;
     if (this.locst_id !== null) {
       r_obj = {
@@ -162,12 +164,15 @@ export class EmailViewComponent implements OnInit {
         tid: this.reqThreadId
       };
     }
+    const email_body = body === undefined ? '' : body;
+    const email_det = details === undefined ? '' : details;
+    this.globals.email_body = email_body + email_det;
     this.router.navigate(['draft/'], {
       queryParams: r_obj
     });
   }
 
-  draftReplyToAll(msg: Message) {
+  draftReplyToAll(msg: Message, body, details) {
     let ra_obj;
     if (this.locst_id !== null) {
       ra_obj = {
@@ -185,13 +190,14 @@ export class EmailViewComponent implements OnInit {
         tid: this.reqThreadId
       };
     }
+    this.globals.email_body = body + details;
     this.router.navigate(['draft/'], {
       queryParams: ra_obj
     });
   }
 
 
-  draftForward(msg: Message) {
+  draftForward(msg: Message, body, details) {
     let ra_obj;
     if (this.locst_id !== null) {
       ra_obj = {
@@ -209,7 +215,7 @@ export class EmailViewComponent implements OnInit {
         tid: this.reqThreadId
       };
     }
-
+    this.globals.email_body = body + details;
     this.router.navigate(['draft/'], {
       queryParams: ra_obj
     });

@@ -105,7 +105,7 @@ export class EmailMappedComponent implements OnInit {
           if (that._queryParams.v != null) {
             that.globals.mappedRefValId = that._queryParams.v;
             if (flag) {
-              that.getThreads();
+              that.getThreads(that.globals.isAdmin);
             }
           }
           that.spinner.hide();
@@ -114,16 +114,21 @@ export class EmailMappedComponent implements OnInit {
     }
   }
 
-  getThreads() {
+  getThreads(admin_flag) {
+    this.globals.isAdmin = admin_flag;
     if (!this.globals.mappedRefId) {
       alert('Please select a Reference Type');
+      return;
+    }
+    if (this.globals.isAdmin === 1 && !this.globals.mappedRefValId) {
+      alert('Please select a Reference ID as well for admin access.');
       return;
     }
     this.spinner.show('mapped');
     const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
     const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
     // tslint:disable-next-line: max-line-length
-    this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to).then(success => {
+    this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
       this.spinner.hide('mapped');
     });
     this.domainStore.updateThreadTypeData();

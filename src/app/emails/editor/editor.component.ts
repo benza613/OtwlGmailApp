@@ -1,3 +1,4 @@
+import { GlobalStoreService } from './../../_store/global-store.service';
 import { DomainStoreService } from './../../_store/domain-store.service';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -78,6 +79,7 @@ export class EditorComponent implements OnInit {
   sendFileSize = 0;
   showUploadSize;
   addressBook;
+  showEmail = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -87,11 +89,13 @@ export class EditorComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private domainStore: DomainStoreService,
-    private location: Location
+    private location: Location,
+    public globals: GlobalStoreService
   ) { }
 
   ngOnInit() {
     const emlData = {};
+    console.log('Incoming msg', this.globals.email_body);
     this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
 
 

@@ -49,8 +49,8 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  getMappedThreads(refID, refValId, dateFrom, dateTo): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/getMappedThreads`, { refID, refValId, dateFrom, dateTo }, this.httpOptions)
+  getMappedThreads(refID, refValId, dateFrom, dateTo, isAdmin): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getMappedThreads`, { refID, refValId, dateFrom, dateTo, isAdmin }, this.httpOptions)
       .pipe(map(r => r));
   }
 

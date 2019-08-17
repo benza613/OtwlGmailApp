@@ -16,5 +16,7 @@ export class GlobalStoreService {
   public mappedFromDate: NgbDateStruct;
   public mappedToDate: NgbDateStruct;
   public tagsList;
+  public email_body;
+  public isAdmin = 0;
   constructor() { }
 }

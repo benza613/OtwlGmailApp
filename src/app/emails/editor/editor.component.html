@@ -1,8 +1,9 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 <div class="row">
-    <i class="fa fa-arrow-circle-left" (click)="goBack()" routerLinkActive="router-link-active"  style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
-  </div>
+  <i class="fa fa-arrow-circle-left" (click)="goBack()" routerLinkActive="router-link-active"
+    style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
+</div>
 <div style="max-width:100%;width:100%">
   <div class="form-row">
     <div class="col-md-1">
@@ -10,7 +11,8 @@
     </div>
     <div class="col-md-9">
       <ng-select id="iMsgTo" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addEmailAddress($event)" [addTag]="true" [clearSearchOnAdd]="true">
+        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addEmailAddress($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
       </ng-select>
       <!-- (change)="addAddr($event)" -->
     </div>
@@ -24,7 +26,8 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addEmailAddress($event)" [addTag]="true" [clearSearchOnAdd]="true">
+        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addEmailAddress($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col-md-1">
@@ -32,11 +35,12 @@
     </div>
     <div class="col-md-5">
       <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
-        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addEmailAddress($event)" [addTag]="true" [clearSearchOnAdd]="true">
+        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addEmailAddress($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>
-  <div class="form-row">
+  <div class="form-row" style="margin-bottom: 10px;">
     <div class="col-md-1">
       <b>SUBJECT</b>
     </div>
@@ -44,9 +48,26 @@
       <input type="text" class="form-control" placeholder="" [(ngModel)]="msgPacket.subject">
     </div>
   </div>
-  <div class="ejsEditor card">
-    <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue' (actionComplete)="actionCompleted($event)"
-      [toolbarSettings]='EditorTools'></ejs-richtexteditor>
+  <div class="customTab">
+    <ngb-tabset>
+      <ngb-tab title="Current Draft">
+        <ng-template ngbTabContent>
+          <div class="ejsEditor card">
+            <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue'
+              (actionComplete)="actionCompleted($event)" [toolbarSettings]='EditorTools'></ejs-richtexteditor>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Received Email">
+        <ng-template ngbTabContent>
+          <div class="row card" style="margin: 5px;">
+            <div [innerHTML]="globals.email_body | safeHtml" style="margin: 10px;">
+
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
   </div>
   <div class="container-fluid" style="margin-top: 5px;">
     <div class="row">

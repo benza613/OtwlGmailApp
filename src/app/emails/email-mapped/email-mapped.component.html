@@ -68,10 +68,13 @@
       </div>
     </div> -->
     <div class="row filters">
-      <div class="col">
-        <button type="submit" class="btn bg-primary btn-block" (click)="getThreads()" style="color:white">GET
+      <div class="col" style="margin-bottom: 5px;">
+        <button type="submit" class="btn bg-primary btn-block" (click)="getThreads(0)" style="color:white">GET
           THREADS</button>
       </div>
+      <div class="col">
+          <button type="button" class="btn bg-primary btn-block" (click)="getThreads(1)" style="color:white">ADMIN ACCESS</button>
+        </div>
     </div>
   </div>
   <div class="col-md-10" style="height: 85vh; padding: 5px; border-left: 2px solid #C0C0C0">

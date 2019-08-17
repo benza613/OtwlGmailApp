@@ -468,9 +468,9 @@ export class EmailsStoreService {
   /**
    * MAPPED module methods
    */
-  updateMappedThreadList(refId, refValId, dateFrom, dateTo) {
+  updateMappedThreadList(refId, refValId, dateFrom, dateTo, isAdmin) {
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo).toPromise();
+      const res = await this.emailServ.getMappedThreads(refId, refValId, dateFrom, dateTo, isAdmin).toPromise();
       if (res.d.errId === '200') {
         this.mappedThreads = [];
         this.threadTypeList = [];

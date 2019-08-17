@@ -50,7 +50,7 @@
   </div>
   <div class="customTab">
     <ngb-tabset type="pills">
-      <ngb-tab title="Current Draft">
+      <ngb-tab title="Your Draft">
         <ng-template ngbTabContent>
           <div class="ejsEditor card" style="margin-top: 5px;">
             <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue'
@@ -58,7 +58,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Received Email">
+      <ngb-tab title="Referrence Email" *ngIf="globals.email_body">
         <ng-template ngbTabContent>
           <div class="row card" style="margin: 5px; height: 250px !important; overflow: auto;">
             <div [innerHTML]="globals.email_body | safeHtml" style="margin: 10px;">

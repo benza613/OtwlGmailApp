@@ -49,10 +49,10 @@
     </div>
   </div>
   <div class="customTab">
-    <ngb-tabset>
+    <ngb-tabset type="pills">
       <ngb-tab title="Current Draft">
         <ng-template ngbTabContent>
-          <div class="ejsEditor card">
+          <div class="ejsEditor card" style="margin-top: 5px;">
             <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue'
               (actionComplete)="actionCompleted($event)" [toolbarSettings]='EditorTools'></ejs-richtexteditor>
           </div>
@@ -60,7 +60,7 @@
       </ngb-tab>
       <ngb-tab title="Received Email">
         <ng-template ngbTabContent>
-          <div class="row card" style="margin: 5px;">
+          <div class="row card" style="margin: 5px; height: 250px !important; overflow: auto;">
             <div [innerHTML]="globals.email_body | safeHtml" style="margin: 10px;">
 
             </div>

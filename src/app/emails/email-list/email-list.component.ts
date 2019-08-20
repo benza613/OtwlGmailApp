@@ -54,7 +54,6 @@ export class EmailListComponent implements OnInit {
     this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
       threadData.isUnread = false;
       threadData.isMapped = value === '0' ? false : true;
-      that.detector.detectChanges();
       that.spinner.hide('list1');
     });
   }

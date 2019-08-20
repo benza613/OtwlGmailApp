@@ -420,6 +420,8 @@ export class EmailViewComponent implements OnInit {
     modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
     modalRef.result.then((result) => {
       if (result.action === '1') {
+        this.isMapped = true;
+        this.detector.detectChanges();
         modalRef.close();
       }
     });

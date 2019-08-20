@@ -43,14 +43,16 @@ export class EmailUnreadDialogComponent implements OnInit {
     this.threadTypeData.subscribe(x => {
       tags = x;
     });
-    this.mailList.forEach(x => {
-      const obj = this.globals.tagsList.filter(y => y.ThreadUId === x.ThreadUId);
-      const list2: any = [];
-      obj[0].SelectedTypeIdList.forEach(tag => {
-        list2.push(tags.find(f => f['threadTypeVal'] === tag).threadTypeId);
+    if (this.globals.tagsList) {
+      this.mailList.forEach(x => {
+        const obj = this.globals.tagsList.filter(y => y.ThreadUId === x.ThreadUId);
+        const list2: any = [];
+        obj[0].SelectedTypeIdList.forEach(tag => {
+          list2.push(tags.find(f => f['threadTypeVal'] === tag).threadTypeId);
+        });
+        x.ThreadTypeIds = list2;
       });
-      x.ThreadTypeIds = list2;
-    });
+    }
   }
 
   onChange_GetRefTypeData() {
@@ -113,12 +115,12 @@ export class EmailUnreadDialogComponent implements OnInit {
         });
       }
       mapTypes.selectedThreadsFullData = this.mailList;
-      const emptyTagList =  mapTypes.selectedThreads.filter(x => x.ThreadTypeIds.length === 0);
+      const emptyTagList = mapTypes.selectedThreads.filter(x => x.ThreadTypeIds.length === 0);
       const delTagList = [];
       if (emptyTagList.length > 0) {
         emptyTagList.forEach(x => {
           delTagList.push(x.ThreadID);
-      });
+        });
       }
       this.emailServ.updateUnreadThreadData(mapTypes, delTagList).then(function (value) {
         that.spinner.hide();

@@ -10,7 +10,7 @@ export interface Thread {
     errId: string;
     errMsg: string;
     Messages: Message[];
-    Snippet: String;
+    //Snippet: String;
     isChecked: boolean;
     isUnread: boolean;
     isMapped: boolean;

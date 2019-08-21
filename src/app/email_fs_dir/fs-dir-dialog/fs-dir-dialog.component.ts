@@ -81,7 +81,6 @@ export class FSDirDialogComponent implements OnInit {
       }
     });
     this.threadTypeData = this.domainStore.threadTypeData$;
-    console.log('Gotcha!', this.threadTypeData);
     this.attachments.forEach(x => {
       this.fileNames.push(x.fileName);
     });

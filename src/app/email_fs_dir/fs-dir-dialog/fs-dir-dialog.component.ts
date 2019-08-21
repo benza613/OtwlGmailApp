@@ -152,7 +152,7 @@ export class FSDirDialogComponent implements OnInit {
   onClick_FetchMdId(obj) {
     const that = this;
     this.spinner.show('fsDir');
-    this.emailStore.MessageAttch_RequestFSDir(obj.jobNo, obj.rfName).then(function (value) {
+    this.emailStore.MessageAttch_RequestFSDir(obj.Job_ID, obj.rfName).then(function (value) {
       if (value) {
         that.mdId = value;
         that.emailStore.getFolderList$.subscribe(x => {

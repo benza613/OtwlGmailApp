@@ -571,9 +571,9 @@ export class EmailsStoreService {
 
   }
 
-  MessageAttch_RequestFSDir(jobNo, rfName) {
+  MessageAttch_RequestFSDir(jobId, rfName) {
     return new Promise(async (resolve, rej) => {
-      const res = await this.emailServ.requestFSDir(jobNo, rfName).toPromise();
+      const res = await this.emailServ.requestFSDir(jobId, rfName).toPromise();
       this.folderList = [];
       if (res.d.errId === '200') {
         const arrx = this.folderList;

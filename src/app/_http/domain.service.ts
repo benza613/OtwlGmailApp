@@ -34,6 +34,11 @@ export class DomainService {
       .pipe(map(r => r));
   }
 
+  fetchFSTags(): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getFSTags`, {}, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   fetchFSDirList(): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getFSDirectoryList`, {}, this.httpOptions)
       .pipe(map(r => r));

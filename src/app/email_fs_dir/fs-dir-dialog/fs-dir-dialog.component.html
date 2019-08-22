@@ -26,7 +26,7 @@
           <input type="text" class="form-control" [(ngModel)]="att.fileName" />
         </td>
         <td style="width: 250px !important;">
-          <ng-select [items]="threadTypeData | async" [closeOnSelect]="false"
+          <ng-select [items]="fsTags" [closeOnSelect]="false"
             [(ngModel)]="att.fileTag" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Tags"
             [clearSearchOnAdd]="true">
           </ng-select>

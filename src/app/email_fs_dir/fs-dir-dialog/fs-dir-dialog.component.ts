@@ -52,6 +52,7 @@ export class FSDirDialogComponent implements OnInit {
   file;
   fsMapList;
   threadTypeData;
+  fsTags;
   showFolders = false;
   fileNames = [];
   mdId;
@@ -81,6 +82,12 @@ export class FSDirDialogComponent implements OnInit {
       }
     });
     this.threadTypeData = this.domainStore.threadTypeData$;
+    this.domainStore.fsTags$.subscribe(x => {
+      this.fsTags = [];
+      for (let ix = 0; ix < x.length; ix++) {
+        this.fsTags = [...this.fsTags, x[ix]];
+      }
+    });
     this.attachments.forEach(x => {
       this.fileNames.push(x.fileName);
     });

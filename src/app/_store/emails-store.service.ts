@@ -274,8 +274,8 @@ export class EmailsStoreService {
           x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         });
         arrx.push(...<Thread[]>res.d.threads);
+        console.log(arrx);
         this.unreadThreads = arrx;
-        console.log('Threads', this.unreadThreads);
         if (res.d.pageToken == null) {
           this.pageTokenUnread = '';
         } else {

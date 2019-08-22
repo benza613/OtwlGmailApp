@@ -19,6 +19,17 @@
   color: #2b7fdf;
 }
 
+.divider {
+  background-color: #3a3a3a;
+  color: #3a3a3a; 
+  margin: 8px;
+}
+
+.inlines {
+  background-color: gray !important;
+  color:black !important;
+}
+
 .parent {
   width: 100%;
   -webkit-flex-wrap: wrap; /* Safari 6.1+ */
@@ -40,7 +51,7 @@
 }
 
 .attSections {
-  color:rgb(255, 255, 255); 
+  // color:rgb(255, 255, 255); 
   font-weight: 600; 
   margin-left: 10px !important;
 }

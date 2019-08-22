@@ -23,12 +23,14 @@ export class DomainStoreService {
   private readonly _refType = new BehaviorSubject<RefType[]>([]);
   private readonly _refTypeData = new BehaviorSubject<RefTypeData[]>([]);
   private readonly _threadTypeData = new BehaviorSubject<ThreadTypeData[]>([]);
+  private readonly _fsTags = new BehaviorSubject<ThreadTypeData[]>([]);
   private readonly _fsDirData = new BehaviorSubject<FSDirList[]>([]);
   private readonly _filesList = new BehaviorSubject<FilesList[]>([]);
 
   readonly refType$ = this._refType.asObservable();
   readonly refTypeData$ = this._refTypeData.asObservable();
   readonly threadTypeData$ = this._threadTypeData.asObservable();
+  readonly fsTags$ = this._fsTags.asObservable();
   readonly fsDirData$ = this._fsDirData.asObservable();
   readonly filesList$ = this._filesList.asObservable();
 
@@ -54,6 +56,14 @@ export class DomainStoreService {
 
   private set threadTypeData(val: ThreadTypeData[]) {
     this._threadTypeData.next(val);
+  }
+
+  private get fsTags(): ThreadTypeData[] {
+    return this._fsTags.getValue();
+  }
+
+  private set fsTags(val: ThreadTypeData[]) {
+    this._fsTags.next(val);
   }
 
   private get fsDirData(): FSDirList[] {
@@ -112,6 +122,21 @@ export class DomainStoreService {
       const arrx = this.threadTypeData;
       arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
       this.threadTypeData = arrx;
+    } else {
+      this.erorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
+
+  async updateFSTags() {
+    if (this.fsTags.length > 0) {
+      return;
+    }
+    const res = await this.domainService.fetchFSTags().toPromise();
+    if (res.d.errId === '200') {
+      const arrx = this.fsTags;
+      arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
+      this.fsTags = arrx;
+      console.log(this.fsTags);
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
     }

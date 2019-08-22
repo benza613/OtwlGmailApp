@@ -132,6 +132,7 @@ export class EmailMappedComponent implements OnInit {
       this.spinner.hide('mapped');
     });
     this.domainStore.updateThreadTypeData();
+    this.domainStore.updateFSTags();
   }
 
   toggleDateFilter() {

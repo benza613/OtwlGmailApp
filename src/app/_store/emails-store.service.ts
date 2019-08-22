@@ -564,8 +564,8 @@ export class EmailsStoreService {
         this.fsMapList = arrx;
         resolve();
       } else {
-        this.errorService.displayError(res, 'requestFSMapping');
         rej();
+        this.errorService.displayError(res, 'requestFSMapping');
       }
     });
 
@@ -581,8 +581,8 @@ export class EmailsStoreService {
         this.folderList = arrx;
         resolve(res.d.mdId);
       } else {
-        this.errorService.displayError(res, 'requestFSDir');
         rej(false);
+        this.errorService.displayError(res, 'requestFSDir');
       }
     });
 
@@ -607,8 +607,8 @@ export class EmailsStoreService {
       if (res.d.errId === '200') {
         resolve(res.d.orderFiles);
       } else {
-        this.errorService.displayError(res, 'updateAttachmentOrderDetails');
         rej();
+        this.errorService.displayError(res, 'updateAttachmentOrderDetails');
       }
     });
   }

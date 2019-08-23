@@ -240,7 +240,6 @@ export class EmailsStoreService {
   updateUnreadThreadList(flagCount, addrFrom, addrTo, subject) {
 
     return new Promise(async (resolve, reject) => {
-
       if (flagCount === 0 && this.unreadThreads.length > 0) {
         reject();
         return;

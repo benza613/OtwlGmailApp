@@ -89,10 +89,12 @@ export class EmailUnreadComponent implements OnInit {
   }
 
   fetchUnreadThreads(i) {
-    this.emailStore.updateUnreadThreadList(i, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
-      this.spinner.hide();
-      this.doUnreadPagination(i - 1);
-    });
+    const that = this;
+    this.showLoaders = true;
+      this.emailStore.updateUnreadThreadList(i, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+        this.spinner.hide();
+        this.doUnreadPagination(i - 1);
+      });
   }
 
   doUnreadPagination(i) {

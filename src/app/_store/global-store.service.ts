@@ -5,9 +5,9 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   providedIn: 'root'
 })
 export class GlobalStoreService {
-  public unreadFrom: string;
-  public unreadTo: string;
-  public unreadSubject: string;
+  public unreadFrom = '';
+  public unreadTo = '';
+  public unreadSubject = '';
   public sentTo: string;
   public sentFrom: string;
   public sentSubject: string;

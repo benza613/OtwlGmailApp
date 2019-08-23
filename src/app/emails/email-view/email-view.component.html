@@ -133,7 +133,7 @@
         <div class="card-body row" style="padding: 5px 20px;" *ngIf="eml.attachments.length > 0">
           <div class="card p-2" class="attachments" *ngFor="let att of eml.attachments">
             <div class="card-body" style="padding: 10px;"
-              [ngClass]="{inlines: eml.body.toLowerCase().includes(att.fileName) || quotes[i].toLowerCase().includes(att.fileName)}">
+              [ngClass]="{inlines: eml.body.toLowerCase().includes(att.fileName) || quotes[i].toLowerCase().includes(att.fileName) || att.fileName.includes('image.png')}">
               <div class="col">
                 <div class="row pull-right" style="margin:0px 5px 15px 5px;">
                   <input [(ngModel)]="att.isChecked" type="checkbox"
@@ -147,7 +147,7 @@
                       *ngIf="att.fileName.length > 20">...</i></span>
                 </div>
                 <hr class="divider"
-                  [ngClass]="{inlines: eml.body.toLowerCase().includes(att.fileName) || quotes[i].toLowerCase().includes(att.fileName)}" />
+                  [ngClass]="{inlines: eml.body.toLowerCase().includes(att.fileName) || quotes[i].toLowerCase().includes(att.fileName) || att.fileName.includes('image.png')}" />
                 <div class="row" style=" font-size: 12px;">
                   <div class="col-md-7">
                     <span class="attSections">{{att.fileSize}}</span>

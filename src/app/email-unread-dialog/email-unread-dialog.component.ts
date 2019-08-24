@@ -58,13 +58,13 @@ export class EmailUnreadDialogComponent implements OnInit {
   }
 
   addRefType(event) {
-    this.spinner.show('unreadDialog');
     const that = this;
     const idx = this.refTypeData.findIndex(x => x.refNo === event.refNo);
     if (!event || (idx !== -1)) {
       return;
     }
     if (idx === -1) {
+      this.spinner.show('unreadDialog');
       this.domainStore.addFolder(event.refNo).then(function (value) {
         if (value !== '200') {
           alert('Folder addition failed. Please Retry!');

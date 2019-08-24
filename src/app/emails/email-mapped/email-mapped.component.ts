@@ -30,6 +30,7 @@ export class EmailMappedComponent implements OnInit {
   disableDropdowns = false;
   mappedThreadList: MappedThread[] = [];
   params_flag = false;
+  showSearch = true;
 
   _queryParams = { r: null, v: null, locst_id: null };
 
@@ -116,6 +117,8 @@ export class EmailMappedComponent implements OnInit {
 
   getThreads(admin_flag) {
     this.globals.isAdmin = admin_flag;
+    this.showSearch = false;
+    this.detector.detectChanges();
     if (!this.globals.mappedRefId) {
       alert('Please select a Reference Type');
       return;

@@ -32,8 +32,10 @@ export class EmailList2Component implements OnInit, OnDestroy {
   threadTypeVal = [];
   subject = '';
   reference = '';
+  remarks = '';
   editList = [];
   locst_id = null;
+  showFilters = true;
 
   debounceSearch: Subject<string> = new Subject();
 
@@ -86,7 +88,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   }
 
   applyFilter() {
-    this.mappedFilterargs = { a: this.reference, b: this.threadTypeVal, c: this.subject };
+    this.mappedFilterargs = { a: this.reference, b: this.threadTypeVal, c: this.subject, d: this.remarks };
     //this.debounceSearch.next(filterValue);
     //
   }

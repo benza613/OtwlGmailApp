@@ -6,7 +6,7 @@ import { MappedThread } from '../models/mapped-thread';
     pure: false
 })
 export class mapViewFilter implements PipeTransform {
-    transform(items: any[], filter: { a: string, b: string[], c: string }): any {
+    transform(items: any[], filter: { a: string, b: string[], c: string, d:string }): any {
         if (!items || !filter) {
             return items;
         }
@@ -14,6 +14,7 @@ export class mapViewFilter implements PipeTransform {
         let isNullOrEmptyC: boolean = (filter.c == undefined || filter.c == null || filter.c == '');
         let isNullOrEmptyA: boolean = (filter.a == undefined || filter.a == null || filter.a == '');
         let isNullOrEmptyB: boolean = (filter.b == undefined || filter.b == null || filter.b.length == 0);
+        let isNullOrEmptyD: boolean = (filter.d == undefined || filter.d == null || filter.d.length == 0);
         // console.log('isNullOrEmptyC', isNullOrEmptyC);
         // console.log('isNullOrEmptyB', isNullOrEmptyB);
         // console.log('isNullOrEmptyA', isNullOrEmptyA);

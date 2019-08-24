@@ -2,55 +2,60 @@
 </ngx-spinner>
 
 <div class="col">
-  <div class="row" style="margin-bottom: 10px;">
-    <!-- <div class="col-md-1" style="margin-top: 30px; padding: 0px;">
-      <button type="button" *ngIf="mappedThreads" class="btn bg-primary" (click)="editThreadList()"
-        ngbTooltip="EDIT MULTIPLE" style="transform: scale(0.75); color: white; float: left; padding: 3px 0px;">
-        <span class="fa fa-pencil-square-o enlarge pull-left" container="body" style="margin-top: 5px;"></span>
-      </button>
-    </div> -->
-    <div class="col-md-3" style="padding-left: 0px;">
-      <div class="col" style="padding: 0px;">
-        <small class="text-muted">FILTER REFERENCE</small>
+    <div class="row" style="margin-left: 1px; padding: 0px;">
+        <button type="button" *ngIf="mappedThreads" style="padding: 3px 0px !important;" class="btn bg-primary"
+          (click)="editThreadList()" ngbTooltip="EDIT MULTIPLE" style="transform: scale(0.75); color: white; float: left;">
+          <span class="fa fa-pencil-square-o enlarge pull-left" container="body"
+            style="margin-top: 5px;transform: scale(1.25);"></span>
+        </button>
+        <!-- <i class="fa fa-filter" (click)="showFilters = !showFilters"
+        style="cursor: pointer; width: 30px; margin-left: 20px;background-color: #9c118a; color: white; padding: 8px; border-radius: 10px;"></i> -->
       </div>
+  <div class="row" style="margin-bottom: 10px;" *ngIf="showFilters">
+    <div class="col-md-1" style="padding-left: 0px;margin-left: 10px;">
+      <!-- <div class="col-md-1" style="padding: 0px; margin-right: 5px;">
+        <small class="text-muted">FILTER REFERENCE</small>
+      </div> -->
       <div class="col" style="padding: 0px;">
         <textarea class="form-control" [(ngModel)]="reference" id="refernceText" (keyup)="applyFilter()"
           rows="1"></textarea>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="col" style="padding: 0px;">
+    <div class="col-md-2" style="margin-left: 10px;">
+      <!-- <div class="col" style="padding: 0px;">
         <small class="text-muted">FILTER LABEL</small>
-      </div>
+      </div> -->
       <div class="col" style="padding: 0px;">
         <ng-select [items]="threadTypeData" bindLabel="threadTypeVal" [(ngModel)]="threadTypeVal"
           (change)="applyFilter()" bindValue="threadTypeVal">
         </ng-select>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="col" style="padding: 0px;">
+    <div class="col-md-4" style=" margin-left: 10px">
+      <!-- <div class="col" style="padding: 0px;">
         <small class="text-muted">FILTER SUBJECT</small>
-      </div>
+      </div> -->
       <div class="col" style="padding: 0px;">
         <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="subject" (keyup)="applyFilter()"
           rows="1"></textarea>
       </div>
     </div>
-  </div>
-  <div class="row" style="margin-left: 3px; padding: 0px;">
-    <button type="button" *ngIf="mappedThreads" style="padding: 3px 0px !important;" class="btn bg-primary"
-      (click)="editThreadList()" ngbTooltip="EDIT MULTIPLE" style="transform: scale(0.75); color: white; float: left;">
-      <span class="fa fa-pencil-square-o enlarge pull-left" container="body"
-        style="margin-top: 5px;transform: scale(1.25);"></span>
-    </button>
+    <div class="col-md-4">
+        <!-- <div class="col" style="padding: 0px;">
+          <small class="text-muted">FILTER REMARKS</small>
+        </div> -->
+        <div class="col" style="padding: 0px;">
+          <textarea class="form-control" id="exampleFormControlTextarea2" [(ngModel)]="remarks" (keyup)="applyFilter()"
+            rows="1"></textarea>
+        </div>
+      </div>
   </div>
   <div class="col" style="height: 75vh; overflow: auto; padding: 0px;">
     <div class="card thread-card no-gutters rolldown-list"
       *ngFor="let item of mappedThreads | async | mapViewFilter : mappedFilterargs"
       style="margin: 5px; border-radius: 5px; cursor: pointer;">
       <div class="row" style="margin: 0px;">
-        <div class="col-md-2">
+        <div class="col-md-1">
           <div class="row align-items-center">
             <div class="col-sm-10 MailHeaders" style="margin-left: 15px;">
               <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
@@ -71,17 +76,22 @@
           <div class="row align-items-center">
             <div class="col-12 MailSubject">
               <span class="pull-left" [ngbTooltip]="item.ThreadSubject"
-                container="body">{{item.ThreadSubject | slice:0:40}}</span><span
+                container="body">{{item.ThreadSubject | slice:0:50}}</span><span
                 *ngIf="item.ThreadSubject.length > 50">...</span>
             </div>
           </div>
         </div>
-        <div class="col-sm-2" style="text-align: center; align-content: center">
-            <i class="fa fa-commenting enlarge" *ngIf="item.Remarks" [ngbTooltip]="item.Remarks"
-            container="body" style="cursor: pointer;"></i>
-        </div>
-        <div class="col-md-1">
-          <div class="row">
+        <div class="col-md-3" (click)="onClick_GetThreadMessages(item)">
+            <div class="row align-items-center">
+              <div class="col-12 MailSubject">
+                <span class="pull-left" [ngbTooltip]="item.ThreadSubject"
+                  container="body">{{item.Remarks | slice:0:50}}</span><span
+                  *ngIf="item.Remarks.length > 50">...</span>
+              </div>
+            </div>
+          </div>
+        <div class="col-md-1 pull-right">
+          <div class="row pull-right">
             <span class="fa fa-pencil-square-o enlarge pull-right" ngbTooltip="EDIT" placement="top"
               style="cursor: pointer" container="body" (click)="openUnreadDialog(1,item)"></span>
             <span class="fa fa-trash enlarge pull-right" ngbTooltip="DELETE" placement="top" style="cursor: pointer"

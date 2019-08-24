@@ -1,9 +1,9 @@
-<ngx-spinner size="default" type="ball-elastic-dots" name='mapped'
-[fullScreen]="true" size="medium" color="#fff" > Loading...
+<ngx-spinner size="default" type="ball-elastic-dots" name='mapped' [fullScreen]="true" size="medium" color="#fff">
+  Loading...
 </ngx-spinner>
 
-<div class="row" style="height: 93vh;">
-  <div class="col-md-2 align-content-md-stretch">
+<div class="row" style="height: 91vh;">
+  <div *ngIf="showSearch" class="col-md-2 align-content-md-stretch" style="border-right: 2px solid #C0C0C0">
     <h5>SEARCH</h5>
     <div class="row">
       <div class="col">
@@ -29,55 +29,28 @@
         </ng-select>
       </div>
     </div>
-    <!-- <div class="row">
-      <div class="col">
-        <small class="text-muted">FROM DATE</small>
-      </div>
-    </div>
-    <div class="row filters">
-      <div class="col">
-        <div class="input-group">
-          <input class="form-control" [(ngModel)]="globals.mappedFromDate" [disabled]="disableDate" ngbDatepicker
-            #f="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="f.toggle()"
-              type="button">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> 
-    <div class="row">
-      <div class="col">
-        <small class="text-muted">TO DATE</small>
-      </div>
-    </div>
-    <div class="row filters">
-      <div class="col">
-        <div class="input-group">
-          <input class="form-control" [(ngModel)]="globals.mappedToDate" [disabled]="disableDate" ngbDatepicker
-            #t="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" [disabled]="disableDate" (click)="t.toggle()"
-              type="button">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="row filters">
       <div class="col" style="margin-bottom: 5px;">
         <button type="submit" class="btn bg-primary btn-block" (click)="getThreads(0)" style="color:white">GET
           THREADS</button>
       </div>
       <div class="col">
-          <button type="button" class="btn bg-primary btn-block" (click)="getThreads(1)" style="color:white">ADMIN ACCESS</button>
-        </div>
+        <button type="button" class="btn bg-primary btn-block" (click)="getThreads(1)" style="color:white">ADMIN
+          ACCESS</button>
+      </div>
     </div>
   </div>
-  <div class="col-md-10" style="height: 85vh; padding: 5px; border-left: 2px solid #C0C0C0">
+  <div class="col" style="height: 85vh; padding:0px 5px;">
+    <div class="row" style="align-content: space-between">
+      <div class="col">
+        <i class="fa fa-search" (click)="showSearch = !showSearch" style="cursor: pointer; margin-left: 20px;background-color: #9c118a; color: white; padding: 8px; border-radius: 20px;"
+          ngbTooltip="Search"></i>
+      </div>
+      <div class="col">
+        <h6 style="float: right;background-color: #006699; color: white; padding: 8px; border-radius: 20px; width: 110px !important;">
+          <i class="fa fa-paper-plane"></i>&nbsp;MAPPED</h6>
+      </div>
+    </div>
     <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
   </div>
 </div>

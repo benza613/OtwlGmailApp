@@ -50,7 +50,7 @@
       *ngFor="let item of mappedThreads | async | mapViewFilter : mappedFilterargs"
       style="margin: 5px; border-radius: 5px; cursor: pointer;">
       <div class="row" style="margin: 0px;">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="row align-items-center">
             <div class="col-sm-10 MailHeaders" style="margin-left: 15px;">
               <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
@@ -67,7 +67,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5" (click)="onClick_GetThreadMessages(item)">
+        <div class="col-md-4" (click)="onClick_GetThreadMessages(item)">
           <div class="row align-items-center">
             <div class="col-12 MailSubject">
               <span class="pull-left" [ngbTooltip]="item.ThreadSubject"
@@ -75,6 +75,10 @@
                 *ngIf="item.ThreadSubject.length > 50">...</span>
             </div>
           </div>
+        </div>
+        <div class="col-sm-2" style="text-align: center; align-content: center">
+            <i class="fa fa-commenting enlarge" *ngIf="item.Remarks" [ngbTooltip]="item.Remarks"
+            container="body" style="cursor: pointer;"></i>
         </div>
         <div class="col-md-1">
           <div class="row">

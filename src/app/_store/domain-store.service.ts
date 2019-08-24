@@ -107,9 +107,17 @@ export class DomainStoreService {
         this.refTypeData = <RefTypeData[]>result.d.refData;
         res(result.d.errId);
       } else {
-        this.erorService.displayError(result, 'fetchRefTypeData');
+        //this.erorService.displayError(result, 'fetchRefTypeData');
+        //alert('No jobs/folders under this category!');
         rej();
       }
+    });
+  }
+
+  addFolder(refNo) {
+    return new Promise(async(resolve) => {
+      const res = await this.domainService.addUserFolder(refNo).toPromise();
+      resolve(res.d.errId);
     });
   }
 

@@ -5,6 +5,7 @@ export interface MappedThread {
     ThreadReferenceText: string;
     ThreadSubject: string;
     ThreadUId: string;
+    Remarks: string;
     Messages: Message[];
 }
 

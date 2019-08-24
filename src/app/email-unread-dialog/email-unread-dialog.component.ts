@@ -20,7 +20,7 @@ import { EmailsStoreService } from '../_store/emails-store.service';
 export class EmailUnreadDialogComponent implements OnInit {
   @Input() mailList: any;
   @Input() storeSelector: any;
-  refType: Observable<RefType[]>;
+  refType = [];
   refTypeData: RefTypeData[] = [];
   threadTypeData: Observable<ThreadTypeData[]>;
   refId = 1;
@@ -37,7 +37,9 @@ export class EmailUnreadDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.refType = this.domainStore.refType$;
+    this.domainStore.refType$.subscribe(x => {
+      this.refType = x;
+    });
     this.threadTypeData = this.domainStore.threadTypeData$;
     let tags = [];
     this.threadTypeData.subscribe(x => {
@@ -51,6 +53,24 @@ export class EmailUnreadDialogComponent implements OnInit {
           list2.push(tags.find(f => f['threadTypeVal'] === tag).threadTypeId);
         });
         x.ThreadTypeIds = list2;
+      });
+    }
+  }
+
+  addRefType(event) {
+    this.spinner.show('unreadDialog');
+    const that = this;
+    const idx = this.refTypeData.findIndex(x => x.refNo === event.refNo);
+    if (!event || (idx !== -1)) {
+      return;
+    }
+    if (idx === -1) {
+      this.domainStore.addFolder(event.refNo).then(function (value) {
+        if (value !== '200') {
+          alert('Folder addition failed. Please Retry!');
+          that.refType.splice(idx, 1);
+        }
+        that.spinner.hide('unreadDialog');
       });
     }
   }

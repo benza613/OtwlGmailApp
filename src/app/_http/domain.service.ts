@@ -39,6 +39,11 @@ export class DomainService {
       .pipe(map(r => r));
   }
 
+  addUserFolder(refNo): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/addUserFolder`, { refNo }, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   fetchFSDirList(): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getFSDirectoryList`, {}, this.httpOptions)
       .pipe(map(r => r));

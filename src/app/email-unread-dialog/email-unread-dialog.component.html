@@ -1,4 +1,4 @@
-<ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
+<ngx-spinner size="default" name="unreadDialog" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
 
 <div class="modal-header">
@@ -8,13 +8,13 @@
 <div class="modal-body">
   <div class="row" *ngIf="storeSelector === 'unread'" style="padding-bottom: 10px">
     <div class="col">
-      <ng-select [items]="refType | async" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
+      <ng-select [items]="refType" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
         [(ngModel)]="refId" (change)="onChange_GetRefTypeData()" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
     <div class="col">
       <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
-        bindValue="refId" [clearSearchOnAdd]="true">
+      (change)="addRefType($event)" [addTag]="true" bindValue="refId" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>
@@ -28,6 +28,9 @@
           <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true"
             [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
           </ng-select>
+        </div>
+        <div class="col-4">
+          <textarea class="form-control" placeholder="Remarks" [(ngModel)]="mail.Remarks" rows="1"></textarea>
         </div>
       </div>
     </div>

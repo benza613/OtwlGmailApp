@@ -483,6 +483,9 @@ export class EmailViewComponent implements OnInit {
     // });
     // this.detector.detectChanges();
     this.emailListOriginal = this.list;
+    this.emailListOriginal[0].isOpen = !this.emailListOriginal[0].isOpen;
+    this.emailListOriginal[0].showAttachments = !this.emailListOriginal[0].showAttachments;
+    this.emailListOriginal[0].showFooter = !this.emailListOriginal[0].showFooter;
     for (let i = 0; i < this.emailListOriginal.length; i++) {
       // tslint:disable-next-line: max-line-length
       if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')) {

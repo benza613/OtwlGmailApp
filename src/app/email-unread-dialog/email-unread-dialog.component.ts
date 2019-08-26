@@ -1,7 +1,7 @@
 import { SearchParams } from './../models/search-params.model';
 import { GlobalStoreService } from './../_store/global-store.service';
 import { DomainStoreService } from './../_store/domain-store.service';
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { RefType } from '../models/ref-type';
 import { Observable } from 'rxjs';
 import { RefTypeData } from '../models/ref-type-data';
@@ -33,7 +33,8 @@ export class EmailUnreadDialogComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
     private emailServ: EmailsStoreService,
-    public globals: GlobalStoreService
+    public globals: GlobalStoreService,
+    private detector: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -71,6 +72,8 @@ export class EmailUnreadDialogComponent implements OnInit {
           that.refType.splice(idx, 1);
         }
         that.spinner.hide('unreadDialog');
+        that.detector.detectChanges();
+        that.onChange_GetRefTypeData();
       });
     }
   }
@@ -90,7 +93,6 @@ export class EmailUnreadDialogComponent implements OnInit {
   onSubmit() {
     const that = this;
     if (this.storeSelector === 'unread') {
-      const idx = this.refTypeData.findIndex(x => x['refId'] === String(this.refValId));
       if (this.refId === 0) {
         alert('Please select a Reference Type ');
         return;
@@ -99,10 +101,12 @@ export class EmailUnreadDialogComponent implements OnInit {
         return;
       }
       this.spinner.show();
+      const idx = this.refTypeData.findIndex(x => x['refId'] === String(this.refValId));
+      console.log(idx);
       const mapTypes = {
         refId: this.refId,
         refValId: this.refValId,
-        refNo: this.refTypeData[idx]['refNo'],
+        refNo: idx === -1 || idx === null ? this.refTypeData[this.refTypeData.length - 1]['refNo'] : this.refTypeData[idx]['refNo'],
         selectedThreads: [],
         selectedThreadsFullData: []
       };

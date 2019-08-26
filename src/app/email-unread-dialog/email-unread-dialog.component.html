@@ -21,16 +21,16 @@
   <div *ngIf="storeSelector === 'unread'">
     <div *ngFor="let mail of mailList let i='index'" class="col">
       <div style="margin: 10px 0px" class="row">
-        <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
+        <div class="col-md-5" style="align-content: center; padding-left: 0px; justify-content: center;">
           {{mail.Subject}}
         </div>
-        <div class="col-4" style="padding-right: 0px;">
+        <div class="col-md-3" style="padding-right: 0px; margin-right: 5px;">
           <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true"
             [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
           </ng-select>
         </div>
-        <div class="col-8" style="padding-left: 0px;">
-          <input class="form-control" placeholder="Add Remarks" [(ngModel)]="mail.Remarks"/>
+        <div class="col" style="padding-left: 0px;">
+          <textarea class="form-control" placeholder="Add Remarks" [(ngModel)]="mail.Remarks" rows="1"></textarea>
         </div>
       </div>
       <hr />

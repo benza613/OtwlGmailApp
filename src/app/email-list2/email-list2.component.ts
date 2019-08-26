@@ -24,7 +24,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   t_currentPage = 1;
   t_itemsPerPage = 10;
 
-  mappedFilterargs = { a: '', b: [], c: '' };
+  mappedFilterargs = { a: '', b: [], c: '', d: '' };
   mappedThreads;
 
   threadTypeData;
@@ -79,11 +79,11 @@ export class EmailList2Component implements OnInit, OnDestroy {
     modalRef.componentInstance.response.subscribe((threadGId) => {
       this.spinner.show('list2');
       const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
-        const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
-        // tslint:disable-next-line: max-line-length
-        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
+      const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
+      // tslint:disable-next-line: max-line-length
+      this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
         this.spinner.hide('list2');
-        });
+      });
     });
   }
 

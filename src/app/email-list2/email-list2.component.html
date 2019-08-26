@@ -84,7 +84,7 @@
         <div class="col-md-3" (click)="onClick_GetThreadMessages(item)">
             <div class="row align-items-center">
               <div class="col-12 MailSubject">
-                <span class="pull-left" [ngbTooltip]="item.ThreadSubject"
+                <span class="pull-left"
                   container="body">{{item.Remarks | slice:0:50}}</span><span
                   *ngIf="item.Remarks.length > 50">...</span>
               </div>

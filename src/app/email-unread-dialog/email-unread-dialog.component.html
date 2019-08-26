@@ -14,7 +14,7 @@
     </div>
     <div class="col">
       <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
-      (change)="addRefType($event)" [addTag]="true" bindValue="refId" [clearSearchOnAdd]="true">
+        (change)="addRefType($event)" [addTag]="true" bindValue="refId" [clearSearchOnAdd]="true">
       </ng-select>
     </div>
   </div>
@@ -26,7 +26,8 @@
         </div>
         <div class="col-md-3" style="padding-right: 0px; margin-right: 5px;">
           <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true"
-            [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
+            [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type"
+            [clearSearchOnAdd]="true">
           </ng-select>
         </div>
         <div class="col" style="padding-left: 0px;">
@@ -37,17 +38,20 @@
     </div>
   </div>
   <div *ngIf="storeSelector === 'mapped'">
-    <div class="col card" *ngFor="let mail of mailList let i='index'" style="margin-bottom: 5px; box-shadow: rgb(228, 228, 228)">
+    <div class="col card" *ngFor="let mail of mailList let i='index'"
+      style="margin-bottom: 5px; box-shadow: rgb(228, 228, 228)">
       <div class="row card-body" style="padding-bottom: 5px">
         <div class="col">
-          <div class="col-8" style="align-content: center; padding-left: 0px; justify-content: center;">
+          <div class="col-12" style="align-content: center; padding-left: 0px; justify-content: center;">
             {{mail.ThreadSubject}}
           </div>
           <div class="row">
-            <span style="font-size: 12px;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
-                Previous Mapping:
+            <span
+              style="font-size: 12px;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
+              Previous Mapping:
             </span>
-            <span style="font-size: 12px; font-weight: 600;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
+            <span
+              style="font-size: 12px; font-weight: 600;align-content: center; margin-left: 14px; justify-content: center;color: rgb(10, 105, 10)">
               {{mail.ThreadReferenceText}}
             </span>
           </div>
@@ -58,8 +62,12 @@
           </div>
         </div>
         <div class="col-4" style="padding-right: 0px; margin-right: 10px;">
-          <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true" [closeOnSelect]="false"
-            bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type" [clearSearchOnAdd]="true">
+          <div class="col" style="padding: 0px; margin-bottom: 10px;">
+            <textarea class="form-control" placeholder="Edit Remarks" [(ngModel)]="mail.Remarks" rows="1"></textarea>
+          </div>
+          <ng-select [(ngModel)]="mail.ThreadTypeIds" [items]="threadTypeData | async" [multiple]="true"
+            [closeOnSelect]="false" bindLabel="threadTypeVal" bindValue="threadTypeId" placeholder="Mail Type"
+            [clearSearchOnAdd]="true">
           </ng-select>
         </div>
       </div>

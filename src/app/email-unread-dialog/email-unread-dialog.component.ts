@@ -38,6 +38,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.mailList);
     this.domainStore.refType$.subscribe(x => {
       this.refType = x;
     });
@@ -135,6 +136,7 @@ export class EmailUnreadDialogComponent implements OnInit {
       for (let i = 0; i < this.mailList.length; i++) {
         mapTypes.selectedThreads.push({
           ThreadID: this.mailList[i].ThreadUId,
+          Remarks: this.mailList[i].Remarks,
           ThreadTypeIds: this.mailList[i].ThreadTypeIds === undefined ? [] : this.mailList[i].ThreadTypeIds
         });
       }

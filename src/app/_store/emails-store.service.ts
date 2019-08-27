@@ -430,11 +430,11 @@ export class EmailsStoreService {
     });
   }
 
-  async update_UnreadThreadEmails(ThreadId, storeSelector, Subject) {
+  async update_UnreadThreadEmails(flag, ThreadId, storeSelector, Subject) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+      const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
       if (res.d.errId === '200') {
-        const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
         this.unreadThreads[index].Messages = [];
         for (let ix = 0; ix < res.d.msgList.length; ix++) {
           res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
@@ -450,17 +450,20 @@ export class EmailsStoreService {
           this.unreadThreads[index].Messages.push(res.d.msgList[ix]);
         }
         this.unreadThreads = [...this.unreadThreads];
-        this.router.navigate(['view/' + ThreadId], {
+        if (flag === 1) {
+          this.router.navigate(['view/' + ThreadId], {
           queryParams: {
             q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped'
             , subject: Subject
             , isMapped: res.d.isMapped
           }
         });
+        }
       } else {
         this.errorService.displayError(res, 'fetchThreadEmails');
       }
-      resolve(res.d.isMapped);
+      console.log('Store',this.unreadThreads[index].Messages[0]);
+      resolve([res.d.isMapped,  this.unreadThreads[index].Messages[0]]);
     });
   }
 

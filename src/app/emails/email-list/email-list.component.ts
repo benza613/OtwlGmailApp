@@ -1,3 +1,5 @@
+import { Message } from './../../models/message.model';
+import { Router } from '@angular/router';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef, OnChanges } from '@angular/core';
@@ -25,6 +27,9 @@ export class EmailListComponent implements OnInit {
   filterSubject;
   filterDate: NgbDateStruct = null;
   unreadFilterArgs = { a: '', b: '', c: '' };
+  showPreview = false;
+  currentThread = null;
+  msg;
   // optimization, rerenders only threads that change instead of the entire list of threads
   threadTrackFn = (i, thread) => thread.ThreadId;
 
@@ -33,7 +38,8 @@ export class EmailListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
-    private domainStore: DomainStoreService
+    private domainStore: DomainStoreService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -49,11 +55,35 @@ export class EmailListComponent implements OnInit {
 
   onClick_GetThreadMessages(threadData) {
     const that = this;
-    that.spinner.show('list1');
+    this.spinner.show('list1');
     this.authServ.login();
-    this.emailStore.update_UnreadThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+    if (this.currentThread !== threadData.ThreadId) {
+      //then fetch messages and display preview of first message
+      this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+        threadData.isUnread = false;
+        threadData.isMapped = value[0] === '0' ? false : true;
+        that.emailStore.getUnreadMsgList$(threadData.ThreadId)
+          .pipe(
+            map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+          ).subscribe(x => {
+            that.msg = x[0];
+          });
+        that.showPreview = true;
+        that.currentThread = threadData.ThreadId;
+        that.spinner.hide('list1');
+      });
+    } else {
+      this.onClick_LoadAllMessages(threadData);
+    }
+  }
+
+  onClick_LoadAllMessages(threadData) {
+    this.spinner.show('list1');
+    this.authServ.login();
+    const that = this;
+    this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
       threadData.isUnread = false;
-      threadData.isMapped = value === '0' ? false : true;
+      threadData.isMapped = value[0] === '0' ? false : true;
       that.spinner.hide('list1');
     });
   }

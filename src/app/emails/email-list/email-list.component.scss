@@ -1,6 +1,6 @@
 .no-gutters {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   cursor: pointer;
 }
 
@@ -8,7 +8,7 @@
 .UnreadContent span {
   // color: #99001a;
   font-style: normal;
-  font-size: 14px;
+  // font-size: 14px;
 
   font-family: 'Trebuchet MS',
     'Lucida Sans Unicode',
@@ -67,7 +67,7 @@
   animation: rolldown .7s 1;
   transform-origin: 50% 0;
   animation-fill-mode: forwards;
-  margin: 5px;
+  margin: 3px;
   // border-radius: 30px;
 
   &:hover {
@@ -110,4 +110,26 @@
   font-weight: 600;
 }
 
+.tags {
+  color:rgb(133, 130, 130) !important; 
+  font-weight: 600;
+}
 
+.inlines {
+  background-color: gray !important;
+  color:black !important;
+}
+
+.attachments {
+  height: 100px !important;
+  width: 32% !important;
+  margin: 5px !important; 
+  background-color: #3a3a3a;
+  color:white;
+}
+
+.attSections {
+  // color:rgb(255, 255, 255); 
+  font-weight: 600; 
+  margin-left: 10px !important;
+}

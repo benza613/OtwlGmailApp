@@ -62,6 +62,7 @@ export class EmailUnreadDialogComponent implements OnInit {
   addRefType(event) {
     const that = this;
     const idx = this.refTypeData.findIndex(x => x.refNo === event.refNo);
+    console.log(event);
     if (!event || (idx !== -1)) {
       return;
     }
@@ -106,7 +107,7 @@ export class EmailUnreadDialogComponent implements OnInit {
       console.log(idx);
       const mapTypes = {
         refId: this.refId,
-        refValId: this.refValId,
+        refValId: idx === -1 || idx === null ? this.refTypeData[this.refTypeData.length - 1]['refId'] : this.refTypeData[idx]['refId'],
         refNo: idx === -1 || idx === null ? this.refTypeData[this.refTypeData.length - 1]['refNo'] : this.refTypeData[idx]['refNo'],
         selectedThreads: [],
         selectedThreadsFullData: []

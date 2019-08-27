@@ -30,6 +30,14 @@
   color:black !important;
 }
 
+.attachments {
+  height: 100px !important;
+  width: 32% !important;
+  margin: 5px !important; 
+  background-color: #3a3a3a;
+  color:white;
+}
+
 .parent {
   width: 100%;
   -webkit-flex-wrap: wrap; /* Safari 6.1+ */
@@ -40,14 +48,6 @@
 .tags {
   color:rgb(133, 130, 130) !important; 
   font-weight: 600;
-}
-
-.attachments {
-  height: 100px !important;
-  width: 32% !important;
-  margin: 5px !important; 
-  background-color: #3a3a3a;
-  color:white;
 }
 
 .attSections {

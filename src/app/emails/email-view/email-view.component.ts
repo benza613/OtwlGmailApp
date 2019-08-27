@@ -146,7 +146,7 @@ export class EmailViewComponent implements OnInit {
   }
 
 
-  draftReply(msg: Message, body, details) {
+  draftReply(msg: Message, body) {
     let r_obj;
     if (this.locst_id !== null) {
       r_obj = {
@@ -165,14 +165,13 @@ export class EmailViewComponent implements OnInit {
       };
     }
     const email_body = body === undefined ? '' : body;
-    const email_det = details === undefined ? '' : details;
-    this.globals.email_body = email_body + email_det;
+    this.globals.email_body = email_body;
     this.router.navigate(['draft/'], {
       queryParams: r_obj
     });
   }
 
-  draftReplyToAll(msg: Message, body, details) {
+  draftReplyToAll(msg: Message, body) {
     let ra_obj;
     if (this.locst_id !== null) {
       ra_obj = {
@@ -190,14 +189,15 @@ export class EmailViewComponent implements OnInit {
         tid: this.reqThreadId
       };
     }
-    this.globals.email_body = body + details;
+    const email_body = body === undefined ? '' : body;
+    this.globals.email_body = email_body;
     this.router.navigate(['draft/'], {
       queryParams: ra_obj
     });
   }
 
 
-  draftForward(msg: Message, body, details) {
+  draftForward(msg: Message, body) {
     let ra_obj;
     if (this.locst_id !== null) {
       ra_obj = {
@@ -215,7 +215,8 @@ export class EmailViewComponent implements OnInit {
         tid: this.reqThreadId
       };
     }
-    this.globals.email_body = body + details;
+    const email_body = body === undefined ? '' : body;
+    this.globals.email_body = email_body;
     this.router.navigate(['draft/'], {
       queryParams: ra_obj
     });

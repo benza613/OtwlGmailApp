@@ -13,7 +13,10 @@
       </ng-select>
     </div>
     <div class="col">
-      <ng-select [items]="refTypeData" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
+      <ng-select [items]="refTypeData" *ngIf="refId !== '4'" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
+        bindValue="refId" [clearSearchOnAdd]="true">
+      </ng-select>
+      <ng-select [items]="refTypeData" *ngIf="refId === '4'" [(ngModel)]="refValId" bindLabel="refNo" placeholder="Reference ID"
         (change)="addRefType($event)" [addTag]="true" bindValue="refId" [clearSearchOnAdd]="true">
       </ng-select>
     </div>

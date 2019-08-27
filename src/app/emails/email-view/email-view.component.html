@@ -60,15 +60,15 @@
             <i class="fa fa-print"></i>
           </button>
           <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right"
-            style="transform: scale(0.75);" (click)="draftReplyToAll(eml, eml.body, signature[i])">
+            style="transform: scale(0.75);" (click)="draftReplyToAll(eml, eml.body)">
             <i class="fa fa-reply-all"></i>
           </button>
           <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right"
-            style="transform: scale(0.75);" (click)="draftReply(eml, eml.body, signature[i])">
+            style="transform: scale(0.75);" (click)="draftReply(eml, eml.body)">
             <i class="fa fa-reply"></i>
           </button>
           <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right"
-            style="transform: scale(0.75);" (click)="draftForward(eml, eml.body, signature[i])">
+            style="transform: scale(0.75);" (click)="draftForward(eml, eml.body)">
             <i class="fa fa-arrow-right"></i>
           </button>
           <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"

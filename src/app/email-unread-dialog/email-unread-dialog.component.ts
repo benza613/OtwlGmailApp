@@ -94,7 +94,7 @@ export class EmailUnreadDialogComponent implements OnInit {
 
   onSubmit() {
     const that = this;
-    if (this.storeSelector === 'unread') {
+    if (this.storeSelector !== 'mapped') {
       if (this.refId === 0) {
         alert('Please select a Reference Type ');
         return;

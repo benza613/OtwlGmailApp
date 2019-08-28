@@ -34,7 +34,7 @@
     <div class="row align-content-md-stretch">
       <div class="col">
         <button type="button" class="btn bg-success" (click)="showFilters = !showFilters"
-          style="color: white; margin-bottom: 15px; transform: scale(0.75)" ngbTooltip="Filtered mails from server" 
+          style="color: white; margin-bottom: 15px; transform: scale(0.75)" ngbTooltip="Filtered mails from server"
           placement="right">
           <i class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
         <button type="button" ngbTooltip="Get next 50" placement="bottom" class="btn btn-sm btn-outline-primary"
@@ -60,8 +60,11 @@
           [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
       </div>
       <div class="col">
-        <h6 style="margin-top: 10px;float:right; background-color: #006699; color: white; padding: 8px; border-radius: 20px;">
-          <i class="fa fa-paper-plane"></i>&nbsp;SENT</h6>
+          <h6 class="section"
+          style="margin-top: 5px;float:right; background-color: #006699; color: white; padding: 8px; border-radius: 20px;">
+          <i class="fa fa-paper-plane"></i>&nbsp;Sent</h6>
+        <button type="button" class="btn btn-warning" (click)="getMails()" style="margin-top: 5px;transform: scale(0.80);float:right;"
+          ngbTooltip="Map checked threads" placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
       </div>
     </div>
     <div class="col text-center" *ngIf="showLoaders">
@@ -104,11 +107,16 @@
     <div style="height: 75vh; overflow: auto; opacity: 1.0;" [ngClass]="{'adjustHeight': showFilters}">
       <div class="card rolldown-list"
         *ngFor="let item of (sentThreads | async | unreadViewFilter: sentFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index"
-        (click)="onClick_GetThreadMessages(item)"
         [ngClass]="{'threadCssOcean': item.Msg_To.toLowerCase().includes('oceantransworld.com'), 'threadCss': !(item.Msg_To.toLowerCase().includes('oceantransworld.com'))}">
         <div class="card-body no-gutters">
           <div class="row" style="margin-left: 5px;">
-            <div class="col-md-3 UnreadContent">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
+                style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+              <i class="fa fa-star" *ngIf="item.isTo" style="margin-right: 5px; color: rgb(207, 26, 26)"></i>
+              <i class="fa fa-star-o" *ngIf="!item.isTo" style="margin-right: 5px;"></i>
+            </div>
+            <div class="col-md-3 UnreadContent" (click)="onClick_GetThreadMessages(item)">
               <div class="row align-items-center">
                 <div class="col" [ngClass]="{unread: item.isUnread}"><span class="row"
                     *ngIf="item.Msg_To.split('<')[0] !== ''">{{item.Msg_To.split('<')[0]}}</span>

@@ -78,6 +78,10 @@ export class EmailsStoreService {
     map(tx => this.unreadThreads.filter(t => t.isChecked === true))
   );
 
+  readonly getSentCheckedMsgList$ = this.sentThreads$.pipe(
+    map(tx => this.sentThreads.filter(t => t.isChecked === true))
+  );
+
   readonly getFolderList$ = this.folderList$.pipe(
     map(r => r)
   );
@@ -100,6 +104,10 @@ export class EmailsStoreService {
 
   readonly getMappedThreadData$ = (ThreadId) => this.mappedThreads$.pipe(
     map(tx => this.mappedThreads.find(t => t.ThreadGID === ThreadId))
+  )
+
+  readonly getSentThreadData$ = (ThreadId) => this.sentThreads$.pipe(
+    map(tx => this.sentThreads.find(t => t.ThreadId === ThreadId))
   )
 
   /*

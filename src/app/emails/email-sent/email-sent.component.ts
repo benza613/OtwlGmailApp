@@ -3,9 +3,11 @@ import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@ang
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/auth/auth.service';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
+import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
+import { DomainStoreService } from 'src/app/_store/domain-store.service';
 
 @Component({
   selector: 'app-email-sent',
@@ -26,6 +28,7 @@ export class EmailSentComponent implements OnInit {
   sentFilterArgs = { a: '', b: '', c: '' };
   showLoaders = false;
   showFilters = false;
+  threadTypeData;
   // optimization, rerenders only threads that change instead of the entire list of threads
   threadTrackFn = (i, thread) => thread.ThreadId;
   constructor(
@@ -33,13 +36,17 @@ export class EmailSentComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
-    public globals: GlobalStoreService
+    public globals: GlobalStoreService,
+    public modalService: NgbModal,
+    private domainStore: DomainStoreService
   ) { }
 
   ngOnInit() {
     this.showLoaders = true;
     this.showLoaders = true;
     const that = this;
+    this.domainStore.updateRefType();
+    this.domainStore.updateThreadTypeData();
     this.emailStore.updateSentThreadList(0, this.globals.sentTo, this.globals.sentSubject).then(result => {
       that.showLoaders = false;
       console.log('promise succ for updateUnreadThreadList');
@@ -79,6 +86,40 @@ export class EmailSentComponent implements OnInit {
   onClick_GetThreadMessages(threadData) {
     this.authServ.login();
     this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject);
+  }
+
+  checkList(item) {
+    item.isChecked = !item.isChecked;
+  }
+
+  getMails() {
+    // this.spinner.show('load');
+    this.emailStore.getSentCheckedMsgList$.subscribe(x => {
+      this.sentThreads = x;
+    });
+    if (this.sentThreads.length > 0) {
+      this.spinner.hide('load');
+      const modalRef = this.modalService.open(
+        EmailUnreadDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.componentInstance.mailList = this.sentThreads;
+      modalRef.componentInstance.storeSelector = 'sent'; // should be the id
+      modalRef.result.then((result) => {
+        if (result.action === '1') {
+          modalRef.close();
+          this.emailStore.unreadThreads$.subscribe(x => {
+            x.filter(y => y.isChecked === true).forEach(thread => {
+              thread.isMapped = true;
+              thread.isChecked = false;
+            });
+          });
+        }
+      });
+    } else {
+      alert('Please select atleast one row.');
+      // this.spinner.hide('load');
+    }
   }
 
   applyFilter() {

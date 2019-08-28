@@ -1,10 +1,8 @@
 import { GlobalStoreService } from './../../_store/global-store.service';
-import { ConfirmDialogComponent } from './../../confirm/confirm-dialog/confirm-dialog.component';
-import { SafeUrlPipe } from './../../_pipe/safe-url.pipe';
 import { EmailUnreadDialogComponent } from 'src/app/email-unread-dialog/email-unread-dialog.component';
 import { MessageUiAttach } from './../../models/message-ui-attach.model';
 import { FSDirDialogComponent } from 'src/app/email_fs_dir/fs-dir-dialog/fs-dir-dialog.component';
-import { Component, OnInit, Output, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { Message } from '../../models/message.model';
@@ -46,7 +44,6 @@ export class EmailViewComponent implements OnInit {
   showInfo = false;
   body;
   quotes;
-  // signature;
   locst_id = null;
   entityId;
   folderId;
@@ -75,7 +72,6 @@ export class EmailViewComponent implements OnInit {
 
     this.route.queryParams
       .subscribe(params => {
-        // console.log(params);
         this.storeSelector = params.q;
         this.refId = params.j;
         this.subject = params.subject;
@@ -89,7 +85,6 @@ export class EmailViewComponent implements OnInit {
     this.spinner.show();
     this.body = [];
     this.quotes = [];
-    // this.signature = [];
     if (this.storeSelector === 'unread') {
       this.emailStore.getUnreadThreadData$(this.reqThreadId).subscribe(x => {
         this.thread = x;
@@ -103,7 +98,6 @@ export class EmailViewComponent implements OnInit {
           this.list = x;
           for (let i = 0; i < x.length; i++) {
             this.quotes[i] = '';
-            // this.signature[i] = '';
           }
         });
       this.hideBlockQuotes();
@@ -121,13 +115,15 @@ export class EmailViewComponent implements OnInit {
           this.emailListOriginal = x;
           this.list = x;
           for (let i = 0; i < x.length; i++) {
-            // this.quotes[i] = '';
-            // this.signature[i] = '';
+            this.quotes[i] = '';
           }
         });
       this.hideBlockQuotes();
       this.spinner.hide();
     } else if (this.storeSelector === 'sent') {
+      this.emailStore.getSentThreadData$(this.reqThreadId).subscribe(x => {
+        this.thread = x;
+      });
       this.emailStore.getSentMsgList$(this.reqThreadId)
         .pipe(
           map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
@@ -136,8 +132,7 @@ export class EmailViewComponent implements OnInit {
           this.emailListOriginal = this.emailList;
           this.list = x;
           for (let i = 0; i < x.length; i++) {
-            // this.quotes[i] = '';
-            // this.signature[i] = '';
+            this.quotes[i] = '';
           }
         });
       this.hideBlockQuotes();
@@ -417,6 +412,7 @@ export class EmailViewComponent implements OnInit {
       EmailUnreadDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
+    console.log('SENT',this.thread);
     modalRef.componentInstance.mailList = [this.thread];
     modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
     modalRef.result.then((result) => {

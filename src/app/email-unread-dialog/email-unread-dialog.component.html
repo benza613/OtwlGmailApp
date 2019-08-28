@@ -6,7 +6,7 @@
   <i class="fa fa-times fa-lg" (click)="activeModal.dismiss()" style="cursor: pointer;"></i>
 </div>
 <div class="modal-body">
-  <div class="row" *ngIf="storeSelector === 'unread'" style="padding-bottom: 10px">
+  <div class="row" *ngIf="storeSelector !== 'mapped'" style="padding-bottom: 10px">
     <div class="col">
       <ng-select [items]="refType" bindLabel="typeVal" placeholder="Reference Type" bindValue="typeId"
         [(ngModel)]="refId" (change)="onChange_GetRefTypeData()" [clearSearchOnAdd]="true">
@@ -21,7 +21,7 @@
       </ng-select>
     </div>
   </div>
-  <div *ngIf="storeSelector === 'unread'">
+  <div *ngIf="storeSelector !== 'mapped'">
     <div *ngFor="let mail of mailList let i='index'" class="col">
       <div style="margin: 10px 0px" class="row">
         <div class="col-md-5" style="align-content: center; padding-left: 0px; justify-content: center;">

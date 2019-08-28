@@ -9,6 +9,7 @@ import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModalConfig, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmailsStoreService } from '../_store/emails-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-email-unread-dialog',
@@ -34,7 +35,7 @@ export class EmailUnreadDialogComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private emailServ: EmailsStoreService,
     public globals: GlobalStoreService,
-    private detector: ChangeDetectorRef
+    private detector: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {

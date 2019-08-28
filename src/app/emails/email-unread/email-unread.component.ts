@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { GlobalStoreService } from './../../_store/global-store.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +25,8 @@ export class EmailUnreadComponent implements OnInit {
     private domainStore: DomainStoreService,
     private spinner: NgxSpinnerService,
     private detector: ChangeDetectorRef,
-    public globals: GlobalStoreService
+    public globals: GlobalStoreService,
+    private router: Router,
   ) { }
 
   ngOnInit() {

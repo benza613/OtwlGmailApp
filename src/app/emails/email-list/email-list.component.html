@@ -68,8 +68,8 @@
         <div class="col-sm-1 UnreadContent" [ngClass]="{unread: item.isUnread}">
           <span ngbTooltip="Messages" container="body" style="font-weight: bold"
             (click)="onClick_GetThreadMessages(item)"><i
-              class="fa fa-envelope-o"></i>&nbsp;{{item.MessagesCount}}&nbsp;&nbsp;&nbsp;<i
-              class="fa fa-paperclip"></i></span>
+              class="fa fa-envelope-o"></i>&nbsp;{{item.MessagesCount}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+              class="fa fa-paperclip" *ngIf="item.hasAttachments"></i></span>
 
         </div>
         <div class="col-md-1 UnreadContent pull-right" style="padding: 0px; text-align: right; align-content: right;">

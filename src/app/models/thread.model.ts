@@ -15,5 +15,5 @@ export interface Thread {
     isUnread: boolean;
     isMapped: boolean;
     isTo: boolean;
-    AttachmentCount: string;
+    hasAttachments: boolean;
 }

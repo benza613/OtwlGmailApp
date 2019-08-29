@@ -26,7 +26,7 @@ export class EmailUnreadComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private detector: ChangeDetectorRef,
     public globals: GlobalStoreService,
-    private router: Router,
+    public router: Router,
   ) { }
 
   ngOnInit() {

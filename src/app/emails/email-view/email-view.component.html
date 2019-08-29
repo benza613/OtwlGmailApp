@@ -8,6 +8,10 @@
       <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col pull-right">
+      <i class="fa fa-toggle-on" *ngIf="toggleMsgStatus" style="transform: scale(1.5);float: right;" 
+          (click)="markAsUnread()"></i>
+    <i class="fa fa-toggle-off" *ngIf="!toggleMsgStatus" style="transform: scale(1.5);float: right;" 
+        (click)="markAsUnread()"></i>
     <button type="button" class="btn btn-warning" (click)="OnClick_Map()"
       style="transform: scale(0.8); float: right; margin-right:7px;" placement="left"><i
         class="fa fa-external-link-square"></i> MAP</button>

@@ -729,24 +729,16 @@ export class EmailsStoreService {
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'updateMessageStatus');
       }
-      // else {
-      //   if (storeSelector === 'unread') {
-      //     const arrx = this.getUnreadMsgList$(reqThreadId);
-      //     readThreads.forEach(x => {
-      //       arrx[x].isUnread = false;
-      //     });
-      //   } else if (storeSelector === 'mapped') {
-      //     const arrx = this.getUnreadMsgList$(reqThreadId);
-      //     readThreads.forEach(x => {
-      //       arrx[x].isUnread = false;
-      //     });
-      //   } else {
-      //     const arrx = this.getUnreadMsgList$(reqThreadId);
-      //     readThreads.forEach(x => {
-      //       arrx[x].isUnread = false;
-      //     });
-      //   }
-      // }
+      resolve(res.d.errId);
+    });
+  }
+
+  markMailAsUnread(storeSelector, reqThreadId, readThreads) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.markAsUnread(readThreads).toPromise();
+      if (res.d.errId !== '200') {
+        this.errorService.displayError(res, 'markMailAsUnread');
+      }
       resolve(res.d.errId);
     });
   }

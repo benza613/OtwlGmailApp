@@ -50,8 +50,10 @@ export class EmailViewComponent implements OnInit {
   thread;
   mdId;
   readThreads = [];
+  unreadThreads = [];
   imageList = [];
   isMapped;
+  toggleMsgStatus = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -326,6 +328,25 @@ export class EmailViewComponent implements OnInit {
         if (value === '200') {
           that.emailList.forEach(x => {
             x.isUnread = false;
+          });
+          that.detector.detectChanges();
+        }
+      });
+    }
+  }
+
+  markAsUnread() {
+    const that = this;
+    this.toggleMsgStatus = !this.toggleMsgStatus;
+    this.unreadThreads = [];
+    this.emailList.forEach(x => {
+        this.unreadThreads.push(x.msgid);
+    });
+    if (this.unreadThreads.length > 0) {
+      this.emailStore.markMailAsUnread(this.storeSelector, this.reqThreadId, this.unreadThreads).then(function (value) {
+        if (value === '200') {
+          that.emailList.forEach(x => {
+            x.isUnread = true;
           });
           that.detector.detectChanges();
         }

@@ -225,6 +225,11 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
+  markAsUnread(readThreadIds): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/markMailAsUnread`, { readThreadIds }, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   updateUnreadThreadData(mapTypes, threadUIds): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/updateThreadDomainMapping`, { mapTypes, threadUIds }, this.httpOptions)
       .pipe(map(r => r));

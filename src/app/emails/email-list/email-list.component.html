@@ -82,9 +82,11 @@
     </div>
   </div>
 </div>
-<hr style="margin:10px 0px;" />
-<i class="fa fa-eye" *ngIf="!showPreview" (click)="showPreview = !showPreview"></i>
-<i class="fa fa-eye-slash" *ngIf="showPreview" (click)="showPreview = !showPreview"></i>
+<hr style="margin:7px 0px;" />
+<i class="fa fa-eye" *ngIf="!showPreview" (click)="showPreview = !showPreview"
+style="cursor: pointer;background-color: #a00d0d; color: white; padding: 4px; border-radius: 20px;"></i>
+<i class="fa fa-eye-slash" *ngIf="showPreview" (click)="showPreview = !showPreview"
+style="cursor: pointer;background-color: #a00d0d; color: white; padding: 4px; border-radius: 20px;"></i>
 <ng-container *ngIf="showPreview">
   <div class="col"
     style="height: 25vh; overflow: auto; opacity: 1.0; font-size: 12px !important; padding: 0px !important; margin-top: 5px;">

@@ -354,6 +354,25 @@ export class EmailViewComponent implements OnInit {
     }
   }
 
+  markAsRead() {
+    const that = this;
+    this.toggleMsgStatus = !this.toggleMsgStatus;
+    this.unreadThreads = [];
+    this.emailList.forEach(x => {
+        this.readThreads.push(x.msgid);
+    });
+    if (this.unreadThreads.length > 0) {
+      this.emailStore.updateMessageStatus(this.storeSelector, this.reqThreadId, this.readThreads).then(function (value) {
+        if (value === '200') {
+          that.emailList.forEach(x => {
+            x.isUnread = false;
+          });
+          that.detector.detectChanges();
+        }
+      });
+    }
+  }
+
   getPreview(msgId, file) {
     const that = this;
     this.spinner.show();

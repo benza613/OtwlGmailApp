@@ -8,9 +8,9 @@
       <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col pull-right">
-      <i class="fa fa-toggle-on" *ngIf="toggleMsgStatus" style="transform: scale(1.5);float: right;" 
+      <i class="fa fa-toggle-on" *ngIf="toggleMsgStatus" ngbTooltip="MAKE UNREAD" style="transform: scale(1.5);float: right; margin:10px 5px 0px 0px; cursor: pointer;" 
           (click)="markAsUnread()"></i>
-    <i class="fa fa-toggle-off" *ngIf="!toggleMsgStatus" style="transform: scale(1.5);float: right;" 
+    <i class="fa fa-toggle-off" *ngIf="!toggleMsgStatus" ngbTooltip="MAKE READ" style="transform: scale(1.5);float: right;margin:10px 5px 0px 0px; cursor: pointer;" 
         (click)="markAsUnread()"></i>
     <button type="button" class="btn btn-warning" (click)="OnClick_Map()"
       style="transform: scale(0.8); float: right; margin-right:7px;" placement="left"><i

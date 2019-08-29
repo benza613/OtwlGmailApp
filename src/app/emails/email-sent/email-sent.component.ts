@@ -56,13 +56,13 @@ export class EmailSentComponent implements OnInit {
       that.showLoaders = false;
       console.log('promise reject for updateUnreadThreadList');
     });
-    this.emailStore.sentThreadsCount$.subscribe(x => {
-      this.t_CollectionSize = x;
-    });
-    this.sentThreads = this.emailStore.sentThreads$.pipe(
-      map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
-    );
-    this.detector.detectChanges();
+    // this.emailStore.sentThreadsCount$.subscribe(x => {
+    //   this.t_CollectionSize = x;
+    // });
+    // this.sentThreads = this.emailStore.sentThreads$.pipe(
+    //   map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+    // );
+    // this.detector.detectChanges();
   }
 
   fetchSentThreads(i) {

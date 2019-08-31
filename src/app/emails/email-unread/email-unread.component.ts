@@ -32,6 +32,7 @@ export class EmailUnreadComponent implements OnInit {
   ngOnInit() {
     this.domainStore.updateRefType();
     this.domainStore.updateThreadTypeData();
+    this.domainStore.updateFSTags();
     this.showLoaders = true;
     const that = this;
     this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {

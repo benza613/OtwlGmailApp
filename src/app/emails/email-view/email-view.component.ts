@@ -227,7 +227,7 @@ export class EmailViewComponent implements OnInit {
     this.downloadFileObject = [];
 
     if (file) {
-      let fileDetails: MessageUiAttach = {
+      const fileDetails: MessageUiAttach = {
         attachmentGId: file.attachmentGId,
         fileName: file.fileName,
         fileTag: '0',
@@ -241,7 +241,7 @@ export class EmailViewComponent implements OnInit {
         attachments.forEach(att => {
           att.isChecked = this.selectAll === false ? true : false;
           if (att.isChecked === true) {
-            let fileDetails: MessageUiAttach = {
+            const fileDetails: MessageUiAttach = {
               attachmentGId: att.attachmentGId,
               fileName: att.fileName,
               fileTag: '0',
@@ -257,7 +257,7 @@ export class EmailViewComponent implements OnInit {
       } else {
         const attachments_filtered = attachments.filter(x => x.isChecked === true);
         attachments_filtered.forEach(att => {
-          let fileDetails: MessageUiAttach = {
+          const fileDetails: MessageUiAttach = {
             attachmentGId: att.attachmentGId,
             fileName: att.fileName,
             fileTag: '0',
@@ -282,7 +282,6 @@ export class EmailViewComponent implements OnInit {
       }
     } else if (id === 2) {
       this.spinner.show();
-      const that = this;
       await this.emailStore.MessageAttch_RequestFSMapping(this.reqThreadId).then(success => {
         that.spinner.hide();
         const modalRef = that.modalService.open(
@@ -452,7 +451,7 @@ export class EmailViewComponent implements OnInit {
       EmailUnreadDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
-    console.log('SENT',this.thread);
+    console.log('SENT', this.thread);
     modalRef.componentInstance.mailList = [this.thread];
     modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
     modalRef.result.then((result) => {
@@ -521,29 +520,25 @@ export class EmailViewComponent implements OnInit {
             .split('<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[1]);
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">')[0];
-      }
-      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
+      } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div class="gmail_quote">')) {
         this.quotes[i] = '<div class="gmail_quote">' +
           (this.emailListOriginal[i].body.toLowerCase().trim()
             .split('<div class="gmail_quote">')[1]);
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<div class="gmail_quote">')[0];
-      }
-      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<blockquote')) {
+      } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<blockquote')) {
         this.quotes[i] = '<blockquote' +
           (this.emailListOriginal[i].body.toLowerCase().trim()
             .split('<blockquote')[1]);
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<blockquote')[0];
-      }
-      else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
+      } else if (this.emailListOriginal[i].body.toLowerCase().trim().includes('<div id="divSignatureLine">')) {
         this.quotes[i] = '<div id="divSignatureLine">' +
           (this.emailListOriginal[i].body.toLowerCase().trim()
             .split('<div id="divSignatureLine"')[1]);
         this.emailList[i].body = this.emailListOriginal[i].body.toLowerCase().trim().split(
           '<div id="divSignatureLine">')[0];
-      }
-      else {
+      } else {
         this.emailList[i].body = this.emailListOriginal[i].body;
         this.quotes[i] = '';
         // this.signature[i] = '';

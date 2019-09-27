@@ -184,8 +184,7 @@
     <div class="row align-content-md-stretch">
       <div class="col">
         <button type="button" class="btn bg-success" (click)="showFilters = !showFilters"
-          style="color: white; transform: scale(0.75)" ngbTooltip="Filtered mails from server"
-          placement="right">
+          style="color: white; transform: scale(0.75)" ngbTooltip="Filtered mails from server" placement="right">
           <i class="fa fa-envelope-o"></i> GET SERVER MAILS</button>
         <button type="button" ngbTooltip="Get next 50" placement="bottom" class="btn btn-sm btn-outline-primary"
           style="transform: scale(0.80)" (click)="doSentPagination(5)" [disabled]="showLoaders">
@@ -200,13 +199,20 @@
           <i class="fa fa-envelope-o"></i>&nbsp;<i class="fa fa-plus"></i>200
         </button>
       </div>
-      <div class="col">
-        <h6 class="section"
-          style="margin-top: 5px;float:right; background-color: #006699; color: white; padding: 8px; border-radius: 20px;">
-          <i class="fa fa-paper-plane"></i>&nbsp;Sent</h6>
-        <button type="button" class="btn btn-warning" (click)="getMails()"
-          style="margin-top: 5px;transform: scale(0.80);float:right;" ngbTooltip="Map checked threads"
-          placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
+      <div>
+        <div class="col">
+          <button type="button" class="btn btn-warning" (click)="getMails()"
+            style="margin-top: 5px;transform: scale(0.80);" ngbTooltip="Map checked threads"
+            placement="left"><i class="fa fa-external-link-square"></i> MAP</button>
+          <div class="btn-group" ngbDropdown role="group">
+            <button class="btn btn-primary" ngbDropdownToggle style="margin-top: 5px;transform: scale(0.80);float:right;">SENT</button>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
+              <button ngbDropdownItem (click)="router.navigate(['mapped/']);"><i class="fa fa-external-link-square"></i>&nbsp;&nbsp;<b>MAPPED</b></button>
+              <button ngbDropdownItem (click)="router.navigate(['draft/']);"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>DRAFT</b></button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col text-center" *ngIf="showLoaders">

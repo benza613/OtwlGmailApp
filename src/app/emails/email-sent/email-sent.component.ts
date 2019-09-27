@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
@@ -39,7 +40,8 @@ export class EmailSentComponent implements OnInit {
     private detector: ChangeDetectorRef,
     public globals: GlobalStoreService,
     public modalService: NgbModal,
-    private domainStore: DomainStoreService
+    private domainStore: DomainStoreService,
+    public router: Router,
   ) { }
 
   ngOnInit() {

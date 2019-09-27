@@ -25,6 +25,7 @@ export class EditorComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver: boolean = false;
   addEmail = '';
+  ccBcc = false;
 
   msgPacket = {
     to: [],
@@ -98,7 +99,6 @@ export class EditorComponent implements OnInit {
     console.log('Incoming msg', this.globals.email_body);
     this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
 
-
     // get query string if exists
     // if q->unread/mapped & i->exists
     //  initfromStore
@@ -117,6 +117,11 @@ export class EditorComponent implements OnInit {
       this.uploadFilesSize -= fileItem.file.size;
       this.detector.detectChanges();
     };
+
+    this.uploader.addToQueue = (fileItem) => {
+
+    };
+
     var that = this;
     this.emailStore.getAddressBook();
     this.emailStore.getUserMailInfo().then(function (value) {
@@ -276,9 +281,11 @@ export class EditorComponent implements OnInit {
               this.msgAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
-              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
+              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
+                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
+                this.alacarteDetails, this.globals.emailAttach, this.globals.subject)
+                .then(function (value) {
                   that.spinner.hide();
                   that.detector.detectChanges();
                   if (this._reqStoreSelector !== '') {
@@ -351,7 +358,6 @@ export class EditorComponent implements OnInit {
             src: element.src,
             alt: element.alt
           });
-
         }
       });
 
@@ -392,9 +398,11 @@ export class EditorComponent implements OnInit {
                 this.msgAddrList.forEach(x => {
                   emailList.push(x['emailId']);
                 });
-                this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.signatureHtml + this.footerHtml,
+                this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
-                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList, this.alacarteDetails).then(function (value) {
+                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
+                  this.alacarteDetails, this.globals.emailAttach, this.globals.subject)
+                  .then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
@@ -426,7 +434,16 @@ export class EditorComponent implements OnInit {
   }
 
   private base64InlineAttachmentsToBody() {
-    let msgBodyCopy = this.EditorValue;
+    let msgBodyCopy = this.EditorValue + this.signatureHtml;
+    this._inlineAttachments.push(
+      { src: 'assets/certificates/mto.png', alt: 'mto.png' },
+      { src: 'assets/certificates/sym.png', alt: 'sym.png'},
+      { src: 'assets/certificates/wca.png', alt: 'wca.png'},
+      { src: 'assets/certificates/cl.png', alt: 'cl.png'},
+      { src: 'assets/certificates/iso.png', alt: 'iso.png'},
+      { src: 'assets/certificates/mt.png', alt: 'mt.png'},
+    );
+
     const self = this;
 
     return new Promise((reslv, rej) => {
@@ -536,7 +553,20 @@ export class EditorComponent implements OnInit {
   }
 
   fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail) {
-    this.signatureHtml = `<div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
+    this.signatureHtml = `
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <div class="container-fluid" style="margin-top: 5px;text-align: right;font-size: 12px;">
     <div style="text-align: left;">
       <span style="font-family: Arial, Helvetica, sans-serif;">
         <span style="color: rgb(47, 84, 150); text-decoration: inherit;">
@@ -566,7 +596,24 @@ export class EditorComponent implements OnInit {
             style="font-family: Arial, Helvetica, sans-serif;">E-Mail : ` + senderEmail + `&nbsp;</span></span></div>
       <div style="text-align: left;"><span style="color: rgb(47, 84, 150); text-decoration: inherit;"><span
             style="font-family: Arial, Helvetica, sans-serif;">Web : www.oceantransworld.com</span></span></div>
-
+      <div style="text-align: left;">
+        <b style="color: red; text-decoration:underline;">SPECIAL NOTE:</b> Its Always advisable to have cargo marine insurance for Shipments. In case of any losses or damage to cargo in transit <b>Ocean Transworld Logistics Pvt Ltd</b> will not be liable. Please get the cargo insured before the movement of the cargo from warehouse.
+      </div>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <div style="text-align: left; font-size: 10px;">
+      <i style="color: blue;">Disclaimer:</i>  <i style="color: gray;">The contents, attachments of and information provided in this E-mail are privileged and confidential material of Ocean Transworld Logistics Pvt. Ltd. and is sent to the intended   addressee(s). The said  contents should not be disclosed to, used by or copied in any manner by anyone else. In case you are not the desired    addressee, you should delete this message and/or re-direct it to the sender. The attachments to this email have been scanned by an AntiVirus trusted by Ocean Transworld Logistics Pvt. Ltd.. However, the recipient should ensure that it is virus free.</i>
+      <div>
+    </div>
+    <div class="row" style="margin-bottom: 5px;">
+      <img style="margin: 3px;" src="assets/certificates/cl.png">
+      <img style="margin: 3px;" src="assets/certificates/iso.png">
+      <img style="margin: 3px;" src="assets/certificates/mt.png">
+      <img style="margin: 3px;" src="assets/certificates/mto.png">
+      <img style="margin: 3px;" src="assets/certificates/sym.png">
+      <img style="margin: 3px;" src="assets/certificates/wca.png">
     </div>`;
     this.footerHtml = `
         <div style="text-align: left;">
@@ -716,10 +763,10 @@ export class EditorComponent implements OnInit {
           email.emailId = email.emailId.split(' ')[1];
         }
         if (!email.emailId.includes('<')) {
-              email.emailId = '<' + email.emailId;
+          email.emailId = '<' + email.emailId;
           if (!email.emailId.includes('>')) {
-              email.emailId = email.emailId + '>';
-          } else if(!email.emailId.includes('>')) {
+            email.emailId = email.emailId + '>';
+          } else if (!email.emailId.includes('>')) {
             email.emailId = email.emailId + '>';
           }
         }

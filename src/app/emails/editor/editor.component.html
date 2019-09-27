@@ -1,8 +1,20 @@
 <ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
 </ngx-spinner>
-<div class="row">
-  <i class="fa fa-arrow-circle-left" (click)="goBack()" routerLinkActive="router-link-active"
-    style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col">
+    <i class="fa fa-arrow-circle-left" (click)="goBack()" routerLinkActive="router-link-active"
+      style="transform: scale(2); margin-left: 15px; cursor: pointer;"></i>
+  </div>
+  <div class="col">
+    <div class="btn-group" ngbDropdown role="group" style="float: right;">
+      <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">DRAFT</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['mapped/']);"><i class="fa fa-external-link-square"></i>&nbsp;&nbsp;<b>MAPPED</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
+      </div>
+    </div>
+  </div>
 </div>
 <div style="max-width:100%;width:100%">
   <div class="form-row">
@@ -16,11 +28,14 @@
       </ng-select>
       <!-- (change)="addAddr($event)" -->
     </div>
-    <div class="col-md-2">
-      <button type="button" class="btn btn-warning btn-block" (click)="onClick_SendMail()">SEND MAIL</button>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-warning btn-block" (click)="ccBcc = !ccBcc">Cc/Bcc</button>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-warning btn-block" (click)="onClick_SendMail()">SEND</button>
     </div>
   </div>
-  <div class="form-row">
+  <div class="form-row" *ngIf="ccBcc || msgPacket.cc.length > 0 || msgPacket.bcc.length > 0">
     <div class="col-md-1">
       <b>CC </b>
     </div>
@@ -226,6 +241,9 @@
                     </div>
                   </div>
                 </ng-template>
+              </ngb-tab>
+              <ngb-tab *ngIf="globals.subject !== ''" title="{{globals.subject}}">
+
               </ngb-tab>
             </ngb-tabset>
           </div>

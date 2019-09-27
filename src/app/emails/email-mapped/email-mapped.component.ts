@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MappedThread } from './../../models/mapped-thread';
 import { EmailsStoreService } from './../../_store/emails-store.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -41,7 +41,8 @@ export class EmailMappedComponent implements OnInit {
     private route: ActivatedRoute,
     private authServ: AuthService,
     public globals: GlobalStoreService,
-    private detector: ChangeDetectorRef
+    private detector: ChangeDetectorRef,
+    public router: Router,
   ) {
     this.domainStore.updateRefType();
   }

@@ -108,6 +108,17 @@ export class EmailListComponent implements OnInit {
     };
   }
 
+  deleteThread(thread) {
+    this.spinner.show('list1');
+    const that = this;
+    const refValId = null;
+    this.emailStore.deleteMail(thread.ThreadId, '', refValId).then(success => {
+      //remove that thread from the list
+      that.threadList = that.emailStore.unreadThreads$;
+      that.spinner.hide('list1');
+    });
+  }
+
   clearDateField() {
     this.filterDate = null;
     this.applyFilter();

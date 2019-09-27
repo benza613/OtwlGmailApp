@@ -1,11 +1,12 @@
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment as env } from '../../environments/environment';
 import { MessageInlineAtt } from '../models/messageInlineAtt.model';
 import { ErrorService } from '../error/error.service';
+import { Message } from '../models/message.model';
 
 
 @Injectable({
@@ -141,13 +142,6 @@ export class EmailsService {
 
           const url = URL.createObjectURL(blob);
           resolve(url);
-
-          // const reader = new FileReader();
-          // reader.readAsDataURL(blob);
-          // reader.onloadend = function() {
-          //     const base64data = reader.result;
-          //     resolve(base64data);
-          // };
         }
       });
     });
@@ -183,10 +177,11 @@ export class EmailsService {
   }
 
   // tslint:disable-next-line:max-line-length
-  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: string[], alacarteDetails: string[]): Observable<any> {
+  sendNewMail(To: string[], Cc: string[], Bcc: string[], Subject: string, Body: string, inlineAttachments: MessageInlineAtt[], actionType: string, msgId: string, TokenPossession: string, orderFilesList: FsOrderFiles[], emailAddrList: string[], alacarteDetails: string[], eml: Message[], att_sub): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/postNewMail`,
-      // tslint:disable-next-line: max-line-length
-      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType, msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList, lstAlaCarte: alacarteDetails },
+      { To, Cc, Bcc, Subject, Body, inlineAttachments, actionType,
+        msgId, TokenPossession, lstFsOrderFiles: orderFilesList, emailAddrList,
+        lstAlaCarte: alacarteDetails, eml, att_sub },
       this.httpOptions)
       .pipe(map(r => r));
   }
@@ -233,5 +228,10 @@ export class EmailsService {
   updateUnreadThreadData(mapTypes, threadUIds): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/updateThreadDomainMapping`, { mapTypes, threadUIds }, this.httpOptions)
       .pipe(map(r => r));
+  }
+
+  deleteMail(GThreadId, msgid, refValId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/deleteMail`, { GThreadId, msgid, refValId }, this.httpOptions)
+    .pipe(map(r => r));
   }
 }

@@ -340,7 +340,7 @@ export class EmailViewComponent implements OnInit {
     this.toggleMsgStatus = !this.toggleMsgStatus;
     this.unreadThreads = [];
     this.emailList.forEach(x => {
-        this.unreadThreads.push(x.msgid);
+      this.unreadThreads.push(x.msgid);
     });
     if (this.unreadThreads.length > 0) {
       this.emailStore.markMailAsUnread(this.storeSelector, this.reqThreadId, this.unreadThreads).then(function (value) {
@@ -359,7 +359,7 @@ export class EmailViewComponent implements OnInit {
     this.toggleMsgStatus = !this.toggleMsgStatus;
     this.unreadThreads = [];
     this.emailList.forEach(x => {
-        this.readThreads.push(x.msgid);
+      this.readThreads.push(x.msgid);
     });
     if (this.unreadThreads.length > 0) {
       this.emailStore.updateMessageStatus(this.storeSelector, this.reqThreadId, this.readThreads).then(function (value) {
@@ -452,7 +452,7 @@ export class EmailViewComponent implements OnInit {
       EmailUnreadDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
-    console.log('SENT',this.thread);
+    console.log('SENT', this.thread);
     modalRef.componentInstance.mailList = [this.thread];
     modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
     modalRef.result.then((result) => {
@@ -562,18 +562,12 @@ export class EmailViewComponent implements OnInit {
     this.emailList = this.emailListOriginal;
   }
 
-  // showConfirmDialog(msg) {
-  //   // let data = {
-  //   //   GThreadId: this.reqThreadId,
-  //   //   msgId: msgid,
-  //   //   refValId: '',
-  //   // };
-  //   const modalRef = this.modalService.open(
-  //     ConfirmDialogComponent,
-  //     {size: 'lg', backdrop: 'static', keyboard: false}
-  //   );
-  //   modalRef.componentInstance.thre
-  // }
+  saveAsAttach(idx) {
+     this.globals.emailAttach = this.list[idx];
+     this.globals.subject = this.subject;
+     console.log('Email as attach', this.list[idx])
+     this.router.navigate(['draft/']);
+  }
 
   goBack() {
     this.location.back();

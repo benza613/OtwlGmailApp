@@ -1,3 +1,4 @@
+import { Message } from './../models/message.model';
 import { Injectable } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,5 +19,7 @@ export class GlobalStoreService {
   public tagsList;
   public email_body;
   public isAdmin = 0;
+  public emailAttach: Message[] = null;
+  public subject = '';
   constructor() { }
 }

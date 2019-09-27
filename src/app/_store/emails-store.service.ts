@@ -17,6 +17,7 @@ import { SearchParams } from '../models/search-params.model';
 import { SearchingLocks } from '../enums/searching-locks.enum';
 import { SentSearchLocks } from '../enums/sent-search-locks.enum';
 import { FSMapping } from '../models/fsmapping.model';
+import { resolve, reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -108,6 +109,10 @@ export class EmailsStoreService {
 
   readonly getSentThreadData$ = (ThreadId) => this.sentThreads$.pipe(
     map(tx => this.sentThreads.find(t => t.ThreadId === ThreadId))
+  )
+
+  readonly getNonDeletedThread$ = (ThreadId) => this.unreadThreads$.pipe(
+    map(tx => this.unreadThreads.find(t => t.ThreadId !== ThreadId))
   )
 
   /*
@@ -222,7 +227,9 @@ export class EmailsStoreService {
   }
 
 
-  sendNewEmail(packet, body, inlineAtachments, actionType, storeSelector, MessageID, TokenPossession, orderFilesList, emailAddrList, alacarteDetails) {
+  sendNewEmail(packet, body, inlineAtachments, actionType, 
+                storeSelector, MessageID, TokenPossession, 
+                orderFilesList, emailAddrList, alacarteDetails, eml, att_subject) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.sendNewMail(
         packet.to.map(key => key.emailId),
@@ -230,7 +237,7 @@ export class EmailsStoreService {
         packet.bcc.map(key => key.emailId),
         packet.subject, body, inlineAtachments,
         actionType, MessageID,
-        TokenPossession, orderFilesList, emailAddrList, alacarteDetails).toPromise();
+        TokenPossession, orderFilesList, emailAddrList, alacarteDetails, eml, att_subject).toPromise();
       if (res.d.errId === '200') {
         alert(res.d.errMsg);
         resolve(res.d.errId);
@@ -738,6 +745,16 @@ export class EmailsStoreService {
       const res = await this.emailServ.markAsUnread(readThreads).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'markMailAsUnread');
+      }
+      resolve(res.d.errId);
+    });
+  }
+
+  deleteMail(GThreadId, msgId, refValId) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.deleteMail(GThreadId, msgId, refValId).toPromise();
+      if (res.d.errId !== '200') {
+        this.errorService.displayError(res, 'deleteMail');
       }
       resolve(res.d.errId);
     });

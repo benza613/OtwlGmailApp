@@ -41,14 +41,20 @@
     </div>
   </div>
   <div class="col" style="height: 85vh; padding:0px 5px;">
-    <div class="row" style="align-content: space-between">
+    <div class="row">
       <div class="col">
         <i class="fa fa-search" (click)="showSearch = !showSearch" style="cursor: pointer; margin-left: 20px;background-color: #9c118a; color: white; padding: 8px; border-radius: 20px;"
           ngbTooltip="Search"></i>
       </div>
       <div class="col">
-        <h6 class="section" style="float: right;background-color: #006699; color: white; padding: 8px; border-radius: 20px; width: 110px !important;">
-          <i class="fa fa-external-link-square"></i>&nbsp;Mapped</h6>
+        <div class="btn-group" ngbDropdown role="group" style="float: right; ">
+          <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">MAPPED</button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
+            <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
+            <button ngbDropdownItem (click)="router.navigate(['draft/']);"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>DRAFT</b></button>
+          </div>
+        </div>
       </div>
     </div>
     <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>

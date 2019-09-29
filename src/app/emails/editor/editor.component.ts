@@ -23,7 +23,7 @@ const URL = environment.url.uploadsGA;
 export class EditorComponent implements OnInit {
 
   public uploader: FileUploader = new FileUploader({ url: URL });
-  public hasBaseDropZoneOver: boolean = false;
+  public hasBaseDropZoneOver = false;
   addEmail = '';
   ccBcc = false;
 
@@ -50,7 +50,7 @@ export class EditorComponent implements OnInit {
   addrListCc = [];
   addrListBcc = [];
 
-  _TOKEN_POSSESION = "";
+  _TOKEN_POSSESION = '';
 
   _inlineAttachments = [];
   _inlineAttachB64 = [];
@@ -83,7 +83,7 @@ export class EditorComponent implements OnInit {
   showEmail = false;
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
     private emailStore: EmailsStoreService,
     private detector: ChangeDetectorRef,
     private locStgService: LocalStorageService,
@@ -104,8 +104,9 @@ export class EditorComponent implements OnInit {
     //  initfromStore
     // TODO else initfromLocalStorage if present
 
-    //angular number pipe
-    //https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/modules/%40angular/common/src/pipes/number_pipe.ts#L82
+    // angular number pipe
+    // https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/
+    // modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
     this.uploader.onAfterAddingFile = (fileItem) => {
       this.uploadFilesSize += fileItem.file.size;
@@ -122,7 +123,7 @@ export class EditorComponent implements OnInit {
 
     };
 
-    var that = this;
+    const that = this;
     this.emailStore.getAddressBook();
     this.emailStore.getUserMailInfo().then(function (value) {
       that.senderName = value['d'].userFullName;
@@ -158,9 +159,9 @@ export class EditorComponent implements OnInit {
       .subscribe(params => {
 
 
-        //first check if storeSelector is undefined
-        //then check if attachment order is requested 
-        if (params.q == undefined && params.order != undefined) {
+        // first check if storeSelector is undefined
+        // then check if attachment order is requested
+        if (params.q === undefined && params.order !== undefined) {
 
           this._reqOrderID = params.order;
 
@@ -200,14 +201,14 @@ export class EditorComponent implements OnInit {
         }
 
         if (params.locst_id !== undefined) {
-          var localToken = params.locst_id;
+          const localToken = params.locst_id;
           if (localToken) {
             const emlData = that.locStgService.fetchMessagePacket(localToken);
             that.initMessagePacket_LocalStorage(emlData);
 
-            if (emlData["alacarte"] != undefined) {
-              for (let index = 0; index < emlData["alacarte"].length; index++) {
-                this.alacarteDetails.push(emlData["alacarte"][index]);
+            if (emlData['alacarte'] !== undefined) {
+              for (let index = 0; index < emlData['alacarte'].length; index++) {
+                this.alacarteDetails.push(emlData['alacarte'][index]);
               }
 
             }
@@ -216,36 +217,36 @@ export class EditorComponent implements OnInit {
       });
 
     this.uploader.onProgressAll = (progress: any) => this.detector.detectChanges();
-    //this.uploader.options.removeAfterUpload = true;
+    // this.uploader.options.removeAfterUpload = true;
 
     this.uploader.options.isHTML5 = true;
     this.uploader.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
-    }
+    };
 
     this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       item.remove();
-    }
+    };
 
     this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       console.log('err', item.file.name);
-    }
+    };
 
     this.uploader.onBuildItemForm = (fileItem: FileItem, form: any) => {
-      //Use this action to append a token of possesion that will be used AFTER all files 
-      //are uploaded inorder to send mail
+      // Use this action to append a token of possesion that will be used AFTER all files
+      // are uploaded inorder to send mail
 
       form.append('tokenHolder', this._TOKEN_POSSESION);
       console.log(fileItem);
-    }
+    };
 
     this.uploader.onCompleteAll = () => {
-      var that = this;
+      const that = this;
       this.uploader.progress = 0;
       this.detector.detectChanges();
 
       if (this.uploader.queue.length > 0) {
-        let x = confirm("Few Files Didnt Upload. Do you want to proceed?");
+        const x = confirm('Few Files Didnt Upload. Do you want to proceed?');
         if (!x) {
           alert('Mail Not sent');
           return;
@@ -303,7 +304,7 @@ export class EditorComponent implements OnInit {
         });
 
 
-    }
+    };
   }
 
   initMessagePacket_LocalStorage(emlData) {
@@ -367,7 +368,7 @@ export class EditorComponent implements OnInit {
   onClick_SendMail() {
     this.spinner.show();
     this.detector.detectChanges();
-    var that = this;
+    const that = this;
     this.msgPacket.to.forEach(x => {
       const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
       if (idx === -1) {
@@ -386,8 +387,8 @@ export class EditorComponent implements OnInit {
         this.msgAddrList.push(x);
       }
     });
-    if (this.msgPacket.to.length != 0 || this.msgPacket.cc.length != 0 || this.msgPacket.bcc.length != 0) {
-      if (this.uploader.queue.length == 0) {
+    if (this.msgPacket.to.length !== 0 || this.msgPacket.cc.length !== 0 || this.msgPacket.bcc.length !== 0) {
+      if (this.uploader.queue.length === 0) {
 
         this.base64InlineAttachmentsToBody().then(
           (data) => {
@@ -424,9 +425,7 @@ export class EditorComponent implements OnInit {
         // process external then inline attachments
         this.uploader.uploadAll();
       }
-    }
-
-    else {
+    } else {
       alert('Please Select atleast 1 recipient');
       this.spinner.hide();
     }
@@ -488,30 +487,32 @@ export class EditorComponent implements OnInit {
     const self = this;
 
     return new Promise((reslv, rej) => {
-      var occurences = (msgBodyCopy.match(/custom_otwl_inliner/g) || []).length;
+      let occurences = (msgBodyCopy.match(/custom_otwl_inliner/g) || []).length;
 
       while (occurences > 0) {
 
-        var posInitial = msgBodyCopy.indexOf("custom_otwl_inliner");
-        if (posInitial == -1)
+        let posInitial = msgBodyCopy.indexOf('custom_otwl_inliner');
+        if (posInitial === -1) {
           break;
+        }
 
-        //<img class="custom_otwl_inliner" src="">
+        // <img class="custom_otwl_inliner" src="">
         posInitial -= 12;
 
-        //check if char at this position is < ie. opening of img tag
-        if (msgBodyCopy.charAt(posInitial) != "<")
+        // check if char at this position is < ie. opening of img tag
+        if (msgBodyCopy.charAt(posInitial) !== '<') {
           break;
+        }
 
-        var posFinal = msgBodyCopy.indexOf(">", posInitial);
+        const posFinal = msgBodyCopy.indexOf('>', posInitial);
 
-        var posSrc = msgBodyCopy.indexOf("src", posInitial);
+        let posSrc = msgBodyCopy.indexOf('src', posInitial);
         posSrc += 5;
 
-        var posSrcClosing = msgBodyCopy.indexOf("\"", posSrc);
+        const posSrcClosing = msgBodyCopy.indexOf('"', posSrc);
 
-        var matchDataUrl = msgBodyCopy.substring(posSrc, posSrcClosing);
-        var matchWholeImgTag = msgBodyCopy.substring(posInitial, posFinal + 1);
+        const matchDataUrl = msgBodyCopy.substring(posSrc, posSrcClosing);
+        const matchWholeImgTag = msgBodyCopy.substring(posInitial, posFinal + 1);
         const cid = self.randomCidGenerator(11);
         const newstr = msgBodyCopy.replace(matchWholeImgTag, '<img src="cid:' + cid + '" alt="' + cid + '"/>');
         msgBodyCopy = newstr;
@@ -676,7 +677,7 @@ export class EditorComponent implements OnInit {
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
-    //https://github.com/valor-software/ng2-file-upload/blob/development/src/file-upload/file-uploader.class.ts
+    // https://github.com/valor-software/ng2-file-upload/blob/development/src/file-upload/file-uploader.class.ts
   }
 
   addAddr(event) {

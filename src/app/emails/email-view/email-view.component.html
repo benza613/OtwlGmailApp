@@ -51,10 +51,10 @@
           {{eml.date}}
         </div>
         <div class="col-md-3 pull-left" style="padding-left: 0px;">
-          <!-- <button type="button" ngbTooltip="Attach" class="btn btn-sm btn-outline-secondary float-right"
+          <button type="button" ngbTooltip="Attach" class="btn btn-sm btn-outline-secondary float-right"
             style="transform: scale(0.75);" (click)="saveAsAttach(i)">
             <i class="fa fa-map-pin"></i>
-          </button> -->
+          </button>
           <button *ngIf="isMapped" type="button" ngbTooltip="Upload"
             class="btn btn-sm btn-outline-secondary float-right" style="transform: scale(0.75);"
             (click)="selectFolderForUpload(i, eml.msgid)">

@@ -9,9 +9,12 @@
     <div class="btn-group" ngbDropdown role="group" style="float: right;">
       <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">DRAFT</button>
       <div class="dropdown-menu" ngbDropdownMenu>
-        <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
-        <button ngbDropdownItem (click)="router.navigate(['mapped/']);"><i class="fa fa-external-link-square"></i>&nbsp;&nbsp;<b>MAPPED</b></button>
-        <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i
+            class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['mapped/']);"><i
+            class="fa fa-external-link-square"></i>&nbsp;&nbsp;<b>MAPPED</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i
+            class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
       </div>
     </div>
   </div>
@@ -86,7 +89,7 @@
   </div>
   <div class="container-fluid" style="margin-top: 5px;">
     <div class="row">
-      <div class="col-5 attachments-partition card">
+      <div class="col attachments-partition card">
         <div class="row">
           <div class="col-md-12 upl-block" style="margin-bottom: 40px; ">
             <div class="row card-header" style="background-color: #5271C2; color: white;">
@@ -164,7 +167,7 @@
         </div>
         <!-- ben -->
       </div>
-      <div class="col-4 attachments-partition">
+      <div class="col attachments-partition">
         <div class="card">
           <div class="card-header" style="background-color: #35a541; color: white;">
             <div class="row">
@@ -249,19 +252,18 @@
           </div>
         </div>
       </div>
-      <div class="col attachments-partition card" style="margin: 5px 0px; padding: 0px;">
-        <div class="card-header" style="background-color: #db6623; color: white;">
-          <div class="row">
-            <div class="col">
-              <p class="upl-headers">Signature </p>
-            </div>
+    </div>
+    <div class="col attachments-partition card" style="margin: 5px 0px; padding: 0px;">
+      <div class="card-header" style="background-color: #db6623; color: white;">
+        <div class="row">
+          <div class="col">
+            <p class="upl-headers">Signature </p>
           </div>
         </div>
-        <div class="card-body">
-          <div class="container-fluid-cust" [innerHTML]="signatureHtml | safeHtml"
-            style="text-align: right;font-size: 12px;">
+      </div>
+      <div class="card-body">
+        <div [innerHTML]="signatureHtml | safeHtml" style="text-align: left;font-size: 12px;">
 
-          </div>
         </div>
       </div>
     </div>
@@ -282,3 +284,10 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+

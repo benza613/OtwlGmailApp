@@ -290,6 +290,7 @@ export class EditorComponent implements OnInit {
                 this.alacarteDetails, this.globals.emailAttach, this.globals.subject)
                 .then(function (value) {
                   that.spinner.hide();
+                  that.globals.emailAttach = null;
                   that.detector.detectChanges();
                   if (this._reqStoreSelector !== '') {
                     that.location.back();
@@ -408,6 +409,7 @@ export class EditorComponent implements OnInit {
                   .then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
+                    that.globals.emailAttach = null;
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
                     if (that._reqStoreSelector !== '') {
                       that.location.back();

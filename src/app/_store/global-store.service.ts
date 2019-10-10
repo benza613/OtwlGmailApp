@@ -22,5 +22,6 @@ export class GlobalStoreService {
   public emailAttach: Message[] = null;
   public subject = '';
   public pages = null;
+  public currentPage = 1;
   constructor() { }
 }

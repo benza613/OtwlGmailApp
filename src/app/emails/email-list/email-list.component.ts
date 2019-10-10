@@ -21,7 +21,7 @@ export class EmailListComponent implements OnInit {
   @Input() storeSelector: string;
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
   t_CollectionSize: number;
-  t_currentPage = 1;
+  t_currentPage = this.globals.currentPage;
   t_itemsPerPage = 10;
   threadList;
   modalList = [];
@@ -110,9 +110,8 @@ export class EmailListComponent implements OnInit {
       a: this.filterFrom, b: this.filterSubject,
       c: date === 'Invalid date' ? '' : date
     };
-    this.t_currentPage = 1;
+    this.globals.currentPage = 1;
     this.t_CollectionSize = this.globals.pages;
-    console.log(this.t_CollectionSize);
   }
 
   deleteThread(thread) {
@@ -124,6 +123,10 @@ export class EmailListComponent implements OnInit {
       that.threadList = that.emailStore.unreadThreads$;
       that.spinner.hide('list1');
     });
+  }
+
+  pageChange(event) {
+    this.globals.currentPage = event;
   }
 
   clearDateField() {

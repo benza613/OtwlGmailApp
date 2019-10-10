@@ -1,7 +1,7 @@
 <ngx-spinner name="list1" size="medium" color="#fff" type="ball-spin-fade" [fullScreen]="true"> Loading...
 </ngx-spinner>
 <ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
-  [(page)]="t_currentPage" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
+  [(page)]="t_currentPage" (pageChange)="pageChange($event)" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
   [boundaryLinks]="true"></ngb-pagination>
 <div class="row" style="margin-bottom: 10px; margin-left: 5px;">
   <div style="width: 260px !important;">

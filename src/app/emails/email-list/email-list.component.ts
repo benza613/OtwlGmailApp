@@ -1,3 +1,5 @@
+import { LocalStorageService } from './../../_util/local-storage.service';
+import { GlobalStoreService } from './../../_store/global-store.service';
 import { Message } from './../../models/message.model';
 import { Router } from '@angular/router';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
@@ -40,12 +42,13 @@ export class EmailListComponent implements OnInit {
     private detector: ChangeDetectorRef,
     private domainStore: DomainStoreService,
     private router: Router,
+    public globals: GlobalStoreService,
   ) { }
 
   ngOnInit() {
     if (this.storeSelector === 'EmailUnreadComponent') {
       this.emailStore.unreadThreadsCount$.subscribe(
-        x => { this.t_CollectionSize = x; },
+        x => { this.t_CollectionSize = x; this.globals.pages = x; },
       );
       this.threadList = this.emailStore.unreadThreads$.pipe(
         map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
@@ -53,6 +56,7 @@ export class EmailListComponent implements OnInit {
     } else {
       this.emailStore.sentThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;
+        this.globals.pages = x;
       });
       this.threadList = this.emailStore.sentThreads$.pipe(
         map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
@@ -106,6 +110,9 @@ export class EmailListComponent implements OnInit {
       a: this.filterFrom, b: this.filterSubject,
       c: date === 'Invalid date' ? '' : date
     };
+    this.t_currentPage = 1;
+    this.t_CollectionSize = this.globals.pages;
+    console.log(this.t_CollectionSize);
   }
 
   deleteThread(thread) {

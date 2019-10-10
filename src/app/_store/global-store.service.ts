@@ -21,5 +21,6 @@ export class GlobalStoreService {
   public isAdmin = 0;
   public emailAttach: Message[] = null;
   public subject = '';
+  public pages = null;
   constructor() { }
 }

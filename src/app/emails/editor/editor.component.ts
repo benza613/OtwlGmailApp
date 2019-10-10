@@ -447,6 +447,7 @@ export class EditorComponent implements OnInit {
       { src: 'assets/icons/mobile.png', alt: 'mobile.png'},
       { src: 'assets/icons/icons8-weixin-48.png', alt: 'icons8-weixin-48.png'},
       { src: 'assets/icons/phone-office.png', alt: 'phone-office.png'},
+      { src: 'assets/icons/phone-office2.png', alt: 'phone-office2.png'},
 
 
       { src: 'assets/certificates/mto.png', alt: 'mto.png' },
@@ -571,9 +572,9 @@ export class EditorComponent implements OnInit {
     this.signatureHtml = `
     <table border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
   <tbody>
-    <tr style="height:18.75pt; vertical-align: top;">
+    <tr style="height:18.75pt; vertical-align: top !important;">
       <td width="164" colspan="2" valign="top"
-        style="width:123.05pt;border:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:18.75pt">
+        style="width:123.05pt;border:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:18.75pt;vertical-align: top !important;">
         <p ><b><span style="font-size:12.0pt">Best Regards,</span></b><b><span
               style="font-size:15.0pt;color:#03227d"><u></u><u></u></span></b></p>
       </td>
@@ -583,9 +584,10 @@ export class EditorComponent implements OnInit {
       </td>
       <td style="height:18.75pt;border:none" width="0" height="25"></td>
     </tr>
-    <tr style="height:28.5pt; vertical-align: top;">
+    <tr style="height:28.5pt; vertical-align: top !important;">
       <td width="1001" colspan="9" valign="top"
-        style="width:751.1pt;border-top:none;border-left:solid white 1.0pt;border-bottom:none;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:28.5pt">
+        style="width:751.1pt;border-top:none;border-left:solid white 1.0pt;border-bottom:none;
+        border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:28.5pt;vertical-align: top !important;">
         <p ><u></u><span><span style="width:158px;height:1px"><img width="158" height="1"
                 src="https://mail.google.com/mail/u/0?ui=2&amp;ik=216bd45aa9&amp;attid=0.1&amp;permmsgid=msg-f:1646353208991147243&amp;th=16d9058554bde4eb&amp;view=fimg&amp;sz=s0-l75-ft&amp;attbid=ANGjdJ_CgQmNhETVPw6wxFV9xDK6K3UHhhjP1AfaUGLxi5vJAbp9gYARdZYyfrGGbWwi-qtxSolnm256yTqYyptpO0a_IgmtMbxckOTsLj_Z44DM56aZT-UjlDhnPXg&amp;disp=emb"
                 data-image-whitelisted="" class="CToWUd"></span></span><u></u><b><span
@@ -712,7 +714,7 @@ export class EditorComponent implements OnInit {
                 style="width:27.3pt;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
                 <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="19" height="19"
                     id="m_9218901733660170609Picture_x0020_8"
-                    src="assets/icons/phone-office.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
+                    src="assets/icons/phone-office2.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
               </td>
               <td width="263" valign="top"
                 style="width:197.3pt;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">

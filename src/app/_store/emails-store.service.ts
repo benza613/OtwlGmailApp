@@ -446,6 +446,7 @@ export class EmailsStoreService {
   }
 
   async update_UnreadThreadEmails(flag, ThreadId, storeSelector, Subject) {
+    console.log('UNREAD',storeSelector);
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
@@ -701,6 +702,7 @@ export class EmailsStoreService {
 
   async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    console.log(storeSelector);
     if (res.d.errId === '200') {
       const index = this.sentThreads.indexOf(this.sentThreads.find(t => t.ThreadId === ThreadId));
       this.sentThreads[index].Messages = [];

@@ -91,11 +91,19 @@ export class EmailListComponent implements OnInit {
     this.spinner.show('list1');
     this.authServ.login();
     const that = this;
-    this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
-      threadData.isUnread = false;
-      threadData.isMapped = value[0] === '0' ? false : true;
-      that.spinner.hide('list1');
-    });
+    if (this.storeSelector === 'unread') {
+      this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+        threadData.isUnread = false;
+        threadData.isMapped = value[0] === '0' ? false : true;
+        that.spinner.hide('list1');
+      });
+    } else {
+      this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+        threadData.isUnread = false;
+        threadData.isMapped = value[0] === '0' ? false : true;
+        that.spinner.hide('list1');
+      });
+    }
   }
 
   checkList(item) {

@@ -65,27 +65,26 @@ export class EmailListComponent implements OnInit {
   }
 
   onClick_GetThreadMessages(threadData) {
-    const that = this;
-    this.spinner.show('list1');
     this.authServ.login();
-    if (this.currentThread !== threadData.ThreadId) {
-      //then fetch messages and display preview of first message
-      this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
-        threadData.isUnread = false;
-        threadData.isMapped = value[0] === '0' ? false : true;
-        that.emailStore.getUnreadMsgList$(threadData.ThreadId)
-          .pipe(
-            map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
-          ).subscribe(x => {
-            that.msg = x[0];
-          });
-        that.showPreview = true;
-        that.currentThread = threadData.ThreadId;
-        that.spinner.hide('list1');
-      });
-    } else {
-      this.onClick_LoadAllMessages(threadData);
-    }
+    this.onClick_LoadAllMessages(threadData);
+  }
+
+  getPreview(threadData) {
+    this.spinner.show('list1');
+    const that = this;
+    this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+      threadData.isUnread = false;
+      threadData.isMapped = value[0] === '0' ? false : true;
+      that.emailStore.getUnreadMsgList$(threadData.ThreadId)
+        .pipe(
+          map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        ).subscribe(x => {
+          that.msg = x[0];
+        });
+      that.showPreview = true;
+      that.currentThread = threadData.ThreadId;
+      that.spinner.hide('list1');
+    });
   }
 
   onClick_LoadAllMessages(threadData) {

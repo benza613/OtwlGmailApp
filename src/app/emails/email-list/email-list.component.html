@@ -73,8 +73,8 @@
         <div class="col-md-1 UnreadContent pull-right" style="padding: 0px; text-align: right; align-content: right;">
           <span class="pull-right MailDate" [ngClass]="{unread: item.isUnread}">{{item.Msg_Date}}</span>
         </div>
-        <span class="UnreadContent" [ngClass]="{unread: item.isUnread}" (click)="onClick_LoadAllMessages(item)">
-          <i class="fa fa-share" style="margin-left: 15px;"></i>
+        <span class="UnreadContent" [ngClass]="{unread: item.isUnread}" (click)="getPreview(item)" style="text-align: end">
+          <i class="fa fa-eye"></i>
         </span>
       </div>
     </div>

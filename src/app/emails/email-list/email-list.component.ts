@@ -91,7 +91,8 @@ export class EmailListComponent implements OnInit {
     this.spinner.show('list1');
     this.authServ.login();
     const that = this;
-    if (this.storeSelector === 'unread') {
+    console.log(this.storeSelector);
+    if (this.storeSelector === 'EmailUnreadComponent') {
       this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
         threadData.isUnread = false;
         threadData.isMapped = value[0] === '0' ? false : true;

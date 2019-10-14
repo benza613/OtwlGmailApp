@@ -240,12 +240,11 @@ export class EmailsStoreService {
         TokenPossession, orderFilesList, emailAddrList, alacarteDetails, eml, att_subject).toPromise();
       if (res.d.errId === '200') {
         alert(res.d.errMsg);
-        resolve(res.d.errId);
       } else {
         alert(res.d.errMsg);
         this.errorService.displayError(res, '');
-        rej(res.d.errId);
       }
+      resolve(res.d.errId);
     });
   }
 

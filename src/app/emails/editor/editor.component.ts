@@ -97,7 +97,6 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     const emlData = {};
-    console.log('Incoming msg', this.globals.email_body);
     this._TOKEN_POSSESION = this.randomTokenGenerator(6) + '-' + this.randomTokenGenerator(6);
 
     // get query string if exists
@@ -120,9 +119,9 @@ export class EditorComponent implements OnInit {
       this.detector.detectChanges();
     };
 
-    this.uploader.addToQueue = (fileItem) => {
-
-    };
+    // this.uploader.addToQueue = (fileItem) => {
+    //   console.log('FILES', this.uploader.queue);
+    // };
 
     const that = this;
     this.emailStore.getAddressBook();
@@ -297,6 +296,7 @@ export class EditorComponent implements OnInit {
                   } else {
                     that.router.navigate(['/unread']);
                   }
+                  that.resetData();
                 });
             });
         },
@@ -411,11 +411,7 @@ export class EditorComponent implements OnInit {
                     that.detector.detectChanges();
                     that.globals.emailAttach = null;
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
-                    if (that._reqStoreSelector !== '') {
-                      that.location.back();
-                    } else {
-                      that.router.navigate(['/unread']);
-                    }
+                    that.resetData();
                   });
               });
 
@@ -1003,6 +999,15 @@ export class EditorComponent implements OnInit {
         this.msgAddrList = [...this.msgAddrList, email];
       }
     }
+  }
+
+  resetData() {
+    this.msgPacket.to = [];
+    this.msgPacket.cc = [];
+    this.msgPacket.bcc = [];
+    this.msgPacket.subject = '';
+    this.EditorValue = '';
+    this.detector.detectChanges();
   }
 
   goBack() {

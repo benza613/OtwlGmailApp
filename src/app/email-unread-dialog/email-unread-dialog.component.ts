@@ -122,6 +122,7 @@ export class EmailUnreadDialogComponent implements OnInit {
       mapTypes.selectedThreadsFullData = this.mailList;
       this.emailServ.submitUnreadThreadData(mapTypes).then(function (value) {
         that.spinner.hide();
+        that.detector.detectChanges();
         if (value === '200') {
           const res = '1';
           alert('Mapping successfully done.');

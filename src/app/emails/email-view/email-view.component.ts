@@ -13,6 +13,7 @@ import { EmailsService } from 'src/app/_http/emails.service';
 import { Location } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
+import { ErrorService } from 'src/app/error/error.service';
 
 
 @Component({
@@ -66,7 +67,8 @@ export class EmailViewComponent implements OnInit {
     private detector: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
     private domainStore: DomainStoreService,
-    public globals: GlobalStoreService
+    public globals: GlobalStoreService,
+    private errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -274,6 +276,18 @@ export class EmailViewComponent implements OnInit {
       if (this.downloadFileObject.length > 0) {
         this.emailServ.downloadLocal(msgId, this.downloadFileObject).then(function (value) {
           that.spinner.hide();
+          that.detector.detectChanges();
+          if (value[0] !== '200') {
+            const res = {
+              d: {
+                errId: '',
+                errMsg: ''
+              }
+            };
+            res.d.errId = value[0];
+            res.d.errMsg = value[1];
+            that.errorService.displayError(res, 'downloadLocal');
+          }
         });
       } else {
         alert('Please Select files to download!');
@@ -282,8 +296,20 @@ export class EmailViewComponent implements OnInit {
       }
     } else if (id === 2) {
       this.spinner.show();
-      await this.emailStore.MessageAttch_RequestFSMapping(this.reqThreadId).then(success => {
+      await this.emailStore.MessageAttch_RequestFSMapping(this.reqThreadId).then(function (value) {
         that.spinner.hide();
+        that.detector.detectChanges();
+          if (value[0] !== '200') {
+            const res = {
+              d: {
+                errId: '',
+                errMsg: ''
+              }
+            };
+            res.d.errId = value[0];
+            res.d.errMsg = value[1];
+            that.errorService.displayError(res, 'requestFSMapping');
+          }
         const modalRef = that.modalService.open(
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }
@@ -477,6 +503,7 @@ export class EmailViewComponent implements OnInit {
   expand(eml, i) {
     eml.isOpen = !eml.isOpen;
     if (eml.isOpen) {
+      console.log('Email', eml);
       this.processAttachments([eml]);
     }
   }
@@ -558,10 +585,10 @@ export class EmailViewComponent implements OnInit {
   }
 
   saveAsAttach(idx) {
-     this.globals.emailAttach = this.list[idx];
-     this.globals.subject = this.subject;
-     console.log('Email as attach', this.list[idx])
-     this.router.navigate(['draft/']);
+    this.globals.emailAttach = this.list[idx];
+    this.globals.subject = this.subject;
+    console.log('Email as attach', this.list[idx])
+    this.router.navigate(['draft/']);
   }
 
   goBack() {

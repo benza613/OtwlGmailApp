@@ -10,6 +10,7 @@ import { AuthService } from '../auth/auth.service';
 import { EmailUnreadDialogComponent } from '../email-unread-dialog/email-unread-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { ErrorService } from '../error/error.service';
 
 @Component({
   selector: 'app-email-list2',
@@ -47,7 +48,8 @@ export class EmailList2Component implements OnInit, OnDestroy {
     private authServ: AuthService,
     private detector: ChangeDetectorRef,
     private route: ActivatedRoute,
-    public globals: GlobalStoreService
+    public globals: GlobalStoreService,
+    private errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -71,6 +73,7 @@ export class EmailList2Component implements OnInit, OnDestroy {
   }
 
   showConfirmDialog(thread) {
+    const that = this;
     const modalRef = this.modalService.open(
       ConfirmDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
@@ -81,23 +84,46 @@ export class EmailList2Component implements OnInit, OnDestroy {
       const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
       const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
       // tslint:disable-next-line: max-line-length
-      this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
-        this.spinner.hide('list2');
+      this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(function (value) {
+        that.spinner.hide('list2');
+        that.detector.detectChanges();
+        if (value[0] !== '200') {
+          const res = {
+            d: {
+              errId: '',
+              errMsg: ''
+            }
+          };
+          res.d.errId = value[0];
+          res.d.errMsg = value[1];
+          that.errorService.displayError(res, 'getMappedThreads');
+        }
       });
     });
   }
 
   applyFilter() {
     this.mappedFilterargs = { a: this.reference, b: this.threadTypeVal, c: this.subject, d: this.remarks };
-    //this.debounceSearch.next(filterValue);
-    //
   }
 
   onClick_GetThreadMessages(threadData) {
     this.spinner.show('list2');
     this.authServ.login();
-    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject, this.locst_id).then(success => {
-      this.spinner.hide('list2');
+    const that = this;
+    this.emailStore.update_MappedThreadEmails(threadData.ThreadGID, threadData.ThreadSubject, this.locst_id).then(function (value) {
+      that.spinner.hide('list2');
+      that.detector.detectChanges();
+      if (value[0] !== '200') {
+        const res = {
+          d: {
+            errId: '',
+            errMsg: ''
+          }
+        };
+        res.d.errId = value[0];
+        res.d.errMsg = value[1];
+        that.errorService.displayError(res, 'fetchThreadEmails');
+      }
     });
   }
 
@@ -118,9 +144,22 @@ export class EmailList2Component implements OnInit, OnDestroy {
         modalRef.close();
         const date_from = moment(this.globals.mappedFromDate).subtract(1, 'month').format('YYYY/MM/DD');
         const date_to = moment(this.globals.mappedToDate).subtract(1, 'month').format('YYYY/MM/DD');
+        const that = this;
         // tslint:disable-next-line: max-line-length
-        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(success => {
-          this.spinner.hide('list2');
+        this.emailStore.updateMappedThreadList(this.globals.mappedRefId, this.globals.mappedRefValId, date_from, date_to, this.globals.isAdmin).then(function (value) {
+          that.spinner.hide('list2');
+          that.detector.detectChanges();
+          if (value[0] !== '200') {
+            const res = {
+              d: {
+                errId: '',
+                errMsg: ''
+              }
+            };
+            res.d.errId = value[0];
+            res.d.errMsg = value[1];
+            that.errorService.displayError(res, 'getMappedThreads');
+          }
         });
       }
     });

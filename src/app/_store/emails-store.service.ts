@@ -227,8 +227,8 @@ export class EmailsStoreService {
   }
 
 
-  sendNewEmail(packet, body, inlineAtachments, actionType, 
-                storeSelector, MessageID, TokenPossession, 
+  sendNewEmail(packet, body, inlineAtachments, actionType,
+                storeSelector, MessageID, TokenPossession,
                 orderFilesList, emailAddrList, alacarteDetails, eml, att_subject) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.sendNewMail(
@@ -477,7 +477,6 @@ export class EmailsStoreService {
       } else {
         this.errorService.displayError(res, 'fetchThreadEmails');
       }
-      console.log('Store',this.unreadThreads[index].Messages[0]);
       resolve([res.d.isMapped,  this.unreadThreads[index].Messages[0]]);
     });
   }
@@ -506,9 +505,10 @@ export class EmailsStoreService {
         }
         this.mappedThreads = arrx;
         this.threadTypeList = arrx2;
-        resolve();
+        resolve([res.d.errId, res.d.errMsg]);
       } else {
-        this.errorService.displayError(res, 'getMappedThreads');
+        reject([res.d.errId, res.d.errMsg]);
+        // this.errorService.displayError(res, 'getMappedThreads');
       }
     });
   }
@@ -536,9 +536,9 @@ export class EmailsStoreService {
         }
         this.mappedThreads = [...this.mappedThreads];
         this.router.navigate(['view/' + ThreadId], { queryParams: { q: 'mapped', locst_id: loc_st_id, subject: Subject } });
-        resolve();
+        resolve([res.d.errId, res.d.errMsg]);
       } else {
-        this.errorService.displayError(res, 'fetchThreadEmails');
+        resolve([res.d.errId, res.d.errMsg]);
       }
     });
   }
@@ -579,10 +579,10 @@ export class EmailsStoreService {
         const arrx = this.fsMapList;
         arrx.push(...<FSMapping[]>res.d.mapList);
         this.fsMapList = arrx;
-        resolve();
+        resolve([res.d.errId, res.d.errMsg]);
       } else {
-        this.errorService.displayError(res, 'requestFSMapping');
-        rej();
+        // this.errorService.displayError(res, 'requestFSMapping');
+        rej([res.d.errId, res.d.errMsg]);
       }
     });
 

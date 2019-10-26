@@ -55,7 +55,7 @@ import { SafeUrlPipe } from './_pipe/safe-url.pipe';
     FSFilesDialogComponent,
     FileFilterPipe,
     EmailSentComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
   ],
   imports: [
     BrowserModule,

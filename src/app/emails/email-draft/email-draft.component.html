@@ -85,11 +85,11 @@
       </div>
       <div class="col text-right">
         <div class="btn-group" ngbDropdown role="group" style="float: right;">
-          <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">INBOX</button>
+          <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">DRAFT</button>
           <div style="opacity: 0.85;" class="dropdown-menu" ngbDropdownMenu>
+            <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
             <button ngbDropdownItem (click)="router.navigate(['mapped/']);"><i class="fa fa-external-link-square"></i>&nbsp;&nbsp;<b>MAPPED</b></button>
             <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
-            <button ngbDropdownItem (click)="router.navigate(['draft/']);"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>DRAFT</b></button>
             <button ngbDropdownItem (click)="router.navigate(['editor/']);"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>COMPOSE</b></button>
           </div>
         </div>

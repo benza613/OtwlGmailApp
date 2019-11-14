@@ -53,6 +53,13 @@ export class EmailListComponent implements OnInit {
       this.threadList = this.emailStore.unreadThreads$.pipe(
         map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
       );
+    } else if (this.storeSelector === 'EmailDraftComponent') {
+      this.emailStore.draftThreadsCount$.subscribe(
+        x => { this.t_CollectionSize = x; this.globals.pages = x; },
+      );
+      this.threadList = this.emailStore.draftThreads$.pipe(
+        map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+      );
     } else {
       this.emailStore.sentThreadsCount$.subscribe(x => {
         this.t_CollectionSize = x;

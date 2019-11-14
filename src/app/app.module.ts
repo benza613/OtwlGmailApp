@@ -32,6 +32,7 @@ import { FSFilesDialogComponent } from './email_fs_files/fsfiles-dialog/fsfiles-
 import { FileFilterPipe } from './_pipe/file-filter.pipe';
 import { EmailSentComponent } from './emails/email-sent/email-sent.component';
 import { SafeUrlPipe } from './_pipe/safe-url.pipe';
+import { EmailDraftComponent } from './emails/email-draft/email-draft.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { SafeUrlPipe } from './_pipe/safe-url.pipe';
     FileFilterPipe,
     EmailSentComponent,
     SafeUrlPipe,
+    EmailDraftComponent,
   ],
   imports: [
     BrowserModule,

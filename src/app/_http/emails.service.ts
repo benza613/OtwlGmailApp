@@ -50,6 +50,13 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
+  indexDraft(pageToken, addrFrom, addrTo, subject): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getDraftThreads`,
+      { pageToken, addrFrom, addrTo, subject },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   getMappedThreads(refID, refValId, dateFrom, dateTo, isAdmin): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getMappedThreads`, { refID, refValId, dateFrom, dateTo, isAdmin }, this.httpOptions)
       .pipe(map(r => r));

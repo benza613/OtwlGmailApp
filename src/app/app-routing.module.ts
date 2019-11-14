@@ -1,3 +1,4 @@
+import { EmailDraftComponent } from './emails/email-draft/email-draft.component';
 import { EmailSentComponent } from './emails/email-sent/email-sent.component';
 import { ActivateGuardService } from './activate-guard.service';
 import { NgModule } from '@angular/core';
@@ -33,6 +34,11 @@ const routes: Routes = [
   },
   {
     path: 'draft',
+    component: EmailDraftComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'editor',
     component: EditorComponent,
     pathMatch: 'full'
   },

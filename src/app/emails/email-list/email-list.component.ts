@@ -105,6 +105,13 @@ export class EmailListComponent implements OnInit {
         threadData.isMapped = value[0] === '0' ? false : true;
         that.spinner.hide('list1');
       });
+    } else if (this.storeSelector === 'EmailDraftComponent') {
+      this.emailStore.update_DraftThreadEmails(1, threadData.ThreadId, 'draft', threadData['Messages'][0]['Id']).then(function (value) {
+        threadData.isUnread = false;
+        // threadData.isMapped = value[0] === '0' ? false : true;
+        threadData.isMapped = false;
+        that.spinner.hide('list1');
+      });
     } else {
       this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
         threadData.isUnread = false;

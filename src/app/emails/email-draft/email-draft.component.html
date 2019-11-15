@@ -13,7 +13,7 @@
     </div>
     <div class="row filters">
       <div class="col">
-        <textarea class="form-control" [(ngModel)]="globals.unreadFrom" rows="1"></textarea>
+        <textarea class="form-control" [(ngModel)]="globals.draftFrom" rows="1"></textarea>
       </div>
     </div>
     <div class="row">
@@ -23,7 +23,7 @@
     </div>
     <div class="row filters">
       <div class="col">
-        <textarea class="form-control" [(ngModel)]="globals.unreadTo" rows="1"></textarea>
+        <textarea class="form-control" [(ngModel)]="globals.draftTo" rows="1"></textarea>
       </div>
     </div>
     <div class="row">
@@ -33,12 +33,12 @@
     </div>
     <div class="row filters">
       <div class="col">
-        <textarea class="form-control" [(ngModel)]="globals.unreadSubject" rows="1"></textarea>
+        <textarea class="form-control" [(ngModel)]="globals.draftSubject" rows="1"></textarea>
       </div>
     </div>
     <div class="row" style="margin-top: 20px;">
       <div class="col">
-        <button type="button" class="btn bg-primary" (click)="fetchUnreadThreads(10)"
+        <button type="button" class="btn bg-primary" (click)="fetchDraftThreads(10)"
           style="color: white">FILTER</button>
       </div>
     </div>
@@ -66,7 +66,7 @@
             <!-- </div>
           <div class="btn-group"> -->
             <button type="button" ngbTooltip="Get next 200" placement="bottom" class="btn btn-sm btn-outline-primary"
-              style="transform: scale(0.80);" (click)="doUnreadPagination(20)" [disabled]="showLoaders">
+              style="transform: scale(0.80);" (click)="doDraftPagination(20)" [disabled]="showLoaders">
               <i class="fa fa-envelope-o"></i>&nbsp;<i class="fa fa-plus"></i>200
             </button>
           </div>

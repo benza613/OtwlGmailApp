@@ -82,6 +82,7 @@ export class EditorComponent implements OnInit {
   showUploadSize;
   addressBook;
   showEmail = false;
+  draftMail;
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -188,7 +189,7 @@ export class EditorComponent implements OnInit {
             that._isOrdersComplete = true;
             that.detector.detectChanges();
           });
-        } else if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined) {
+        } else if (params.q !== undefined && params.mid !== undefined && params.tid !== undefined && params.q !== 'draft') {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
           this._reqStoreSelector = params.q;
@@ -197,6 +198,16 @@ export class EditorComponent implements OnInit {
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleGmailAddressFields(x.msgs);
+            this.msgPacket.subject = x.subject;
+          }
+        } else if (params.q !== undefined && params.q === 'draft') {
+          this._reqStoreSelector = params.q;
+          this._reqThreadID = params.tid;
+          this._reqMessageID = params.mid;
+          const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
+          console.log(x);
+          if (x.msgs !== undefined && x.msgs.length > 0) {
+            this.recycleDraftGmailAddressFields(x.msgs);
             this.msgPacket.subject = x.subject;
           }
         }
@@ -435,23 +446,23 @@ export class EditorComponent implements OnInit {
   private base64InlineAttachmentsToBody() {
     let msgBodyCopy = this.EditorValue + this.signatureHtml;
     this._inlineAttachments.push(
-      { src: 'assets/icons/address.png', alt: 'address.png'},
-      { src: 'assets/icons/at.png', alt: 'at.png'},
-      { src: 'assets/icons/icons8-skype-48.png', alt: 'icons8-skype-48.png'},
-      { src: 'assets/icons/icons8-website-48.png', alt: 'icons8-website-48.png'},
-      { src: 'assets/icons/logo.png', alt: 'logo.png'},
-      { src: 'assets/icons/mobile.png', alt: 'mobile.png'},
-      { src: 'assets/icons/icons8-weixin-48.png', alt: 'icons8-weixin-48.png'},
-      { src: 'assets/icons/phone-office.png', alt: 'phone-office.png'},
-      { src: 'assets/icons/phone-office2.png', alt: 'phone-office2.png'},
+      { src: 'assets/icons/address.png', alt: 'address.png' },
+      { src: 'assets/icons/at.png', alt: 'at.png' },
+      { src: 'assets/icons/icons8-skype-48.png', alt: 'icons8-skype-48.png' },
+      { src: 'assets/icons/icons8-website-48.png', alt: 'icons8-website-48.png' },
+      { src: 'assets/icons/logo.png', alt: 'logo.png' },
+      { src: 'assets/icons/mobile.png', alt: 'mobile.png' },
+      { src: 'assets/icons/icons8-weixin-48.png', alt: 'icons8-weixin-48.png' },
+      { src: 'assets/icons/phone-office.png', alt: 'phone-office.png' },
+      { src: 'assets/icons/phone-office2.png', alt: 'phone-office2.png' },
 
 
       { src: 'assets/certificates/mto.png', alt: 'mto.png' },
-      { src: 'assets/certificates/sym.png', alt: 'sym.png'},
-      { src: 'assets/certificates/wca.png', alt: 'wca.png'},
-      { src: 'assets/certificates/cl.png', alt: 'cl.png'},
-      { src: 'assets/certificates/iso.png', alt: 'iso.png'},
-      { src: 'assets/certificates/mt.png', alt: 'mt.png'},
+      { src: 'assets/certificates/sym.png', alt: 'sym.png' },
+      { src: 'assets/certificates/wca.png', alt: 'wca.png' },
+      { src: 'assets/certificates/cl.png', alt: 'cl.png' },
+      { src: 'assets/certificates/iso.png', alt: 'iso.png' },
+      { src: 'assets/certificates/mt.png', alt: 'mt.png' },
     );
 
     const self = this;
@@ -897,6 +908,20 @@ export class EditorComponent implements OnInit {
     //   }
     // });
 
+  }
+
+  private recycleDraftGmailAddressFields(msgs) {
+    msgs[0].Payload.Headers.forEach(x => {
+      if (x.Name === 'To') {
+        x.Value.split(',').forEach(element => {
+          if (element !== undefined && element !== '') {
+            this.msgAddrList.push({ emailId: element });
+            this.msgPacket.to.push({ emailId: element });
+          }
+        });
+      }
+    });
+    this.EditorValue = msgs[0].Snippet;
   }
 
 

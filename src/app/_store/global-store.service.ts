@@ -9,6 +9,9 @@ export class GlobalStoreService {
   public unreadFrom = '';
   public unreadTo = '';
   public unreadSubject = '';
+  public draftFrom = '';
+  public draftTo = '';
+  public draftSubject = '';
   public sentTo: string;
   public sentFrom: string;
   public sentSubject: string;

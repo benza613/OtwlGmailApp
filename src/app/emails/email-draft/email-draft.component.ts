@@ -30,21 +30,20 @@ export class EmailDraftComponent implements OnInit {
   ngOnInit() {
     this.showLoaders = true;
     const that = this;
-    this.emailStore.updateDraftThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+    this.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
       that.showLoaders = false;
-      console.log('promise succ for updateDraftThreadList');
       that.doDraftPagination(2);
     }, err => {
       this.spinner.hide();
       that.showLoaders = false;
-      console.log('promise reject for updateUnreadThreadList');
     });
   }
 
-  fetchUnreadThreads(i) {
+  fetchDraftThreads(i) {
     const that = this;
+    this.isCollapsed = true;
     this.showLoaders = true;
-      this.emailStore.updateUnreadThreadList(i, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+      this.emailStore.updateDraftThreadList(i, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
         this.spinner.hide();
         this.doDraftPagination(i - 1);
       });

@@ -141,6 +141,23 @@ export class EmailViewComponent implements OnInit {
         });
       this.hideBlockQuotes();
       this.spinner.hide();
+    } else if (this.storeSelector === 'draft') {
+      this.emailStore.getDraftThreadData$(this.reqThreadId).subscribe(x => {
+        this.thread = x;
+      });
+      this.emailStore.getDraftMsgList$(this.reqThreadId)
+        .pipe(
+          map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+        ).subscribe(x => {
+          this.emailList = x;
+          this.emailListOriginal = x;
+          this.list = x;
+          for (let i = 0; i < x.length; i++) {
+            this.quotes[i] = '';
+          }
+        });
+      this.hideBlockQuotes();
+      this.spinner.hide();
     }
   }
 

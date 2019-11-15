@@ -1,3 +1,4 @@
+import { Message } from './../models/message.model';
 import { DraftSearchLocks } from './../enums/draft-search-locks.enum';
 import { SentSearchParams } from './../models/sent-search-params.model';
 import { GlobalStoreService } from 'src/app/_store/global-store.service';
@@ -110,6 +111,10 @@ export class EmailsStoreService {
     map(tx => this.sentThreads.find(t => t.ThreadId === ThreadId).Messages)
   )
 
+  readonly getDraftMsgList$ = (ThreadId) => this.draftThreads$.pipe(
+    map(tx => this.draftThreads.find(t => t.ThreadId === ThreadId).Messages)
+  )
+
   readonly getUnreadThreadData$ = (ThreadId) => this.unreadThreads$.pipe(
     map(tx => this.unreadThreads.find(t => t.ThreadId === ThreadId))
   )
@@ -120,6 +125,10 @@ export class EmailsStoreService {
 
   readonly getSentThreadData$ = (ThreadId) => this.sentThreads$.pipe(
     map(tx => this.sentThreads.find(t => t.ThreadId === ThreadId))
+  )
+
+  readonly getDraftThreadData$ = (ThreadId) => this.draftThreads$.pipe(
+    map(tx => this.draftThreads.find(t => t.ThreadId === ThreadId))
   )
 
   readonly getNonDeletedThread$ = (ThreadId) => this.unreadThreads$.pipe(
@@ -412,7 +421,7 @@ export class EmailsStoreService {
 
       const arrx = [];
 
-      this.lastValidSearch = {
+      this.lastValidDraftSearch = {
         addrFrom: addrFrom,
         addrTo: addrTo,
         subject: subject
@@ -539,13 +548,13 @@ export class EmailsStoreService {
 
 
   paginateDraftThreadList(flagCount) {
-    // let addfrom = this.lastValidDraftSearch.addrFrom != undefined ? this.lastValidDraftSearch.addrFrom : "";
-    // let addTo = this.lastValidDraftSearch.addrTo != undefined ? this.lastValidDraftSearch.addrTo : "";
-    // let subj = this.lastValidDraftSearch.subject != undefined ? this.lastValidDraftSearch.subject : "";
+    let addfrom = this.lastValidDraftSearch.addrFrom != undefined ? this.lastValidDraftSearch.addrFrom : "";
+    let addTo = this.lastValidDraftSearch.addrTo != undefined ? this.lastValidDraftSearch.addrTo : "";
+    let subj = this.lastValidDraftSearch.subject != undefined ? this.lastValidDraftSearch.subject : "";
 
-    let addfrom = "";
-    let addTo = "";
-    let subj = "";
+    // let addfrom = "";
+    // let addTo = "";
+    // let subj = "";
 
     return new Promise(async (resolve, reject) => {
 
@@ -630,6 +639,19 @@ export class EmailsStoreService {
   }
 
 
+  async update_DraftThreadEmails(flag, ThreadId, storeSelector, MsgId) {
+    // navigate to compose directly 
+    //display attachments, patch values from headers in respective sections
+    this.router.navigate(['editor/'], {
+      queryParams: {
+        q: storeSelector
+        , tid: ThreadId
+        , mid: MsgId
+      }
+    });
+  }
+
+
   /**
    * MAPPED module methods
    */
@@ -709,6 +731,16 @@ export class EmailsStoreService {
           msgs: thr[0].Messages.filter(x => x.msgid === MessageID),
           subject: thr[0].ThreadSubject
         };
+      }
+    } else if (StoreSelector === 'draft') {
+      const thr = this.draftThreads.filter(x => x.ThreadId === ThreadID);
+      if (thr.length > 0) {
+        return {
+          msgs: thr[0].Messages,
+          subject: thr[0].Subject
+        };
+      } else {
+        return {};
       }
     } else {
       return {};

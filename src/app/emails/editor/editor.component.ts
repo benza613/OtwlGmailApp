@@ -83,6 +83,7 @@ export class EditorComponent implements OnInit {
   addressBook;
   showEmail = false;
   draftMail;
+  draftAttachments = [];
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -205,10 +206,14 @@ export class EditorComponent implements OnInit {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
-          console.log(x);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleDraftGmailAddressFields(x.msgs);
             this.msgPacket.subject = x.subject;
+            x.msgs[0]['Payload']['Parts'].forEach(att => {
+                if (att.Filename !== '') {
+                  this.draftAttachments.push(att);
+                }
+            });
           }
         }
 

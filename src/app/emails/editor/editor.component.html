@@ -96,26 +96,28 @@
   <div class="col card" *ngIf="(_reqStoreSelector === 'draft') && (draftAttachments.length > 0)"
     style="margin: 10px 5px;">
     <div class="row card-header"
-      style="text-align: left; background-color: rgb(131, 82, 194);color: white;font-style: bold;">
-      ATTACHMENTS:
+      style="text-align: left; background-color: rgb(131, 82, 194);color: white;">
+      <b>ATTACHMENTS:</b>
     </div>
     <div class="row">
       <div class="col">
         <div class="row">
           <div class="col-md-2 card" *ngFor="let att of draftAttachments"
-            style="background-color: rgb(53, 52, 52);color: white; font-style: bold; margin: 10px;">
-              <div class="row">
-                <div class="col">
-                    <span [ngbTooltip]="att.Filename" *ngIf="att.Filename.length > 20">{{att.Filename | slice:0:20}}...</span>
-                    <span *ngIf="att.Filename.length <= 20">{{att.Filename}}</span>
-                </div>
-                <div class="col" style="padding: 0px;">
-                    <span style="float: right !important; margin-right: 5px;">
-                        <i class="fa fa-minus-circle" style="color: red;transform: scale(1.2)"></i>
-                      </span>
-                </div>
+            style="background-color: rgb(63, 63, 63);color: white; font-style: bold; margin: 10px;">
+            <div class="row">
+              <div class="col">
+                <span [ngbTooltip]="att.Filename"
+                  *ngIf="att.Filename.length > 20">{{att.Filename | slice:0:20}}...</span>
+                <span *ngIf="att.Filename.length <= 20">{{att.Filename}}</span>
               </div>
-              <span>({{att.Body.Size}})</span>
+              <div class="col" style="padding: 0px;">
+                <span style="float: right !important; margin-right: 5px;">
+                    <i class="fa fa-times"></i>
+                  <i class="fa fa-minus-circle" style="color: red;transform: scale(1.2)"></i>
+                </span>
+              </div>
+            </div>
+            <span>({{att.Body.Size}})</span>
           </div>
         </div>
       </div>

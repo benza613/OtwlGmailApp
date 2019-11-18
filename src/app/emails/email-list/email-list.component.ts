@@ -67,16 +67,10 @@ export class EmailListComponent implements OnInit {
         this.globals.pages = x;
       });
       this.threadList = this.emailStore.sentThreads$.pipe(
-        map(mails => 
+        map(mails =>
           mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime())
-          )
+        )
       );
-      console.log();
-      this.threadList[0].Messages[0].Payload.Headers.forEach(x => {
-        if (x.Name === 'To') {
-          console.log(x.Value);
-        }
-      });
     }
   }
 

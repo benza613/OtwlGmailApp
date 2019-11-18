@@ -18,7 +18,7 @@ import { DomainStoreService } from 'src/app/_store/domain-store.service';
 export class EmailSentComponent implements OnInit {
 
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
-  dynamicdata: string = 'sent';
+  dynamicdata: string = 'EmailSentComponent';
   sentThreads;
   storeSelector = 'sent';
   t_CollectionSize: number;

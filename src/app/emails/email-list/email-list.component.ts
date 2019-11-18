@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
+import { markdownListsTags } from '@syncfusion/ej2-richtexteditor';
 
 @Component({
   selector: 'app-email-list',
@@ -66,8 +67,16 @@ export class EmailListComponent implements OnInit {
         this.globals.pages = x;
       });
       this.threadList = this.emailStore.sentThreads$.pipe(
-        map(mails => mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime()))
+        map(mails => 
+          mails.sort((a, b) => new Date(b.Msg_Date).getTime() - new Date(a.Msg_Date).getTime())
+          )
       );
+      console.log();
+      this.threadList[0].Messages[0].Payload.Headers.forEach(x => {
+        if (x.Name === 'To') {
+          console.log(x.Value);
+        }
+      });
     }
   }
 
@@ -113,9 +122,9 @@ export class EmailListComponent implements OnInit {
         that.spinner.hide('list1');
       });
     } else {
-      this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+      this.emailStore.update_SentThreadEmails(threadData.ThreadId, 'sent', threadData.Subject).then(function (value) {
         threadData.isUnread = false;
-        threadData.isMapped = value[0] === '0' ? false : true;
+        // threadData.isMapped = value[0] === '0' ? false : true;
         that.spinner.hide('list1');
       });
     }

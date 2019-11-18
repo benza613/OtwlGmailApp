@@ -386,6 +386,11 @@ export class EmailsStoreService {
       if (res.d.errId === '200') {
         const arrx = [];
         res.d.threads.forEach(x => {
+          x.Messages[0].Payload.Headers.forEach(email => {
+            if (email.Name === 'To') {
+              x['Msg_To'] = email.Value;
+            }
+          });
           x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         });
         arrx.push(...<Thread[]>res.d.threads);

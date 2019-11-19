@@ -46,7 +46,7 @@
           <i class="fa fa-star" *ngIf="item.isTo" style="margin-right: 5px; color: rgb(207, 26, 26)"></i>
           <i class="fa fa-star-o" *ngIf="!item.isTo" style="margin-right: 5px;"></i>
         </div>
-        <div *ngIf="storeSelector === 'EmailUnreadComponent'" class="col-md-2 UnreadContent" (click)="onClick_GetThreadMessages(item)"
+        <div *ngIf="storeSelector === 'EmailUnreadComponent' || storeSelector === 'EmailDraftComponent'" class="col-md-2 UnreadContent" (click)="onClick_GetThreadMessages(item)"
           [ngClass]="{unread: item.isUnread}"><span class="row"
             *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
           <span class="row"

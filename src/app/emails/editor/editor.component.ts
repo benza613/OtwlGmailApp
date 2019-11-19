@@ -61,6 +61,7 @@ export class EditorComponent implements OnInit {
   _reqMessageID = '';
   _reqStoreSelector = '';
   _reqActionType = '';
+  _isDraft = 'false';
 
   _reqOrderID = '';
 
@@ -205,14 +206,15 @@ export class EditorComponent implements OnInit {
           this._reqStoreSelector = params.q;
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
+          this._isDraft = 'true';
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleDraftGmailAddressFields(x.msgs);
             this.msgPacket.subject = x.subject;
             x.msgs[0]['Payload']['Parts'].forEach(att => {
-                if (att.Filename !== '') {
-                  this.draftAttachments.push(att);
-                }
+              if (att.Filename !== '') {
+                this.draftAttachments.push(att);
+              }
             });
           }
         }
@@ -302,15 +304,13 @@ export class EditorComponent implements OnInit {
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
-                this.alacarteDetails, this.globals.emailAttach, this.globals.subject)
+                this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft)
                 .then(function (value) {
                   that.spinner.hide();
                   that.globals.emailAttach = null;
                   that.detector.detectChanges();
                   if (this._reqStoreSelector !== '') {
                     that.location.back();
-                  } else {
-                    that.router.navigate(['/unread']);
                   }
                   that.resetData();
                 });
@@ -421,13 +421,16 @@ export class EditorComponent implements OnInit {
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
-                  this.alacarteDetails, this.globals.emailAttach, this.globals.subject)
+                  this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft)
                   .then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that.globals.emailAttach = null;
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
                     that.resetData();
+                    if (that._reqStoreSelector === 'draft') {
+                      this.location.back();
+                    }
                   });
               });
 
@@ -1031,12 +1034,17 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  delEmailAttach() {
+    this.globals.emailAttach = null;
+  }
+
   resetData() {
     this.msgPacket.to = [];
     this.msgPacket.cc = [];
     this.msgPacket.bcc = [];
     this.msgPacket.subject = '';
     this.EditorValue = '';
+    this.draftAttachments = [];
     this.detector.detectChanges();
   }
 

@@ -82,19 +82,35 @@ export class EmailListComponent implements OnInit {
   getPreview(threadData) {
     this.spinner.show('list1');
     const that = this;
-    this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
-      threadData.isUnread = false;
-      threadData.isMapped = value[0] === '0' ? false : true;
-      that.emailStore.getUnreadMsgList$(threadData.ThreadId)
-        .pipe(
-          map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
-        ).subscribe(x => {
-          that.msg = x[0];
-        });
-      that.showPreview = true;
-      that.currentThread = threadData.ThreadId;
-      that.spinner.hide('list1');
-    });
+    if (this.storeSelector === 'EmailUnreadComponent') {
+      this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+        threadData.isUnread = false;
+        threadData.isMapped = value[0] === '0' ? false : true;
+        that.emailStore.getUnreadMsgList$(threadData.ThreadId)
+          .pipe(
+            map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+          ).subscribe(x => {
+            that.msg = x[0];
+          });
+        that.showPreview = true;
+        that.currentThread = threadData.ThreadId;
+        that.spinner.hide('list1');
+      });
+    } else if (this.storeSelector === 'EmailDraftComponent') {
+      this.emailStore.update_DraftThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+        threadData.isUnread = false;
+        // threadData.isMapped = value[0] === '0' ? false : true;
+        that.emailStore.getDraftMsgList$(threadData.ThreadId)
+          .pipe(
+            map(msgs => msgs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()))
+          ).subscribe(x => {
+            that.msg = x[0];
+          });
+        that.showPreview = true;
+        that.currentThread = threadData.ThreadId;
+        that.spinner.hide('list1');
+      });
+    }
   }
 
   onClick_LoadAllMessages(threadData) {

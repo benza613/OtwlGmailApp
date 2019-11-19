@@ -71,7 +71,9 @@
   <div class="row" style="float: right !important; margin-right: 15px;">
     <div class="row" *ngIf="globals.emailAttach !== null"
       style="border: rgb(184, 184, 184) 1px solid; border-radius: 2px; padding: 5px; background-color: rgb(233, 233, 233)">
-      <span style="color: rgb(109, 109, 109)"><i class="fa fa-envelope"></i>&nbsp;</span>{{globals.subject}}
+      <span style="color: rgb(109, 109, 109)">
+        <i class="fa fa-times-circle" style="transform: scale(1.2); cursor: pointer;" (click)="delEmailAttach()"></i>&nbsp;&nbsp;
+        <i class="fa fa-envelope"></i>&nbsp;</span>{{globals.subject}}
     </div>
   </div>
   <div class="customTab">

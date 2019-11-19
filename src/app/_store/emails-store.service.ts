@@ -281,7 +281,7 @@ export class EmailsStoreService {
 
   sendNewEmail(packet, body, inlineAtachments, actionType,
     storeSelector, MessageID, TokenPossession,
-    orderFilesList, emailAddrList, alacarteDetails, eml, att_subject) {
+    orderFilesList, emailAddrList, alacarteDetails, eml, att_subject, isDraft) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.sendNewMail(
         packet.to.map(key => key.emailId),
@@ -289,8 +289,8 @@ export class EmailsStoreService {
         packet.bcc.map(key => key.emailId),
         packet.subject, body, inlineAtachments,
         actionType, MessageID,
-        TokenPossession, orderFilesList, emailAddrList, alacarteDetails, eml, att_subject).toPromise();
-      if (res.d.errId === '200') {
+        TokenPossession, orderFilesList, emailAddrList, alacarteDetails, eml, att_subject, isDraft).toPromise();
+      if (res.d.errId === 'None') {
         alert(res.d.errMsg);
       } else {
         alert(res.d.errMsg);
@@ -564,7 +564,7 @@ export class EmailsStoreService {
     return new Promise(async (resolve, reject) => {
 
       const arrx = [];
-      arrx.push(...this.unreadThreads);
+      arrx.push(...this.draftThreads);
 
 
 

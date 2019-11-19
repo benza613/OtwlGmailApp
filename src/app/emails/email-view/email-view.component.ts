@@ -316,17 +316,17 @@ export class EmailViewComponent implements OnInit {
       await this.emailStore.MessageAttch_RequestFSMapping(this.reqThreadId).then(function (value) {
         that.spinner.hide();
         that.detector.detectChanges();
-          if (value[0] !== '200') {
-            const res = {
-              d: {
-                errId: '',
-                errMsg: ''
-              }
-            };
-            res.d.errId = value[0];
-            res.d.errMsg = value[1];
-            that.errorService.displayError(res, 'requestFSMapping');
-          }
+        if (value[0] !== '200') {
+          const res = {
+            d: {
+              errId: '',
+              errMsg: ''
+            }
+          };
+          res.d.errId = value[0];
+          res.d.errMsg = value[1];
+          that.errorService.displayError(res, 'requestFSMapping');
+        }
         const modalRef = that.modalService.open(
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }
@@ -520,13 +520,15 @@ export class EmailViewComponent implements OnInit {
   expand(eml, i) {
     eml.isOpen = !eml.isOpen;
     if (eml.isOpen) {
-      console.log('Email', eml);
+      // this.renderIcons([eml]);
+      console.log('hit');
       this.processAttachments([eml]);
     }
   }
 
   renderImages(eml, i) {
     eml.showFooter = !eml.showFooter;
+    // this.renderIcons([eml]);
     this.processAttachments([eml]);
   }
 
@@ -536,22 +538,28 @@ export class EmailViewComponent implements OnInit {
     const x = document.getElementsByTagName('img');
     list.forEach(email => {
       email.attachments.forEach(att => {
-        const fileExtn = att.fileName.split('.');
-        if (fileExtn[1].toLowerCase().includes('png') || fileExtn[1].toLowerCase().includes('jpg') ||
-          fileExtn[1].toLowerCase().includes('jpeg') || fileExtn[1].toLowerCase().includes('gif')) {
+        // const fileExtn = att.fileName.split('.');
+        // if (fileExtn[1].toLowerCase().includes('png') || fileExtn[1].toLowerCase().includes('jpg') ||
+        //   fileExtn[1].toLowerCase().includes('jpeg') || fileExtn[1].toLowerCase().includes('gif')) {
           this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
             for (let i = 0; i < x.length; i++) {
               if (x[i].src.includes(att.fileName)) {
                 x[i].setAttribute('src', blobUrl.toString());
               }
             }
-            that.imageList.push(blobUrl);
           });
-        }
+        // }
       });
+      this.filterAttachments(email);
     });
     this.detector.detectChanges();
   }
+
+  filterAttachments(eml) {
+      eml.attachments = eml.attachments.filter(x => x.fileName.includes('.'));
+      this.detector.detectChanges();
+  }
+
 
   hideBlockQuotes() {
     this.emailListOriginal = this.list;

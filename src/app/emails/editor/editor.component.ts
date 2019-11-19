@@ -613,11 +613,11 @@ export class EditorComponent implements OnInit {
     <tr style="height:37.75pt; vertical-align: top;">
       <td width="217" colspan="3" rowspan="4" valign="top"
         style="width:162.9pt;border:solid #d9d9d9 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:37.75pt">
-        <p style="margin-bottom:10.0pt;line-height:115%"><u></u><span
+        <p style="margin-bottom:10.0pt;line-height:75%"><u></u><span
             style="margin-left:206px;margin-top:25px;width:3px;height:132px"><img width="3" height="132"
               src="https://mail.google.com/mail/u/0?ui=2&amp;ik=216bd45aa9&amp;attid=0.2&amp;permmsgid=msg-f:1646353208991147243&amp;th=16d9058554bde4eb&amp;view=fimg&amp;sz=s0-l75-ft&amp;attbid=ANGjdJ_8wpM71CAL7mrVaByjIoEBID94RepXPNiEVnwsDqAjg-4eXhPLqpLHhvt0t0qb43dpR8eVGEg7Mdzuzn43D1Sd-uVIZQT0IuMIzExxhInPd7qnF4UpsnHI4Eo&amp;disp=emb"
               data-image-whitelisted="" class="CToWUd"></span><u></u><span
-            style="font-size:12.0pt;line-height:115%;font-family:&quot;Segoe UI&quot;,&quot;sans-serif&quot;"><img
+            style="font-size:12.0pt;line-height:75%;font-family:&quot;Segoe UI&quot;,&quot;sans-serif&quot;"><img
               width="199" height="123" id="m_9218901733660170609Picture_x0020_17"
               src="assets/icons/logo.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></p>
       </td>

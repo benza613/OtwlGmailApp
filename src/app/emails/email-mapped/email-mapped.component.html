@@ -43,17 +43,21 @@
   <div class="col" style="height: 85vh; padding:0px 5px;">
     <div class="row">
       <div class="col">
-        <i class="fa fa-search" (click)="showSearch = !showSearch" style="cursor: pointer; margin-left: 20px;background-color: #9c118a; color: white; padding: 8px; border-radius: 20px;"
+        <i class="fa fa-search" (click)="showSearch = !showSearch"
+          style="cursor: pointer; margin-left: 20px;background-color: #9c118a; color: white; padding: 8px; border-radius: 20px;"
           ngbTooltip="Search"></i>
       </div>
       <div class="col">
         <div class="btn-group" ngbDropdown role="group" style="float: right; ">
           <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">MAPPED</button>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
-            <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
+            <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i
+                class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
+            <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i
+                class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
             <!-- <button ngbDropdownItem (click)="router.navigate(['draft/']);"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>DRAFTSKs</b></button> -->
-            <button ngbDropdownItem (click)="router.navigate(['editor/']);"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>COMPOSE</b></button>
+            <button ngbDropdownItem (click)="router.navigate(['editor/']);"><i
+                class="fa fa-envelope-o"></i>&nbsp;&nbsp;<b>COMPOSE</b></button>
           </div>
         </div>
       </div>
@@ -89,3 +93,14 @@
     </ng-select>
   </div>
 </div> -->
+
+
+
+
+
+
+
+
+
+
+

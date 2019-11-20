@@ -320,7 +320,7 @@ export class EmailsStoreService {
 
       this.unreadThreads = [];
 
-      const arrx = [];
+      let arrx = [];
 
       this.lastValidSearch = {
         addrFrom: addrFrom,
@@ -339,6 +339,7 @@ export class EmailsStoreService {
           x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         });
         arrx.push(...<Thread[]>res.d.threads);
+        arrx = arrx.filter(x => x.ThreadId !== null);
         this.unreadThreads = arrx;
         if (res.d.pageToken == null) {
           this.pageTokenUnread = '';

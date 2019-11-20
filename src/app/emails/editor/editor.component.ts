@@ -585,277 +585,110 @@ export class EditorComponent implements OnInit {
 
   fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail, senderLandline) {
     this.signatureHtml = `
-    <table border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+    <table style="border: 1px solid rgb(179, 179, 179);">
   <tbody>
-    <tr style="height:18.75pt; vertical-align: top !important;">
-      <td width="164" colspan="2" valign="top"
-        style="width:123.05pt;border:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:18.75pt;vertical-align: top !important;">
-        <p ><b><span style="font-size:12.0pt">Best Regards,</span></b><b><span
-              style="font-size:15.0pt;color:#03227d"><u></u><u></u></span></b></p>
+    <tr>
+      <td colspan="3" align="center" style="margin: 0px 5px;">
+        <img width="200" height="123" id="m_9218901733660170609Picture_x0020_17" src="assets/icons/logo.png"
+          data-image-whitelisted="" class="CToWUd">
       </td>
-      <td width="837" colspan="7" valign="top"
-        style="width:628.05pt;border:solid white 1.0pt;border-left:none;padding:0in 5.4pt 0in 5.4pt;height:18.75pt">
-        <p ><b><span style="font-size:15.0pt;color:#03227d"><u></u>&nbsp;<u></u></span></b></p>
+      <td colspan="4" style="margin: 0px 5px;">
+        <span><b style="color:#03227d">` + senderName + `</b></span><br />
+        <span><b style="color:#e21d24">` + senderDesgn + `</b></span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/mobile.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>` + senderMobile + `</span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/phone-office.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>` + senderLandline + `</span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/phone-office2.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>+91-22-62839000-99 (100 lines) [<b>Board
+            Line</b>]</span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/at.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <a href="mailto:` + senderEmail + `" target="_blank"><span style="color:blue">` + senderEmail +
+            `</span></a><br />
       </td>
-      <td style="height:18.75pt;border:none" width="0" height="25"></td>
+      <td style="vertical-align: top;padding:0px !important;" colspan="5">
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/address.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span style="margin: 5px;">B-503/A, Silver Astra, J.B.Nagar, Andheri (E), Mumbai-400099</span><br />
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-skype-48.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span></span><br />
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-weixin-48.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span></span><br />
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-website-48.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <a href="http://www.oceantransworld.com" target="_blank"
+          data-saferedirecturl="https://www.google.com/url?q=http://www.oceantransworld.com&amp;source=gmail&amp;ust=1570171363357000&amp;usg=AFQjCNHr3jnCxnkqtBvbs438ZS2jevRAig"><span
+            style="font-size:9.0pt;color:blue; margin: 5px;">www.oceantransworld.com</span></a><br />
+        <div style="display:flex; flex-direction: column; margin-top: 10px;">
+          <span
+            style="width: 100% !important;background:#1f497d;color:white; overflow: auto;display: inline-block; text-align: center;">Inbound
+            | Outbound | Overland Services | Project Logistics | Custom
+            Clearance</span>
+          <span
+            style="width: 100% !important;background:#cc0000;color: white;display: inline-block;text-align: center;">Branches
+            : Delhi |
+            Rajsthan | Gujrat | Bangalore | Chennnai</span>
+        </div>
+      </td>
     </tr>
-    <tr style="height:28.5pt; vertical-align: top !important;">
-      <td width="1001" colspan="9" valign="top"
-        style="width:751.1pt;border-top:none;border-left:solid white 1.0pt;border-bottom:none;
-        border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:28.5pt;vertical-align: top !important;">
-        <p ><u></u><span><span style="width:158px;height:1px"><img width="158" height="1"
-                src="https://mail.google.com/mail/u/0?ui=2&amp;ik=216bd45aa9&amp;attid=0.1&amp;permmsgid=msg-f:1646353208991147243&amp;th=16d9058554bde4eb&amp;view=fimg&amp;sz=s0-l75-ft&amp;attbid=ANGjdJ_CgQmNhETVPw6wxFV9xDK6K3UHhhjP1AfaUGLxi5vJAbp9gYARdZYyfrGGbWwi-qtxSolnm256yTqYyptpO0a_IgmtMbxckOTsLj_Z44DM56aZT-UjlDhnPXg&amp;disp=emb"
-                data-image-whitelisted="" class="CToWUd"></span></span><u></u><b><span
-              style="font-size:12.0pt"><u></u><u></u></span></b></p>
+    <tr>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="60" id="m_9218901733660170609Picture_x0020_11"
+          src="assets/certificates/wca.png" alt="sigpic1_1.png" data-image-whitelisted="" class="CToWUd">
       </td>
-      <td style="height:28.5pt;border:none" width="0" height="38"></td>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="43" id="m_9218901733660170609Picture_x0020_19"
+          src="assets/certificates/cl.png" alt="sigpic2.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="89" height="43" id="m_9218901733660170609Picture_x0020_23"
+          src="assets/certificates/mt.png" alt="sigpic6.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="43" id="m_9218901733660170609Picture_x0020_26"
+          src="assets/certificates/mto.png" alt="sigpic3.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="43" id="m_9218901733660170609Picture_x0020_14"
+          src="assets/certificates/iso.png" alt="sigpic4.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="59" height="36" id="m_9218901733660170609Picture_x0020_15"
+          src="assets/certificates/sym.png" alt="sigpic5.png" data-image-whitelisted="" class="CToWUd">
+      </td>
     </tr>
-    <tr style="height:37.75pt; vertical-align: top;">
-      <td width="217" colspan="3" rowspan="4" valign="top"
-        style="width:162.9pt;border:solid #d9d9d9 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:37.75pt">
-        <p style="margin-bottom:10.0pt;line-height:75%"><u></u><span
-            style="margin-left:206px;margin-top:25px;width:3px;height:132px"><img width="3" height="132"
-              src="https://mail.google.com/mail/u/0?ui=2&amp;ik=216bd45aa9&amp;attid=0.2&amp;permmsgid=msg-f:1646353208991147243&amp;th=16d9058554bde4eb&amp;view=fimg&amp;sz=s0-l75-ft&amp;attbid=ANGjdJ_8wpM71CAL7mrVaByjIoEBID94RepXPNiEVnwsDqAjg-4eXhPLqpLHhvt0t0qb43dpR8eVGEg7Mdzuzn43D1Sd-uVIZQT0IuMIzExxhInPd7qnF4UpsnHI4Eo&amp;disp=emb"
-              data-image-whitelisted="" class="CToWUd"></span><u></u><span
-            style="font-size:12.0pt;line-height:75%;font-family:&quot;Segoe UI&quot;,&quot;sans-serif&quot;"><img
-              width="199" height="123" id="m_9218901733660170609Picture_x0020_17"
-              src="assets/icons/logo.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></p>
-      </td>
-      <td width="346" colspan="3" valign="top"
-        style="width:259.7pt;border-top:solid #d9d9d9 1.0pt;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:37.75pt">
-        <p class="MsoNormal"><u></u><span style="margin-left:322px;margin-top:25px;width:3px;height:132px"><img
-              width="3" height="132"
-              src="https://mail.google.com/mail/u/0?ui=2&amp;ik=216bd45aa9&amp;attid=0.2&amp;permmsgid=msg-f:1646353208991147243&amp;th=16d9058554bde4eb&amp;view=fimg&amp;sz=s0-l75-ft&amp;attbid=ANGjdJ-Bza2kH58w3f4gNk1fGXnoY-lvrJ440_jXg7AnwLHSAG5stfTkJ6ndHMKwFUX8Gn6dI1mGv7p79SPPWGPjFWE_rhw2wue6VfxWepUWPSK0o2yMrrl92sovAq0&amp;disp=emb"
-              data-image-whitelisted="" class="CToWUd"></span><u></u><b><span
-              style="font-size:14.0pt;color:#03227d">` + senderName + `</span></b><b><span
-              style="font-size:16.0pt;color:#03227d"><br></span></b><b><span
-              style="font-size:10.0pt;color:#e21d24">` + senderDesgn + `<u></u><u></u></span></b></p>
-      </td>
-      <td width="438" colspan="3" rowspan="2" valign="top"
-        style="width:328.5pt;border-top:solid #d9d9d9 1.0pt;border-left:none;border-bottom:solid black 1.0pt;border-right:solid #d9d9d9 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:37.75pt">
-        <table border="0" cellspacing="0" cellpadding="0" align="left" width="99%"
-          style="width:99.0%;border-collapse:collapse;margin-left:6.75pt;margin-right:6.75pt;margin-bottom:5.5pt">
-          <tbody>
-            <tr>
-              <td width="12%" valign="top" style="width:12.76%;border:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><span style="color:red"><img width="19"
-                      height="19" id="m_9218901733660170609Picture_x0020_2"
-                      src="assets/icons/address.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></p>
-              </td>
-              <td width="87%" valign="top"
-                style="width:87.24%;border:solid white 1.0pt;border-left:none;padding:0in 5.4pt 0in 5.4pt">
-                <p class="MsoNormal" style="margin-top:2.25pt"><span style="font-size:9.0pt;color:black">B-503/A, Silver
-                    Astra, J.B.Nagar, Andheri (E), Mumbai-400099<u></u><u></u></span></p>
-              </td>
-            </tr>
-            <tr style="height:12.0pt">
-              <td width="12%" valign="top"
-                style="width:12.76%;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_3"
-                    src="assets/icons/icons8-skype-48.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="87%" valign="top"
-                style="width:87.24%;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-              </td>
-            </tr>
-            <tr style="height:12.0pt">
-              <td width="12%" valign="top"
-                style="width:12.76%;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_4"
-                    src="assets/icons/icons8-weixin-48.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="87%" valign="top"
-                style="width:87.24%;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-              </td>
-            </tr>
-            <tr style="height:13.5pt">
-              <td width="12%" valign="top"
-                style="width:12.76%;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:13.5pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_5"
-                    src="assets/icons/icons8-website-48.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="87%" valign="top"
-                style="width:87.24%;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:13.5pt">
-                <p class="MsoNormal" style="margin-top:2.25pt"><a href="http://www.oceantransworld.com" target="_blank"
-                    data-saferedirecturl="https://www.google.com/url?q=http://www.oceantransworld.com&amp;source=gmail&amp;ust=1570171363357000&amp;usg=AFQjCNHr3jnCxnkqtBvbs438ZS2jevRAig"><span
-                      style="font-size:9.0pt;color:blue">www.oceantransworld.com</span></a><span
-                    style="font-size:9.0pt;color:black"><u></u><u></u></span></p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td style="height:37.75pt;border:none" width="0" height="50"></td>
-    </tr>
-    <tr style="height:30.55pt">
-      <td width="346" colspan="3" rowspan="3" valign="top"
-        style="width:259.7pt;border-top:none;border-left:none;border-bottom:solid #d9d9d9 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:30.55pt">
-        <table border="0" cellspacing="0" cellpadding="0" align="left" width="299"
-          style="width:224.25pt;border-collapse:collapse;margin-left:6.75pt;margin-right:6.75pt;margin-bottom:5.5pt">
-          <tbody>
-            <tr style="height:16.5pt">
-              <td width="36" valign="top"
-                style="width:27.3pt;border:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:16.5pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_6"
-                    src="assets/icons/mobile.png"
-                    data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="263" valign="top"
-                style="width:197.3pt;border:solid white 1.0pt;border-left:none;padding:0in 5.4pt 0in 5.4pt;height:16.5pt">
-                <p class="MsoNormal" style="margin-top:2.25pt">` + senderMobile + `</span><span
-                    style="font-size:9.0pt;color:black"><u></u><u></u></span></p>
-              </td>
-            </tr>
-            <tr style="height:12.0pt">
-              <td width="36" valign="top"
-                style="width:27.3pt;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_7"
-                    src="assets/icons/phone-office.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="263" valign="top"
-                style="width:197.3pt;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" style="margin-top:2.25pt"><span
-                    style="font-size:9.0pt;color:black">` + senderLandline + `</span><span style="font-size:9.0pt;color:black">
-                    <u></u><u></u></span></p>
-              </td>
-            </tr>
-            <tr style="height:12.0pt">
-              <td width="36" valign="top"
-                style="width:27.3pt;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_8"
-                    src="assets/icons/phone-office2.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="263" valign="top"
-                style="width:197.3pt;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" style="margin-top:2.25pt"><span
-                    style="font-size:9.0pt;color:black">+91-22-62839000-99 (100 lines) [<b>Board
-                      Line</b>]<u></u><u></u></span></p>
-              </td>
-            </tr>
-            <tr style="height:12.0pt">
-              <td width="36" valign="top"
-                style="width:27.3pt;border:solid white 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="19" height="19"
-                    id="m_9218901733660170609Picture_x0020_9"
-                    src="assets/icons/at.png"
-                    alt="email.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></p>
-              </td>
-              <td width="263" valign="top"
-                style="width:197.3pt;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid white 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:12.0pt">
-                <p class="MsoNormal" style="margin-top:2.25pt"><u><span style="font-size:9.0pt;color:blue"><a
-                        href="mailto:` + senderEmail + `" target="_blank"><span
-                          style="color:blue">` + senderEmail + `</span></a></span></u><span
-                    style="font-size:9.0pt"><u></u><u></u></span></p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td style="height:30.55pt;border:none" width="0" height="41"></td>
-    </tr>
-    <tr style="height:28.75pt">
-      <td width="438" colspan="3"
-        style="width:328.5pt;border-top:none;border-left:none;border-bottom:solid white 1.0pt;border-right:solid #d9d9d9 1.0pt;background:#1f497d;padding:0in 5.4pt 0in 5.4pt;height:28.75pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:8.0pt;color:white">Inbound | Outbound | Overland Services | Project Logistics | Custom
-              Clearance<u></u><u></u></span></b></p>
-      </td>
-      <td style="height:28.75pt;border:none" width="0" height="38"></td>
-    </tr>
-    <tr style="height:29.1pt">
-      <td width="438" colspan="3"
-        style="width:328.5pt;border-top:none;border-left:none;border-bottom:solid #d9d9d9 1.0pt;border-right:solid #d9d9d9 1.0pt;background:#cc0000;padding:0in 5.4pt 0in 5.4pt;height:29.1pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><u><span
-                style="font-size:8.0pt;color:white">Branches</span></u></b><b><span style="font-size:8.0pt;color:white">
-              : Delhi&nbsp; | Rajsthan | Gujrat | Bangalore&nbsp; | Chennnai</span></b><b><span
-              style="font-size:14.0pt;color:#03227d"><u></u><u></u></span></b></p>
-      </td>
-      <td style="height:29.1pt;border:none" width="0" height="39"></td>
-    </tr>
-    <tr style="height:20.25pt">
-      <td width="118"
-        style="width:88.5pt;border:solid #d9d9d9 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:14.0pt;color:#03227d"><img border="0" width="72" height="43"
-                id="m_9218901733660170609Picture_x0020_11"
-                src="assets/certificates/wca.png"
-                alt="sigpic1_1.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></b></p>
-      </td>
-      <td width="153" colspan="3"
-        style="width:114.9pt;border:none;border-right:solid #d9d9d9 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:14.0pt;color:#03227d"><img border="0" width="72" height="43"
-                id="m_9218901733660170609Picture_x0020_19"
-                src="assets/certificates/cl.png"
-                alt="sigpic2.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></b></p>
-      </td>
-      <td width="185"
-        style="width:139.05pt;border:none;border-right:solid #d9d9d9 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:14.0pt;color:#03227d"><img border="0" width="89" height="43"
-                id="m_9218901733660170609Picture_x0020_23"
-                src="assets/certificates/mt.png"
-                alt="sigpic6.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></b></p>
-      </td>
-      <td width="157" colspan="2"
-        style="width:117.7pt;border:none;border-right:solid #d9d9d9 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:14.0pt;color:#03227d"><img border="0" width="72" height="43"
-                id="m_9218901733660170609Picture_x0020_26"
-                src="assets/certificates/mto.png"
-                alt="sigpic3.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></b></p>
-      </td>
-      <td width="118"
-        style="width:88.5pt;border:none;border-right:solid #d9d9d9 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:14.0pt;color:#03227d"><img border="0" width="72" height="43"
-                id="m_9218901733660170609Picture_x0020_14"
-                src="assets/certificates/iso.png"
-                alt="sigpic4.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></b></p>
-      </td>
-      <td width="270"
-        style="width:202.45pt;border:none;border-right:solid #d9d9d9 1.0pt;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" align="center" style="margin-top:2.25pt;text-align:center"><b><span
-              style="font-size:14.0pt;color:#03227d"><img border="0" width="59" height="36"
-                id="m_9218901733660170609Picture_x0020_15"
-                src="assets/certificates/sym.png"
-                alt="sigpic5.png" data-image-whitelisted="" class="CToWUd"><u></u><u></u></span></b></p>
-      </td>
-      <td style="height:20.25pt;border:none" width="0" height="27"></td>
-    </tr>
-    <tr style="height:20.25pt">
-      <td width="1001" colspan="9"
-        style="width:751.1pt;border:solid #d9d9d9 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt;height:20.25pt">
-        <p class="MsoNormal" style="margin-top:2.25pt"><b><span
-              style="font-size:8.0pt;color:#03227d">Disclaimer:</span></b><span
-            style="font-size:8.0pt;color:gray">&nbsp; The contents, attachments of and information provided in this
-            E-mail are privileged and confidential material of Ocean Transworld Logistics Pvt. Ltd. and is sent to the
-            intended&nbsp;&nbsp; addressee(s). The said&nbsp; contents should not be disclosed to, used by or copied in
-            any manner by anyone else. In case you are not the desired addressee, you should delete
-            this message and/or re-direct it to the sender. The attachments to this email have been scanned by an
-            Antivirus trusted by Ocean Transworld Logistics Pvt. Ltd. However, the recipient should ensure that it is
-            virus free.</span><b><span style="font-size:14.0pt;color:#03227d"><u></u><u></u></span></b></p>
-      </td>
-      <td style="height:20.25pt;border:none" width="0" height="27"></td>
-    </tr>
-    <tr height="0">
-      <td width="118" style="border:none"></td>
-      <td width="46" style="border:none"></td>
-      <td width="49" style="border:none"></td>
-      <td width="54" style="border:none"></td>
-      <td width="185" style="border:none"></td>
-      <td width="79" style="border:none"></td>
-      <td width="8" style="border:none"></td>
-      <td width="102" style="border:none"></td>
-      <td width="90" style="border:none"></td>
-      <td style="border:none" width="0">
-        <p class="MsoNormal">&nbsp;</p>
+    <tr>
+      <td colspan="12">
+        <b><span style="font-size:8.0pt;color:#03227d">Disclaimer:</span></b><span
+          style="font-size:8.0pt;color:gray">&nbsp; The contents, attachments of and information provided in this
+          E-mail are privileged and confidential material of Ocean Transworld Logistics Pvt. Ltd. and is sent to the
+          intended&nbsp;&nbsp; addressee(s). The said&nbsp; contents should not be disclosed to, used by or copied in
+          any manner by anyone else. In case you are not the desired addressee, you should delete
+          this message and/or re-direct it to the sender. The attachments to this email have been scanned by an
+          Antivirus trusted by Ocean Transworld Logistics Pvt. Ltd. However, the recipient should ensure that it is
+          virus free.</span>
       </td>
     </tr>
   </tbody>

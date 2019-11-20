@@ -533,14 +533,15 @@ export class EmailViewComponent implements OnInit {
   }
 
   processAttachments(list) {
-    this.imageList = [];
     const that = this;
     const x = document.getElementsByTagName('img');
     list.forEach(email => {
       email.attachments.forEach(att => {
+        console.log('attachments present');
         // const fileExtn = att.fileName.split('.');
         // if (fileExtn[1].toLowerCase().includes('png') || fileExtn[1].toLowerCase().includes('jpg') ||
         //   fileExtn[1].toLowerCase().includes('jpeg') || fileExtn[1].toLowerCase().includes('gif')) {
+          // }
           this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
             for (let i = 0; i < x.length; i++) {
               if (x[i].src.includes(att.fileName)) {
@@ -548,7 +549,6 @@ export class EmailViewComponent implements OnInit {
               }
             }
           });
-        // }
       });
       this.filterAttachments(email);
     });

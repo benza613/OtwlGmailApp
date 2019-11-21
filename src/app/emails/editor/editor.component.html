@@ -158,7 +158,7 @@
                 <b *ngIf="uploadFilesSize > 999999">{{uploadFilesSize / 1048576 | number:'1.1-2'}} MB</b>
               </div>
             </div>
-            <div class="row card-header" style="background-color: white">
+            <div class="row card-header" style="background-color: white;font-size: 12px;">
               <div class="col">
                 <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
                   [uploader]="uploader" class="well my-drop-zone">
@@ -225,7 +225,7 @@
         <!-- ben -->
       </div>
       <div class="col attachments-partition" style="padding-right: 0px !important; margin-right: 15px;">
-        <div class="card" style="height: 100% !important">
+        <div class="card" style="height: 100% !important;font-size: 12px;">
           <div class="card-header" style="background-color: #35a541; color: white;">
             <div class="row">
               <div class="col-md-7">
@@ -242,7 +242,7 @@
               </div>
             </div>
           </div>
-          <div class="card-body" style="padding: 0px;">
+          <div class="card-body" style="padding: 0px;font-size: 12px;">
             <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
             <ngb-tabset *ngIf="_isOrdersComplete">
               <ngb-tab title="SEND">

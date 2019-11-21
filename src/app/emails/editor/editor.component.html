@@ -72,7 +72,8 @@
     <div class="row" *ngIf="globals.emailAttach !== null"
       style="border: rgb(184, 184, 184) 1px solid; border-radius: 2px; padding: 5px; background-color: rgb(233, 233, 233)">
       <span style="color: rgb(109, 109, 109)">
-        <i class="fa fa-times-circle" style="transform: scale(1.2); cursor: pointer;" (click)="delEmailAttach()"></i>&nbsp;&nbsp;
+        <i class="fa fa-times-circle" style="transform: scale(1.2); cursor: pointer;"
+          (click)="delEmailAttach()"></i>&nbsp;&nbsp;
         <i class="fa fa-envelope"></i>&nbsp;</span>{{globals.subject}}
     </div>
   </div>
@@ -143,9 +144,9 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid" style="margin-top: 5px;">
+  <div class="col" style="margin-top: 5px; padding: 0px !important;">
     <div class="row">
-      <div class="col attachments-partition card">
+      <div class="col attachments-partition card" style="margin-left: 15px;">
         <div class="row">
           <div class="col-md-12 upl-block" style="margin-bottom: 40px; ">
             <div class="row card-header" style="background-color: #5271C2; color: white;">
@@ -223,7 +224,7 @@
         </div>
         <!-- ben -->
       </div>
-      <div class="col attachments-partition">
+      <div class="col attachments-partition" style="padding-right: 0px !important; margin-right: 15px;">
         <div class="card" style="height: 100% !important">
           <div class="card-header" style="background-color: #35a541; color: white;">
             <div class="row">
@@ -309,17 +310,19 @@
         </div>
       </div>
     </div>
-    <div class="col attachments-partition card" style="margin: 5px 0px; padding: 0px;">
-      <div class="card-header" style="background-color: #db6623; color: white;">
-        <div class="row">
-          <div class="col">
-            <p class="upl-headers">Signature </p>
+    <div class="col attachments-partition" style="margin: 5px 0px; padding: 0px;">
+      <div class="card">
+        <div class="card-header" style="background-color: #db6623; color: white;">
+          <div class="row">
+            <div class="col">
+              <p class="upl-headers">Signature </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <div [innerHTML]="signatureHtml | safeHtml" style="text-align: left;font-size: 12px;">
+        <div class="card-body">
+          <div [innerHTML]="signatureHtml | safeHtml" style="text-align: left;font-size: 12px;">
 
+          </div>
         </div>
       </div>
     </div>

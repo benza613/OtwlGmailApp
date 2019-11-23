@@ -387,11 +387,17 @@ export class EmailsStoreService {
       if (res.d.errId === '200') {
         const arrx = [];
         res.d.threads.forEach(x => {
-          x.Messages[0].Payload.Headers.forEach(email => {
-            if (email.Name === 'To') {
-              x['Msg_To'] = email.Value;
-            }
+          x['Msg_To'] = '';
+          x.Messages.forEach(message => {
+            message.Payload.Headers.forEach(email => {
+              if (email.Name === 'To' && (!x['Msg_To'].includes(email.Value))) {
+                x['Msg_To'] += email.Value + ', ';
+              }
+            });
           });
+          if (x['Msg_To'] === '') {
+            x['Msg_To'] = 'me';
+          }
           x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         });
         arrx.push(...<Thread[]>res.d.threads);
@@ -533,6 +539,17 @@ export class EmailsStoreService {
         ).toPromise();
         if (res.d.errId === '200') {
           res.d.threads.forEach(x => {
+            x['Msg_To'] = '';
+            x.Messages.forEach(message => {
+              message.Payload.Headers.forEach(email => {
+                if (email.Name === 'To' && (!x['Msg_To'].includes(email.Value))) {
+                  x['Msg_To'] += email.Value + ', ';
+                }
+              });
+            });
+            if (x['Msg_To'] === '') {
+              x['Msg_To'] = 'me';
+            }
             x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
           });
           arrx.push(...<Thread[]>res.d.threads);

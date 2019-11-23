@@ -26,7 +26,7 @@ export class DashViewComponent implements OnInit {
 
   onClick_SendNewMail() {
 
-    this.router.navigate(['editor/']);
+    this.router.navigate(['compose/']);
   }
 
   onClick_getUrgentEmails() {

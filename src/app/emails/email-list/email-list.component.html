@@ -57,7 +57,7 @@
         <div *ngIf="storeSelector === 'EmailSentComponent'" class="col-md-2 UnreadContent" (click)="onClick_GetThreadMessages(item)"
           [ngClass]="{unread: item.isUnread}">
           <span class="row" *ngIf="item.Msg_To.length > 50"
-            [ngbTooltip]="item.Msg_To">{{item.Msg_To | slice:0:50}}...</span>
+            [ngbTooltip]="item.Msg_To" container="body">{{item.Msg_To | slice:0:50}}...</span>
             <span class="row" *ngIf="item.Msg_To.length <= 50">{{item.Msg_To}}</span>
         </div>
         <div class="col-md-7 UnreadContent" (click)="onClick_GetThreadMessages(item)"

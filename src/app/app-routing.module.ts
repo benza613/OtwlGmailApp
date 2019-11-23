@@ -38,7 +38,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'editor',
+    path: 'compose',
     component: EditorComponent,
     pathMatch: 'full'
   },

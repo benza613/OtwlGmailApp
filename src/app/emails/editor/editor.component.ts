@@ -75,6 +75,8 @@ export class EditorComponent implements OnInit {
   senderMobile;
   senderEmail;
   senderLandline;
+  senderWeChat;
+  senderSkype;
   signatureHtml = '<div></div>';
   footerHtml;
   orderFilesSize;
@@ -134,7 +136,9 @@ export class EditorComponent implements OnInit {
       that.senderMobile = value['d'].userContactNumber;
       that.senderDesgn = value['d'].userDesignation;
       that.senderLandline = value['d'].userLandlineNo;
-      that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail, that.senderLandline);
+      that.senderWeChat = value['d'].userWeChat;
+      that.senderSkype = value['d'].userSkype;
+      that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail, that.senderLandline, that.senderWeChat, that.senderSkype);
       that.detector.detectChanges();
     });
 
@@ -583,7 +587,7 @@ export class EditorComponent implements OnInit {
     return text;
   }
 
-  fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail, senderLandline) {
+  fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail, senderLandline, senderWeChat, senderSkype) {
     this.signatureHtml = `
     <table style="border: 1px solid rgb(179, 179, 179);">
   <tbody>
@@ -628,12 +632,12 @@ export class EditorComponent implements OnInit {
           <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-skype-48.png"
             data-image-whitelisted="" class="CToWUd">
         </span>&nbsp;
-        <span></span><br />
+        <span>` + senderSkype + `</span><br />
         <span style="margin: 5px;">
           <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-weixin-48.png"
             data-image-whitelisted="" class="CToWUd">
         </span>&nbsp;
-        <span></span><br />
+        <span>` + senderWeChat + `</span><br />
         <span style="margin: 5px;">
           <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-website-48.png"
             data-image-whitelisted="" class="CToWUd">

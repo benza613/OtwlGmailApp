@@ -801,7 +801,7 @@ export class EmailsStoreService {
         this.folderList = arrx;
         resolve(res.d.mdId);
       } else {
-        // this.errorService.displayError(res, 'requestFSDir');
+        this.errorService.displayError(res, 'requestFSDir');
         rej(res.d.mdId);
       }
     });

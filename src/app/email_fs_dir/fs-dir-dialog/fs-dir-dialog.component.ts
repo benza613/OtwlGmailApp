@@ -81,6 +81,7 @@ export class FSDirDialogComponent implements OnInit {
         this.fsDirData = [...this.fsDirData, x[ix]];
       }
     });
+    console.log(this.storeSelector, this.uploadType);
     this.threadTypeData = this.domainStore.threadTypeData$;
     this.domainStore.fsTags$.subscribe(x => {
       this.fsTags = [];
@@ -159,13 +160,15 @@ export class FSDirDialogComponent implements OnInit {
     const that = this;
     this.spinner.show('fsDir');
     this.emailStore.MessageAttch_RequestFSDir(obj.Job_ID, obj.rfName).then(function (value) {
-      if (value) {
+      that.spinner.hide('fsDir');
+      if (value !== null) {
         that.mdId = value;
         that.emailStore.getFolderList$.subscribe(x => {
           that.folderHierarchy = x;
         });
         that.folderList = that.folderHierarchy.filter(x => x.qlevel === '0');
-        that.spinner.hide('fsDir');
+        that.detector.detectChanges();
+      } else {
         that.detector.detectChanges();
       }
     });

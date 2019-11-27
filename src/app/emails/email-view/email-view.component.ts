@@ -331,19 +331,18 @@ export class EmailViewComponent implements OnInit {
           FSDirDialogComponent,
           { size: 'lg', backdrop: 'static', keyboard: false }
         );
-        let fsTags;
-        this.domainStore.fsTags$.subscribe(x => {
-          fsTags = x;
-        });
         modalRef.componentInstance.storeSelector = that.storeSelector; // should be the id
         modalRef.componentInstance.msgId = msgId;
         modalRef.componentInstance.attachments = that.attachments;
         modalRef.componentInstance.attachmentGIds = that.attachmentGIDs;
         modalRef.componentInstance.attachmentNames = that.attachmentNames;
         modalRef.componentInstance.reqThreadId = that.reqThreadId;
-        modalRef.componentInstance.fsTags = fsTags;
         modalRef.componentInstance.uploadType = 'email_attachment';
-
+        let fsTags;
+        that.domainStore.fsTags$.subscribe(x => {
+          fsTags = x;
+        });
+        modalRef.componentInstance.fsTags = fsTags;
       });
 
     }

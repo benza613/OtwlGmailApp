@@ -53,4 +53,14 @@ export class DomainService {
     return this.http.post(`${this.apiBaseUrl}/getFSDirFiles`, { mdId }, this.httpOptions)
       .pipe(map(r => r));
   }
+
+  fetchDirTypeData(DT_ID, FromUploadDate, ToUploadDate, Action): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/GetDirectoryTypeData`, {DT_ID, FromUploadDate, ToUploadDate, Action}, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  fetchUCFileData(DT_ID, FromUploadDate, ToUploadDate, Action): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/GetEmailAttachmentsData`, {DT_ID, FromUploadDate, ToUploadDate, Action}, this.httpOptions)
+      .pipe(map(r => r));
+  }
 }

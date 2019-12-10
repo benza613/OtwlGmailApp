@@ -8,6 +8,7 @@ import { EmailUnreadComponent } from './emails/email-unread/email-unread.compone
 import { EmailMappedComponent } from './emails/email-mapped/email-mapped.component';
 import { EmailViewComponent } from './emails/email-view/email-view.component';
 import { EditorComponent } from './emails/editor/editor.component';
+import { EmailUcefComponent } from './emails/email-ucef/email-ucef.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,11 @@ const routes: Routes = [
   {
     path: 'draft',
     component: EmailDraftComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'ucef',
+    component: EmailUcefComponent,
     pathMatch: 'full',
   },
   {

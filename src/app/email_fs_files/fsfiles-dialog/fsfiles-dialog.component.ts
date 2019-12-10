@@ -34,11 +34,13 @@ export class FSFilesDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.domainStore.fsDirData$.subscribe(x => {
-      this.fsDirData = [];
-      for (let ix = 0; ix < x.length; ix++) {
-        this.fsDirData = [...this.fsDirData, x[ix]];
-      }
+    this.domainStore.updateFSDirList().then(value => {
+      this.domainStore.fsDirData$.subscribe(x => {
+        this.fsDirData = [];
+        for (let ix = 0; ix < x.length; ix++) {
+          this.fsDirData = [...this.fsDirData, x[ix]];
+        }
+      });
     });
   }
 

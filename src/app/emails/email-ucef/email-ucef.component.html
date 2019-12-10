@@ -1,0 +1,79 @@
+<ngx-spinner name="ucSpinner" size="default" type="line-scale-pulse-out-rapid"> Loading...
+</ngx-spinner>
+
+<div class="col" style="height: 93vh;">
+  <div class="row">
+    <div class="col">
+      <div class="input-group">
+        <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
+          [(ngModel)]="fdt" ngbDatepicker #f="ngbDatepicker" readonly>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;"
+            (click)="f.toggle()" type="button">
+            <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="input-group" style="height: 100% !important;">
+        <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
+          [(ngModel)]="tdt" ngbDatepicker #t="ngbDatepicker" readonly>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;"
+            (click)="t.toggle()" type="button">
+            <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <ng-select [(ngModel)]="DT_ID" [items]="dirTypes" bindLabel="DT_Name" bindValue="DT_ID"
+        placeholder="Directory Types">
+      </ng-select>
+    </div>
+    <div class="col-md-1" style="display: flex;align-content: flex-end;">
+      <button type="button" class="btn btn-danger" (click)="getUCFiles()">Submit</button>
+    </div>
+  </div>
+  <div style="margin-top: 50px;">
+    <table style="width: 100%;" class="cust_tble">
+      <thead>
+        <tr>
+          <th style="text-align: center;">Select</th>
+          <th style="text-align: center;">File ID</th>
+          <th style="text-align: center;width: 400px;">Display Name</th>
+          <th style="text-align: center;">Main Directory</th>
+          <th style="text-align: center;">Size</th>
+          <th style="text-align: center;">Tag</th>
+          <th style="text-align: center;">Upload Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let file of ucFiles; let i = index">
+          <tr style="width:100%; height: 40px; text-align: center; vertical-align: middle;">
+            <td>
+              <div class="form-check">
+                <input type="checkbox" [(ngModel)]="file.isChecked" class="form-check-input"
+                  style="transform: scale(1.25);-webkit-transform: scale(1.25);">
+              </div>
+            </td>
+            <td>{{file['FL_ID']}}</td>
+            <td style="width: 400px;">{{file['FL_DisplayName']}}</td>
+            <td>{{file['DirectoryDisplayName']}}</td>
+            <td>{{file['FL_Size']}}</td>
+            <td>{{file['Filetag']}}</td>
+            <td>{{file['FL_Date_Upload']}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col" (click)="submit()" style="text-align: end; margin-top: 20px;">
+      <button type="button" class="btn compose" style="background-color: whitesmoke; color: #b31b1b; padding: 8px; 
+                border-radius: 20px;"><i class="fa fa-plus"></i>
+        &nbsp;Compose</button>
+    </div>
+  </div>
+</div>

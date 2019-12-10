@@ -1,0 +1,29 @@
+.cust_tble tbody {
+    display: block;
+}
+
+.cust_tble thead,
+.cust_tble tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+}
+
+.cust_tble thead {
+    background-color: #3a3a3a;
+    color: white;
+    font: bold;
+    height: 35px;
+    font-size: 16px;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.cust_tble tbody tr:nth-child(2n+1) {
+    background-color: #e6e6e6;
+}
+
+.cust_tble tbody tr:nth-child(2n) {
+    background-color: #fff;
+}

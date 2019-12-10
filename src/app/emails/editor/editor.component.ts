@@ -138,7 +138,8 @@ export class EditorComponent implements OnInit {
       that.senderLandline = value['d'].userLandlineNo;
       that.senderWeChat = value['d'].userWeChat;
       that.senderSkype = value['d'].userSkype;
-      that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail, that.senderLandline, that.senderWeChat, that.senderSkype);
+      that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail,
+        that.senderLandline, that.senderWeChat, that.senderSkype);
       that.detector.detectChanges();
     });
 
@@ -818,8 +819,8 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  addAttachments() {
-    this.domainStore.updateFSDirList();
+  async addAttachments() {
+    await this.domainStore.updateFSDirList();
     const modalRef = this.modalService.open(
       FSFilesDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }

@@ -1,3 +1,4 @@
+import { UCFileList } from './../models/ucfile-list';
 import { ErrorService } from './../error/error.service';
 import { DomainService } from './../_http/domain.service';
 import { Injectable } from '@angular/core';
@@ -8,6 +9,7 @@ import { ThreadTypeData } from '../models/thread-type-data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FSDirList } from '../models/fsdir-list.model';
 import { FilesList } from '../models/files-list.model';
+import { DirTypes } from '../models/dir-types';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,9 @@ export class DomainStoreService {
   private readonly _fsTags = new BehaviorSubject<ThreadTypeData[]>([]);
   private readonly _fsDirData = new BehaviorSubject<FSDirList[]>([]);
   private readonly _filesList = new BehaviorSubject<FilesList[]>([]);
+  private readonly _dirTypes = new BehaviorSubject<DirTypes[]>([]);
+  private readonly _ucFiles = new BehaviorSubject<UCFileList[]>([]);
+
 
   readonly refType$ = this._refType.asObservable();
   readonly refTypeData$ = this._refTypeData.asObservable();
@@ -33,6 +38,8 @@ export class DomainStoreService {
   readonly fsTags$ = this._fsTags.asObservable();
   readonly fsDirData$ = this._fsDirData.asObservable();
   readonly filesList$ = this._filesList.asObservable();
+  readonly dirTypes$ = this._dirTypes.asObservable();
+  readonly ucFiles$ = this._ucFiles.asObservable();
 
   private get refType(): RefType[] {
     return this._refType.getValue();
@@ -82,6 +89,22 @@ export class DomainStoreService {
     this._filesList.next(val);
   }
 
+  private get dirTypes(): DirTypes[] {
+    return this._dirTypes.getValue();
+  }
+
+  private set dirTypes(val: DirTypes[]) {
+    this._dirTypes.next(val);
+  }
+
+  private get ucFiles(): UCFileList[] {
+    return this._ucFiles.getValue();
+  }
+
+  private set ucFiles(val: UCFileList[]) {
+    this._ucFiles.next(val);
+  }
+
 
 
   updateRefType() {
@@ -115,7 +138,7 @@ export class DomainStoreService {
   }
 
   addFolder(refNo) {
-    return new Promise(async(resolve) => {
+    return new Promise(async (resolve) => {
       const res = await this.domainService.addUserFolder(refNo).toPromise();
       resolve(res.d.errId);
     });
@@ -171,6 +194,31 @@ export class DomainStoreService {
       const arrx = this.filesList;
       arrx.push(...<FilesList[]>res.d.files);
       this.filesList = arrx;
+    } else {
+      this.erorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
+
+  async updateDirType(DT_ID, FromUploadDate, ToUploadDate, Action) {
+    const res = await this.domainService.fetchDirTypeData(DT_ID, FromUploadDate, ToUploadDate, Action).toPromise();
+    if (res.d.errid === '100') {
+      this.dirTypes = [];
+      const arrx = this.dirTypes;
+      arrx.push(...<DirTypes[]>res.d.DirectoryTypeData);
+      this.dirTypes = arrx;
+    } else {
+      this.erorService.displayError(res, 'fetchThreadTypeData');
+    }
+  }
+
+  async updateUCFiles(DT_ID, FromUploadDate, ToUploadDate, Action) {
+    const res = await this.domainService.fetchUCFileData(DT_ID, FromUploadDate, ToUploadDate, Action).toPromise();
+    if (res.d.errid === '100') {
+      this.ucFiles = [];
+      const arrx = this.ucFiles;
+      arrx.push(...<UCFileList[]>res.d.EmailAttachmentsData);
+      arrx.forEach(x => x.isChecked = false);
+      this.ucFiles = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
     }

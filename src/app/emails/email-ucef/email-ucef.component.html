@@ -36,7 +36,7 @@
   <div style="margin-top: 200px; text-align: center;" *ngIf="fileFlag">
     <span><b>{{alert}}</b></span>
   </div>
-  <div style="margin-top: 50px; " *ngIf="ucFiles.length > 0">
+  <div style="margin-top: 30px; " *ngIf="ucFiles.length > 0">
     <table style="width: 100%;" class="cust_tble">
       <thead>
         <tr>
@@ -51,7 +51,7 @@
       </thead>
       <tbody style="height: 65vh; overflow: auto;">
         <ng-container *ngFor="let file of ucFiles; let i = index">
-          <tr style="width:100%; height: 40px; text-align: center; vertical-align: middle;">
+          <tr style="width:100%; height:30px; text-align: center; vertical-align: middle; font-size: 14px;">
             <td>
               <div class="form-check" style="margin-bottom: 15px;">
                 <input type="checkbox" [(ngModel)]="file.isChecked" class="form-check-input"

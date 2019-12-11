@@ -26,5 +26,6 @@ export class GlobalStoreService {
   public subject = '';
   public pages = null;
   public currentPage = 1;
+  public ucFilesList = [];
   constructor() { }
 }

@@ -4,39 +4,39 @@
 <div class="col" style="height: 93vh;">
   <div class="row">
     <div class="col">
-      <div class="input-group">
-        <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
-          [(ngModel)]="fdt" ngbDatepicker #f="ngbDatepicker" readonly>
+      <div class="input-group fdt">
+        <input placeholder="FROM" class="form-control" [(ngModel)]="fdt" ngbDatepicker #f="ngbDatepicker" readonly>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;"
-            (click)="f.toggle()" type="button">
-            <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+          <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button">
+            <i class="fa fa-calendar fdt-fa" aria-hidden="true"></i>
           </button>
         </div>
       </div>
     </div>
     <div class="col">
-      <div class="input-group" style="height: 100% !important;">
-        <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
-          [(ngModel)]="tdt" ngbDatepicker #t="ngbDatepicker" readonly>
+      <div class="input-group tdt">
+        <input placeholder="TO" class="form-control" [(ngModel)]="tdt" ngbDatepicker #t="ngbDatepicker" readonly>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;"
-            (click)="t.toggle()" type="button">
-            <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+          <button class="btn btn-outline-secondary calendar" (click)="t.toggle()" type="button">
+            <i class="fa fa-calendar tdt-fa" aria-hidden="true"></i>
           </button>
         </div>
       </div>
     </div>
     <div class="col">
-      <ng-select [(ngModel)]="DT_ID" [items]="dirTypes" bindLabel="DT_Name" bindValue="DT_ID"
-        placeholder="Directory Types">
+      <ng-select style="height: 100% !important;" [(ngModel)]="DT_ID" [items]="dirTypes" bindLabel="DT_Name"
+        bindValue="DT_ID" placeholder="Directory Types">
       </ng-select>
     </div>
     <div class="col-md-1" style="display: flex;align-content: flex-end;">
-      <button type="button" class="btn btn-danger" (click)="getUCFiles()">Submit</button>
+      <button style="height: 100% !important;" type="button" class="btn btn-success"
+        (click)="getUCFiles()">Fetch</button>
     </div>
   </div>
-  <div style="margin-top: 50px;">
+  <div style="margin-top: 200px; text-align: center;" *ngIf="fileFlag">
+    <span><b>{{alert}}</b></span>
+  </div>
+  <div style="margin-top: 50px; " *ngIf="ucFiles.length > 0">
     <table style="width: 100%;" class="cust_tble">
       <thead>
         <tr>
@@ -49,13 +49,13 @@
           <th style="text-align: center;">Upload Date</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody style="height: 65vh; overflow: auto;">
         <ng-container *ngFor="let file of ucFiles; let i = index">
           <tr style="width:100%; height: 40px; text-align: center; vertical-align: middle;">
             <td>
-              <div class="form-check">
+              <div class="form-check" style="margin-bottom: 15px;">
                 <input type="checkbox" [(ngModel)]="file.isChecked" class="form-check-input"
-                  style="transform: scale(1.25);-webkit-transform: scale(1.25);">
+                  style="transform: scale(1.25);-webkit-transform: scale(1.5);">
               </div>
             </td>
             <td>{{file['FL_ID']}}</td>
@@ -69,10 +69,9 @@
       </tbody>
     </table>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="ucFiles.length > 0">
     <div class="col" (click)="submit()" style="text-align: end; margin-top: 20px;">
-      <button type="button" class="btn compose" style="background-color: whitesmoke; color: #b31b1b; padding: 8px; 
-                border-radius: 20px;"><i class="fa fa-plus"></i>
+      <button type="button" class="btn btn-danger compose"><i class="fa fa-plus"></i>
         &nbsp;Compose</button>
     </div>
   </div>

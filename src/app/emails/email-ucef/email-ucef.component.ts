@@ -19,6 +19,8 @@ export class EmailUcefComponent implements OnInit {
   ucFiles = [];
   fdt;
   tdt;
+  fileFlag = false;
+  alert: string;
 
 
   constructor(
@@ -48,23 +50,73 @@ export class EmailUcefComponent implements OnInit {
 
   getUCFiles() {
     const that = this;
+    this.fileFlag = false;
+    let fromDate = '';
+    let toDate = '';
+    if (this.fdt.month !== 12) {
+      fromDate = moment(this.fdt).subtract(1, 'month').format('DD/MM/YYYY');
+    } else {
+      this.fdt.month = 11;
+      fromDate = moment(this.fdt).format('DD/MM/YYYY');
+    }
+
+    if (this.tdt !== undefined) {
+      if (this.tdt.month !== 12) {
+        toDate = moment(this.tdt).subtract(1, 'month').format('DD/MM/YYYY');
+      } else {
+        this.tdt.month = 11;
+        toDate = moment(this.tdt).format('DD/MM/YYYY');
+      }
+    } else {
+      
+      toDate = moment(this.tdt).subtract(1, 'month').format('DD/MM/YYYY');
+    }
+
     this.spinner.show('ucSpinner');
-    this.domainStore.updateUCFiles(this.DT_ID, moment(this.fdt).subtract(1, 'month').format('DD-MM-YYYY'),
-      moment(this.tdt).subtract(1, 'month').format('DD-MM-YYYY'), 'Non-Default').then(value => {
-        that.domainStore.ucFiles$.subscribe(x => {
-          that.ucFiles = [];
-          for (let ix = 0; ix < x.length; ix++) {
-            that.ucFiles = [...that.ucFiles, x[ix]];
-          }
-          that.spinner.hide('ucSpinner');
-          that.detector.detectChanges();
-        });
+    this.domainStore.updateUCFiles(this.DT_ID, fromDate, toDate, 'Non-Default').then(value => {
+      that.domainStore.ucFiles$.subscribe(x => {
+        that.ucFiles = [];
+        for (let ix = 0; ix < x.length; ix++) {
+          that.ucFiles = [...that.ucFiles, x[ix]];
+        }
+        that.spinner.hide('ucSpinner');
+        that.detector.detectChanges();
       });
+      if (that.ucFiles.length === 0) {
+        that.fileFlag = true;
+        that.alert = 'No attachments available for the above chosen parameters!';
+        that.detector.detectChanges();
+      }
+    });
   }
 
   submit() {
     const arrx = this.ucFiles.filter(x => x.isChecked === true);
-    console.log(arrx);
+    if (arrx.length === 0) {
+      alert('Please select attachments before proceeding!');
+      return;
+    }
+    arrx.forEach(x => {
+      if (x.isChecked === true) {
+        this.globals.ucFilesList.push(
+          {
+            flID: x.FL_ID,
+            flDisplayName: x.FL_DisplayName,
+            flMdID: x.fl_MD_ID,
+            flMdDisplayName: x.DirectoryDisplayName,
+            flSize: x.FL_Size,
+            flTag: x.Filetag,
+            flParentFolder: x.ParentFolder
+          }
+        );
+      }
+    });
+    this.router.navigate(['compose/'], {
+      queryParams: {
+        q: 'ucef'
+      }
+    });
   }
+
 
 }

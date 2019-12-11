@@ -1,3 +1,4 @@
+import { UCFileList } from './../../models/ucfile-list';
 import { GlobalStoreService } from './../../_store/global-store.service';
 import { DomainStoreService } from './../../_store/domain-store.service';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
@@ -222,6 +223,29 @@ export class EditorComponent implements OnInit {
               }
             });
           }
+        } else if (params.q !== undefined && params.q === 'ucef') {
+          if (this.globals.ucFilesList.length > 0) {
+            this.orderFilesSize = 0;
+            let size = 0;
+            this.orderDetails = this.globals.ucFilesList;
+            this.orderDetails.forEach(x => {
+              if (x.flSize.split(' ')[1] === 'kB') {
+                size += (Number(x.flSize.split(' ')[0]) * 1024);
+              } else {
+                size += (Number(x.flSize.split(' ')[0]) * 1048576);
+              }
+            });
+            this.sendFileSize = size;
+            if (size <= 999999) {
+              this.orderFilesSize = String((size / 1024).toFixed(2)) + 'KB';
+              this.showUploadSize = String((size / 1024).toFixed(2)) + 'KB';
+            } else {
+              this.orderFilesSize = String((size / 1048576).toFixed(2)) + 'MB';
+              this.showUploadSize = String((size / 1048576).toFixed(2)) + 'MB';
+            }
+            this._isOrdersComplete = true;
+            this.detector.detectChanges();
+          }
         }
 
         if (params.locst_id !== undefined) {
@@ -313,6 +337,7 @@ export class EditorComponent implements OnInit {
                 .then(function (value) {
                   that.spinner.hide();
                   that.globals.emailAttach = null;
+                  that.globals.ucFilesList = [];
                   that.detector.detectChanges();
                   if (this._reqStoreSelector !== '') {
                     that.location.back();
@@ -372,7 +397,7 @@ export class EditorComponent implements OnInit {
 
 
   actionCompleted(ev: any) {
-    console.log(ev);
+    // console.log(ev);
 
     if (ev.requestType === 'Image') {
 
@@ -431,6 +456,7 @@ export class EditorComponent implements OnInit {
                     that.spinner.hide();
                     that.detector.detectChanges();
                     that.globals.emailAttach = null;
+                    that.globals.ucFilesList = [];
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
                     that.resetData();
                     if (that._reqStoreSelector === 'draft') {
@@ -621,7 +647,7 @@ export class EditorComponent implements OnInit {
             data-image-whitelisted="" class="CToWUd">
         </span>&nbsp;
         <a href="mailto:` + senderEmail + `" target="_blank"><span style="color:blue">` + senderEmail +
-            `</span></a><br />
+      `</span></a><br />
       </td>
       <td style="vertical-align: top;padding:0px !important;" colspan="5">
         <span style="margin: 5px;">

@@ -54,22 +54,21 @@ export class EmailUcefComponent implements OnInit {
     let fromDate = '';
     let toDate = '';
     if (this.fdt.month !== 12) {
-      fromDate = moment(this.fdt).subtract(1, 'month').format('DD/MM/YYYY');
+      fromDate = moment(this.fdt).subtract(1, 'month').format('YYYY-MM-DD');
     } else {
       this.fdt.month = 11;
-      fromDate = moment(this.fdt).format('DD/MM/YYYY');
+      fromDate = moment(this.fdt).format('YYYY-MM-DD');
     }
 
     if (this.tdt !== undefined) {
       if (this.tdt.month !== 12) {
-        toDate = moment(this.tdt).subtract(1, 'month').format('DD/MM/YYYY');
+        toDate = moment(this.tdt).subtract(1, 'month').format('YYYY-MM-DD');
       } else {
         this.tdt.month = 11;
-        toDate = moment(this.tdt).format('DD/MM/YYYY');
+        toDate = moment(this.tdt).format('YYYY-MM-DD');
       }
     } else {
-      
-      toDate = moment(this.tdt).subtract(1, 'month').format('DD/MM/YYYY');
+      toDate = moment(this.tdt).subtract(1, 'month').format('YYYY-MM-DD');
     }
 
     this.spinner.show('ucSpinner');

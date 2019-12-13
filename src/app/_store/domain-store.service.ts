@@ -176,7 +176,8 @@ export class DomainStoreService {
   async updateFSDirList() {
     const res = await this.domainService.fetchFSDirList().toPromise();
     if (res.d.errId === '200') {
-      const arrx = this.fsDirData;
+      this.fsDirData = [];
+      const arrx = [];
       arrx.push(...<FSDirList[]>res.d.fsList);
       this.fsDirData = arrx;
     } else {

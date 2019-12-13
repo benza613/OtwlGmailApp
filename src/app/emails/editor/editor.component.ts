@@ -398,7 +398,7 @@ export class EditorComponent implements OnInit {
 
   actionCompleted(ev: any) {
     // console.log(ev);
-
+    
     if (ev.requestType === 'Image') {
 
       ev.elements.forEach(element => {
@@ -914,5 +914,8 @@ export class EditorComponent implements OnInit {
 
   goBack() {
     this.location.back();
+    this.globals.emailAttach = null;
+    this.globals.ucFilesList = [];
+    this.orderDetails = [];
   }
 }

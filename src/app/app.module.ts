@@ -34,6 +34,7 @@ import { EmailSentComponent } from './emails/email-sent/email-sent.component';
 import { SafeUrlPipe } from './_pipe/safe-url.pipe';
 import { EmailDraftComponent } from './emails/email-draft/email-draft.component';
 import { EmailUcefComponent } from './emails/email-ucef/email-ucef.component';
+import { UcefFilterPipe } from './_pipe/ucef-filter.pipe';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { EmailUcefComponent } from './emails/email-ucef/email-ucef.component';
     SafeUrlPipe,
     EmailDraftComponent,
     EmailUcefComponent,
+    UcefFilterPipe,
   ],
   imports: [
     BrowserModule,

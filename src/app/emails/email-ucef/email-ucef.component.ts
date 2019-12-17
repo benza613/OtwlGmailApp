@@ -21,6 +21,16 @@ export class EmailUcefComponent implements OnInit {
   tdt;
   fileFlag = false;
   alert: string;
+  allFlag = false;
+  fileId;
+  displayName = undefined;
+  mainDir = undefined;
+  size = undefined;
+  tag = undefined;
+  uploadDate = undefined;
+  dirType = undefined;
+
+  ucefArgs = { a: '', b: '', c: '', d: '', e: '' };
 
 
   constructor(
@@ -51,24 +61,30 @@ export class EmailUcefComponent implements OnInit {
   getUCFiles() {
     const that = this;
     this.fileFlag = false;
+    this.displayName = undefined;
+    this.mainDir = undefined;
+    this.size = undefined;
+    this.tag = undefined;
+    this.uploadDate = null;
+    this.dirType = undefined;
     let fromDate = '';
     let toDate = '';
-    if (this.fdt.month !== 12) {
-      fromDate = moment(this.fdt).subtract(1, 'month').format('YYYY-MM-DD');
+    if (this.globals.ucefFdt.month !== 12) {
+      fromDate = moment(this.globals.ucefFdt).subtract(1, 'month').format('YYYY-MM-DD');
     } else {
-      this.fdt.month = 11;
-      fromDate = moment(this.fdt).format('YYYY-MM-DD');
+      this.globals.ucefFdt.month = 11;
+      fromDate = moment(this.globals.ucefFdt).format('YYYY-MM-DD');
     }
 
-    if (this.tdt !== undefined) {
-      if (this.tdt.month !== 12) {
-        toDate = moment(this.tdt).subtract(1, 'month').format('YYYY-MM-DD');
+    if (this.globals.ucefTdt !== undefined) {
+      if (this.globals.ucefTdt.month !== 12) {
+        toDate = moment(this.globals.ucefTdt).subtract(1, 'month').format('YYYY-MM-DD');
       } else {
-        this.tdt.month = 11;
-        toDate = moment(this.tdt).format('YYYY-MM-DD');
+        this.globals.ucefTdt.month = 11;
+        toDate = moment(this.globals.ucefTdt).format('YYYY-MM-DD');
       }
     } else {
-      toDate = moment(this.tdt).subtract(1, 'month').format('YYYY-MM-DD');
+      toDate = moment(this.globals.ucefTdt).subtract(1, 'month').format('YYYY-MM-DD');
     }
 
     this.spinner.show('ucSpinner');
@@ -81,6 +97,32 @@ export class EmailUcefComponent implements OnInit {
         that.spinner.hide('ucSpinner');
         that.detector.detectChanges();
       });
+      switch (this.DT_ID) {
+        case 1: {
+          this.dirType = 'General';
+          break;
+        }
+        case 2: {
+          this.dirType = 'Job';
+          break;
+        }
+        case 3: {
+          this.dirType = 'Contact';
+          break;
+        }
+        case 4: {
+          this.dirType = 'Shipping Line';
+          break;
+        }
+        case 5: {
+          this.dirType = 'Track n Trace';
+          break;
+        }
+        case 6: {
+          this.dirType = 'Office Courier';
+          break;
+        }
+      }
       if (that.ucFiles.length === 0) {
         that.fileFlag = true;
         that.alert = 'No attachments available for the above chosen parameters!';
@@ -91,6 +133,7 @@ export class EmailUcefComponent implements OnInit {
 
   submit() {
     const arrx = this.ucFiles.filter(x => x.isChecked === true);
+    console.log(arrx);
     if (arrx.length === 0) {
       alert('Please select attachments before proceeding!');
       return;
@@ -117,5 +160,40 @@ export class EmailUcefComponent implements OnInit {
     });
   }
 
+  selectAll() {
+    if (!this.allFlag) {
+      this.ucFiles.forEach(x => x.isChecked = true);
+      this.detector.detectChanges();
+    } else {
+      this.ucFiles.forEach(x => x.isChecked = false);
+      this.detector.detectChanges();
+    }
+  }
+
+  clearDateField() {
+    this.uploadDate = null;
+    this.applyFilter();
+  }
+
+
+  applyFilter() {
+    this.detector.detectChanges();
+    let date;
+    if (this.uploadDate !== null) {
+      if (this.uploadDate.month !== 12) {
+        date = moment(this.uploadDate).subtract(1, 'month').format('DD/MM/YYYY');
+      } else {
+        this.uploadDate.month = 11;
+        date = moment(this.uploadDate).format('DD/MM/YYYY');
+      }
+    }
+    this.ucefArgs = {
+      a: this.displayName,
+      b: this.mainDir,
+      c: this.tag,
+      d: date,
+      e: this.size
+    };
+  }
 
 }

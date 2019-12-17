@@ -27,5 +27,8 @@ export class GlobalStoreService {
   public pages = null;
   public currentPage = 1;
   public ucFilesList = [];
+  public ucefFdt = null;
+  public ucefTdt = null;
+  public ucefList = [];
   constructor() { }
 }

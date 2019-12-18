@@ -30,5 +30,6 @@ export class GlobalStoreService {
   public ucefFdt = null;
   public ucefTdt = null;
   public ucefList = [];
+  public ucefListFiltered = [];
   constructor() { }
 }

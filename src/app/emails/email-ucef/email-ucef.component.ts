@@ -94,6 +94,7 @@ export class EmailUcefComponent implements OnInit, OnDestroy {
       that.domainStore.ucFiles$.subscribe(x => {
         that.ucFiles = [];
         that.globals.ucefList = [];
+        that.globals.ucefListFiltered = [];
         for (let ix = 0; ix < x.length; ix++) {
           that.ucFiles = [...that.ucFiles, x[ix]];
           that.globals.ucefList = [...that.globals.ucefList, x[ix]];
@@ -136,7 +137,7 @@ export class EmailUcefComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    const arrx = this.ucFiles.filter(x => x.isChecked === true);
+    const arrx = this.globals.ucefListFiltered.filter(x => x.isChecked === true);
     if (arrx.length === 0) {
       alert('Please select attachments before proceeding!');
       return;
@@ -165,10 +166,10 @@ export class EmailUcefComponent implements OnInit, OnDestroy {
 
   selectAll() {
     if (!this.allFlag) {
-      this.ucFiles.forEach(x => x.isChecked = true);
+      this.globals.ucefListFiltered.forEach(x => x.isChecked = true);
       this.detector.detectChanges();
     } else {
-      this.ucFiles.forEach(x => x.isChecked = false);
+      this.globals.ucefListFiltered.forEach(x => x.isChecked = false);
       this.detector.detectChanges();
     }
   }
@@ -197,6 +198,7 @@ export class EmailUcefComponent implements OnInit, OnDestroy {
       d: date,
       e: this.size
     };
+    console.log(this.globals.ucefList);
   }
 
   ngOnDestroy() {

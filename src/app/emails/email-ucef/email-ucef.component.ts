@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, OnDestroy } from '@angular/core';
 import { EmailsStoreService } from 'src/app/_store/emails-store.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
   templateUrl: './email-ucef.component.html',
   styleUrls: ['./email-ucef.component.scss']
 })
-export class EmailUcefComponent implements OnInit {
+export class EmailUcefComponent implements OnInit, OnDestroy {
 
   dirTypes = [];
   DT_ID;
@@ -27,7 +27,7 @@ export class EmailUcefComponent implements OnInit {
   mainDir = undefined;
   size = undefined;
   tag = undefined;
-  uploadDate = undefined;
+  uploadDate = null;
   dirType = undefined;
 
   ucefArgs = { a: '', b: '', c: '', d: '', e: '' };
@@ -47,6 +47,8 @@ export class EmailUcefComponent implements OnInit {
 
   ngOnInit() {
     const that = this;
+    this.globals.ucefFdt = null;
+    this.globals.ucefTdt = null;
     this.domainStore.updateDirType('0', '01-01-2019', '01-12-2019', 'Default').then(value => {
       that.domainStore.dirTypes$.subscribe(x => {
         that.dirTypes = [];
@@ -91,8 +93,10 @@ export class EmailUcefComponent implements OnInit {
     this.domainStore.updateUCFiles(this.DT_ID, fromDate, toDate, 'Non-Default').then(value => {
       that.domainStore.ucFiles$.subscribe(x => {
         that.ucFiles = [];
+        that.globals.ucefList = [];
         for (let ix = 0; ix < x.length; ix++) {
           that.ucFiles = [...that.ucFiles, x[ix]];
+          that.globals.ucefList = [...that.globals.ucefList, x[ix]];
         }
         that.spinner.hide('ucSpinner');
         that.detector.detectChanges();
@@ -133,7 +137,6 @@ export class EmailUcefComponent implements OnInit {
 
   submit() {
     const arrx = this.ucFiles.filter(x => x.isChecked === true);
-    console.log(arrx);
     if (arrx.length === 0) {
       alert('Please select attachments before proceeding!');
       return;
@@ -194,6 +197,10 @@ export class EmailUcefComponent implements OnInit {
       d: date,
       e: this.size
     };
+  }
+
+  ngOnDestroy() {
+    this.detector.detach();
   }
 
 }

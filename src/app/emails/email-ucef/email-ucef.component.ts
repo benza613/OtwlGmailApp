@@ -108,26 +108,66 @@ export class EmailUcefComponent implements OnInit, OnDestroy {
           break;
         }
         case 2: {
-          this.dirType = 'Job';
+          this.dirType = 'Job No';
           break;
         }
         case 3: {
-          this.dirType = 'Contact';
+          this.dirType = 'Enquiry No';
           break;
         }
         case 4: {
-          this.dirType = 'Shipping Line';
+          this.dirType = 'Ledger Name';
           break;
         }
         case 5: {
-          this.dirType = 'Track n Trace';
+          this.dirType = 'Party name';
           break;
         }
         case 6: {
-          this.dirType = 'Office Courier';
+          this.dirType = 'User Defined Folders';
           break;
         }
+        case 7: {
+          this.dirType = 'Name';
+          break;
+        }
+        case 8: {
+          this.dirType = 'Party Name';
+          break;
+        }
+        default: {
+            break;
+        }
       }
+
+      // switch (this.DT_ID) {
+      //   case 1: {
+      //     this.dirType = 'General';
+      //     break;
+      //   }
+      //   case 2: {
+      //     this.dirType = 'Job';
+      //     break;
+      //   }
+      //   case 3: {
+      //     this.dirType = 'Contact';
+      //     break;
+      //   }
+      //   case 4: {
+      //     this.dirType = 'Shipping Line';
+      //     break;
+      //   }
+      //   case 5: {
+      //     this.dirType = 'Track n Trace';
+      //     break;
+      //   }
+      //   case 6: {
+      //     this.dirType = 'Office Courier';
+      //     break;
+      //   }
+      // }
+
+
       if (that.ucFiles.length === 0) {
         that.fileFlag = true;
         that.alert = 'No attachments available for the above chosen parameters!';

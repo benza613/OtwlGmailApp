@@ -202,6 +202,32 @@ export class DomainStoreService {
     if (res.d.errid === '100') {
       this.dirTypes = [];
       const arrx = this.dirTypes;
+      res.d.DirectoryTypeData.forEach(x => {
+        if (x.DT_ID === 1) {
+          x.DT_Name = 'General';
+        }
+        else if (x.DT_ID === 2) {
+          x.DT_Name = 'Job';
+        }
+        else if (x.DT_ID === 3) {
+          x.DT_Name = 'Enquiry';
+        }
+        else if (x.DT_ID === 4) {
+          x.DT_Name = 'Ledger Reconciliation';
+        }
+        else if (x.DT_ID === 5) {
+          x.DT_Name = 'Statutory Notice';
+        }
+        else if (x.DT_ID === 6) {
+          x.DT_Name = 'User Defined Folders';
+        }
+        else if (x.DT_ID === 7) {
+          x.DT_Name = '	Statutory Working';
+        }
+        else if (x.DT_ID === 8) {
+          x.DT_Name = 'Legal Notice';
+        }
+      });
       arrx.push(...<DirTypes[]>res.d.DirectoryTypeData);
       this.dirTypes = arrx;
     } else {

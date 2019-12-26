@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./email-draft.component.scss']
 })
 export class EmailDraftComponent implements OnInit {
-  dynamicdata: string = 'EmailDraftComponent';
+  dynamicdata = 'EmailDraftComponent';
   mailList = [];
   fetch;
   isCollapsed = true;

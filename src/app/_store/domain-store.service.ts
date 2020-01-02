@@ -15,7 +15,6 @@ import { DirTypes } from '../models/dir-types';
   providedIn: 'root'
 })
 export class DomainStoreService {
-
   constructor(
     private domainService: DomainService,
     private modalService: NgbModal,
@@ -30,7 +29,6 @@ export class DomainStoreService {
   private readonly _filesList = new BehaviorSubject<FilesList[]>([]);
   private readonly _dirTypes = new BehaviorSubject<DirTypes[]>([]);
   private readonly _ucFiles = new BehaviorSubject<UCFileList[]>([]);
-
 
   readonly refType$ = this._refType.asObservable();
   readonly refTypeData$ = this._refTypeData.asObservable();
@@ -105,8 +103,6 @@ export class DomainStoreService {
     this._ucFiles.next(val);
   }
 
-
-
   updateRefType() {
     return new Promise(async (res, rej) => {
       if (this.refType.length > 0) {
@@ -125,20 +121,22 @@ export class DomainStoreService {
 
   updateRefTypeData(refId) {
     return new Promise(async (res, rej) => {
-      const result = await this.domainService.fetchRefTypeData(refId).toPromise();
+      const result = await this.domainService
+        .fetchRefTypeData(refId)
+        .toPromise();
       if (result.d.errId === '200') {
         this.refTypeData = <RefTypeData[]>result.d.refData;
         res(result.d.errId);
       } else {
-        //this.erorService.displayError(result, 'fetchRefTypeData');
-        //alert('No jobs/folders under this category!');
+        // this.erorService.displayError(result, 'fetchRefTypeData');
+        // alert('No jobs/folders under this category!');
         rej();
       }
     });
   }
 
   addFolder(refNo) {
-    return new Promise(async (resolve) => {
+    return new Promise(async resolve => {
       const res = await this.domainService.addUserFolder(refNo).toPromise();
       resolve(res.d.errId);
     });
@@ -151,7 +149,7 @@ export class DomainStoreService {
     const res = await this.domainService.fetchThreadTypeData().toPromise();
     if (res.d.errId === '200') {
       const arrx = this.threadTypeData;
-      arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
+      arrx.push(...(<ThreadTypeData[]>res.d.threadTypes));
       this.threadTypeData = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
@@ -165,7 +163,7 @@ export class DomainStoreService {
     const res = await this.domainService.fetchFSTags().toPromise();
     if (res.d.errId === '200') {
       const arrx = this.fsTags;
-      arrx.push(...<ThreadTypeData[]>res.d.threadTypes);
+      arrx.push(...(<ThreadTypeData[]>res.d.threadTypes));
       this.fsTags = arrx;
       console.log(this.fsTags);
     } else {
@@ -178,7 +176,7 @@ export class DomainStoreService {
     if (res.d.errId === '200') {
       this.fsDirData = [];
       const arrx = [];
-      arrx.push(...<FSDirList[]>res.d.fsList);
+      arrx.push(...(<FSDirList[]>res.d.fsList));
       this.fsDirData = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
@@ -190,7 +188,7 @@ export class DomainStoreService {
     if (res.d.errId === '200') {
       this.filesList = [];
       const arrx = this.filesList;
-      arrx.push(...<FilesList[]>res.d.files);
+      arrx.push(...(<FilesList[]>res.d.files));
       this.filesList = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
@@ -198,37 +196,32 @@ export class DomainStoreService {
   }
 
   async updateDirType(DT_ID, FromUploadDate, ToUploadDate, Action) {
-    const res = await this.domainService.fetchDirTypeData(DT_ID, FromUploadDate, ToUploadDate, Action).toPromise();
+    const res = await this.domainService
+      .fetchDirTypeData(DT_ID, FromUploadDate, ToUploadDate, Action)
+      .toPromise();
     if (res.d.errid === '100') {
       this.dirTypes = [];
       const arrx = this.dirTypes;
       res.d.DirectoryTypeData.forEach(x => {
         if (x.DT_ID === 1) {
           x.DT_Name = 'General';
-        }
-        else if (x.DT_ID === 2) {
+        } else if (x.DT_ID === 2) {
           x.DT_Name = 'Job';
-        }
-        else if (x.DT_ID === 3) {
+        } else if (x.DT_ID === 3) {
           x.DT_Name = 'Enquiry';
-        }
-        else if (x.DT_ID === 4) {
+        } else if (x.DT_ID === 4) {
           x.DT_Name = 'Ledger Reconciliation';
-        }
-        else if (x.DT_ID === 5) {
+        } else if (x.DT_ID === 5) {
           x.DT_Name = 'Statutory Notice';
-        }
-        else if (x.DT_ID === 6) {
+        } else if (x.DT_ID === 6) {
           x.DT_Name = 'User Defined Folders';
-        }
-        else if (x.DT_ID === 7) {
+        } else if (x.DT_ID === 7) {
           x.DT_Name = '	Statutory Working';
-        }
-        else if (x.DT_ID === 8) {
+        } else if (x.DT_ID === 8) {
           x.DT_Name = 'Legal Notice';
         }
       });
-      arrx.push(...<DirTypes[]>res.d.DirectoryTypeData);
+      arrx.push(...(<DirTypes[]>res.d.DirectoryTypeData));
       this.dirTypes = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
@@ -236,12 +229,14 @@ export class DomainStoreService {
   }
 
   async updateUCFiles(DT_ID, FromUploadDate, ToUploadDate, Action) {
-    const res = await this.domainService.fetchUCFileData(DT_ID, FromUploadDate, ToUploadDate, Action).toPromise();
+    const res = await this.domainService
+      .fetchUCFileData(DT_ID, FromUploadDate, ToUploadDate, Action)
+      .toPromise();
     if (res.d.errid === '100') {
       this.ucFiles = [];
       const arrx = this.ucFiles;
-      arrx.push(...<UCFileList[]>res.d.EmailAttachmentsData);
-      arrx.forEach(x => x.isChecked = false);
+      arrx.push(...(<UCFileList[]>res.d.EmailAttachmentsData));
+      arrx.forEach(x => (x.isChecked = false));
       this.ucFiles = arrx;
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');

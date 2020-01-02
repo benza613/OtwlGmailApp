@@ -182,7 +182,7 @@ export class EmailViewComponent implements OnInit {
     }
     const email_body = body === undefined ? '' : body;
     this.globals.email_body = email_body;
-    this.router.navigate(['editor/'], {
+    this.router.navigate(['compose/'], {
       queryParams: r_obj
     });
   }
@@ -207,7 +207,7 @@ export class EmailViewComponent implements OnInit {
     }
     const email_body = body === undefined ? '' : body;
     this.globals.email_body = email_body;
-    this.router.navigate(['editor/'], {
+    this.router.navigate(['compose/'], {
       queryParams: ra_obj
     });
   }
@@ -233,7 +233,7 @@ export class EmailViewComponent implements OnInit {
     }
     const email_body = body === undefined ? '' : body;
     this.globals.email_body = email_body;
-    this.router.navigate(['editor/'], {
+    this.router.navigate(['compose/'], {
       queryParams: ra_obj
     });
   }
@@ -612,7 +612,7 @@ export class EmailViewComponent implements OnInit {
     this.globals.emailAttach = this.list[idx];
     this.globals.subject = this.subject;
     console.log('Email as attach', this.list[idx])
-    this.router.navigate(['editor/']);
+    this.router.navigate(['compose/']);
   }
 
   goBack() {

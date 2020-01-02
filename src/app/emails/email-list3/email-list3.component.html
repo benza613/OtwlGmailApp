@@ -1,0 +1,130 @@
+<ngx-spinner name="list3" size="medium" color="#fff" type="ball-spin-fade" [fullScreen]="true"> Loading...
+</ngx-spinner>
+<ngb-pagination class="d-flex justify-content-center" #numPages [collectionSize]="t_CollectionSize"
+  [(page)]="t_currentPage" (pageChange)="pageChange($event)" size="sm" [pageSize]="t_itemsPerPage" [maxSize]="5" [rotate]="true" [ellipses]="false"
+  [boundaryLinks]="true"></ngb-pagination>
+<div class="row" style="margin-bottom: 10px; margin-left: 5px;">
+  <div style="width: 260px !important;">
+    <div class="col" style="padding: 0px;">
+      <input placeholder="FILTER FROM" class="form-control" style="height: 25px;" [(ngModel)]="filterFrom"
+        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="col" style="padding: 0px;">
+      <input placeholder="FILTER SUBJECT" class="form-control" style="height: 25px;" [(ngModel)]="filterSubject"
+        (keyup)="applyFilter()" (keydown)="applyFilter()" (ngModelChange)="applyFilter()" />
+    </div>
+  </div>
+  <div style="width: 260px !important;">
+    <div class="input-group">
+      <input placeholder="FILTER DATE" class="form-control" style="height: 25px; background-color: white !important"
+        [(ngModel)]="filterDate" (dateSelect)="applyFilter()" ngbDatepicker #t="ngbDatepicker" readonly>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" style="height: 25px; padding: 0px 12px;" (click)="t.toggle()"
+          type="button">
+          <i class="fa fa-calendar" aria-hidden="true" style="transform: scale(0.95)"></i>
+        </button>
+      </div>
+      <div class="input-group-append">
+        <i class="fa fa-times" style="border: 1px solid gray;padding:2px 2px 0px 2px; border-radius: 2px"
+          ngbTooltip="Clear" (click)="clearDateField()"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="height: 45vh; overflow: auto; opacity: 1.0; font-size: 12px !important; padding: 0px !important;"
+  [ngClass]="{'expandList' : !showPreview}">
+  <div class="card thread-card rolldown-list"
+    *ngFor="let item of (threadList | async | unreadViewFilter: unreadFilterArgs | slice: (t_currentPage-1) * t_itemsPerPage : (t_currentPage-1) * t_itemsPerPage + t_itemsPerPage); trackBy: threadTrackFn; let i = index">
+    <div class="card-body no-gutters"
+      [ngClass]="{'threadCssOcean': item.Msg_From.toLowerCase().includes('oceantransworld.com'), 'threadCss': !(item.Msg_From.toLowerCase().includes('oceantransworld.com')), 'unread': item.isUnread}">
+      <div class="row" style="margin-left: 5px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [checked]="item.isChecked" (change)="checkList(item)"
+            style="transform: scale(1.5);-webkit-transform: scale(1.5);">
+          <i class="fa fa-star" *ngIf="item.isTo" style="margin-right: 5px; color: rgb(207, 26, 26)"></i>
+          <i class="fa fa-star-o" *ngIf="!item.isTo" style="margin-right: 5px;"></i>
+        </div>
+        <div class="col-md-2 UnreadContent" (click)="onClick_GetThreadMessages(item)"
+          [ngClass]="{unread: item.isUnread}"><span class="row"
+            *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[0]}}</span>
+          <span class="row"
+            *ngIf="item.Msg_From.split('<')[0] !== ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
+          <span class="row"
+            *ngIf="item.Msg_From.split('<')[0] === ''">{{item.Msg_From.split('<')[1] === undefined ? '' : (item.Msg_From.split('<')[1]).slice(0,-1)}}</span>
+        </div>
+        <div class="col-md-7 UnreadContent" (click)="onClick_GetThreadMessages(item)"
+          [ngClass]="{unread: item.isUnread}">
+          <span class="row" [ngbTooltip]="item.Subject" container="body">{{item.Subject | slice:0:120}}
+            <span *ngIf="item.Subject.length > 120">...</span>
+          </span>
+          <span class="row UnreadContent" container="body"
+            style="color: gray; font-weight: 400;">{{item.Snippet | slice:0:120}}
+            <span *ngIf="item.Snippet.length > 120">...</span>
+          </span>
+        </div>
+        <div class="col-sm-1 UnreadContent" [ngClass]="{unread: item.isUnread}">
+          <span ngbTooltip="Messages" container="body" style="font-weight: bold"
+            (click)="onClick_GetThreadMessages(item)"><i
+              class="fa fa-envelope-o"></i>&nbsp;{{item.MessagesCount}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+              class="fa fa-paperclip" *ngIf="item.hasAttachments"></i></span>
+        </div>
+        <div class="col-md-1 UnreadContent pull-right" style="padding: 0px; text-align: right; align-content: right;">
+          <span class="pull-right MailDate" [ngClass]="{unread: item.isUnread}">{{item.Msg_Date}}</span>
+        </div>
+        <span class="UnreadContent" [ngClass]="{unread: item.isUnread}" (click)="discardDraft(item)" style="text-align: end">
+          <i class="fa fa-trash enlarge" style="margin-left: 20px;"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<hr style="margin:7px 0px;" />
+<i class="fa fa-eye" *ngIf="!showPreview" (click)="showPreview = !showPreview"
+style="cursor: pointer;background-color: #a00d0d; color: white; padding: 4px; border-radius: 20px;"></i>
+<i class="fa fa-eye-slash" *ngIf="showPreview" (click)="showPreview = !showPreview"
+style="cursor: pointer;background-color: #a00d0d; color: white; padding: 4px; border-radius: 20px;"></i>
+<ng-container *ngIf="showPreview">
+  <div class="col"
+    style="height: 25vh; overflow: auto; opacity: 1.0; font-size: 12px !important; padding: 0px !important; margin-top: 5px;">
+    <div class="card" style="margin-bottom: 5px;">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-9 pull-left">
+            <span class="tags">From: </span>{{msg.from}}
+          </div>
+          <div class="col-md-3 pull-right">
+            <span class="tags">DATE: </span>{{msg.date}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 pull-left">
+            <span class="tags">To: </span>{{msg.msgTo}}
+          </div>
+          <div class="col-md-4 pull-left">
+            <span class="tags">CC: </span>{{msg.msgCc}}
+          </div>
+          <div class="col-md-3 pull-left">
+            <span class="tags">BCC: </span>{{msg.msgBcc}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body row" style="padding: 5px 0px; margin: 0px;" *ngIf="msg.attachments.length > 0">
+      <div class="card-body" style="padding: 5px; margin: 0px 3px;" *ngFor="let att of msg.attachments"
+        [ngClass]="{inlines: msg.body.toLowerCase().includes(att.fileName) || att.fileName.includes('image.png')}">
+        <div class="col">
+          <div class="row" style=" font-size: 14px;">
+            <span class="col" [ngbTooltip]="att.fileName">{{att.fileName | slice:0:20}}<i
+                *ngIf="att.fileName.length > 20">...</i></span>
+            <span class="col" style="text-align: right;">{{att.fileSize}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" [innerHTML]="msg.body | safeHtml" style="max-width:100%; margin: 0px;">
+
+    </div>
+  </div>
+</ng-container>

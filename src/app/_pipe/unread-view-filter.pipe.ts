@@ -14,6 +14,11 @@ export class UnreadViewFilterPipe implements PipeTransform {
 
 
     transform(items: any[], filter: { a: string, b: string, c: string }): any {
+
+        if (items === null) {
+            return;
+        }
+
         if (!items || !filter) {
             this.globals.pages = items.length;
             return items;

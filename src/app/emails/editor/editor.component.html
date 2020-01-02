@@ -33,11 +33,12 @@
       </ng-select>
       <!-- (change)="addAddr($event)" -->
     </div>
-    <div class="col-sm-1">
-      <button type="button" class="btn btn-warning btn-block" (click)="ccBcc = !ccBcc">Cc/Bcc</button>
-    </div>
-    <div class="col-md-1">
-      <button type="button" class="btn btn-warning btn-block" (click)="onClick_SendMail()">SEND</button>
+    <div class="col">
+      <div class="row">
+        <span type="button" style="margin: 0px 10px 0px 10px; padding: 5px; width: 60px" (click)="ccBcc = !ccBcc">Cc/Bcc</span>
+        <span type="button" (click)="onClick_SendMail('0')" class=" btn-success" style="margin: 0px 10px 0px 10px; padding: 5px 10px 5px 10px;">SAVE</span>
+        <span type="button" (click)="onClick_SendMail('1')" class="btn-primary" style="margin: 0px 10px 0px; padding: 5px 10px 5px 10px;">SEND</span>
+      </div>
     </div>
   </div>
   <div class="form-row" *ngIf="ccBcc || msgPacket.cc.length > 0 || msgPacket.bcc.length > 0">
@@ -81,8 +82,12 @@
     <ngb-tabset type="pills">
       <ngb-tab title="Your Draft">
         <ng-template ngbTabContent>
-          <div class="ejsEditor card" style="margin-top: 5px;">
+          <div class="ejsEditor card" style="margin-top: 5px;" *ngIf="_reqStoreSelector !== draft">
             <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue'
+              (actionComplete)="actionCompleted($event)" [toolbarSettings]='EditorTools'></ejs-richtexteditor>
+          </div>
+          <div class="ejsEditor card" style="margin-top: 5px;" *ngIf="_reqStoreSelector === draft">
+            <ejs-richtexteditor #toolsRTE id='senderRTE' [innerHtml]='EditorValue'
               (actionComplete)="actionCompleted($event)" [toolbarSettings]='EditorTools'></ejs-richtexteditor>
           </div>
         </ng-template>
@@ -106,39 +111,23 @@
     <div class="row">
       <div class="col">
         <div class="row">
-          <div class="col-md-2 card" *ngFor="let att of draftAttachments"
-            style="background-color: rgb(63, 63, 63);color: white; font-style: bold; margin: 10px;">
-            <div class="row">
-              <div class="col-sm-1">
-                <i class="fa fa-file-pdf-o" style="color: white;"
-                  *ngIf="['pdf'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])"></i>
-                <i class="fa fa-file-archive-o" style="color: white" *ngIf="['zip','sitx','7z','rar','gz'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])
-                                                  "></i>
-                <i class="fa fa-file-excel-o" style="color: white" *ngIf="['xls','xlsx'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])
-                                                    "></i>
-                <i class="fa fa-file-word-o" style="color: white" *ngIf="['doc','docx'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])
-                                                              "></i>
-                <i class="fa fa-file-image-o" style="color: white" *ngIf="['png','jpg','jpeg','tiff'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])
-                                                            "></i>
-                <i class="fa fa-file-o" style="color: white" *ngIf="!(['pdf'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])) &&
-                                                                      !(['zip','sitx','7z','rar','gz'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])) &&
-                                                                      !(['xls','xlsx'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])) &&
-                                                                      !(['doc','docx'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1])) &&
-                                                                      !(['png','jpg','jpeg','tiff'].includes(att.Filename.trim().toLowerCase().split('.')[(att.Filename.trim().toLowerCase().split('.')).length - 1]))
-                "></i>
+          <div *ngFor="let att of draftAttachments"
+            style="background-color: rgb(243, 243, 243);color: rgb(81, 109, 185); font-weight: bold; margin: 10px; width: 23% !important; font-size: 14px; border-radius: 4px;">
+            <div class="row" style="padding: 5px;">
+              <div class="col" style="padding-right: 0px !important;">
+                <span [ngbTooltip]="att.fileName"
+                  *ngIf="att.fileName.length > 20">{{att.fileName | slice:0:20}}...</span>
+                <span *ngIf="att.fileName.length <= 20">{{att.fileName}}</span>
               </div>
-              <div class="col">
-                <span [ngbTooltip]="att.Filename"
-                  *ngIf="att.Filename.length > 20">{{att.Filename | slice:0:20}}...</span>
-                <span *ngIf="att.Filename.length <= 20">{{att.Filename}}</span>
+              <div class="col-sm-4" style="padding-left: 0px !important;">
+                <span style="color: rgb(138, 138, 138);">({{att.fileSize}})</span>
               </div>
-              <div class="col" style="padding: 0px;">
-                <span style="float: right !important; margin-right: 5px;">
-                  <i class="fa fa-minus-circle" style="color: rgb(221, 2, 2);transform: scale(1.2)"></i>
+              <div class="col-sm-1" style="padding: 0px;">
+                <span style="margin-right: 8px;">
+                  <i class="fa fa-minus-circle" style="color: rgb(134, 134, 134);transform: scale(1.2)"></i>
                 </span>
               </div>
             </div>
-            <span>({{att.Body.Size}})</span>
           </div>
         </div>
       </div>

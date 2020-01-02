@@ -157,8 +157,6 @@ export class EditorComponent implements OnInit {
           this.detector.detectChanges();
         }
         if (this.msgPacket.bcc.length > 0) {
-          this.msgPacket.bcc.forEach(x => {
-          });
           this.msgPacket.bcc = this.msgPacket.bcc.filter(x => !x.emailId.includes(this.senderEmail));
           this.detector.detectChanges();
         }
@@ -168,6 +166,8 @@ export class EditorComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
 
+        //navigating to compose from drafts to create a new draft
+        this._isDraft = this.globals.globals_isDraft ? 'true' : 'false';
 
         // first check if storeSelector is undefined
         // then check if attachment order is requested
@@ -212,13 +212,14 @@ export class EditorComponent implements OnInit {
           this._reqStoreSelector = params.q;
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
-          this._isDraft = 'true';
+          console.log(this._reqMessageID);
+          this._reqActionType = params.a;
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleDraftGmailAddressFields(x.msgs);
             this.msgPacket.subject = x.subject;
-            x.msgs[0]['Payload']['Parts'].forEach(att => {
-              if (att.Filename !== '') {
+            x.msgs[0].attachments.forEach(att => {
+              if (att.fileName !== '') {
                 this.draftAttachments.push(att);
               }
             });
@@ -331,7 +332,7 @@ export class EditorComponent implements OnInit {
                 emailList.push(x['emailId']);
               });
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
-                this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
+                this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
                 this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft)
                 .then(function (value) {
@@ -339,7 +340,7 @@ export class EditorComponent implements OnInit {
                   that.globals.emailAttach = null;
                   that.globals.ucFilesList = [];
                   that.detector.detectChanges();
-                  if (this._reqStoreSelector !== '') {
+                  if (that._reqStoreSelector !== '') {
                     that.location.back();
                   }
                   that.resetData();
@@ -398,7 +399,7 @@ export class EditorComponent implements OnInit {
 
   actionCompleted(ev: any) {
     // console.log(ev);
-    
+
     if (ev.requestType === 'Image') {
 
       ev.elements.forEach(element => {
@@ -414,9 +415,10 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  onClick_SendMail() {
+  onClick_SendMail(flag) {
     this.spinner.show();
     this.detector.detectChanges();
+    this._isDraft = flag === '0' ? 'true' : 'false';
     const that = this;
     this.msgPacket.to.forEach(x => {
       const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
@@ -449,7 +451,7 @@ export class EditorComponent implements OnInit {
                   emailList.push(x['emailId']);
                 });
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
-                  this._inlineAttachB64, this._reqActionType, this._reqStoreSelector,
+                  this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
                   this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft)
                   .then(function (value) {
@@ -460,13 +462,17 @@ export class EditorComponent implements OnInit {
                     that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
                     that.resetData();
                     if (that._reqStoreSelector === 'draft') {
-                      this.location.back();
+                      if (that._isDraft === 'false') {
+                        that.emailStore.discardDraft(that._reqThreadID);
+                      }
+                      that.location.back();
                     }
                   });
               });
 
           },
           (err) => {
+          
             console.log('Error Occured while streamlining inline images', err);
             alert('Error OCCURRED: UI-SND-ML-01');
             that.spinner.hide();
@@ -771,29 +777,37 @@ export class EditorComponent implements OnInit {
       }
     });
 
-    // msgs[0].msgTo.split(',').forEach(element => {
-    //   if (element !== undefined && element !== '') {
-    //     this.msgAddrList.push({ emailId: element });
-    //     if (this._reqActionType === 'ra') {
-    //       this.msgPacket.cc.push({ emailId: element });
-    //     }
-    //   }
-    // });
-
   }
 
   private recycleDraftGmailAddressFields(msgs) {
-    msgs[0].Payload.Headers.forEach(x => {
-      if (x.Name === 'To') {
-        x.Value.split(',').forEach(element => {
-          if (element !== undefined && element !== '') {
-            this.msgAddrList.push({ emailId: element });
-            this.msgPacket.to.push({ emailId: element });
-          }
-        });
+    msgs[0].msgBcc.split(',').forEach(element => {
+      if (element !== undefined && element !== '') {
+        this.msgAddrList.push({ emailId: element });
+        if (this._reqActionType === 'd') {
+          this.msgPacket.bcc.push({ emailId: element });
+        }
       }
     });
-    this.EditorValue = msgs[0].Snippet;
+
+    msgs[0].msgCc.split(',').forEach(element => {
+      if (element !== undefined && element !== '') {
+        this.msgAddrList.push({ emailId: element });
+        if (this._reqActionType === 'd') {
+          this.msgPacket.cc.push({ emailId: element });
+        }
+      }
+    });
+
+    msgs[0].msgTo.split(',').forEach(element => {
+      if (element !== undefined && element !== '') {
+        this.msgAddrList.push({ emailId: element });
+        if (this._reqActionType === 'd') {
+          this.msgPacket.to.push({ emailId: element });
+          this.detector.detectChanges();
+        }
+      }
+    });
+    this.EditorValue = msgs[0].body;
   }
 
 

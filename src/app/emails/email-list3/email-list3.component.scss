@@ -1,0 +1,149 @@
+
+
+.no-gutters {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    cursor: pointer;
+  }
+  
+  
+  .UnreadContent span {
+    // color: #99001a;
+    font-style: normal;
+    // font-size: 14px;
+  
+    font-family: 'Trebuchet MS',
+      'Lucida Sans Unicode',
+      'Lucida Grande',
+      'Lucida Sans',
+      Arial,
+      sans-serif;
+  
+  }
+  
+  .card {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+  }
+  
+  .unread {
+    font-weight: 600;
+    color: #2b7fdf;
+  
+    & span.MailDate {
+      font-style: normal !important;
+  
+    }
+  
+    & span.MailSubject {
+      font-style: italic !important;
+  
+    }
+  
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  
+  // SCROLLBAR CSS
+  
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 7px;
+    background-color: #F5F5F5;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #b1afaf;
+  }
+  
+  
+  // LIST CSS
+  .rolldown-list {
+    visibility: hidden;
+    animation: rolldown .7s 1;
+    transform-origin: 50% 0;
+    animation-fill-mode: forwards;
+    margin: 3px;
+    // border-radius: 30px;
+  
+    &:hover {
+      background-color: rgb(240, 240, 240);
+    }
+  }
+  
+  
+  
+  @keyframes rolldown {
+    0% {
+      visibility: visible;
+      transform: rotateX(180deg) perspective(500px);
+    }
+  
+    70% {
+      visibility: visible;
+      transform: rotateX(-20deg);
+    }
+  
+    100% {
+      visibility: visible;
+      transform: rotateX(0deg);
+    }
+  }
+  
+  .threadCss {
+    max-width:100%;
+    // margin-bottom: 5px;
+    border-left: 7px solid rgb(212, 76, 52); 
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  
+  .threadCssOcean {
+    max-width:100%;
+    // margin-bottom: 5px;
+    border-left: 7px solid #006699; 
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  
+  .tags {
+    color:rgb(133, 130, 130) !important; 
+    font-weight: 600;
+  }
+  
+  .inlines {
+    background-color: gray !important;
+    color:black !important;
+  }
+  
+  .attachments {
+    height: 100px !important;
+    width: 32% !important;
+    margin: 5px !important; 
+    background-color: #3a3a3a;
+    color:white;
+  }
+  
+  .attSections {
+    // color:rgb(255, 255, 255); 
+    font-weight: 600; 
+    margin-left: 10px !important;
+  }
+  
+  .expandList {
+    height: 70vh !important;
+  }
+
+
+  .enlarge {
+    transform: scale(1.15);
+    -webkit-transform: scale(1.15);
+    margin-left: 10px;
+    margin-right: 10px;
+  }

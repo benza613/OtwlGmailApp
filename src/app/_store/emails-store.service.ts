@@ -135,6 +135,10 @@ export class EmailsStoreService {
     map(tx => this.unreadThreads.find(t => t.ThreadId !== ThreadId))
   )
 
+  readonly getNonDeletedDraftThread$ = (ThreadId) => this.draftThreads$.pipe(
+    map(tx => this.draftThreads.find(t => t.ThreadId !== ThreadId))
+  )
+
   /*
     PROPERTY GETTERS AND SETTERS
   */
@@ -627,7 +631,7 @@ export class EmailsStoreService {
   async update_UnreadThreadEmails(flag, ThreadId, storeSelector, Subject) {
     console.log('UNREAD', storeSelector);
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+      const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
       if (res.d.errId === '200') {
         this.unreadThreads[index].Messages = [];
@@ -663,14 +667,36 @@ export class EmailsStoreService {
 
 
   async update_DraftThreadEmails(flag, ThreadId, storeSelector, MsgId) {
-    // navigate to compose directly 
-    //display attachments, patch values from headers in respective sections
-    this.router.navigate(['editor/'], {
-      queryParams: {
-        q: storeSelector
-        , tid: ThreadId
-        , mid: MsgId
+    // navigate to compose directly
+    // display attachments, patch values from headers in respective sections
+    return new Promise(async (resolve) => {
+      const res = await this.emailServ.fetchDraftThreadEmails(ThreadId, 1).toPromise();
+      const index = this.draftThreads.indexOf(this.draftThreads.find(t => t.ThreadId === ThreadId));
+      if (res.d.errId === '200') {
+        this.draftThreads[index].Messages = [];
+        for (let ix = 0; ix < res.d.msgList.length; ix++) {
+          res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
+          for (let x = 0; x < res.d.msgList[ix].attachments.length; x++) {
+            if (Number(res.d.msgList[ix].attachments[x].fileSize) <= 999999) {
+              res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1024).toFixed(2))
+                + 'KB';
+            } else {
+              res.d.msgList[ix].attachments[x].fileSize = String((Number(res.d.msgList[ix].attachments[x].fileSize) / 1048576).toFixed(2))
+                + 'MB';
+            }
+          }
+          this.draftThreads[index].Messages.push(res.d.msgList[ix]);
+        }
       }
+      this.router.navigate(['compose/'], {
+        queryParams: {
+          q: storeSelector
+          , tid: ThreadId
+          , mid: MsgId
+          , a: 'd'
+        }
+      });
+      resolve();
     });
   }
 
@@ -709,7 +735,7 @@ export class EmailsStoreService {
 
   update_MappedThreadEmails(ThreadId, Subject, loc_st_id) {
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+      const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
       if (res.d.errId === '200') {
         const index = this.mappedThreads.indexOf(this.mappedThreads.find(t => t.ThreadGID === ThreadId));
         this.mappedThreads[index].Messages = [];
@@ -759,7 +785,7 @@ export class EmailsStoreService {
       const thr = this.draftThreads.filter(x => x.ThreadId === ThreadID);
       if (thr.length > 0) {
         return {
-          msgs: thr[0].Messages,
+          msgs: [thr[0].Messages[0]],
           subject: thr[0].Subject
         };
       } else {
@@ -903,7 +929,7 @@ export class EmailsStoreService {
   }
 
   async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
-    const res = await this.emailServ.fetchThreadEmails(ThreadId).toPromise();
+    const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
     console.log(storeSelector);
     if (res.d.errId === '200') {
       const index = this.sentThreads.indexOf(this.sentThreads.find(t => t.ThreadId === ThreadId));
@@ -957,6 +983,16 @@ export class EmailsStoreService {
   deleteMail(GThreadId, msgId, refValId) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.deleteMail(GThreadId, msgId, refValId).toPromise();
+      if (res.d.errId !== '200') {
+        this.errorService.displayError(res, 'deleteMail');
+      }
+      resolve(res.d.errId);
+    });
+  }
+
+  discardDraft(ThreadId) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.discardDraft(ThreadId).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'deleteMail');
       }

@@ -62,8 +62,15 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  fetchThreadEmails(ThreadId): Observable<any> {
+  fetchThreadEmails(ThreadId , isDraft): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getThreadEmails`,
+      { ThreadId },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  fetchDraftThreadEmails(ThreadId , isDraft): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getDraftData`,
       { ThreadId },
       this.httpOptions)
       .pipe(map(r => r));
@@ -241,6 +248,11 @@ export class EmailsService {
 
   deleteMail(GThreadId, msgid, refValId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/deleteMail`, { GThreadId, msgid, refValId }, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  discardDraft(draftThreadId): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/discardDraftMsg`, { draftThreadId }, this.httpOptions)
       .pipe(map(r => r));
   }
 }

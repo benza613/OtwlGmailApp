@@ -238,7 +238,6 @@ export class EmailUcefComponent implements OnInit, OnDestroy {
       d: date,
       e: this.size
     };
-    console.log(this.globals.ucefList);
   }
 
   ngOnDestroy() {

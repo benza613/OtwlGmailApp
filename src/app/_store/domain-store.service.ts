@@ -165,7 +165,6 @@ export class DomainStoreService {
       const arrx = this.fsTags;
       arrx.push(...(<ThreadTypeData[]>res.d.threadTypes));
       this.fsTags = arrx;
-      console.log(this.fsTags);
     } else {
       this.erorService.displayError(res, 'fetchThreadTypeData');
     }

@@ -32,21 +32,23 @@ export class EmailDraftComponent implements OnInit {
     const that = this;
     this.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
       that.showLoaders = false;
-      that.doDraftPagination(2);
+      that.doDraftPagination(1);
     }, err => {
       this.spinner.hide();
       that.showLoaders = false;
     });
+
+    // this.fetchDraftThreads(10);
   }
 
   fetchDraftThreads(i) {
     const that = this;
     this.isCollapsed = true;
     this.showLoaders = true;
-      this.emailStore.updateDraftThreadList(i, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
-        this.spinner.hide();
-        this.doDraftPagination(i - 1);
-      });
+    this.emailStore.updateDraftThreadList(i, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
+      that.spinner.hide();
+      that.doDraftPagination(i - 1);
+    });
   }
 
   getMails() {

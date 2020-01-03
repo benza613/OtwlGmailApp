@@ -100,14 +100,23 @@ export class EmailList3Component implements OnInit {
     this.spinner.show('list3');
     const that = this;
     this.emailStore.discardDraft(threadData.ThreadId).then(success => {
-      //remove that thread from the list
-      that.threadList = that.emailStore.getNonDeletedDraftThread$;
-      // that.emailStore.getNonDeletedDraftThread$(threadData.ThreadId).subscribe(x => {
-      //   that.threadList = x;
+      // that.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
+      //   that.doDraftPagination(2);
       // });
-      that.detector.detectChanges();
+      // that.detector.detectChanges();
       that.spinner.hide('list3');
+      alert('Draft deleted!');
     });
+  }
+
+  doDraftPagination(i) {
+    const that = this;
+    this.emailStore.paginateDraftThreadList(i).then(function (value) {
+      if (value === undefined) {
+        that.spinner.hide('list3');
+      }
+    });
+    that.spinner.hide('list3');
   }
 
 }

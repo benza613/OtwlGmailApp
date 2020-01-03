@@ -423,7 +423,7 @@ export class EmailsStoreService {
     return new Promise(async (resolve, reject) => {
       if (flagCount === 0 && this.draftThreads.length > 0) {
         reject();
-        return;
+        // return;
       }
 
       //use this variable to terminate ongoing calls in pagination
@@ -435,7 +435,7 @@ export class EmailsStoreService {
 
       this.draftThreads = [];
 
-      const arrx = [];
+      let arrx = [];
 
       this.lastValidDraftSearch = {
         addrFrom: addrFrom,
@@ -454,6 +454,7 @@ export class EmailsStoreService {
           x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
         });
         arrx.push(...<Thread[]>res.d.threads);
+        arrx = arrx.filter(x => x.ThreadId !== null);
         this.draftThreads = arrx;
         if (res.d.pageToken == null) {
           this.pageTokenDraft = '';
@@ -476,7 +477,7 @@ export class EmailsStoreService {
 
     return new Promise(async (resolve, reject) => {
 
-      const arrx = [];
+      let arrx = [];
       arrx.push(...this.unreadThreads);
 
 
@@ -500,7 +501,7 @@ export class EmailsStoreService {
           });
           arrx.push(...<Thread[]>res.d.threads);
           this.unreadThreads = arrx;
-
+          arrx = arrx.filter(x => x.ThreadId !== null);
 
           if (res.d.pageToken == null) {
             this.pageTokenUnread = '';
@@ -584,14 +585,9 @@ export class EmailsStoreService {
     // let subj = "";
 
     return new Promise(async (resolve, reject) => {
-
       const arrx = [];
       arrx.push(...this.draftThreads);
-
-
-
       for (let idx = 0; idx < flagCount; idx++) {
-
         if (this.LOCK_DraftSearch == DraftSearchLocks.SetForRelease) {
           this.LOCK_DraftSearch = DraftSearchLocks.Acquired;
           break;
@@ -633,7 +629,8 @@ export class EmailsStoreService {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
-      if (res.d.errId === '200') {
+      console.log(res.d.errId);
+      if (res.d.errId.includes('200')) {
         this.unreadThreads[index].Messages = [];
         for (let ix = 0; ix < res.d.msgList.length; ix++) {
           res.d.msgList[ix]['date'] = moment.utc(res.d.msgList[ix]['date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
@@ -993,9 +990,9 @@ export class EmailsStoreService {
   discardDraft(ThreadId) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.discardDraft(ThreadId).toPromise();
-      if (res.d.errId !== '200') {
-        this.errorService.displayError(res, 'deleteMail');
-      }
+      // if (res.d.errId !== '200') {
+      //   this.errorService.displayError(res, 'deleteMail');
+      // }
       resolve(res.d.errId);
     });
   }

@@ -423,7 +423,7 @@ export class EmailsStoreService {
     return new Promise(async (resolve, reject) => {
       if (flagCount === 0 && this.draftThreads.length > 0) {
         reject();
-        // return;
+        return;
       }
 
       //use this variable to terminate ongoing calls in pagination
@@ -500,8 +500,8 @@ export class EmailsStoreService {
             x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
           });
           arrx.push(...<Thread[]>res.d.threads);
-          this.unreadThreads = arrx;
           arrx = arrx.filter(x => x.ThreadId !== null);
+          this.unreadThreads = arrx;
 
           if (res.d.pageToken == null) {
             this.pageTokenUnread = '';
@@ -580,14 +580,13 @@ export class EmailsStoreService {
     let addTo = this.lastValidDraftSearch.addrTo != undefined ? this.lastValidDraftSearch.addrTo : "";
     let subj = this.lastValidDraftSearch.subject != undefined ? this.lastValidDraftSearch.subject : "";
 
-    // let addfrom = "";
-    // let addTo = "";
-    // let subj = "";
-
     return new Promise(async (resolve, reject) => {
-      const arrx = [];
+
+      let arrx = [];
       arrx.push(...this.draftThreads);
+
       for (let idx = 0; idx < flagCount; idx++) {
+
         if (this.LOCK_DraftSearch == DraftSearchLocks.SetForRelease) {
           this.LOCK_DraftSearch = DraftSearchLocks.Acquired;
           break;
@@ -604,8 +603,8 @@ export class EmailsStoreService {
             x['Msg_Date'] = moment.utc(x['Msg_Date']).add(330, 'm').format('YYYY-MM-DD HH:mm');
           });
           arrx.push(...<Thread[]>res.d.threads);
+          arrx = arrx.filter(x => x.ThreadId !== null);
           this.draftThreads = arrx;
-
 
           if (res.d.pageToken == null) {
             this.pageTokenDraft = '';

@@ -32,7 +32,7 @@ export class EmailDraftComponent implements OnInit {
     const that = this;
     this.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
       that.showLoaders = false;
-      that.doDraftPagination(1);
+      that.doDraftPagination(2);
     }, err => {
       this.spinner.hide();
       that.showLoaders = false;

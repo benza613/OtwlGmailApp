@@ -37,8 +37,6 @@ export class EmailDraftComponent implements OnInit {
       this.spinner.hide();
       that.showLoaders = false;
     });
-
-    // this.fetchDraftThreads(10);
   }
 
   fetchDraftThreads(i) {

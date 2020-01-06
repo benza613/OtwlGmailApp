@@ -1,3 +1,4 @@
+import { OptDialogComponent } from './../../opt-dialog/opt-dialog.component';
 import { UCFileList } from './../../models/ucfile-list';
 import { GlobalStoreService } from './../../_store/global-store.service';
 import { DomainStoreService } from './../../_store/domain-store.service';
@@ -334,7 +335,7 @@ export class EditorComponent implements OnInit {
               this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
                 this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
-                this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft)
+                this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, true)
                 .then(function (value) {
                   that.spinner.hide();
                   that.globals.emailAttach = null;
@@ -416,7 +417,7 @@ export class EditorComponent implements OnInit {
   }
 
   onClick_SendMail(flag) {
-    this.spinner.show();
+    // this.spinner.show();
     this.detector.detectChanges();
     this._isDraft = flag === '0' ? 'true' : 'false';
     const that = this;
@@ -450,10 +451,15 @@ export class EditorComponent implements OnInit {
                 this.msgAddrList.forEach(x => {
                   emailList.push(x['emailId']);
                 });
+                // const modalRef = this.modalService.open(
+                //   OptDialogComponent,
+                //   { size: 'lg', backdrop: 'static', keyboard: false }
+                // );
+                // modalRef.result.then(x => console.log(x));
                 this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
                   this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                   this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
-                  this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft)
+                  this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, true)
                   .then(function (value) {
                     that.spinner.hide();
                     that.detector.detectChanges();
@@ -472,7 +478,6 @@ export class EditorComponent implements OnInit {
 
           },
           (err) => {
-          
             console.log('Error Occured while streamlining inline images', err);
             alert('Error OCCURRED: UI-SND-ML-01');
             that.spinner.hide();
@@ -482,8 +487,8 @@ export class EditorComponent implements OnInit {
         this.uploader.uploadAll();
       }
     } else {
-      alert('Please Select atleast 1 recipient');
       this.spinner.hide();
+      alert('Please Select atleast 1 recipient');
     }
 
   }

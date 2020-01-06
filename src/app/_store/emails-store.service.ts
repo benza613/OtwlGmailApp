@@ -285,7 +285,7 @@ export class EmailsStoreService {
 
   sendNewEmail(packet, body, inlineAtachments, actionType,
     storeSelector, MessageID, TokenPossession,
-    orderFilesList, emailAddrList, alacarteDetails, eml, att_subject, isDraft) {
+    orderFilesList, emailAddrList, alacarteDetails, eml, att_subject, isDraft, doFragAttachs) {
     return new Promise(async (resolve, rej) => {
       const res = await this.emailServ.sendNewMail(
         packet.to.map(key => key.emailId),
@@ -293,7 +293,7 @@ export class EmailsStoreService {
         packet.bcc.map(key => key.emailId),
         packet.subject, body, inlineAtachments,
         actionType, MessageID,
-        TokenPossession, orderFilesList, emailAddrList, alacarteDetails, eml, att_subject, isDraft).toPromise();
+        TokenPossession, orderFilesList, emailAddrList, alacarteDetails, eml, att_subject, isDraft, doFragAttachs).toPromise();
       if (res.d.errId === 'None') {
         alert(res.d.errMsg);
       } else {

@@ -100,10 +100,10 @@ export class EmailList3Component implements OnInit {
     this.spinner.show('list3');
     const that = this;
     this.emailStore.discardDraft(threadData.ThreadId).then(success => {
-      // that.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
-      //   that.doDraftPagination(2);
-      // });
-      // that.detector.detectChanges();
+      that.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
+        that.doDraftPagination(2);
+      });
+      that.detector.detectChanges();
       that.spinner.hide('list3');
       alert('Draft deleted!');
     });

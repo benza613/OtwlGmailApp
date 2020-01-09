@@ -440,52 +440,55 @@ export class EditorComponent implements OnInit {
       }
     });
     if (this.msgPacket.to.length !== 0 || this.msgPacket.cc.length !== 0 || this.msgPacket.bcc.length !== 0) {
-      if (this.uploader.queue.length === 0) {
-
-        this.base64InlineAttachmentsToBody().then(
-          (data) => {
-            this.base64EmbeddedAttachmentsToBody(data).then(
-              (finalBody) => {
-                // then send mail
-                const emailList = [];
-                this.msgAddrList.forEach(x => {
-                  emailList.push(x['emailId']);
-                });
-                // const modalRef = this.modalService.open(
-                //   OptDialogComponent,
-                //   { size: 'lg', backdrop: 'static', keyboard: false }
-                // );
-                // modalRef.result.then(x => console.log(x));
-                this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
-                  this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
-                  this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
-                  this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, true)
-                  .then(function (value) {
-                    that.spinner.hide();
-                    that.detector.detectChanges();
-                    that.globals.emailAttach = null;
-                    that.globals.ucFilesList = [];
-                    that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
-                    that.resetData();
-                    if (that._reqStoreSelector === 'draft') {
-                      if (that._isDraft === 'false') {
-                        that.emailStore.discardDraft(that._reqThreadID);
-                      }
-                      that.location.back();
-                    }
+      const modalRef = this.modalService.open(
+        OptDialogComponent,
+        { size: 'lg', backdrop: 'static', keyboard: false }
+      );
+      modalRef.result.then(option => {
+        if (option === 0) {
+          return;
+        }
+        if (this.uploader.queue.length === 0) {
+          this.base64InlineAttachmentsToBody().then(
+            (data) => {
+              this.base64EmbeddedAttachmentsToBody(data).then(
+                (finalBody) => {
+                  // then send mail
+                  const emailList = [];
+                  this.msgAddrList.forEach(x => {
+                    emailList.push(x['emailId']);
                   });
-              });
+                  this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
+                    this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
+                    this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
+                    this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, option === 1 ? false : true)
+                    .then(function (value) {
+                      that.spinner.hide();
+                      that.detector.detectChanges();
+                      that.globals.emailAttach = null;
+                      that.globals.ucFilesList = [];
+                      that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
+                      that.resetData();
+                      if (that._reqStoreSelector === 'draft') {
+                        if (that._isDraft === 'false') {
+                          that.emailStore.discardDraft(that._reqThreadID);
+                        }
+                        that.location.back();
+                      }
+                    });
+                });
 
-          },
-          (err) => {
-            console.log('Error Occured while streamlining inline images', err);
-            alert('Error OCCURRED: UI-SND-ML-01');
-            that.spinner.hide();
-          });
-      } else {
-        // process external then inline attachments
-        this.uploader.uploadAll();
-      }
+            },
+            (err) => {
+              console.log('Error Occured while streamlining inline images', err);
+              alert('Error OCCURRED: UI-SND-ML-01');
+              that.spinner.hide();
+            });
+        } else {
+          // process external then inline attachments
+          this.uploader.uploadAll();
+        }
+      });
     } else {
       this.spinner.hide();
       alert('Please Select atleast 1 recipient');

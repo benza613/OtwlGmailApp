@@ -3,27 +3,26 @@
 
 <div class="row" style="margin-bottom:0px 0px 5px 5px;">
   <div class="col">
-    <i class="fa fa-arrow-circle-left" (click)="goBack()"
-      style="transform: scale(1.7); margin-left: 15px; cursor: pointer;"></i>
+    <i class="fa fa-arrow-circle-left back-btn" (click)="goBack()"></i>
     <span class="subjectHeader">{{subject}}</span>
   </div>
   <div class="col pull-right">
-    <i class="fa fa-toggle-on" *ngIf="toggleMsgStatus" ngbTooltip="MAKE UNREAD"
-      style="transform: scale(1.5);float: right; margin:10px 5px 0px 0px; cursor: pointer;"
+    <i class="fa fa-toggle-on mark-unread" *ngIf="toggleMsgStatus" ngbTooltip="MAKE UNREAD"
       (click)="markAsUnread()"></i>
-    <i class="fa fa-toggle-off" *ngIf="!toggleMsgStatus" ngbTooltip="MAKE READ"
-      style="transform: scale(1.5);float: right;margin:10px 5px 0px 0px; cursor: pointer;" (click)="markAsUnread()"></i>
-    <button type="button" class="btn btn-warning" (click)="OnClick_Map()"
-      style="transform: scale(0.8); float: right; margin-right:7px;" placement="left"><i
+    <i class="fa fa-toggle-off mark-read" *ngIf="!toggleMsgStatus" ngbTooltip="MAKE READ" (click)="markAsUnread()"></i>
+    <button type="button" class="btn btn-warning map-btn" (click)="OnClick_Map()" placement="left"><i
         class="fa fa-external-link-square"></i> MAP</button>
-    <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right"
-      style="margin: 2px 10px 2px 2px; transform: scale(0.8); float: right;" (click)="expandAll(1)"> EXPAND ALL</button>
-    <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right"
-      style="margin: 2px 10px 2px 2px; transform: scale(0.8); float: right;" (click)="expandAll(2)"> COLLAPSE
-      ALL</button>
+    <button *ngIf="action" type="button" class="btn btn-sm btn-outline-success float-right exp-col"
+      (click)="expandAll(1)">
+      EXPAND ALL
+    </button>
+    <button *ngIf="!action" type="button" class="btn btn-sm btn-outline-secondary float-right exp-col"
+      (click)="expandAll(2)">
+      COLLAPSE ALL
+    </button>
     <div>
-      <i class="fa fa-circle" style="color: gray; margin: 10px 10px; float: right;"> Inline</i>
-      <i class="fa fa-circle" style="color: black; float: right; margin: 10px 0px;"> External</i>
+      <i class="fa fa-circle legend-in"> Inline</i>
+      <i class="fa fa-circle legend-ex"> External</i>
     </div>
   </div>
 </div>
@@ -51,37 +50,37 @@
           {{eml.date}}
         </div>
         <div class="col-md-3 pull-left" style="padding-left: 0px;">
-          <button type="button" ngbTooltip="Attach" class="btn btn-sm btn-outline-secondary float-right"
-            style="transform: scale(0.75);" (click)="saveAsAttach(i)">
+          <button type="button" ngbTooltip="Attach" class="btn btn-sm btn-outline-secondary float-right alter-size"
+            (click)="saveAsAttach(i)">
             <i class="fa fa-map-pin"></i>
           </button>
           <button *ngIf="isMapped" type="button" ngbTooltip="Upload"
-            class="btn btn-sm btn-outline-secondary float-right" style="transform: scale(0.75);"
+            class="btn btn-sm btn-outline-secondary float-right alter-size"
             (click)="selectFolderForUpload(i, eml.msgid)">
             <i class="fa fa-upload"></i>
           </button>
           <button *ngIf="!eml.isOpen" type="button" ngbTooltip="Print"
-            class="btn btn-sm btn-outline-secondary float-right" style="transform: scale(0.75);" (click)="getPrint(i)">
+            class="btn btn-sm btn-outline-secondary float-right alter-size" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
-          <button *ngIf="eml.isOpen" type="button" ngbTooltip="Print" class="btn btn-sm btn-outline-warning float-right"
-            style="transform: scale(0.75);" (click)="getPrint(i)">
+          <button *ngIf="eml.isOpen" type="button" ngbTooltip="Print"
+            class="btn btn-sm btn-outline-warning float-right alter-size" (click)="getPrint(i)">
             <i class="fa fa-print"></i>
           </button>
-          <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right"
-            style="transform: scale(0.75);" (click)="draftReplyToAll(eml, eml.body)">
+          <button type="button" ngbTooltip="Reply All" class="btn btn-sm btn-outline-danger float-right alter-size"
+            (click)="draftReplyToAll(eml, eml.body)">
             <i class="fa fa-reply-all"></i>
           </button>
-          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right"
-            style="transform: scale(0.75);" (click)="draftReply(eml, eml.body)">
+          <button type="button" ngbTooltip="Reply" class="btn btn-sm btn-outline-danger float-right alter-size"
+            (click)="draftReply(eml, eml.body)">
             <i class="fa fa-reply"></i>
           </button>
-          <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right"
-            style="transform: scale(0.75);" (click)="draftForward(eml, eml.body)">
+          <button type="button" ngbTooltip="Forward" class="btn btn-sm btn-outline-success float-right alter-size"
+            (click)="draftForward(eml, eml.body)">
             <i class="fa fa-arrow-right"></i>
           </button>
-          <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right"
-            style="transform: scale(0.75); margin-right: 15px;" (click)="expand(eml,i)">
+          <button type="button" ngbTooltip="Expand" class="btn btn-sm btn-outline-primary float-right alter-size"
+            style="margin-right: 15px;" (click)="expand(eml,i)">
             <i class="fa fa-expand"></i>
           </button>
           <div style="cursor: pointer;" *ngIf="eml.attachments.length !== 0 && eml.isOpen"
@@ -102,21 +101,21 @@
       <div class="card" style="margin-bottom: 5px;" *ngIf="showInfo">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-9 pull-left" style=" font-size: 14px;">
+            <div class="col-md-9 pull-left header-text">
               <span class="tags">From: </span>{{eml.from}}
             </div>
-            <div class="col-md-3 pull-right" style=" font-size: 14px;">
+            <div class="col-md-3 pull-right header-text">
               <span class="tags">DATE: </span>{{eml.date}}
             </div>
           </div>
           <div class="row">
-            <div class="col-md-5 pull-left" style=" font-size: 14px;">
+            <div class="col-md-5 pull-left header-text">
               <span class="tags">To: </span>{{eml.msgTo}}
             </div>
-            <div class="col-md-4 pull-left" style=" font-size: 14px;">
+            <div class="col-md-4 pull-left header-text">
               <span class="tags">CC: </span>{{eml.msgCc}}
             </div>
-            <div class="col-md-3 pull-left" style=" font-size: 14px;">
+            <div class="col-md-3 pull-left header-text">
               <span class="tags">BCC: </span>{{eml.msgBcc}}
             </div>
           </div>
@@ -181,7 +180,7 @@
         </div>
       </div>
       <div id="{{i}}">
-        <div class="row" id="body{{i}}" [innerHTML]="eml.body | safeHtml" style="max-width:100%; margin: 0px;">
+        <div class="row emlBody" id="body{{i}}" [innerHTML]="eml.body | safeHtml">
 
         </div>
         <!-- <div class="row pull left">
@@ -204,8 +203,7 @@
           </button>
         </div>
         <div *ngIf="eml.showFooter">
-          <div class="row" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml"
-            style="max-width:100%; margin: 0px;">
+          <div class="row emlQuote" *ngIf="quotes[i] !== ''" [innerHTML]="quotes[i] | safeHtml">
 
           </div>
         </div>

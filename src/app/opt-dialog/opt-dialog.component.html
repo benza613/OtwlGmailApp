@@ -1,17 +1,30 @@
 <div class="modal-header">
   <h5>Choose an option</h5>
+  <i class="fa fa-times fa-lg" (click)="close(0)" style="cursor: pointer;"></i>
 </div>
-<div class="modal-body col">
-  <div>
-    <button type="button" class="btn btn-success" (click)="close(1)">Send the mail</button>
+<div class="modal-body row">
+  <div class="col single" (click)="close(1)">
+    <div class="row">
+      <div class="col">
+        <span style="font-size: 25px;">
+          <b>Send single</b>
+        </span>
+      </div>
+      <div class="col" style="margin-top: 10px; text-align: center;">
+        <i class="fa fa-envelope" style="transform: scale(2.5);"></i>
+      </div>
+    </div>
   </div>
-  <div>
-    <button type="button" class="btn btn-secondary" (click)="close(2)">Send as fragments</button>
-  </div>
-  <div>
-    <button type="button" class="btn btn-danger" (click)="close(3)">Save as new draft</button>
-  </div>
-  <div>
-    <button type="button" class="btn btn-primary" (click)="close(4)">Update the draft</button>
+  <div class="col multi" (click)="close(2)">
+    <div class="row">
+      <div  class="col">
+        <span style="font-size: 25px; text-align: center;">
+          <b>Send parts</b>
+        </span>
+      </div>
+      <div  class="col" style="margin-top: 15px; text-align: center;">
+        <i class="fa fa-sitemap" style="transform: rotate(-90deg) scale(2.5);"></i>
+      </div>
+    </div>
   </div>
 </div>

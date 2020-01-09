@@ -55,9 +55,29 @@
     /* Add shadows to create the "card" effect */
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
+    background-color: whitesmoke; 
+    color: #b31b1b; 
+    padding: 8px; 
+    border-radius: 20px; 
+    transform: scale(0.80);
   }
   
   /* On mouse-over, add a deeper shadow */
   .compose:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+  .btnSize {
+    transform: scale(0.80);
+  }
+
+  .legendTo {
+    margin-right: 5px; 
+    color: rgb(207, 26, 26); 
+    font-size: 14px;
+  }
+
+  .legendCcBcc {
+    margin-right: 5px; 
+    font-size: 14px;
   }

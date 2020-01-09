@@ -72,6 +72,68 @@
   color: #006699;
 }
 
+.back-btn {
+  transform: scale(1.7); 
+  margin-left: 15px; 
+  cursor: pointer;
+}
+
+.exp-col {
+  margin: 2px 10px 2px 2px; 
+  transform: scale(0.8); 
+  float: right;
+}
+
+.map-btn {
+  transform: scale(0.8); 
+  float: right; 
+  margin-right:7px;
+}
+
+.mark-read {
+  transform: scale(1.5);
+  float: right;
+  margin:10px 5px 0px 0px; 
+  cursor: pointer;
+}
+
+.mark-unread {
+  transform: scale(1.5);
+  float: right; 
+  margin:10px 5px 0px 0px; 
+  cursor: pointer;
+}
+
+.legend-in {
+  color: gray; 
+  margin: 10px 10px; 
+  float: right;
+}
+
+.legend-ex {
+  color: black; 
+  float: right; 
+  margin: 10px 0px;
+}
+
+.alter-size {
+  transform: scale(0.75);
+}
+
+.header-text {
+  font-size: 14px;
+}
+
+.emlBody {
+  max-width:100%; 
+  margin: 0px;
+}
+
+.emlQuote {
+  max-width:100%; 
+  margin: 0px;
+}
+
 // .disableQuote blockquote {
 //     display: none;
 //     border-left: none;

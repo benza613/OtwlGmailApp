@@ -915,6 +915,7 @@ export class EmailsStoreService {
   async getAddressBook() {
     const res = await this.emailServ.fetchAddressBook().toPromise();
     if (res.d.errId === '200') {
+      this.globals.maxFileSize = res.d.maxFileSize;
       this.addressBook = [];
       const arrx = this.addressBook;
       arrx.push(...<AddressBook[]>res.d.addressBook);
@@ -981,6 +982,43 @@ export class EmailsStoreService {
       const res = await this.emailServ.deleteMail(GThreadId, msgId, refValId).toPromise();
       if (res.d.errId !== '200') {
         this.errorService.displayError(res, 'deleteMail');
+      }
+      resolve(res.d.errId);
+    });
+  }
+
+
+  updateDraft(packet, 
+              body, 
+              inlineAtachments, 
+              actionType, 
+              MessageID, 
+              draft_attachIds,
+              TokenPossession, 
+              orderFilesList, 
+              eml, 
+              att_subject) {
+    return new Promise(async (resolve, reject) => {
+
+      const res = await this.emailServ.updateDraft(
+        packet.to.map(key => key.emailId),
+        packet.cc.map(key => key.emailId),
+        packet.bcc.map(key => key.emailId),
+        packet.subject,
+        body,
+        inlineAtachments,
+        actionType,
+        MessageID,
+        draft_attachIds,
+        TokenPossession,
+        orderFilesList,
+        eml,
+        att_subject).toPromise();
+      if (res.d.errId === 'None') {
+        alert(res.d.errMsg);
+      } else {
+        alert(res.d.errMsg);
+        this.errorService.displayError(res, '');
       }
       resolve(res.d.errId);
     });

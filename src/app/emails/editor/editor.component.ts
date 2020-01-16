@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FSFilesDialogComponent } from 'src/app/email_fs_files/fsfiles-dialog/fsfiles-dialog.component';
 import { Location } from '@angular/common';
+import { EmailsService } from 'src/app/_http/emails.service';
 
 const URL = environment.url.uploadsGA;
 
@@ -89,6 +90,7 @@ export class EditorComponent implements OnInit {
   showEmail = false;
   draftMail;
   draftAttachments = [];
+  dwnldDraftAttachs = [];
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -99,6 +101,7 @@ export class EditorComponent implements OnInit {
     private modalService: NgbModal,
     private domainStore: DomainStoreService,
     private location: Location,
+    private emailServ: EmailsService,
     public globals: GlobalStoreService
   ) { }
 
@@ -115,8 +118,14 @@ export class EditorComponent implements OnInit {
     // https://github.com/angular/angular/blob/1608d91728af707d9740756a80e78cfb1148dd5a/
     // modules/%40angular/common/src/pipes/number_pipe.ts#L82
 
+
     this.uploader.onAfterAddingFile = (fileItem) => {
-      this.uploadFilesSize += fileItem.file.size;
+      if (!(fileItem.file.size > this.globals.maxFileSize)) {
+        this.uploadFilesSize += fileItem.file.size;
+      } else {
+        this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
+        alert('File size exceeds max allowed limit. Please keep it below 20 MB!');
+      }
       this.detector.detectChanges();
     };
 
@@ -125,10 +134,6 @@ export class EditorComponent implements OnInit {
       this.uploadFilesSize -= fileItem.file.size;
       this.detector.detectChanges();
     };
-
-    // this.uploader.addToQueue = (fileItem) => {
-    //   console.log('FILES', this.uploader.queue);
-    // };
 
     const that = this;
     this.emailStore.getAddressBook();
@@ -213,7 +218,6 @@ export class EditorComponent implements OnInit {
           this._reqStoreSelector = params.q;
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
-          console.log(this._reqMessageID);
           this._reqActionType = params.a;
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
@@ -222,8 +226,10 @@ export class EditorComponent implements OnInit {
             x.msgs[0].attachments.forEach(att => {
               if (att.fileName !== '') {
                 this.draftAttachments.push(att);
+                this.dwnldDraftAttachs.push([att.attachmentGId, att.fileName]);
               }
             });
+            this.downloadDraftAttachs(this._reqMessageID, this.dwnldDraftAttachs);
           }
         } else if (params.q !== undefined && params.q === 'ucef') {
           if (this.globals.ucFilesList.length > 0) {
@@ -399,7 +405,6 @@ export class EditorComponent implements OnInit {
 
 
   actionCompleted(ev: any) {
-    // console.log(ev);
 
     if (ev.requestType === 'Image') {
 
@@ -416,11 +421,122 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  onClick_SendMail(flag) {
-    // this.spinner.show();
+  async onClick_SendMail(flag) {
+    this.spinner.show();
     this.detector.detectChanges();
     this._isDraft = flag === '0' ? 'true' : 'false';
     const that = this;
+    await this.newAddrList();
+    if (this.msgPacket.to.length !== 0 || this.msgPacket.cc.length !== 0 || this.msgPacket.bcc.length !== 0) {
+      if (flag !== '0') {
+        const modalRef = this.modalService.open(
+          OptDialogComponent,
+          { size: 'lg', backdrop: 'static', keyboard: false }
+        );
+        modalRef.result.then(value => {
+          that.sendMail(value);
+        });
+      } else if (flag === '0') {
+        that.updateDraft();
+      }
+    } else {
+      this.spinner.hide();
+      alert('Please Select atleast 1 recipient');
+    }
+  }
+
+  sendMail(option) {
+    const that = this;
+    if (option === 0) {
+      return;
+    }
+    if (this.uploader.queue.length === 0) {
+      this.base64InlineAttachmentsToBody().then(
+        (data) => {
+          this.base64EmbeddedAttachmentsToBody(data).then(
+            (finalBody) => {
+              // then send mail
+              const emailList = [];
+              this.msgAddrList.forEach(x => {
+                emailList.push(x['emailId']);
+              });
+              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
+                this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
+                this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
+                this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, option === 1 ? false : true)
+                .then(function (value) {
+                  that.spinner.hide();
+                  that.detector.detectChanges();
+                  that.globals.emailAttach = null;
+                  that.globals.ucFilesList = [];
+                  that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
+                  that.resetData();
+                  if (that._reqStoreSelector === 'draft') {
+                    if (that._isDraft === 'false') {
+                      that.emailStore.discardDraft(that._reqThreadID);
+                    }
+                    that.location.back();
+                  }
+                });
+            });
+
+        },
+        (err) => {
+          console.log('Error Occured while streamlining inline images', err);
+          alert('Error OCCURRED: UI-SND-ML-01');
+          that.spinner.hide();
+        });
+    } else {
+      // process external then inline attachments
+      this.uploader.uploadAll();
+    }
+  }
+
+  updateDraft() {
+    const that = this;
+    let draft_attachIds = [];
+    this.draftAttachments.forEach(x => {
+      draft_attachIds.push(x.attachmentGId);
+    });
+    if (this.uploader.queue.length === 0) {
+      this.base64InlineAttachmentsToBody().then(
+        (data) => {
+          this.base64EmbeddedAttachmentsToBody(data).then(
+            (finalBody) => {
+              // then send mail
+              this.emailStore.updateDraft(
+                this.msgPacket,
+                finalBody + this.footerHtml,
+                this._inlineAttachB64,
+                this._reqActionType === 'd' ? null : this._reqActionType,
+                this._reqMessageID,
+                draft_attachIds,
+                this._TOKEN_POSSESION,
+                this.orderDetails,
+                this.globals.emailAttach,
+                this.globals.subject)
+                .then(function (value) {
+                  that.spinner.hide();
+                  that.detector.detectChanges();
+                  draft_attachIds = [];
+                  that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
+                  that.resetData();
+                });
+            });
+
+        },
+        (err) => {
+          console.log('Error Occured while streamlining inline images', err);
+          alert('Error OCCURRED: UI-SND-ML-01');
+          that.spinner.hide();
+        });
+    } else {
+      // process external then inline attachments
+      this.uploader.uploadAll();
+    }
+  }
+
+  newAddrList() {
     this.msgPacket.to.forEach(x => {
       const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
       if (idx === -1) {
@@ -439,61 +555,10 @@ export class EditorComponent implements OnInit {
         this.msgAddrList.push(x);
       }
     });
-    if (this.msgPacket.to.length !== 0 || this.msgPacket.cc.length !== 0 || this.msgPacket.bcc.length !== 0) {
-      const modalRef = this.modalService.open(
-        OptDialogComponent,
-        { size: 'lg', backdrop: 'static', keyboard: false }
-      );
-      modalRef.result.then(option => {
-        if (option === 0) {
-          return;
-        }
-        if (this.uploader.queue.length === 0) {
-          this.base64InlineAttachmentsToBody().then(
-            (data) => {
-              this.base64EmbeddedAttachmentsToBody(data).then(
-                (finalBody) => {
-                  // then send mail
-                  const emailList = [];
-                  this.msgAddrList.forEach(x => {
-                    emailList.push(x['emailId']);
-                  });
-                  this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
-                    this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
-                    this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
-                    this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, option === 1 ? false : true)
-                    .then(function (value) {
-                      that.spinner.hide();
-                      that.detector.detectChanges();
-                      that.globals.emailAttach = null;
-                      that.globals.ucFilesList = [];
-                      that._TOKEN_POSSESION = that.randomTokenGenerator(6) + '-' + that.randomTokenGenerator(6);
-                      that.resetData();
-                      if (that._reqStoreSelector === 'draft') {
-                        if (that._isDraft === 'false') {
-                          that.emailStore.discardDraft(that._reqThreadID);
-                        }
-                        that.location.back();
-                      }
-                    });
-                });
+  }
 
-            },
-            (err) => {
-              console.log('Error Occured while streamlining inline images', err);
-              alert('Error OCCURRED: UI-SND-ML-01');
-              that.spinner.hide();
-            });
-        } else {
-          // process external then inline attachments
-          this.uploader.uploadAll();
-        }
-      });
-    } else {
-      this.spinner.hide();
-      alert('Please Select atleast 1 recipient');
-    }
-
+  removeDraftAttach(att) {
+    this.draftAttachments = this.draftAttachments.filter(x => x.attachmentGId !== att.attachmentGId);
   }
 
   private base64InlineAttachmentsToBody() {
@@ -920,6 +985,26 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  downloadDraftAttachs(msgId, attList) {
+    const that = this;
+    if (attList.length > 0) {
+      this.emailServ.downloadLocal(msgId, attList).then(function (value) {
+        that.spinner.hide();
+        that.detector.detectChanges();
+        if (value[0] !== '200') {
+          const res = {
+            d: {
+              errId: '',
+              errMsg: ''
+            }
+          };
+          res.d.errId = value[0];
+          res.d.errMsg = value[1];
+        }
+      });
+    }
+  }
+
   delEmailAttach() {
     this.globals.emailAttach = null;
   }
@@ -929,7 +1014,9 @@ export class EditorComponent implements OnInit {
     this.msgPacket.cc = [];
     this.msgPacket.bcc = [];
     this.msgPacket.subject = '';
-    this.EditorValue = '';
+    this.EditorValue = 'Dear Sir/ Madam, <br/>';
+    this.globals.emailAttach = null;
+    this.globals.ucFilesList = [];
     this.draftAttachments = [];
     this.detector.detectChanges();
   }

@@ -33,5 +33,6 @@ export class GlobalStoreService {
   public ucefList = [];
   public ucefListFiltered = [];
   public globals_isDraft = false;
+  public maxFileSize;
   constructor() { }
 }

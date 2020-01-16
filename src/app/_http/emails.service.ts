@@ -62,14 +62,14 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  fetchThreadEmails(ThreadId , isDraft): Observable<any> {
+  fetchThreadEmails(ThreadId, isDraft): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getThreadEmails`,
       { ThreadId },
       this.httpOptions)
       .pipe(map(r => r));
   }
 
-  fetchDraftThreadEmails(ThreadId , isDraft): Observable<any> {
+  fetchDraftThreadEmails(ThreadId, isDraft): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getDraftData`,
       { ThreadId },
       this.httpOptions)
@@ -150,12 +150,12 @@ export class EmailsService {
         // if (response['headers'].get('content-type').includes('text/plain')) {
         //   this.errorServ.displayError(response, '');
         // } else {
-          const blob: Blob = new Blob([response['body'] as Blob], {
-            type: response['headers'].get('content-type')
-          });
+        const blob: Blob = new Blob([response['body'] as Blob], {
+          type: response['headers'].get('content-type')
+        });
 
-          const url = URL.createObjectURL(blob);
-          resolve(url);
+        const url = URL.createObjectURL(blob);
+        resolve(url);
         // }
       });
     });
@@ -248,6 +248,28 @@ export class EmailsService {
 
   deleteMail(GThreadId, msgid, refValId): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/deleteMail`, { GThreadId, msgid, refValId }, this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  updateDraft(To: string[],
+    Cc: string[],
+    Bcc: string[],
+    subject: string,
+    Body: string,
+    inlineAttachments: MessageInlineAtt[],
+    actionType: string,
+    draft_msgId: string,
+    draft_attachIds: string[],
+    TokenPossession: string,
+    orderFilesList: FsOrderFiles[],
+    eml: Message[],
+    att_sub: string): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/updateDraft`,
+      {
+        To, Cc, Bcc, Subject: subject, Body, inlineAttachments, actionType, draft_msgId,
+        draft_attachIds, TokenPossession, lstFsOrderFiles: orderFilesList, eml, att_sub
+      },
+      this.httpOptions)
       .pipe(map(r => r));
   }
 

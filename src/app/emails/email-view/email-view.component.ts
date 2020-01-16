@@ -534,13 +534,13 @@ export class EmailViewComponent implements OnInit {
     const x = document.getElementsByTagName('img');
     list.forEach(email => {
       email.attachments.forEach(att => {
-          this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
-            for (let i = 0; i < x.length; i++) {
-              if (x[i].src.includes(att.fileName)) {
-                x[i].setAttribute('src', blobUrl.toString());
-              }
+        this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
+          for (let i = 0; i < x.length; i++) {
+            if (x[i].src.includes(att.fileName)) {
+              x[i].setAttribute('src', blobUrl.toString());
             }
-          });
+          }
+        });
       });
       this.filterAttachments(email);
     });
@@ -548,8 +548,8 @@ export class EmailViewComponent implements OnInit {
   }
 
   filterAttachments(eml) {
-      eml.attachments = eml.attachments.filter(x => x.fileName.includes('.'));
-      this.detector.detectChanges();
+    eml.attachments = eml.attachments.filter(x => x.fileName.includes('.'));
+    this.detector.detectChanges();
   }
 
 

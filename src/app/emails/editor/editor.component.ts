@@ -420,7 +420,6 @@ export class EditorComponent implements OnInit {
   }
 
   async onClick_SendMail(flag) {
-    this.spinner.show();
     this.detector.detectChanges();
     this._isDraft = flag === '0' ? 'true' : 'false';
     const that = this;
@@ -438,13 +437,14 @@ export class EditorComponent implements OnInit {
         that.updateDraft();
       }
     } else {
-      this.spinner.hide();
       alert('Please Select atleast 1 recipient');
     }
   }
 
   sendMail(option) {
     const that = this;
+    this.spinner.show();
+    this.detector.detectChanges();
     if (option === 0) {
       return;
     }
@@ -492,6 +492,8 @@ export class EditorComponent implements OnInit {
 
   updateDraft() {
     const that = this;
+    this.spinner.show();
+    this.detector.detectChanges();
     let draft_attachIds = [];
     this.draftAttachments.forEach(x => {
       draft_attachIds.push(x.attachmentGId);

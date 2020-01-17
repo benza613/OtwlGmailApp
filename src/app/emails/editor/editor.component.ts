@@ -226,10 +226,8 @@ export class EditorComponent implements OnInit {
             x.msgs[0].attachments.forEach(att => {
               if (att.fileName !== '') {
                 this.draftAttachments.push(att);
-                this.dwnldDraftAttachs.push([att.attachmentGId, att.fileName]);
               }
             });
-            this.downloadDraftAttachs(this._reqMessageID, this.dwnldDraftAttachs);
           }
         } else if (params.q !== undefined && params.q === 'ucef') {
           if (this.globals.ucFilesList.length > 0) {
@@ -985,10 +983,26 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  downloadDraftAttachs(msgId, attList) {
+  dwnldList(att) {
+    if (document.getElementById(att.attachmentGId).style.color !== 'red') {
+      document.getElementById(att.attachmentGId).setAttribute('style', 'color: red !important;padding: 5px; cursor: pointer;');
+      this.dwnldDraftAttachs.push([att.attachmentGId, att.fileName]);
+    } else {
+      document.getElementById(att.attachmentGId).setAttribute('style', 'color: royalblue;padding: 5px; cursor: pointer;');
+      const idx = this.dwnldDraftAttachs.findIndex(x => x.attachmentGId === att.attachmentGId);
+      this.dwnldDraftAttachs.splice(idx, 1);
+    }
+  }
+
+  downloadDraftAttachs() {
+    if (this.dwnldDraftAttachs.length === 0) {
+      this.draftAttachments.forEach(x => {
+        this.dwnldDraftAttachs.push([x.attachmentGId, x.fileName]);
+      });
+    }
     const that = this;
-    if (attList.length > 0) {
-      this.emailServ.downloadLocal(msgId, attList).then(function (value) {
+    if (this.dwnldDraftAttachs.length > 0) {
+      this.emailServ.downloadLocal(this._reqMessageID, this.dwnldDraftAttachs).then(function (value) {
         that.spinner.hide();
         that.detector.detectChanges();
         if (value[0] !== '200') {

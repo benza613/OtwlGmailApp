@@ -1029,6 +1029,8 @@ export class EditorComponent implements OnInit {
     this.msgPacket.to = [];
     this.msgPacket.cc = [];
     this.msgPacket.bcc = [];
+    this.orderDetails = [];
+    this.delOrderDetails = [];
     this.msgPacket.subject = '';
     this.EditorValue = 'Dear Sir/ Madam, <br/>';
     this.globals.emailAttach = null;

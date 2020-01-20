@@ -647,6 +647,7 @@ export class DraftEditorComponent implements OnInit {
       }
     });
     this.EditorValue = msgs[0].body;
+    this.processAttachments(msgs);
   }
 
 
@@ -789,6 +790,30 @@ export class DraftEditorComponent implements OnInit {
 
   delEmailAttach() {
     this.globals.emailAttach = null;
+  }
+
+  processAttachments(list) {
+    const that = this;
+    const x = document.getElementsByTagName('img');
+    list.forEach(email => {
+      console.log(email.attachments);
+      email.attachments.forEach(att => {
+        this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
+          for (let i = 0; i < x.length; i++) {
+            if (x[i].src.includes(att.fileName)) {
+              x[i].setAttribute('src', blobUrl.toString());
+            }
+          }
+        });
+      });
+      this.filterAttachments(email);
+    });
+    this.detector.detectChanges();
+  }
+
+  filterAttachments(eml) {
+    eml.attachments = eml.attachments.filter(x => x.fileName.includes('.'));
+    this.detector.detectChanges();
   }
 
   resetData() {

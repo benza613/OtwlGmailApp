@@ -684,7 +684,7 @@ export class EmailsStoreService {
           this.draftThreads[index].Messages.push(res.d.msgList[ix]);
         }
       }
-      this.router.navigate(['compose/'], {
+      this.router.navigate(['edit/'], {
         queryParams: {
           q: storeSelector
           , tid: ThreadId

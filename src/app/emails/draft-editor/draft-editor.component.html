@@ -1,0 +1,338 @@
+<ngx-spinner size="default" type="line-scale-pulse-out-rapid"> Loading...
+</ngx-spinner>
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col">
+    <i class="fa fa-arrow-circle-left" (click)="goBack()" routerLinkActive="router-link-active"
+      style="transform: scale(2); margin-left: 15px; cursor: pointer;"></i>
+  </div>
+  <div class="col">
+    <div class="btn-group" ngbDropdown role="group" style="float: right;">
+      <button class="btn btn-primary" ngbDropdownToggle style="transform: scale(0.80);">COMPOSE</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <button ngbDropdownItem (click)="router.navigate(['unread/']);"><i
+            class="fa fa-inbox"></i>&nbsp;&nbsp;<b>INBOX</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['mapped/']);"><i
+            class="fa fa-external-link-square"></i>&nbsp;&nbsp;<b>MAPPED</b></button>
+        <button ngbDropdownItem (click)="router.navigate(['sent/']);"><i
+            class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>SENT</b></button>
+        <!-- <button ngbDropdownItem (click)="router.navigate(['draft/']);"><i
+            class="fa fa-paper-plane"></i>&nbsp;&nbsp;<b>DRAFTS</b></button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div style="max-width:100%;width:100%">
+  <div class="form-row">
+    <div class="col-md-1">
+      <b>TO</b>
+    </div>
+    <div class="col-md-9">
+      <ng-select id="iMsgTo" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
+        placeholder="To" [(ngModel)]="msgPacket.to" (change)="addEmailAddress($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
+      </ng-select>
+      <!-- (change)="addAddr($event)" -->
+    </div>
+    <div class="col">
+      <div class="row">
+        <span type="button" class="ccBcc" (click)="ccBcc = !ccBcc">Cc/Bcc</span>
+        <span type="button" (click)="onClick_SendMail('0')" class=" btn-success draft-btn">DRAFT</span>
+        <span type="button" (click)="onClick_SendMail('1')" class="btn-primary send-btn">SEND</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-row" *ngIf="ccBcc || msgPacket.cc.length > 0 || msgPacket.bcc.length > 0">
+    <div class="col-md-1">
+      <b>CC </b>
+    </div>
+    <div class="col-md-5">
+      <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
+        placeholder="Specify CC" [(ngModel)]="msgPacket.cc" (change)="addEmailAddress($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
+      </ng-select>
+    </div>
+    <div class="col-md-1">
+      <b>BCC</b>
+    </div>
+    <div class="col-md-5">
+      <ng-select id="iEmpFrom" [items]="msgAddrList" [multiple]="true" [closeOnSelect]="false" bindLabel="emailId"
+        placeholder="Specify BCC" [(ngModel)]="msgPacket.bcc" (change)="addEmailAddress($event)" [addTag]="true"
+        [clearSearchOnAdd]="true">
+      </ng-select>
+    </div>
+  </div>
+  <div class="form-row" style="margin-bottom: 10px;">
+    <div class="col-md-1">
+      <b>SUBJECT</b>
+    </div>
+    <div class="col-md-11">
+      <input type="text" class="form-control" placeholder="" [(ngModel)]="msgPacket.subject">
+    </div>
+  </div>
+  <div class="row" style="float: right !important; margin-right: 15px;">
+    <div class="row subject" *ngIf="globals.emailAttach !== null">
+      <span style="color: rgb(109, 109, 109)">
+        <i class="fa fa-times-circle" style="transform: scale(1.2); cursor: pointer;"
+          (click)="delEmailAttach()"></i>&nbsp;&nbsp;
+        <i class="fa fa-envelope"></i>&nbsp;</span>{{globals.subject}}
+    </div>
+  </div>
+  <div class="customTab">
+    <ngb-tabset type="pills">
+      <ngb-tab title="Your Draft">
+        <ng-template ngbTabContent>
+          <div class="ejsEditor card" style="margin-top: 5px;" *ngIf="_reqStoreSelector !== draft">
+            <ejs-richtexteditor #toolsRTE id='senderRTE' [(value)]='EditorValue'
+              (actionComplete)="actionCompleted($event)" [toolbarSettings]='EditorTools'></ejs-richtexteditor>
+          </div>
+          <div class="ejsEditor card" style="margin-top: 5px;" *ngIf="_reqStoreSelector === draft">
+            <ejs-richtexteditor #toolsRTE id='senderRTE' [innerHtml]='EditorValue'
+              (actionComplete)="actionCompleted($event)" [toolbarSettings]='EditorTools'></ejs-richtexteditor>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Referrence Email" *ngIf="globals.email_body">
+        <ng-template ngbTabContent>
+          <div class="row card emlBody">
+            <div [innerHTML]="globals.email_body | safeHtml" style="margin: 10px;">
+
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+  <div class="col card" *ngIf="(_reqStoreSelector === 'draft') && (draftAttachments.length > 0)"
+    style="margin: 10px 5px;">
+    <div class="row card-header draftAttHdr">
+      <div class="col">
+        <b>ATTACHMENTS:</b>
+      </div>
+      <div class="col" style="text-align: right; align-content: right;">
+        <button (click)="downloadDraftAttachs()" class="btn btn-warning"><i class="fa fa-download" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div *ngFor="let att of draftAttachments" class="draftAtt">
+            <div class="row" [id]="att.attachmentGId" style="padding: 5px; cursor: pointer;" (click)="dwnldList(att)">
+              <div class="col" style="padding-right: 0px !important;">
+                <span [ngbTooltip]="att.fileName"
+                  *ngIf="att.fileName.length > 20">{{att.fileName | slice:0:20}}...</span>
+                <span *ngIf="att.fileName.length <= 20">{{att.fileName}}</span>
+              </div>
+              <div class="col-sm-4" style="padding-left: 0px !important;">
+                <span style="color: rgb(138, 138, 138);">({{att.fileSize}})</span>
+              </div>
+              <div class="col-sm-1" style="padding: 0px;">
+                <span style="margin-right: 8px;">
+                  <i class="fa fa-minus-circle" style="color: rgb(134, 134, 134);transform: scale(1.2)"
+                    (click)="removeDraftAttach(att)"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col" style="margin-top: 5px; padding: 0px !important;">
+    <div class="row">
+      <div class="col attachments-partition card" style="margin-left: 15px;">
+        <div class="row">
+          <div class="col-md-12 upl-block" style="margin-bottom: 40px; ">
+            <div class="row card-header" style="background-color: #5271C2; color: white;">
+              <div class="col">
+                <p class="upl-headers">Upload Files</p>
+              </div>
+              <div class="col" style="padding: 0px; font-size: 16px; color: white;">
+                <b *ngIf="uploadFilesSize <= 999999">{{uploadFilesSize / 1024 | number:'1.1-2'}} KB </b>
+                <b *ngIf="uploadFilesSize > 999999">{{uploadFilesSize / 1048576 | number:'1.1-2'}} MB</b>
+              </div>
+            </div>
+            <div class="row card-header" style="background-color: white;font-size: 12px;">
+              <div class="col">
+                <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+                  [uploader]="uploader" class="well my-drop-zone">
+                  Base drop zone
+                </div>
+              </div>
+              <div class="col">Multiple
+                <input type="file" ng2FileSelect [uploader]="uploader" multiple /></div>
+            </div>
+            <hr />
+            <p class="upl-headers">Attachments Selected: </p>
+            <div style="height: 300px; overflow: auto;">
+              <p>Queue length: {{ uploader?.queue?.length }}</p>
+              <div>
+                <div>
+                  Queue progress: {{uploader.progress}}
+                  <div class="progress" style="margin-bottom: 5px;">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                  </div>
+                </div>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="50%">Name</th>
+                    <th>Size</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploader.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="!uploader.isHTML5">{{ item?.file?.size/1024/1024 | number:'1.1-2' }} MB</td>
+                    <td *ngIf="!uploader.isHTML5">
+                      <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td nowrap style="padding: 6px;">
+                      <div class="btn-group-cust">
+                        <button type="button" class="btn btn-warning btn-sm" (click)="item.cancel()"
+                          [disabled]="!item.isUploading">
+                          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
+                          <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <!-- ben -->
+      </div>
+      <div class="col attachments-partition" style="padding-right: 0px !important; margin-right: 15px;">
+        <div class="card" style="height: 100% !important;font-size: 12px;">
+          <div class="card-header fsAttHdr">
+            <div class="row">
+              <div class="col-md-7">
+                <p class="upl-headers ">File Server Attachments :</p>
+              </div>
+              <div class="col-md-4 pull-right" style="margin-top: 3px;">
+                <b style="padding: 0px; font-size: 12px; color: white;">{{showUploadSize}}</b> <b>/</b>
+                <b style="padding: 0px; font-size: 12px; color: white;">{{orderFilesSize}}</b>
+              </div>
+              <div>
+                <span (click)="addAttachments()">
+                  <i class="fa fa-plus-circle" style="color: white; transform: scale(1.5); float: right;"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" style="padding: 0px;font-size: 12px;">
+            <div *ngIf="!_isOrdersComplete" class="fs-orders-loading">Loading Attachments from FileServer...</div>
+            <ngb-tabset *ngIf="_isOrdersComplete">
+              <ngb-tab title="SEND">
+                <ng-template ngbTabContent>
+                  <div style="height: 298px; overflow: auto">
+                    <div *ngFor="let order of orderDetails" style="margin: 2px;">
+                      <div class="card" style="height: 75px">
+                        <div class="col card-body" style="padding: 15px;">
+                          <div class="row">
+                            <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b><i
+                                [ngbTooltip]="order.flDisplayName">{{order.flDisplayName| slice:0:15}}</i><i
+                                [ngbTooltip]="order.flDisplayName" *ngIf="order.flDisplayName.length > 15">...</i></div>
+                            <div class="col-md-2" style="cursor: pointer;">
+                              <span (click)="editOrderDetails(1,order)">
+                                <i class="fa fa-minus-circle"
+                                  style="color: red; transform: scale(1.5); float: right;"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-9">
+                              <div class="badge badge-warning">{{order.flTag}}</div>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="DISCARD">
+                <ng-template ngbTabContent>
+                  <div style="height: 298px; overflow: auto">
+                    <div *ngFor="let order of delOrderDetails">
+                      <div class="card" style="height: 75px">
+                        <div class="col card-body" style="padding: 15px;">
+                          <div class="row">
+                            <div class="col-md-10"> <b>{{order.flMdDisplayName}}/</b><i
+                                [ngbTooltip]="order.flDisplayName">{{order.flDisplayName| slice:0:15}}</i> </div>
+                            <div class="col-md-2 pull-left" style="cursor: pointer;">
+                              <span (click)="editOrderDetails(2,order)">
+                                <i class="fa fa-plus-circle"
+                                  style="color: green; transform: scale(1.5); float: right;"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-9">
+                              <div class="badge badge-warning">{{order.flTag}}</div>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right"> {{order.flSize}} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab *ngIf="globals.subject !== ''" title="{{globals.subject}}">
+
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col attachments-partition" style="margin: 5px 0px; padding: 0px;">
+      <div class="card">
+        <div class="card-header sigHdr">
+          <div class="row">
+            <div class="col">
+              <p class="upl-headers">Signature </p>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div [innerHTML]="signatureHtml | safeHtml" style="text-align: left;font-size: 12px;">
+
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="row">
+      <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
+        bgcolor="#fafafa" align="center">
+        <tbody>
+          <tr>
+            <td align="center">
+              <font size="1" face="Arial, Helvetica, sans-serif" color="#333333">
+                <span style="font-size:11px">
+                  This email was generated & sent by OTWL MAILER. ref:_19950115 </span>
+              </font>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  </div>
+</div>

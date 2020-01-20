@@ -37,6 +37,7 @@ import { EmailUcefComponent } from './emails/email-ucef/email-ucef.component';
 import { UcefFilterPipe } from './_pipe/ucef-filter.pipe';
 import { EmailList3Component } from './emails/email-list3/email-list3.component';
 import { OptDialogComponent } from './opt-dialog/opt-dialog.component';
+import { DraftEditorComponent } from './emails/draft-editor/draft-editor.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { OptDialogComponent } from './opt-dialog/opt-dialog.component';
     UcefFilterPipe,
     EmailList3Component,
     OptDialogComponent,
+    DraftEditorComponent,
   ],
   imports: [
     BrowserModule,

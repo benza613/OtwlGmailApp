@@ -120,7 +120,7 @@ export class EditorComponent implements OnInit {
 
 
     this.uploader.onAfterAddingFile = (fileItem) => {
-      if (!(fileItem.file.size > this.globals.maxFileSize)) {
+      if (!(fileItem.file.size < this.globals.maxFileSize)) {
         this.uploadFilesSize += fileItem.file.size;
       } else {
         this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);

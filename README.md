@@ -25,3 +25,19 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+#PLAN OF ACTION
+
+1. Send draft by ID
+2. Update existing draft
+
+
+## C# Endpoints for actions 
+
+[Drafts List](/getDraftThreads)
+[Drafts View](/getDraftData?ThreadId)
+[Drafts Create](/postNewMail)
+[Drafts Update](/postDraft?DraftId)
+
+[Drafts Send Existing](/sendDraft?DraftId)
+( Either consume as endpoint or call inside func() postDraft after updating it )

@@ -211,7 +211,6 @@ export class DraftEditorComponent implements OnInit {
       // are uploaded inorder to send mail
 
       form.append('tokenHolder', this._TOKEN_POSSESION);
-      console.log(fileItem);
     };
 
     this.uploader.onCompleteAll = () => {
@@ -796,7 +795,6 @@ export class DraftEditorComponent implements OnInit {
     const that = this;
     const x = document.getElementsByTagName('img');
     list.forEach(email => {
-      console.log(email.attachments);
       email.attachments.forEach(att => {
         this.emailServ.restoreEmailBodyImages(email.msgid, att.attachmentGId, att.fileName).then(function (blobUrl) {
           for (let i = 0; i < x.length; i++) {

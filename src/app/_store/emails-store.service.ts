@@ -576,9 +576,9 @@ export class EmailsStoreService {
 
 
   paginateDraftThreadList(flagCount) {
-    let addfrom = this.lastValidDraftSearch.addrFrom != undefined ? this.lastValidDraftSearch.addrFrom : "";
-    let addTo = this.lastValidDraftSearch.addrTo != undefined ? this.lastValidDraftSearch.addrTo : "";
-    let subj = this.lastValidDraftSearch.subject != undefined ? this.lastValidDraftSearch.subject : "";
+    let addfrom = this.lastValidDraftSearch.addrFrom !== undefined ? this.lastValidDraftSearch.addrFrom : '';
+    let addTo = this.lastValidDraftSearch.addrTo !== undefined ? this.lastValidDraftSearch.addrTo : '';
+    let subj = this.lastValidDraftSearch.subject !== undefined ? this.lastValidDraftSearch.subject : '';
 
     return new Promise(async (resolve, reject) => {
 
@@ -587,7 +587,7 @@ export class EmailsStoreService {
 
       for (let idx = 0; idx < flagCount; idx++) {
 
-        if (this.LOCK_DraftSearch == DraftSearchLocks.SetForRelease) {
+        if (this.LOCK_DraftSearch === DraftSearchLocks.SetForRelease) {
           this.LOCK_DraftSearch = DraftSearchLocks.Acquired;
           break;
         }
@@ -624,11 +624,9 @@ export class EmailsStoreService {
   }
 
   async update_UnreadThreadEmails(flag, ThreadId, storeSelector, Subject) {
-    console.log('UNREAD', storeSelector);
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
-      console.log(res.d.errId);
       if (res.d.errId.includes('200')) {
         this.unreadThreads[index].Messages = [];
         for (let ix = 0; ix < res.d.msgList.length; ix++) {
@@ -859,7 +857,6 @@ export class EmailsStoreService {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.getUserInfo().toPromise();
       if (res.d.errId === '200') {
-        // console.log(res);
         resolve(res);
       } else {
         this.errorService.displayError(res, 'getUserMailInfo');
@@ -927,7 +924,6 @@ export class EmailsStoreService {
 
   async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
-    console.log(storeSelector);
     if (res.d.errId === '200') {
       const index = this.sentThreads.indexOf(this.sentThreads.find(t => t.ThreadId === ThreadId));
       this.sentThreads[index].Messages = [];
@@ -988,16 +984,16 @@ export class EmailsStoreService {
   }
 
 
-  updateDraft(packet, 
-              body, 
-              inlineAtachments, 
-              actionType, 
-              MessageID, 
-              draft_attachIds,
-              TokenPossession, 
-              orderFilesList, 
-              eml, 
-              att_subject) {
+  updateDraft(packet,
+    body,
+    inlineAtachments,
+    actionType,
+    MessageID,
+    draft_attachIds,
+    TokenPossession,
+    orderFilesList,
+    eml,
+    att_subject) {
     return new Promise(async (resolve, reject) => {
 
       const res = await this.emailServ.updateDraft(

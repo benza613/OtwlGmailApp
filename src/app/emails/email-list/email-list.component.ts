@@ -1,6 +1,4 @@
-import { LocalStorageService } from './../../_util/local-storage.service';
 import { GlobalStoreService } from './../../_store/global-store.service';
-import { Message } from './../../models/message.model';
 import { Router } from '@angular/router';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { AuthService } from './../../auth/auth.service';
@@ -10,7 +8,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
-import { markdownListsTags } from '@syncfusion/ej2-richtexteditor';
 
 @Component({
   selector: 'app-email-list',
@@ -33,6 +30,7 @@ export class EmailListComponent implements OnInit {
   showPreview = false;
   currentThread = null;
   msg;
+
   // optimization, rerenders only threads that change instead of the entire list of threads
   threadTrackFn = (i, thread) => thread.ThreadId;
 
@@ -117,7 +115,6 @@ export class EmailListComponent implements OnInit {
     this.spinner.show('list1');
     this.authServ.login();
     const that = this;
-    console.log(this.storeSelector);
     if (this.storeSelector === 'EmailUnreadComponent') {
       this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
         threadData.isUnread = false;

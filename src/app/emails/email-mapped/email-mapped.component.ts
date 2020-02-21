@@ -57,6 +57,7 @@ export class EmailMappedComponent implements OnInit {
       }
       this.route.queryParams.subscribe((params) => {
         if (params.r !== undefined && params.v !== undefined) {
+          /*mapped threads can directly be retrieved by passing reference type id and reference id*/
           this.globals.mappedRefId = params.r;
           this.disableDropdowns = true;
           this._queryParams.r = params.r;
@@ -91,8 +92,9 @@ export class EmailMappedComponent implements OnInit {
     this.globals.mappedToDate = { year: 2019, month: this.globals.mappedFromDate.month - 3, day: 21 };
   }
 
-  //toggle parent reftype ddl
+
   onChange_GetRefTypeData(flag?) {
+    /* Based on selected reference type fetch list of references*/
     if (this.globals.mappedRefId !== 0 && this.globals.mappedRefId !== null) {
       this.spinner.show();
       this.globals.mappedRefValId = this.globals.mappedRefValId ? this.globals.mappedRefValId : null;
@@ -117,6 +119,7 @@ export class EmailMappedComponent implements OnInit {
   }
 
   getThreads(admin_flag) {
+    /*if user is admin, get mails mapped by all users for that particular ref type and ref id*/
     this.globals.isAdmin = admin_flag;
     this.showSearch = false;
     this.detector.detectChanges();

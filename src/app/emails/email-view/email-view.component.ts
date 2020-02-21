@@ -493,7 +493,6 @@ export class EmailViewComponent implements OnInit {
       EmailUnreadDialogComponent,
       { size: 'lg', backdrop: 'static', keyboard: false }
     );
-    console.log('SENT', this.thread);
     modalRef.componentInstance.mailList = [this.thread];
     modalRef.componentInstance.storeSelector = this.storeSelector; // should be the id
     modalRef.result.then((result) => {
@@ -604,7 +603,6 @@ export class EmailViewComponent implements OnInit {
   saveAsAttach(idx) {
     this.globals.emailAttach = this.list[idx];
     this.globals.subject = this.subject;
-    console.log('Email as attach', this.list[idx])
     this.router.navigate(['compose/']);
   }
 

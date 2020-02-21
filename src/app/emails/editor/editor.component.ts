@@ -27,8 +27,7 @@ export class EditorComponent implements OnInit {
 
   public uploader: FileUploader = new FileUploader({ url: URL });
   public hasBaseDropZoneOver = false;
-  addEmail = '';
-  ccBcc = false;
+  ccBcc = false; //boolean to toggle the visibility of CC & Bcc fields
 
   msgPacket = {
     to: [],
@@ -49,9 +48,7 @@ export class EditorComponent implements OnInit {
   };
 
 
-  msgAddrList = [];
-  addrListCc = [];
-  addrListBcc = [];
+  msgAddrList = []; //email address book for a user
 
   _TOKEN_POSSESION = '';
 
@@ -73,6 +70,8 @@ export class EditorComponent implements OnInit {
   delOrderDetails = [];
 
   alacarteDetails = [];
+
+  /* Employee Signature Parameters */
   senderName;
   senderDesgn;
   senderMobile;
@@ -80,13 +79,14 @@ export class EditorComponent implements OnInit {
   senderLandline;
   senderWeChat;
   senderSkype;
+
   signatureHtml = '<div></div>';
   footerHtml;
-  orderFilesSize;
-  uploadFilesSize = 0;
-  sendFileSize = 0;
-  showUploadSize;
-  addressBook;
+  orderFilesSize; // size of files when selected for an order id
+  uploadFilesSize = 0; // total size of uploaded files
+  sendFileSize = 0; // size of files sent with the mails
+  showUploadSize; //boolean to display uploaded file size
+  addressBook; // list of stored email address
   showEmail = false;
   draftMail;
   draftAttachments = [];
@@ -172,7 +172,7 @@ export class EditorComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
 
-        //navigating to compose from drafts to create a new draft
+        // navigating to compose from drafts to create a new draft
         this._isDraft = this.globals.globals_isDraft ? 'true' : 'false';
 
         // first check if storeSelector is undefined
@@ -310,7 +310,6 @@ export class EditorComponent implements OnInit {
       this.base64InlineAttachmentsToBody().then(
         (data) => {
           // then take care of custom_otwl_inliner since google blocks embedded bae64 strings
-
           this.base64EmbeddedAttachmentsToBody(data).then(
             (finalBody) => {
               // then send mail
@@ -355,7 +354,6 @@ export class EditorComponent implements OnInit {
         (err) => {
           console.log('Error Occured while streamlining inline images', err);
           alert('Error OCCURRED: UI-SND-ML-01');
-
         });
 
 
@@ -403,7 +401,7 @@ export class EditorComponent implements OnInit {
 
 
   actionCompleted(ev: any) {
-
+    // for image attachments inside mail body
     if (ev.requestType === 'Image') {
 
       ev.elements.forEach(element => {
@@ -420,6 +418,7 @@ export class EditorComponent implements OnInit {
   }
 
   async onClick_SendMail(flag) {
+    // fired when you hit send mail button
     this.detector.detectChanges();
     this._isDraft = flag === '0' ? 'true' : 'false';
     const that = this;
@@ -537,6 +536,7 @@ export class EditorComponent implements OnInit {
   }
 
   newAddrList() {
+    // generate list of dynamically added email addresses to register in the system.
     this.msgPacket.to.forEach(x => {
       const idx = this.msgAddrList.findIndex(y => y.emailId === x.emailId);
       if (idx === -1) {
@@ -558,6 +558,7 @@ export class EditorComponent implements OnInit {
   }
 
   removeDraftAttach(att) {
+    // remove previously uploaded attachment from a draft.
     this.draftAttachments = this.draftAttachments.filter(x => x.attachmentGId !== att.attachmentGId);
   }
 

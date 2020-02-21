@@ -15,9 +15,6 @@ export class mapViewFilter implements PipeTransform {
         let isNullOrEmptyA: boolean = (filter.a == undefined || filter.a == null || filter.a == '');
         let isNullOrEmptyB: boolean = (filter.b == undefined || filter.b == null || filter.b.length == 0);
         let isNullOrEmptyD: boolean = (filter.d == undefined || filter.d == null || filter.d == '');
-        // console.log('isNullOrEmptyC', isNullOrEmptyC);
-        // console.log('isNullOrEmptyB', isNullOrEmptyB);
-        // console.log('isNullOrEmptyA', isNullOrEmptyA);
 
         // filter items array, items which match and return true will be
         // kept, false will be filtered out

@@ -39,7 +39,6 @@ export class EmailUnreadDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.mailList);
     this.domainStore.refType$.subscribe(x => {
       this.refType = x;
     });
@@ -63,7 +62,6 @@ export class EmailUnreadDialogComponent implements OnInit {
   addRefType(event) {
     const that = this;
     const idx = this.refTypeData.findIndex(x => x.refNo === event.refNo);
-    console.log(event);
     if (!event || (idx !== -1)) {
       return;
     }
@@ -105,7 +103,6 @@ export class EmailUnreadDialogComponent implements OnInit {
       }
       this.spinner.show();
       const idx = this.refTypeData.findIndex(x => x['refId'] === String(this.refValId));
-      console.log(idx);
       const mapTypes = {
         refId: this.refId,
         refValId: idx === -1 || idx === null ? this.refTypeData[this.refTypeData.length - 1]['refId'] : this.refTypeData[idx]['refId'],

@@ -17,11 +17,7 @@ export class ErrorDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.methodName);
     this.getContent();
-    // this.misc = `<div>
-    // <span>HELLO</span><br/><span>world</span>
-    // </div>`;
   }
 
   getContent() {
@@ -165,7 +161,6 @@ export class ErrorDialogComponent implements OnInit {
         //deleting thread mapping
       }
       default: {
-        console.log('Invalid choice');
         break;
       }
     }

@@ -52,12 +52,10 @@ export class EmailSentComponent implements OnInit {
     this.domainStore.updateThreadTypeData();
     this.emailStore.updateSentThreadList(0, this.globals.sentTo, this.globals.sentSubject).then(result => {
       that.showLoaders = false;
-      console.log('promise succ for updateUnreadThreadList');
       this.doSentPagination(2);
     }, err => {
       this.spinner.hide();
       that.showLoaders = false;
-      console.log('promise reject for updateUnreadThreadList');
     });
     // this.emailStore.sentThreadsCount$.subscribe(x => {
     //   this.t_CollectionSize = x;
@@ -96,7 +94,7 @@ export class EmailSentComponent implements OnInit {
   }
 
   getMails() {
-    // this.spinner.show('load');
+    /* Get Sent Mails */
     this.emailStore.getSentCheckedMsgList$.subscribe(x => {
       this.sentThreads = x;
     });
@@ -107,7 +105,7 @@ export class EmailSentComponent implements OnInit {
         { size: 'lg', backdrop: 'static', keyboard: false }
       );
       modalRef.componentInstance.mailList = this.sentThreads;
-      modalRef.componentInstance.storeSelector = 'sent'; // should be the id
+      modalRef.componentInstance.storeSelector = 'sent'; 
       modalRef.result.then((result) => {
         if (result.action === '1') {
           modalRef.close();
@@ -121,7 +119,6 @@ export class EmailSentComponent implements OnInit {
       });
     } else {
       alert('Please select atleast one row.');
-      // this.spinner.hide('load');
     }
   }
 

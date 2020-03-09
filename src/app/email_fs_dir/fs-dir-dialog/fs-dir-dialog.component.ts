@@ -81,7 +81,6 @@ export class FSDirDialogComponent implements OnInit {
         this.fsDirData = [...this.fsDirData, x[ix]];
       }
     });
-    console.log(this.storeSelector, this.uploadType);
     this.threadTypeData = this.domainStore.threadTypeData$;
     this.domainStore.fsTags$.subscribe(x => {
       this.fsTags = [];

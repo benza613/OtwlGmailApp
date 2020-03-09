@@ -21,9 +21,6 @@ export class UcefFilterPipe implements PipeTransform {
     let isNullOrEmptyC: boolean = (filter.c == undefined || filter.c == null || filter.c == '');
     let isNullOrEmptyD: boolean = (filter.d == undefined || filter.d == null || filter.d == '');
     let isNullOrEmptyE: boolean = (filter.e == undefined || filter.e == null || filter.e == '');
-    // console.log('isNullOrEmptyC', isNullOrEmptyC);
-    // console.log('isNullOrEmptyB', isNullOrEmptyB);
-    // console.log('isNullOrEmptyA', isNullOrEmptyA);
 
     // filter items array, items which match and return true will be
     // kept, false will be filtered out

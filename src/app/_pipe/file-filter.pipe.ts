@@ -15,9 +15,6 @@ export class FileFilterPipe implements PipeTransform {
     let isNullOrEmptyB: boolean = (filter.b == undefined || filter.b == null || filter.b == '');
     let isNullOrEmptyC: boolean = (filter.c == undefined || filter.c == null || filter.c == '');
     let isNullOrEmptyD: boolean = (filter.d == undefined || filter.d == null || filter.d == '');
-    // console.log('isNullOrEmptyC', isNullOrEmptyC);
-    // console.log('isNullOrEmptyB', isNullOrEmptyB);
-    // console.log('isNullOrEmptyA', isNullOrEmptyA);
 
     // filter items array, items which match and return true will be
     // kept, false will be filtered out

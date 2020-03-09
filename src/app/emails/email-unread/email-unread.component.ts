@@ -14,7 +14,7 @@ import { interval } from 'rxjs';
   styleUrls: ['./email-unread.component.scss']
 })
 export class EmailUnreadComponent implements OnInit {
-  dynamicdata: string = 'EmailUnreadComponent';
+  dynamicdata: string = 'EmailUnreadComponent'; //common parameter in all components to indicate which store the user has come from
   mailList = [];
   fetch;
   isCollapsed = true;
@@ -37,32 +37,14 @@ export class EmailUnreadComponent implements OnInit {
     const that = this;
     this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
       that.showLoaders = false;
-      console.log('promise succ for updateUnreadThreadList');
       that.doUnreadPagination(2);
     }, err => {
       this.spinner.hide();
       that.showLoaders = false;
-      console.log('promise reject for updateUnreadThreadList');
     });
-    // interval(2000 * 60).subscribe(x => {
-    //   this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo,
-    //                                               this.globals.unreadSubject).then(result => {
-    //     console.log('promise succ for updateUnreadThreadList');
-    //     this.spinner.hide();
-    //     this.doUnreadPagination(9);
-    //   }, err => {
-    //     this.spinner.hide();
-    //     console.log('promise reject for updateUnreadThreadList');
-    //   });
-    // });
-  }
-
-  getLatestThreads() {
-    // this.showLoaders = true;
   }
 
   getMails() {
-    // this.spinner.show('load');
     this.emailStore.getCheckedMsgList$.subscribe(x => {
       this.mailList = x;
     });
@@ -87,10 +69,10 @@ export class EmailUnreadComponent implements OnInit {
       });
     } else {
       alert('Please select atleast one row.');
-      // this.spinner.hide('load');
     }
   }
 
+  /* method to fetch filtered threads from users inbox */
   fetchUnreadThreads(i) {
     const that = this;
     this.showLoaders = true;
@@ -100,6 +82,7 @@ export class EmailUnreadComponent implements OnInit {
       });
   }
 
+  /* method to keep on fetching mails */
   doUnreadPagination(i) {
     const that = this;
     this.showLoaders = true;
@@ -109,14 +92,4 @@ export class EmailUnreadComponent implements OnInit {
       }
     });
   }
-
-  // onClick_DeleteThread(thread) {
-  //   let data = {
-  //     GThreadId: thread.ThreadId,
-  //     msgId: '',
-  //     refValId: ''
-  //   };
-  //   // call webmethod for delete...
-  //   console.log(data);
-  // }
 }

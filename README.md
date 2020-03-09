@@ -1,43 +1,68 @@
 # OtwlGmailApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.1.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
 #PLAN OF ACTION
 
-1. Send draft by ID
-2. Update existing draft
+1. Create Draft
 
+2. View Draft
+3. View Attached Drive Files
+4. Remove Attached Drive File
+5. Download Attached Drive File
+
+6. Send draft by ID
+
+7. Update existing draft
+
+8. Delete Draft
 
 ## C# Endpoints for actions 
-
-[Drafts List](/getDraftThreads)
-[Drafts View](/getDraftData?ThreadId)
-[Drafts Create](/postNewMail)
 [Drafts Update](/postDraft?DraftId)
+[Drafts Delete](/)
 
 [Drafts Send Existing](/sendDraft?DraftId)
-( Either consume as endpoint or call inside func() postDraft after updating it )
+( Either consume directly or call after updating a draft)
+
+
+--> <<Create Draft>> 
+[Drafts Create](/postNewMail)
+1. if there exists a driveservice, return that token id as well to be used as a hidden field X-otwl-dserv-id & X-otwl-dserv-owner
+
+--> <<view Draft>>
+[Drafts List](/getDraftThreads)
+[Drafts View](/getDraftData?ThreadId)
+1. When viewing ask to bring hidden X-otwl-dserv-vsid & X-otwl-dserv-owner ==> indicate to front end that there is a drive resource from older mails 
+2. This front end DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER is important. 
+3. Call returns list of files in that drive of type
+{
+    fileName,
+    fileSize,
+    dateAttached,
+    fileTempID
+}
+
+--> <<view Attached Drive Files>>
+[Drive List Files](/getDrvSrvAttFiles)
+1. Use the front end DRIVE_VIEWSTATE_ID & DRIVE_VIEWSTATE_OWNER to get the files in that drive.
+2. Files should be downloadable 
+
+--> Update Draft
+1. accept incoming draft with X-otwl-dserv-vsid
+
+Flow ==> 
+
+1. [Frontend] -> iF Ask to Create new draft =]  <<Create Draft>>
+GO to PostNewMail -> MultipartEmailGenerator -> Allocate drive.id and .webviewlink
+Embed beautified .webviewlink into mail body 
+Embed .id into X-otwl-dserv-vsid property inside mail packet 
+Post Draft
+
+
+2. [Frontend] -> iF ask to view existing draft =] <<view Draft>>
+While fetching draft data OR draft thread list -> initialize the DRIVE_VIEWSTATE_ID using the "X-otwl-dserv-vsid" header property in Thread.cs object 
+Make Sure the send this as a NEW PARAMETER from frontend when updating/sending the draft 
+
+3. [Frontend] -> iF ask to list files inside drive folder 
+While fetching folder contents using DRIVE_VIEWSTATE_ID, make sure send this as a parameter to get a list of items that you can show in the "Drive Attached" files Dialog.
+
+
+4. [Frontend] -> iF ask to send existing draft 

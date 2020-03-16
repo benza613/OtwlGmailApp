@@ -120,7 +120,7 @@ export class EditorComponent implements OnInit {
 
 
     this.uploader.onAfterAddingFile = (fileItem) => {
-      if (!(fileItem.file.size < this.globals.maxFileSize)) {
+      if ((fileItem.file.size < this.globals.maxFileSize)) {
         this.uploadFilesSize += fileItem.file.size;
       } else {
         this.uploader.queue.splice(this.uploader.queue.indexOf(fileItem), 1);
@@ -335,7 +335,7 @@ export class EditorComponent implements OnInit {
               this.msgAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
-              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
+              this.emailStore.sendNewEmail(this.msgPacket, finalBody + (this._isDraft === 'true' ? '' : this.footerHtml),
                 this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
                 this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, true)
@@ -430,10 +430,11 @@ export class EditorComponent implements OnInit {
           { size: 'lg', backdrop: 'static', keyboard: false }
         );
         modalRef.result.then(value => {
+          console.log(typeof(value));
           that.sendMail(value);
         });
       } else if (flag === '0') {
-        that.updateDraft();
+        that.sendMail(1);
       }
     } else {
       alert('Please Select atleast 1 recipient');
@@ -457,7 +458,7 @@ export class EditorComponent implements OnInit {
               this.msgAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
-              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
+              this.emailStore.sendNewEmail(this.msgPacket, finalBody + (this._isDraft === 'true' ? '' : this.footerHtml),
                 this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
                 this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, option === 1 ? false : true)
@@ -505,7 +506,7 @@ export class EditorComponent implements OnInit {
               // then send mail
               this.emailStore.updateDraft(
                 this.msgPacket,
-                finalBody + this.footerHtml,
+                finalBody + (this._isDraft === 'true' ? '' : this.footerHtml),
                 this._inlineAttachB64,
                 this._reqActionType === 'd' ? null : this._reqActionType,
                 this._reqMessageID,
@@ -563,7 +564,7 @@ export class EditorComponent implements OnInit {
   }
 
   private base64InlineAttachmentsToBody() {
-    let msgBodyCopy = this.EditorValue + this.signatureHtml;
+    let msgBodyCopy = this.EditorValue + (this._isDraft === 'true' ? '' : this.signatureHtml);
     this._inlineAttachments.push(
       { src: 'assets/icons/address.png', alt: 'address.png' },
       { src: 'assets/icons/at.png', alt: 'at.png' },

@@ -43,16 +43,25 @@
 1. Currently single file download & view available inside Model.DriveResourceType.FileListResource.files[].webviewLink
 2. PENDING : Can be configured for zip approach if needed, but expensive and unnecessary in my opinion.
 
--->
+--> <<Send draft by ID>>
+[Only Send Existing Draft](/sendDraft?DraftId)
+1. Only send the existing draft that is on the server (Either consume directly or call after updating a draft)
+2. Make sure the DraftId being sent is the correct Id. (In this case i think msgList[].ThreadId)
 
-
-
-
+--> <<Update existing draft>>
 [Drafts Update](/postDraft?DraftId)
-[Drafts Delete](/)
+PENDING TO COMMIT
 
-[Drafts Send Existing](/sendDraft?DraftId)
-( Either consume directly or call after updating a draft)
+--> <<Delete Draft by ID>>
+[Drafts Delete](/discardDraftMsg?ThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER )
+1. This will permanently remove the draft from server. 
+2. You MUST provide the existing DRIVE_VIEWSTATE_ID & DRIVE_VIEWSTATE_OWNER of the draft IF IT SO EXISTS. 
+MAKE SURE TO PASS "" (empty quotes) for both ID and Owner if they dont exist.
+If that draft has no allocated drive resource then it is fine, otherwise the backend automatically attempt to first trash the drive folder then it will trash the mail.
+
+
+
+
 
 --> Update Draft
 1. accept incoming draft with X-otwl-dserv-vsid

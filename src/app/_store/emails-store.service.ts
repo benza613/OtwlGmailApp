@@ -1020,9 +1020,9 @@ export class EmailsStoreService {
     });
   }
 
-  discardDraft(ThreadId) {
+  discardDraft(ThreadId, viewId, viewOwner) {
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.discardDraft(ThreadId).toPromise();
+      const res = await this.emailServ.discardDraft(ThreadId, viewId, viewOwner).toPromise();
       // if (res.d.errId !== '200') {
       //   this.errorService.displayError(res, 'deleteMail');
       // }

@@ -76,6 +76,20 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
+  getDrvSrvAttFiles(DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER) {
+    return this.http.post(`${this.apiBaseUrl}/getDrvSrvAttFiles`,
+      { DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  trashDrvSrvAttFile(DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID) {
+    return this.http.post(`${this.apiBaseUrl}/trashDrvSrvAttFile`,
+      { DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
   downloadLocal(msgId, downloadFileObject) {
     return new Promise((resolve) => {
 
@@ -268,8 +282,10 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  discardDraft(draftThreadId): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/discardDraftMsg`, { draftThreadId }, this.httpOptions)
+  discardDraft(draftThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/discardDraftMsg`,
+      { draftThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER }
+      , this.httpOptions)
       .pipe(map(r => r));
   }
 }

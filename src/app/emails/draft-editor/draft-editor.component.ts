@@ -391,7 +391,7 @@ export class DraftEditorComponent implements OnInit {
                   that.resetData();
                   if (that._reqStoreSelector === 'draft') {
                     if (that._isDraft === 'false') {
-                      that.emailStore.discardDraft(that._reqThreadID);
+                      // that.emailStore.discardDraft(that._reqThreadID);
                     }
                     that.location.back();
                   }

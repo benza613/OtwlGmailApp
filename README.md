@@ -16,12 +16,6 @@
 8. Delete Draft
 
 ## C# Endpoints for actions 
-[Drafts Update](/postDraft?DraftId)
-[Drafts Delete](/)
-
-[Drafts Send Existing](/sendDraft?DraftId)
-( Either consume directly or call after updating a draft)
-
 
 --> <<Create Draft>> 
 [Drafts Create](/postNewMail)
@@ -52,6 +46,13 @@
 -->
 
 
+
+
+[Drafts Update](/postDraft?DraftId)
+[Drafts Delete](/)
+
+[Drafts Send Existing](/sendDraft?DraftId)
+( Either consume directly or call after updating a draft)
 
 --> Update Draft
 1. accept incoming draft with X-otwl-dserv-vsid

@@ -32,18 +32,26 @@
 [Drafts View](/getDraftData?ThreadId)
 1. When viewing ask to bring hidden X-otwl-dserv-vsid & X-otwl-dserv-owner ==> indicate to front end that there is a drive resource from older mails 
 2. This front end DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER is important. 
-3. Call returns list of files in that drive of type
-{
-    fileName,
-    fileSize,
-    dateAttached,
-    fileTempID
-}
+
 
 --> <<view Attached Drive Files>>
 [Drive List Files](/getDrvSrvAttFiles)
 1. Use the front end DRIVE_VIEWSTATE_ID & DRIVE_VIEWSTATE_OWNER to get the files in that drive.
 2. Files should be downloadable 
+3. Call returns list of files in that drive of type Model.DriveResourceType.FileListResource 
+
+--> <<Remove Attached Drive File>>
+[Drive Remove File](/trashDrvSrvAttFile)
+1. Use the front end DRIVE_VIEWSTATE_OWNER & Model.DriveResourceType.FileListResource.files[].id to remove files from the attached drive
+2. Singular file call only
+
+--> <<Download Attached Drive File>>
+1. Currently single file download & view available inside Model.DriveResourceType.FileListResource.files[].webviewLink
+2. PENDING : Can be configured for zip approach if needed, but expensive and unnecessary in my opinion.
+
+-->
+
+
 
 --> Update Draft
 1. accept incoming draft with X-otwl-dserv-vsid

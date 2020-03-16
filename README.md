@@ -1,6 +1,6 @@
 # OtwlGmailApp
 
-#PLAN OF ACTION
+### PLAN OF ACTION
 
 1. Create Draft
 
@@ -14,6 +14,13 @@
 7. Update existing draft
 
 8. Delete Draft
+
+
+### PLAN 2 
+
+1. TODOS - Frontend actions 
+2. Service : Overflow Drive Owners -> Indicate whether drive is usable or not
+3. Service : Cleaner Service for older folders than X months
 
 ## C# Endpoints for actions 
 
@@ -53,7 +60,7 @@
 PENDING TO COMMIT
 
 --> <<Delete Draft by ID>>
-[Drafts Delete](/discardDraftMsg?ThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER )
+[Drafts Delete](/discardDraftMsg?ThreadId,DRIVE_VIEWSTATE_ID,DRIVE_VIEWSTATE_OWNER)
 1. This will permanently remove the draft from server. 
 2. You MUST provide the existing DRIVE_VIEWSTATE_ID & DRIVE_VIEWSTATE_OWNER of the draft IF IT SO EXISTS. 
 MAKE SURE TO PASS "" (empty quotes) for both ID and Owner if they dont exist.

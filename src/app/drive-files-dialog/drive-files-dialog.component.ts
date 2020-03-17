@@ -22,7 +22,6 @@ export class DriveFilesDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('Files: ', this.fileResList);
   }
 
   openFile(url) {

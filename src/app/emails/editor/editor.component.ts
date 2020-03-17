@@ -430,7 +430,6 @@ export class EditorComponent implements OnInit {
           { size: 'lg', backdrop: 'static', keyboard: false }
         );
         modalRef.result.then(value => {
-          console.log(typeof(value));
           that.sendMail(value);
         });
       } else if (flag === '0') {

@@ -109,7 +109,7 @@
         <b>ATTACHMENTS:</b>
       </div>
       <div class="col" style="text-align: right; align-content: right;">
-        <button (click)="accessDrive()" class="btn btn-warning" style="margin: 0px 10px;"><i class="fa fa-cloud"></i></button>
+        <button *ngIf="_reqViewStateId !== ''" (click)="accessDrive()" class="btn btn-warning" style="margin: 0px 10px;"><i class="fa fa-cloud"></i></button>
         <button *ngIf="draftAttachments.length > 0" (click)="downloadDraftAttachs()" class="btn btn-warning"><i class="fa fa-download" aria-hidden="true"></i></button>
       </div>
     </div>

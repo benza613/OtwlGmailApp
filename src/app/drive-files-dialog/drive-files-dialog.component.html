@@ -1,0 +1,42 @@
+<ngx-spinner size="default" name='dfspinner' type="line-scale-pulse-out-rapid"> Loading...
+</ngx-spinner>
+
+<div class="modal-header">
+  <h5><b>Google Drive Attachments</b></h5>
+  <i class="fa fa-times fa-lg" (click)="dismiss();" style="cursor: pointer;"></i>
+</div>
+<div style="display: flex; flex-wrap: wrap; padding: 25px;">
+  <div class="container card" style="width: 30.5% !important; margin: 10px; border-radius: 10px;"
+    *ngFor="let file of fileResList">
+    <!-- <div class="card-header">
+      <div *ngIf="file.mimeType === 'application/pdf'">
+        <i class="fa fa-file-pdf-o"></i>
+      </div>
+      <div *ngIf="file.mimeType === 'application/xlsx' || file.mimeType === 'application/csv'">
+        <i class="fa fa-file-excel-o"></i>
+      </div>
+      <div *ngIf="file.mimeType === 'application/doc' || file.mimeType === 'application/docx'">
+        <i class="fa fa-file-word-o"></i>
+      </div>
+      <div *ngIf="file.mimeType === 'application/png' || 
+                  file.mimeType === 'application/jpeg' || 
+                  file.mimeType === 'application/jpg' ||
+                  file.mimeType === 'application/tif' ||
+                  file.mimeType === 'application/tiff'">
+        <i class="fa fa-file-image-o"></i>
+      </div>
+      <div *ngIf="file.mimeType === 'application/txt'">
+        <i class="fa fa-file-text-o"></i>
+      </div>
+    </div> -->
+    <div class="row card-body" style="display: flex; flex-wrap: wrap;">
+      <div>
+        <span><b>{{file.originalFilename}}</b></span>
+      </div>
+    </div>
+    <div class="overlay"></div>
+    <div class="row">
+      <div class="button btn-view" (click)="openFile(file.webViewLink)"> <a>VIEW</a> </div>
+      <div class="button btn-dwn" (click)="delFile(file)"> <a>DELETE</a> </div>
+    </div>
+  </div>

@@ -1,3 +1,4 @@
+import { DriveFilesDialogComponent } from './../../drive-files-dialog/drive-files-dialog.component';
 import { OptDialogComponent } from './../../opt-dialog/opt-dialog.component';
 import { UCFileList } from './../../models/ucfile-list';
 import { GlobalStoreService } from './../../_store/global-store.service';
@@ -63,8 +64,9 @@ export class DraftEditorComponent implements OnInit {
   _reqStoreSelector = '';
   _reqActionType = '';
   _isDraft = 'false';
-
   _reqOrderID = '';
+  _reqViewStateId = null;
+  _reqViewStateOwner = null;
 
   _isOrdersComplete = false;
   orderDetails = [];
@@ -177,6 +179,8 @@ export class DraftEditorComponent implements OnInit {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
           this._reqActionType = params.a;
+          this._reqViewStateId = params.vid;
+          this._reqViewStateOwner = params.vown;
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleDraftGmailAddressFields(x.msgs);
@@ -940,6 +944,25 @@ export class DraftEditorComponent implements OnInit {
                 </tr>
               </tbody>
             </table>`;
+  }
+
+  accessDrive() {
+    //open dialog with provisions to view or delete drive attachments.
+    this.spinner.show();
+    const that = this;
+    this.emailStore.getDrvSrvAttFiles(this._reqViewStateId, this._reqViewStateOwner).then((value) => {
+      if (value !== null) {
+        this.spinner.hide();
+        const modalRef = this.modalService.open(
+          DriveFilesDialogComponent,
+          { size: 'lg', backdrop: 'static', keyboard: false }
+        );
+        modalRef.componentInstance.fileResList = value;
+        modalRef.componentInstance.viewOwner = this._reqViewStateOwner;
+      } else {
+        this.spinner.hide();
+      }
+    });
   }
 
   resetData() {

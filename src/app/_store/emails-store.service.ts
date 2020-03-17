@@ -1,3 +1,4 @@
+import { Fileresource } from './../models/fileresource.model';
 import { Message } from './../models/message.model';
 import { DraftSearchLocks } from './../enums/draft-search-locks.enum';
 import { SentSearchParams } from './../models/sent-search-params.model';
@@ -11,7 +12,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EmailsService } from '../_http/emails.service';
-import { Router } from '@angular/router';
+import { Router, ResolveEnd } from '@angular/router';
 import * as moment from 'moment';
 import { ErrorService } from './../error/error.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -59,6 +60,7 @@ export class EmailsStoreService {
   private readonly _pageTokenDraft = new BehaviorSubject<String>('');
   private readonly _draftThreads = new BehaviorSubject<Thread[]>([]);
   private readonly _fsMapList = new BehaviorSubject<FSMapping[]>([]);
+  private readonly _fileResList = new BehaviorSubject<Fileresource[]>([]);
 
   // Expose the observable$ part of the _tickets subject (read only stream)
   readonly unreadThreads$ = this._unreadThreads.asObservable();
@@ -69,7 +71,7 @@ export class EmailsStoreService {
   readonly folderList$ = this._folderList.asObservable();
   readonly addressBook$ = this._addressBook.asObservable();
   readonly fsMapList$ = this._fsMapList.asObservable();
-
+  readonly fileResList$ = this._fileResList.asObservable();
 
   readonly unreadThreadsCount$ = this.unreadThreads$.pipe(
     map(th => this.unreadThreads.length)
@@ -96,6 +98,10 @@ export class EmailsStoreService {
   );
 
   readonly getFolderList$ = this.folderList$.pipe(
+    map(r => r)
+  );
+
+  readonly getFileResList$ = this.fileResList$.pipe(
     map(r => r)
   );
 
@@ -192,6 +198,14 @@ export class EmailsStoreService {
 
   private set folderList(val: Folders[]) {
     this._folderList.next(val);
+  }
+
+  private get fileResList(): Fileresource[] {
+    return this._fileResList.getValue();
+  }
+
+  private set fileResList(val: Fileresource[]) {
+    this._fileResList.next(val);
   }
 
   private get lastValidSearch(): SearchParams {
@@ -660,7 +674,7 @@ export class EmailsStoreService {
   }
 
 
-  async update_DraftThreadEmails(flag, ThreadId, storeSelector, MsgId) {
+  async update_DraftThreadEmails(flag, ThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER, storeSelector, MsgId) {
     // navigate to compose directly
     // display attachments, patch values from headers in respective sections
     return new Promise(async (resolve) => {
@@ -688,6 +702,8 @@ export class EmailsStoreService {
           , tid: ThreadId
           , mid: MsgId
           , a: 'd'
+          , vid: DRIVE_VIEWSTATE_ID === null ? '' : DRIVE_VIEWSTATE_ID
+          , vown: DRIVE_VIEWSTATE_OWNER === null ? '' : DRIVE_VIEWSTATE_OWNER
         }
       });
       resolve();
@@ -1022,10 +1038,30 @@ export class EmailsStoreService {
 
   discardDraft(ThreadId, viewId, viewOwner) {
     return new Promise(async (resolve, reject) => {
-      const res = await this.emailServ.discardDraft(ThreadId, viewId, viewOwner).toPromise();
+      const res = await this.emailServ.discardDraft(ThreadId, viewId === null ? '' : viewId,
+        viewOwner === null ? '' : viewOwner).toPromise();
       // if (res.d.errId !== '200') {
       //   this.errorService.displayError(res, 'deleteMail');
       // }
+      resolve(res.d.errId);
+    });
+  }
+
+  getDrvSrvAttFiles(viewId, viewOwner) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.getDrvSrvAttFiles(viewId === null ? '' : viewId,
+        viewOwner === null ? '' : viewOwner).toPromise();
+      if (res.d.errId === '200') {
+        resolve(res.d.files);
+      } else {
+        reject(null);
+      }
+    });
+  }
+
+  trashDrvSrvAttFile(viewOwner, fileId) {
+    return new Promise(async (resolve, reject) => {
+      const res = await this.emailServ.trashDrvSrvAttFile(viewOwner, fileId).toPromise();
       resolve(res.d.errId);
     });
   }

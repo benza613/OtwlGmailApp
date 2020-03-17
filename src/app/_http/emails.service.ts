@@ -1,3 +1,4 @@
+import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -76,14 +77,14 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  getDrvSrvAttFiles(DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER) {
+  getDrvSrvAttFiles(DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getDrvSrvAttFiles`,
       { DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER },
       this.httpOptions)
       .pipe(map(r => r));
   }
 
-  trashDrvSrvAttFile(DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID) {
+  trashDrvSrvAttFile(DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/trashDrvSrvAttFile`,
       { DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID },
       this.httpOptions)

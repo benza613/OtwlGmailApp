@@ -102,14 +102,15 @@
       </ngb-tab>
     </ngb-tabset>
   </div>
-  <div class="col card" *ngIf="(_reqStoreSelector === 'draft') && (draftAttachments.length > 0)"
+  <div class="col card" *ngIf="(_reqStoreSelector === 'draft') && (draftAttachments.length > 0 || _reqViewStateId !== '')"
     style="margin: 10px 5px;">
     <div class="row card-header draftAttHdr">
       <div class="col">
         <b>ATTACHMENTS:</b>
       </div>
       <div class="col" style="text-align: right; align-content: right;">
-        <button (click)="downloadDraftAttachs()" class="btn btn-warning"><i class="fa fa-download" aria-hidden="true"></i></button>
+        <button (click)="accessDrive()" class="btn btn-warning" style="margin: 0px 10px;"><i class="fa fa-cloud"></i></button>
+        <button *ngIf="draftAttachments.length > 0" (click)="downloadDraftAttachs()" class="btn btn-warning"><i class="fa fa-download" aria-hidden="true"></i></button>
       </div>
     </div>
     <div class="row">

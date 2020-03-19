@@ -1,6 +1,4 @@
-import { LocalStorageService } from './../../_util/local-storage.service';
 import { GlobalStoreService } from './../../_store/global-store.service';
-import { Message } from './../../models/message.model';
 import { Router } from '@angular/router';
 import { DomainStoreService } from 'src/app/_store/domain-store.service';
 import { AuthService } from './../../auth/auth.service';
@@ -10,7 +8,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
-import { markdownListsTags } from '@syncfusion/ej2-richtexteditor';
 
 @Component({
   selector: 'app-email-list3',
@@ -64,12 +61,13 @@ export class EmailList3Component implements OnInit {
     this.spinner.show('list3');
     this.authServ.login();
     const that = this;
-    this.emailStore.update_DraftThreadEmails(1, threadData.ThreadId, 'draft', threadData['Messages'][0]['Id']).then(function (value) {
-      threadData.isUnread = false;
-      // threadData.isMapped = value[0] === '0' ? false : true;
-      threadData.isMapped = false;
-      that.spinner.hide('list3');
-    });
+    this.emailStore.update_DraftThreadEmails(1, threadData.ThreadId, threadData.DRIVE_VIEWSTATE_ID,
+      threadData.DRIVE_VIEWSTATE_OWNER, 'draft', threadData['Messages'][0]['Id']).then(function (value) {
+        threadData.isUnread = false;
+        // threadData.isMapped = value[0] === '0' ? false : true;
+        threadData.isMapped = false;
+        that.spinner.hide('list3');
+      });
   }
 
   checkList(item) {
@@ -99,7 +97,7 @@ export class EmailList3Component implements OnInit {
   discardDraft(threadData) {
     this.spinner.show('list3');
     const that = this;
-    this.emailStore.discardDraft(threadData.ThreadId).then(success => {
+    this.emailStore.discardDraft(threadData.ThreadId, threadData.DRIVE_VIEWSTATE_ID, threadData.DRIVE_VIEWSTATE_OWNER).then(success => {
       that.emailStore.updateDraftThreadList(0, this.globals.draftFrom, this.globals.draftTo, this.globals.draftSubject).then(result => {
         that.doDraftPagination(2);
       });

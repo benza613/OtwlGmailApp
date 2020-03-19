@@ -1,3 +1,4 @@
+import { GlobalStoreService } from 'src/app/_store/global-store.service';
 import { FsOrderFiles } from './../models/fs-order-files';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -72,6 +73,20 @@ export class EmailsService {
   fetchDraftThreadEmails(ThreadId, isDraft): Observable<any> {
     return this.http.post(`${this.apiBaseUrl}/getDraftData`,
       { ThreadId },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  getDrvSrvAttFiles(DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/getDrvSrvAttFiles`,
+      { DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER },
+      this.httpOptions)
+      .pipe(map(r => r));
+  }
+
+  trashDrvSrvAttFile(DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/trashDrvSrvAttFile`,
+      { DRIVE_VIEWSTATE_OWNER, DRIVE_FILE_ID },
       this.httpOptions)
       .pipe(map(r => r));
   }
@@ -268,8 +283,10 @@ export class EmailsService {
       .pipe(map(r => r));
   }
 
-  discardDraft(draftThreadId): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/discardDraftMsg`, { draftThreadId }, this.httpOptions)
+  discardDraft(draftThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/discardDraftMsg`,
+      { draftThreadId, DRIVE_VIEWSTATE_ID, DRIVE_VIEWSTATE_OWNER }
+      , this.httpOptions)
       .pipe(map(r => r));
   }
 }

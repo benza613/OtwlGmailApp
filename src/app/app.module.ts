@@ -38,6 +38,7 @@ import { UcefFilterPipe } from './_pipe/ucef-filter.pipe';
 import { EmailList3Component } from './emails/email-list3/email-list3.component';
 import { OptDialogComponent } from './opt-dialog/opt-dialog.component';
 import { DraftEditorComponent } from './emails/draft-editor/draft-editor.component';
+import { DriveFilesDialogComponent } from './drive-files-dialog/drive-files-dialog.component';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { DraftEditorComponent } from './emails/draft-editor/draft-editor.compone
     EmailList3Component,
     OptDialogComponent,
     DraftEditorComponent,
+    DriveFilesDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,7 +90,8 @@ import { DraftEditorComponent } from './emails/draft-editor/draft-editor.compone
     ConfirmDialogComponent,
     FSDirDialogComponent,
     FSFilesDialogComponent,
-    OptDialogComponent],
+    OptDialogComponent,
+    DriveFilesDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

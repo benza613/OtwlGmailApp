@@ -1,3 +1,4 @@
+import { DriveFilesDialogComponent } from './../../drive-files-dialog/drive-files-dialog.component';
 import { OptDialogComponent } from './../../opt-dialog/opt-dialog.component';
 import { UCFileList } from './../../models/ucfile-list';
 import { GlobalStoreService } from './../../_store/global-store.service';
@@ -63,8 +64,9 @@ export class DraftEditorComponent implements OnInit {
   _reqStoreSelector = '';
   _reqActionType = '';
   _isDraft = 'false';
-
   _reqOrderID = '';
+  _reqViewStateId = null;
+  _reqViewStateOwner = null;
 
   _isOrdersComplete = false;
   orderDetails = [];
@@ -143,8 +145,8 @@ export class DraftEditorComponent implements OnInit {
       that.senderLandline = value['d'].userLandlineNo;
       that.senderWeChat = value['d'].userWeChat;
       that.senderSkype = value['d'].userSkype;
-      // that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail,
-      //   that.senderLandline, that.senderWeChat, that.senderSkype);
+      that.fillSignatureTemplate(that.senderName, that.senderDesgn, that.senderMobile, that.senderEmail,
+        that.senderLandline, that.senderWeChat, that.senderSkype);
       that.detector.detectChanges();
     });
 
@@ -177,6 +179,8 @@ export class DraftEditorComponent implements OnInit {
           this._reqThreadID = params.tid;
           this._reqMessageID = params.mid;
           this._reqActionType = params.a;
+          this._reqViewStateId = params.vid;
+          this._reqViewStateOwner = params.vown;
           const x = this.emailStore.fetchMessage(this._reqStoreSelector, this._reqThreadID, this._reqMessageID);
           if (x.msgs !== undefined && x.msgs.length > 0) {
             this.recycleDraftGmailAddressFields(x.msgs);
@@ -255,7 +259,7 @@ export class DraftEditorComponent implements OnInit {
               this.msgAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
-              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
+              this.emailStore.sendNewEmail(this.msgPacket, finalBody + (this._isDraft === 'true' ? '' : this.footerHtml),
                 this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
                 this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, true)
@@ -353,7 +357,8 @@ export class DraftEditorComponent implements OnInit {
           that.sendMail(value);
         });
       } else if (flag === '0') {
-        that.updateDraft();
+        console.log('Message ID: ', this._reqMessageID);
+        //here update existing draft;
       }
     } else {
       alert('Please Select atleast 1 recipient');
@@ -377,7 +382,7 @@ export class DraftEditorComponent implements OnInit {
               this.msgAddrList.forEach(x => {
                 emailList.push(x['emailId']);
               });
-              this.emailStore.sendNewEmail(this.msgPacket, finalBody + this.footerHtml,
+              this.emailStore.sendNewEmail(this.msgPacket, finalBody + (this._isDraft === 'true' ? '' : this.footerHtml),
                 this._inlineAttachB64, this._reqActionType === 'd' ? null : this._reqActionType, this._reqStoreSelector,
                 this._reqMessageID, this._TOKEN_POSSESION, this.orderDetails, emailList,
                 this.alacarteDetails, this.globals.emailAttach, this.globals.subject, this._isDraft, option === 1 ? false : true)
@@ -390,7 +395,7 @@ export class DraftEditorComponent implements OnInit {
                   that.resetData();
                   if (that._reqStoreSelector === 'draft') {
                     if (that._isDraft === 'false') {
-                      that.emailStore.discardDraft(that._reqThreadID);
+                      // that.emailStore.discardDraft(that._reqThreadID);
                     }
                     that.location.back();
                   }
@@ -425,7 +430,7 @@ export class DraftEditorComponent implements OnInit {
               // then send mail
               this.emailStore.updateDraft(
                 this.msgPacket,
-                finalBody + this.footerHtml,
+                finalBody + (this._isDraft === 'true' ? '' : this.footerHtml),
                 this._inlineAttachB64,
                 this._reqActionType === 'd' ? null : this._reqActionType,
                 this._reqMessageID,
@@ -481,7 +486,7 @@ export class DraftEditorComponent implements OnInit {
   }
 
   private base64InlineAttachmentsToBody() {
-    let msgBodyCopy = this.EditorValue + this.signatureHtml;
+    let msgBodyCopy = this.EditorValue + (this._isDraft === 'true' ? '' : this.signatureHtml);
     this._inlineAttachments.push(
       { src: 'assets/icons/address.png', alt: 'address.png' },
       { src: 'assets/icons/at.png', alt: 'at.png' },
@@ -812,6 +817,152 @@ export class DraftEditorComponent implements OnInit {
   filterAttachments(eml) {
     eml.attachments = eml.attachments.filter(x => x.fileName.includes('.'));
     this.detector.detectChanges();
+  }
+
+  fillSignatureTemplate(senderName, senderDesgn, senderMobile, senderEmail, senderLandline, senderWeChat, senderSkype) {
+    this.signatureHtml = `
+    <table style="border: 1px solid rgb(179, 179, 179);">
+  <tbody>
+    <tr>
+      <td colspan="3" align="center" style="margin: 0px 5px;">
+        <img width="200" height="123" id="m_9218901733660170609Picture_x0020_17" src="assets/icons/logo.png"
+          data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="4" style="margin: 0px 5px;">
+        <span><b style="color:#03227d">` + senderName + `</b></span><br />
+        <span><b style="color:#e21d24">` + senderDesgn + `</b></span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/mobile.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>` + senderMobile + `</span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/phone-office.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>` + senderLandline + `</span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/phone-office2.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>+91-22-62839000-99 (100 lines) [<b>Board
+            Line</b>]</span><br />
+        <span>
+          <img width="19" height="19" src="assets/icons/at.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <a href="mailto:` + senderEmail + `" target="_blank"><span style="color:blue">` + senderEmail +
+      `</span></a><br />
+      </td>
+      <td style="vertical-align: top;padding:0px !important;" colspan="5">
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/address.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span style="margin: 5px;">B-503/A, Silver Astra, J.B.Nagar, Andheri (E), Mumbai-400099</span><br />
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-skype-48.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>` + senderSkype + `</span><br />
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-weixin-48.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <span>` + senderWeChat + `</span><br />
+        <span style="margin: 5px;">
+          <img width="19" height="19" id="m_9218901733660170609Picture_x0020_2" src="assets/icons/icons8-website-48.png"
+            data-image-whitelisted="" class="CToWUd">
+        </span>&nbsp;
+        <a href="http://www.oceantransworld.com" target="_blank"
+          data-saferedirecturl="https://www.google.com/url?q=http://www.oceantransworld.com&amp;source=gmail&amp;ust=1570171363357000&amp;usg=AFQjCNHr3jnCxnkqtBvbs438ZS2jevRAig"><span
+            style="font-size:9.0pt;color:blue; margin: 5px;">www.oceantransworld.com</span></a><br />
+        <div style="display:flex; flex-direction: column; margin-top: 10px;">
+          <span
+            style="width: 100% !important;background:#1f497d;color:white; overflow: auto;display: inline-block; text-align: center;">Inbound
+            | Outbound | Overland Services | Project Logistics | Custom
+            Clearance</span>
+          <span
+            style="width: 100% !important;background:#cc0000;color: white;display: inline-block;text-align: center;">Branches
+            : Delhi |
+            Rajsthan | Gujrat | Bangalore | Chennnai</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="60" id="m_9218901733660170609Picture_x0020_11"
+          src="assets/certificates/wca.png" alt="sigpic1_1.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="43" id="m_9218901733660170609Picture_x0020_19"
+          src="assets/certificates/cl.png" alt="sigpic2.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="89" height="43" id="m_9218901733660170609Picture_x0020_23"
+          src="assets/certificates/mt.png" alt="sigpic6.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="43" id="m_9218901733660170609Picture_x0020_26"
+          src="assets/certificates/mto.png" alt="sigpic3.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="72" height="43" id="m_9218901733660170609Picture_x0020_14"
+          src="assets/certificates/iso.png" alt="sigpic4.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+      <td colspan="2" align="center">
+        <img border="0" width="59" height="36" id="m_9218901733660170609Picture_x0020_15"
+          src="assets/certificates/sym.png" alt="sigpic5.png" data-image-whitelisted="" class="CToWUd">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="12">
+        <b><span style="font-size:8.0pt;color:#03227d">Disclaimer:</span></b><span
+          style="font-size:8.0pt;color:gray">&nbsp; The contents, attachments of and information provided in this
+          E-mail are privileged and confidential material of Ocean Transworld Logistics Pvt. Ltd. and is sent to the
+          intended&nbsp;&nbsp; addressee(s). The said&nbsp; contents should not be disclosed to, used by or copied in
+          any manner by anyone else. In case you are not the desired addressee, you should delete
+          this message and/or re-direct it to the sender. The attachments to this email have been scanned by an
+          Antivirus trusted by Ocean Transworld Logistics Pvt. Ltd. However, the recipient should ensure that it is
+          virus free.</span>
+      </td>
+    </tr>
+  </tbody>
+</table>`;
+    this.footerHtml = `
+        <div style="text-align: left;">
+            <table style="opacity:0.75;clear:both;margin:25px auto" width="100%" cellspacing="0" cellpadding="5"
+              bgcolor="#fafafa" align="center">
+              <tbody>
+                <tr>
+                  <td align="center">
+                    <font size="1" face="Arial, Helvetica, sans-serif" color="#333333">
+                      <span style="font-size:11px">
+                        This email was generated & sent by OTWL MAILER. ref:_19950115 </span>
+                    </font>
+                  </td>
+                </tr>
+              </tbody>
+            </table>`;
+  }
+
+  accessDrive() {
+    //open dialog with provisions to view or delete drive attachments.
+    this.spinner.show();
+    const that = this;
+    this.emailStore.getDrvSrvAttFiles(this._reqViewStateId, this._reqViewStateOwner).then((value) => {
+      if (value !== null) {
+        this.spinner.hide();
+        const modalRef = this.modalService.open(
+          DriveFilesDialogComponent,
+          { size: 'lg', backdrop: 'static', keyboard: false }
+        );
+        modalRef.componentInstance.fileResList = value;
+        modalRef.componentInstance.viewOwner = this._reqViewStateOwner;
+      } else {
+        this.spinner.hide();
+      }
+    });
   }
 
   resetData() {

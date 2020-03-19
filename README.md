@@ -57,6 +57,11 @@
 
 --> <<Update existing draft>>
 [Drafts Update](/postDraft?DraftId)
+- To, Cc, Bcc, Subject, Body
+- inlineAttachments, actionType
+- draft_msgId, draft_attachIds, TokenPossession, lstFsOrderFiles, 
+- eml, att_sub
+
 PENDING TO COMMIT
 
 --> <<Delete Draft by ID>>

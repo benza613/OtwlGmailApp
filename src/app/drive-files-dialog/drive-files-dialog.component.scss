@@ -12,6 +12,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0);
     transition: background 0.5s ease;
+    border-radius: 10px;
   }
   
   .container:hover .overlay {
@@ -26,10 +27,12 @@
     height: 30px;
     left:0;
     top: 50px;
+    margin-left: 5px;
     text-align: center;
     opacity: 0;
     transition: opacity .35s ease;
     cursor: pointer;
+    background-color: green;
   }
   
   .btn-view a {
@@ -37,9 +40,11 @@
     padding: 6px 24px;
     text-align: center;
     color: white;
-    font-size: 8px;
-    border: solid 2px white;
+    font-size: 12px;
+    //border: solid 2px white;
     z-index: 1;
+    color: white;
+    font-weight: bold;
   }
   
   .container:hover .btn-view {
@@ -50,12 +55,13 @@
     position: absolute;
     width: 100px;
     height: 30px;
-    left:125px;
+    left:120px;
     top: 50px;
     text-align: center;
     opacity: 0;
     transition: opacity .35s ease;
     cursor: pointer;
+    background-color: rgb(211, 20, 20);
   }
   
   .btn-dwn a {
@@ -63,9 +69,11 @@
     padding: 6px 24px;
     text-align: center;
     color: white;
-    font-size: 8px;
-    border: solid 2px white;
+    font-size: 12px;
+    //border: solid 2px white;
     z-index: 1;
+    color: white;
+    font-weight: bold;
   }
   
   .container:hover .btn-dwn {

@@ -6,6 +6,7 @@ distIndexfile = 'dist/OtwlGmailApp/index.html';
 
 srcdir = 'dist/OtwlGmailApp';
 destdir = 'C:\\Users\\benza\\Source\\Repos\\IT1\\OTWLFRT\\OtwlGmailApp';
+// destdir = 'F:\\work\\IT1\\OTWLFRT\\OtwlGmailApp';
 // destdir = 'C:\\Users\\OTWL-D034\\Source\\Repos\\IT1\\OTWLFRT\\OtwlGmailApp';
 //destdir = 'D:\\work\\devp\\Ben(GMAIL)\\IT1\\OTWLFRT\\OtwlGmailApp';
 //  destdir = 'F:\\Backup of Imp IT Projects\\Changes\\2.Project with Benito Code\\20052019\\OTWLFRT\\OTWLFRT\\OtwlGmailApp';

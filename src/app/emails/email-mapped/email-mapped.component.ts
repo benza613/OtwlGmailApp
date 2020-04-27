@@ -18,7 +18,9 @@ import { GlobalStoreService } from 'src/app/_store/global-store.service';
   styleUrls: ['./email-mapped.component.scss']
 })
 export class EmailMappedComponent implements OnInit {
-  dynamicdata: string = 'EmailMappedComponent';
+  dynamicdata: string = 'EmailMappedComponent'; //parameter used to distinguish source component
+
+  /* Filter reated variables */
   refType: RefType[] = [];
   refTypeData: RefTypeData[] = [];
   threadTypeData: ThreadTypeData[] = [];
@@ -27,11 +29,17 @@ export class EmailMappedComponent implements OnInit {
   dateFrom: NgbDateStruct;
   dateTo: NgbDateStruct;
   disableDate = true;
-  disableDropdowns = false;
+  disableDropdowns = false; 
   mappedThreadList: MappedThread[] = [];
   params_flag = false;
   showSearch = true;
 
+  /* 
+  * queryParams are parameters that can be included in the link/route.
+  * In this case, r stands for reference type and v for reference id.
+  * If a local storage value needs to be accessed, you can mention the key value of the local storage in locst_id parameter.
+  * Mapped threads specific to a reference type and reference can be fetched directly be appending those values to the route path.
+  */
   _queryParams = { r: null, v: null, locst_id: null };
 
   constructor(
@@ -57,7 +65,6 @@ export class EmailMappedComponent implements OnInit {
       }
       this.route.queryParams.subscribe((params) => {
         if (params.r !== undefined && params.v !== undefined) {
-          /*mapped threads can directly be retrieved by passing reference type id and reference id*/
           this.globals.mappedRefId = params.r;
           this.disableDropdowns = true;
           this._queryParams.r = params.r;
@@ -73,6 +80,7 @@ export class EmailMappedComponent implements OnInit {
       });
     });
 
+    /* If route contains reference type and/or reference id values. */
     if (this.params_flag) {
       setTimeout(() => {
         this.onChange_GetRefTypeData(1);
@@ -142,6 +150,7 @@ export class EmailMappedComponent implements OnInit {
     this.domainStore.updateFSTags();
   }
 
+  
   toggleDateFilter() {
     if (this.globals.mappedRefValId === null) {
       this.disableDate = false;

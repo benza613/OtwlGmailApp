@@ -1,8 +1,12 @@
+<!-- #region Loading spinner -->
 <ngx-spinner size="default" type="ball-elastic-dots" name='mapped' [fullScreen]="true" size="medium" color="#fff">
   Loading...
 </ngx-spinner>
+<!-- #endregion Loading spinner -->
+
 
 <div class="row" style="height: 91vh;">
+  <!-- #region Filters for mapped threads -->
   <div *ngIf="showSearch" class="col-md-4 align-content-md-stretch" style="border-right: 2px solid #C0C0C0">
     <h5>SEARCH</h5>
     <div class="row">
@@ -40,6 +44,9 @@
       </div>
     </div>
   </div>
+  <!-- #endregion Filters for mapped threads -->
+
+  <!-- #region Mapped threads list and related filters display -->
   <div class="col" style="height: 85vh; padding:0px 5px;">
     <div class="row">
       <div class="col">
@@ -62,45 +69,11 @@
         </div>
       </div>
     </div>
+
+    <!-- #region Component to display list of mapped threads -->
     <app-email-list2 [storeSelector]="dynamicdata"></app-email-list2>
+    <!-- #endregion Component to display list of mapped threads -->
+
   </div>
+  <!-- #endregion Mapped threads list and related filters display -->
 </div>
-
-
-
-
-
-
-
-
-
-
-<!-- <hr />
-<div class="row">
-  <div class="col"><small class="text-muted">SORT BY SUBJECT</small></div>
-  <div class="col">
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-</div>
-<br />
-<div class="row">
-  <div class="col"><small class="text-muted">SORT BY MAIL TYPE</small></div>
-</div>
-<div class="row filters">
-  <div class="col">
-    <ng-select [items]="threadTypeData" [multiple]="true" [closeOnSelect]="false" bindLabel="threadTypeVal"
-      bindValue="threadTypeId">
-    </ng-select>
-  </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-

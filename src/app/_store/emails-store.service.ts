@@ -364,10 +364,8 @@ export class EmailsStoreService {
         } else {
           this.pageTokenUnread = res.d.pageToken;
         }
-      } else {
-        this.errorService.displayError(res, 'indexUnread');
       }
-      resolve();
+      resolve([res.d.errId, res.d.errMsg]);
     });
 
   }

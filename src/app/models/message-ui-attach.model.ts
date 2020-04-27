@@ -3,4 +3,7 @@ export interface MessageUiAttach {
     fileName: string;
     fileTag: string;
     fileSize: string;
+    ContentType: string;
+    ContentID: string;
+    ContentDisposition: string;
 }

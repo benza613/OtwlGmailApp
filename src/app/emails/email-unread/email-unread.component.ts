@@ -1,3 +1,4 @@
+import { ErrorService } from 'src/app/error/error.service';
 import { Router } from '@angular/router';
 import { GlobalStoreService } from './../../_store/global-store.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -13,12 +14,22 @@ import { interval } from 'rxjs';
   templateUrl: './email-unread.component.html',
   styleUrls: ['./email-unread.component.scss']
 })
+
+
+/*
+* 1. This component forms the inbox of the user. All the mails received by the user are showed up here.
+* 2. The mails load in a batch of 10. Initially, only first 30 mails are loaded.
+* 3. If the user wants previous mails, options are provided to load the number of mails he wished to check
+* 4. The user can choose to filter out specific mails using the 'Search' section. He can enter from, to and/or subject that he is looking for
+* 5. The list of emails showing up is displayed using the EmailListComponent.
+*/
+
+
 export class EmailUnreadComponent implements OnInit {
   dynamicdata: string = 'EmailUnreadComponent'; //common parameter in all components to indicate which store the user has come from
   mailList = [];
-  fetch;
-  isCollapsed = true;
-  showLoaders = false;
+  isCollapsed = true; // used to toggle the search inputs.
+  showLoaders = false; // used to toggle the loading animation
   constructor(
     public emailStore: EmailsStoreService,
     public modalService: NgbModal,
@@ -27,6 +38,7 @@ export class EmailUnreadComponent implements OnInit {
     private detector: ChangeDetectorRef,
     public globals: GlobalStoreService,
     public router: Router,
+    private errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -37,6 +49,17 @@ export class EmailUnreadComponent implements OnInit {
     const that = this;
     this.emailStore.updateUnreadThreadList(0, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
       that.showLoaders = false;
+      if (result[0] !== '200') {
+        const res = {
+          d: {
+            errId: '',
+            errMsg: ''
+          }
+        };
+        res.d.errId = result[0];
+        res.d.errMsg = result[1];
+        that.errorService.displayError(res, 'getMappedThreads');
+      }
       that.doUnreadPagination(2);
     }, err => {
       this.spinner.hide();
@@ -44,6 +67,9 @@ export class EmailUnreadComponent implements OnInit {
     });
   }
 
+  /*
+  * This function is used to get all threads selected to map by the user and display it in the dialog.
+  */
   getMails() {
     this.emailStore.getCheckedMsgList$.subscribe(x => {
       this.mailList = x;
@@ -72,17 +98,22 @@ export class EmailUnreadComponent implements OnInit {
     }
   }
 
-  /* method to fetch filtered threads from users inbox */
+  /* 
+  * This method is used to fetch filtered threads from users inbox 
+  */
   fetchUnreadThreads(i) {
     const that = this;
     this.showLoaders = true;
-      this.emailStore.updateUnreadThreadList(i, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
-        this.spinner.hide();
-        this.doUnreadPagination(i - 1);
-      });
+    this.emailStore.updateUnreadThreadList(i, this.globals.unreadFrom, this.globals.unreadTo, this.globals.unreadSubject).then(result => {
+      this.spinner.hide();
+      this.doUnreadPagination(i - 1);
+    });
   }
 
-  /* method to keep on fetching mails */
+  /* 
+  * This method is used to keep on fetching threads continuously for 'i' iterations. 
+  * Each iteration fetched 10 threads.
+  */
   doUnreadPagination(i) {
     const that = this;
     this.showLoaders = true;

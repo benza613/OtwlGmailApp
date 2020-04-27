@@ -249,6 +249,9 @@ export class EmailViewComponent implements OnInit {
       const fileDetails: MessageUiAttach = {
         attachmentGId: file.attachmentGId,
         fileName: file.fileName,
+        ContentType: file.ContentType,
+        ContentID: file.ContentID,
+        ContentDisposition: file.Content,
         fileTag: '0',
         fileSize: '0',
       };
@@ -263,6 +266,9 @@ export class EmailViewComponent implements OnInit {
             const fileDetails: MessageUiAttach = {
               attachmentGId: att.attachmentGId,
               fileName: att.fileName,
+              ContentType: file.ContentType,
+              ContentID: file.ContentID,
+              ContentDisposition: file.Content,
               fileTag: '0',
               fileSize: '0',
             };
@@ -279,6 +285,9 @@ export class EmailViewComponent implements OnInit {
           const fileDetails: MessageUiAttach = {
             attachmentGId: att.attachmentGId,
             fileName: att.fileName,
+            ContentType: file.ContentType,
+            ContentID: file.ContentID,
+            ContentDisposition: file.Content,
             fileTag: '0',
             fileSize: '0',
           };
@@ -547,7 +556,7 @@ export class EmailViewComponent implements OnInit {
   }
 
   filterAttachments(eml) {
-    eml.attachments = eml.attachments.filter(x => x.fileName.includes('.'));
+    eml.attachments = eml.attachments.filter(x => x.ContentDisposition.includes('attachment;'));
     this.detector.detectChanges();
   }
 

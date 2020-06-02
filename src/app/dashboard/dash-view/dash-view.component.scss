@@ -1,12 +1,22 @@
-.cardLayout{
-    margin: 20px;
-    color: white;
-    cursor: pointer;
-    align-content: center;
+// .cardLayout{
+//     margin: 20px;
+//     color: white;
+//     cursor: pointer;
+//     align-content: center;
+// }
+
+.card-custom-apps:hover {
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  transition: height 0.3s, box-shadow 0.3s;
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
+
 }
 
-.card:hover {
-    box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.3);
-    transition: height 0.3s, box-shadow 0.3s;
-    transform: scale(1.1,1.1);
+.card-deck>.card>.card-header {
+  background-color: #006699;
+
+  small {
+    color: white !important;
+  }
 }

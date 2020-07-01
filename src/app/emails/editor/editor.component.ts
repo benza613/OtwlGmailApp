@@ -472,8 +472,8 @@ export class EditorComponent implements OnInit {
                     if (that._isDraft === 'false') {
                       // that.emailStore.discardDraft(that._reqThreadID);
                     }
-                    that.location.back();
                   }
+                  that.location.back();
                 });
             });
 

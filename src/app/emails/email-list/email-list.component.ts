@@ -16,13 +16,24 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmailListComponent implements OnInit {
+  /* 
+  * 1. This checks the component is being called from which section of Gmail App 
+  * 2. If you have to write section specific conditions, that can be achieved using the storeSelector parameter
+  */
   @Input() storeSelector: string;
+  
+  /* Event fired when date is selected for filtering  */
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
+  
+  /* Pagination Variables */
   t_CollectionSize: number;
   t_currentPage = this.globals.currentPage;
   t_itemsPerPage = 10;
+
+  /* List of all threads */
   threadList;
-  modalList = [];
+
+  /* Filter Variables */
   filterFrom;
   filterSubject;
   filterDate: NgbDateStruct = null;
@@ -45,6 +56,10 @@ export class EmailListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    /* 
+    * 1. Check from which store the user has come.
+    * 2. Fetch the list of threads accordingly.
+    */
     if (this.storeSelector === 'EmailUnreadComponent') {
       this.emailStore.unreadThreadsCount$.subscribe(
         x => { this.t_CollectionSize = x; this.globals.pages = x; },
@@ -72,11 +87,13 @@ export class EmailListComponent implements OnInit {
     }
   }
 
+  /* Function to fetch mails for the selected thread. */
   onClick_GetThreadMessages(threadData) {
     this.authServ.login();
     this.onClick_LoadAllMessages(threadData);
   }
 
+  /* A preview of the latest mail in that particular thread */
   getPreview(threadData) {
     this.spinner.show('list1');
     const that = this;
@@ -110,6 +127,7 @@ export class EmailListComponent implements OnInit {
       });
     }
   }
+
 
   onClick_LoadAllMessages(threadData) {
     this.spinner.show('list1');
@@ -145,6 +163,7 @@ export class EmailListComponent implements OnInit {
     this.t_CollectionSize = this.globals.pages;
   }
 
+  /* Delete a thread from mailbox */
   deleteThread(thread) {
     this.spinner.show('list1');
     const that = this;

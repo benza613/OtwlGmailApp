@@ -10,27 +10,6 @@
   style="width: 30.5% !important; margin: 10px; border-radius: 10px; box-shadow: 1px 1px rgb(218, 218, 218);
   z-index: 100;"
     *ngFor="let file of fileResList">
-    <!-- <div class="card-header">
-      <div *ngIf="file.mimeType === 'application/pdf'">
-        <i class="fa fa-file-pdf-o"></i>
-      </div>
-      <div *ngIf="file.mimeType === 'application/xlsx' || file.mimeType === 'application/csv'">
-        <i class="fa fa-file-excel-o"></i>
-      </div>
-      <div *ngIf="file.mimeType === 'application/doc' || file.mimeType === 'application/docx'">
-        <i class="fa fa-file-word-o"></i>
-      </div>
-      <div *ngIf="file.mimeType === 'application/png' || 
-                  file.mimeType === 'application/jpeg' || 
-                  file.mimeType === 'application/jpg' ||
-                  file.mimeType === 'application/tif' ||
-                  file.mimeType === 'application/tiff'">
-        <i class="fa fa-file-image-o"></i>
-      </div>
-      <div *ngIf="file.mimeType === 'application/txt'">
-        <i class="fa fa-file-text-o"></i>
-      </div>
-    </div> -->
     <div class="row card-body" style="display: flex; flex-wrap: wrap;">
       <div>
         <span><b>{{file.originalFilename}}</b></span>

@@ -21,10 +21,10 @@ export class EmailListComponent implements OnInit {
   * 2. If you have to write section specific conditions, that can be achieved using the storeSelector parameter
   */
   @Input() storeSelector: string;
-  
+
   /* Event fired when date is selected for filtering  */
   @Output() dateSelect = new EventEmitter<NgbDateStruct>();
-  
+
   /* Pagination Variables */
   t_CollectionSize: number;
   t_currentPage = this.globals.currentPage;
@@ -98,7 +98,7 @@ export class EmailListComponent implements OnInit {
     this.spinner.show('list1');
     const that = this;
     if (this.storeSelector === 'EmailUnreadComponent') {
-      this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+      this.emailStore.update_UnreadThreadEmails(0, threadData.ThreadId, this.storeSelector, threadData.Subject, threadData.DRIVE_VIEWSTATE_ID, threadData.DRIVE_VIEWSTATE_OWNER).then(function (value) {
         threadData.isUnread = false;
         threadData.isMapped = value[0] === '0' ? false : true;
         that.emailStore.getUnreadMsgList$(threadData.ThreadId)
@@ -134,13 +134,13 @@ export class EmailListComponent implements OnInit {
     this.authServ.login();
     const that = this;
     if (this.storeSelector === 'EmailUnreadComponent') {
-      this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject).then(function (value) {
+      this.emailStore.update_UnreadThreadEmails(1, threadData.ThreadId, this.storeSelector, threadData.Subject, threadData.DRIVE_VIEWSTATE_ID, threadData.DRIVE_VIEWSTATE_OWNER).then(function (value) {
         threadData.isUnread = false;
         threadData.isMapped = value[0] === '0' ? false : true;
         that.spinner.hide('list1');
       });
     } else {
-      this.emailStore.update_SentThreadEmails(threadData.ThreadId, 'sent', threadData.Subject).then(function (value) {
+      this.emailStore.update_SentThreadEmails(threadData.ThreadId, 'sent', threadData.Subject, threadData.DRIVE_VIEWSTATE_ID, threadData.DRIVE_VIEWSTATE_OWNER).then(function (value) {
         threadData.isUnread = false;
         // threadData.isMapped = value[0] === '0' ? false : true;
         that.spinner.hide('list1');

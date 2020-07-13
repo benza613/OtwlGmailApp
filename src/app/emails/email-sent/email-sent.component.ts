@@ -86,7 +86,7 @@ export class EmailSentComponent implements OnInit {
 
   onClick_GetThreadMessages(threadData) {
     this.authServ.login();
-    this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject);
+    this.emailStore.update_SentThreadEmails(threadData.ThreadId, this.storeSelector, threadData.Subject, threadData.DRIVE_VIEWSTATE_ID, threadData.DRIVE_VIEWSTATE_OWNER);
   }
 
   checkList(item) {

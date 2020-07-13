@@ -635,7 +635,7 @@ export class EmailsStoreService {
     });
   }
 
-  async update_UnreadThreadEmails(flag, ThreadId, storeSelector, Subject) {
+  async update_UnreadThreadEmails(flag, ThreadId, storeSelector, Subject, driveId, driveOwner) {
     return new Promise(async (resolve, reject) => {
       const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
       const index = this.unreadThreads.indexOf(this.unreadThreads.find(t => t.ThreadId === ThreadId));
@@ -661,6 +661,8 @@ export class EmailsStoreService {
               q: storeSelector === 'EmailUnreadComponent' ? 'unread' : 'mapped'
               , subject: Subject
               , isMapped: res.d.isMapped
+              , vid: driveId
+              , vown: driveOwner
             }
           });
         }
@@ -936,7 +938,7 @@ export class EmailsStoreService {
     }
   }
 
-  async update_SentThreadEmails(ThreadId, storeSelector, Subject) {
+  async update_SentThreadEmails(ThreadId, storeSelector, Subject, driveId, driveOwner) {
     const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
     if (res.d.errId === '200') {
       const index = this.sentThreads.indexOf(this.sentThreads.find(t => t.ThreadId === ThreadId));
@@ -957,8 +959,10 @@ export class EmailsStoreService {
       this.sentThreads = [...this.sentThreads];
       this.router.navigate(['view/' + ThreadId], {
         queryParams: {
-          q: storeSelector,
-          subject: Subject
+          q: storeSelector
+          , subject: Subject
+          , vid: driveId
+          , vown: driveOwner
         }
       });
     } else {

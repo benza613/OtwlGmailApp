@@ -83,10 +83,11 @@ export class EmailViewComponent implements OnInit {
         this.refId = params.j;
         this.subject = params.subject;
         this.locst_id = params.locst_id;
-        this._reqViewStateId = params.vid;
-        this._reqViewStateOwner = params.vown;
+        this._reqViewStateId = params.vid === undefined ? null : params.vid;
+        this._reqViewStateOwner = params.vown === undefined ? null : params.vown;
         this.isMapped = params.isMapped === '0' ? false : true;
         this.renderMessages();
+        this.detector.detectChanges();
       });
   }
 

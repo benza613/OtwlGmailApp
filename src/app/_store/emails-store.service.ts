@@ -22,6 +22,7 @@ import { SentSearchLocks } from '../enums/sent-search-locks.enum';
 import { FSMapping } from '../models/fsmapping.model';
 import { resolve, reject } from 'q';
 import { DraftSearchParams } from '../models/draft-params.model';
+import { isUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -939,6 +940,7 @@ export class EmailsStoreService {
   }
 
   async update_SentThreadEmails(ThreadId, storeSelector, Subject, driveId, driveOwner) {
+    console.log(driveId, driveOwner);
     const res = await this.emailServ.fetchThreadEmails(ThreadId, 0).toPromise();
     if (res.d.errId === '200') {
       const index = this.sentThreads.indexOf(this.sentThreads.find(t => t.ThreadId === ThreadId));
